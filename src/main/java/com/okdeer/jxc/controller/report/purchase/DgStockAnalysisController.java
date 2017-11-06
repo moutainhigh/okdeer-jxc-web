@@ -1,19 +1,7 @@
 package com.okdeer.jxc.controller.report.purchase;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.google.common.collect.Lists;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -22,6 +10,19 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
 import com.okdeer.jxc.form.purchase.service.PurchaseReportService;
 import com.okdeer.jxc.form.purchase.vo.DgStockAnalysisVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.*;
 
 /***
  * 
@@ -42,8 +43,11 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
     /**
      * @Fields purchaseReportService : 采购报表service
      */
-    @Reference(version = "1.0.0", check = false)
+    //@Reference(version = "1.0.0", check = false)
+    @Resource
     private PurchaseReportService purchaseReportService;
+
+    ExecutorService excutor = Executors.newFixedThreadPool(5);
 
     /***
      * 
@@ -85,9 +89,15 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
                 qo.setEndTime(time);
             }
 
-            PageUtils<DgStockAnalysisVo> list = purchaseReportService.getDgStockAnalysisPageList(qo);
+            purchaseReportService.getDgStockAnalysisPageList(qo);
+            Future<PageUtils<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
             // 2、查询合计
-            DgStockAnalysisVo vo = purchaseReportService.getDgStockAnalysisListSum(qo);
+            purchaseReportService.getDgStockAnalysisListSum(qo);
+            Future<DgStockAnalysisVo> voFuture = RpcContext.getContext().getFuture();
+
+            PageUtils<DgStockAnalysisVo> list = listFuture.get();
+            DgStockAnalysisVo vo = voFuture.get();
+
             List<DgStockAnalysisVo> footer = new ArrayList<>();
             footer.add(vo);
             list.setFooter(footer);
@@ -122,7 +132,7 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
                 qo.setEndTime(time);
             }
             qo.setBranchId(Constant.DG_BRANCH_ID);
-            List<DgStockAnalysisVo> exportList = purchaseReportService.getDgStockAnalysisList(qo);
+            List<DgStockAnalysisVo> exportList = queryListPartition(qo);
             /*if(CollectionUtils.isNotEmpty(exportList)){
                 // 2、查询合计
                 DgStockAnalysisVo vo = purchaseReportService.getDgStockAnalysisListSum(qo);
@@ -138,5 +148,59 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
         } catch (Exception e) {
             LOG.error("东莞大仓补货分析导出:{}", e);
         }
+    }
+
+    /**
+     * 把导出的请求分成多次，一次请求2000条数据
+     *
+     * @param qo
+     * @return
+     */
+    private List<DgStockAnalysisVo> queryListPartition(FormQueryQo qo) throws ExecutionException, InterruptedException {
+        int startCount = limitStartCount(qo.getStartCount());
+        int endCount = limitEndCount(qo.getEndCount());
+
+        LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数：{}, {}", startCount, endCount);
+
+        int resIndex = (endCount / 5000);
+        int modIndex = endCount % 5000;
+        LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数：{}, {}", resIndex, modIndex);
+        List<CompletableFuture<List<DgStockAnalysisVo>>> futures = Lists.newArrayList();
+
+        List<DgStockAnalysisVo> exportList = Lists.newArrayList();
+        if (resIndex > 0) {
+            for (int i = 0; i < resIndex; i++) {
+                int newStart = (i * 5000) + startCount;
+                qo.setStartCount(newStart);
+                qo.setEndCount(5000);
+                LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 5000);
+                CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
+                futures.add(future);
+            }
+            if (modIndex > 0) {
+                int newStart = (resIndex * 5000) + startCount;
+                int newEnd = modIndex;
+                qo.setStartCount(newStart);
+                qo.setEndCount(newEnd);
+                LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数mod、startCount、endCount参数:{}, {}", newStart, newEnd);
+                CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
+                futures.add(future);
+            }
+        } else {
+            LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数导出不超过:{}", 5000);
+            CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
+            futures.add(future);
+        }
+
+        futures.stream().forEach((future) -> {
+            try {
+                exportList.addAll(future.get());
+            } catch (Exception e) {
+                LOG.error("遍历获取异步数据异常", e);
+            }
+        });
+
+        return exportList;
+
     }
 }

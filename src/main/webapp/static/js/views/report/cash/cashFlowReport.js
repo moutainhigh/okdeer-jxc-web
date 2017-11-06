@@ -45,7 +45,7 @@ function initCashWaterGrid() {
     				saleAmount = parseFloat(saleAmount);
     				return saleAmount.toFixed(2);
     			}
-    			return null;
+    			return '0.00';
     		}},
             {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
             {field: 'payAmount', title: '付款金额', width: 120, align: 'right',formatter : function(payAmount){
@@ -53,7 +53,7 @@ function initCashWaterGrid() {
     				payAmount = parseFloat(payAmount);
     				return payAmount.toFixed(2);
     			}
-    			return null;
+    			return '0.00';
     		}},
             {field: 'payType', title: '付款方式', width: 100, align: 'center'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},

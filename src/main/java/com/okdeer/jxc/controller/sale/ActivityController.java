@@ -336,15 +336,15 @@ public class ActivityController extends BaseController<ActivityController> {
 
 					activityDetail.setId(detailId);
 					activityDetail.setActivityId(main.getId());
-					activityDetail.setDiscountNum(activityDetailVo.getDiscountNum().intValue());
+                    activityDetail.setDiscountNum(activityDetailVo.getDiscountNum() == null ? null : activityDetailVo.getDiscountNum().intValue());
 
 					detailList.add(activityDetail);
 				}
 			}
 
 			// 构建活动店铺列表ActivityBranch
-			List<ActivityBranch> branchList = new ArrayList<ActivityBranch>();
-			String[] branchArray = activityVo.getBranchIds().split(",");
+            List<ActivityBranch> branchList = new ArrayList<>();
+            String[] branchArray = activityVo.getBranchIds().split(",");
 			for (int i = 0; i < branchArray.length; i++) {
 				String branchId = branchArray[i];
 				ActivityBranch activityBranch = new ActivityBranch();

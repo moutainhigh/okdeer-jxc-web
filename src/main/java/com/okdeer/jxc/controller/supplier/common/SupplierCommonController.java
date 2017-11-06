@@ -7,15 +7,6 @@
 
 package com.okdeer.jxc.controller.supplier.common;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.base.common.utils.StringUtils;
 import com.okdeer.jxc.branch.entity.Branches;
@@ -30,6 +21,17 @@ import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: SupplierController 
@@ -93,37 +95,59 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 			qo.setPageSize(pageSize);
 
 			String branchId  = qo.getBranchId();
-			if(StringUtils.isNullOrEmpty(branchId)){
-				// begin added by lijy02 2016.9.12:添加过滤条件
-				branchId = UserUtil.getCurrBranchId();
-				// end added by lijy02
-			}
-			qo.setBranchId(branchId);
-			Branches branches = branchesService.getBranchInfoById(branchId);
-			if (branches != null && StringUtils.isNotBlank(branches.getParentId())) {
-				// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
-				if (branches.getType() != 0 && branches.getType() != 1) {
-					// 查询店铺的分公司
-					// 把父级的id加入条件查询分公司的供应商
-					qo.setBranchId(branches.getParentId());
+			if (org.apache.commons.lang3.StringUtils.isNotBlank(branchId) && branchId.contains(",")) {
+				String[] branchIds = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchId, ",");
+
+				List<String> branchIdsList = Arrays.stream(branchIds).map((str) -> {
+					String tmpBranchId = "";
+					Branches branches = branchesService.getBranchInfoById(str);
+					if (branches != null && StringUtils.isNotBlank(branches.getParentId())) {
+						// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
+						if (branches.getType() != 0 && branches.getType() != 1) {
+							// 查询店铺的分公司
+							// 把父级的id加入条件查询分公司的供应商
+							tmpBranchId = branches.getParentId();
+						} else {
+							tmpBranchId = str;
+						}
+					}
+					return tmpBranchId;
+				}).collect(Collectors.toList());
+				qo.setBranchId("");
+				qo.setBranchIds(branchIdsList);
+				qo.setDataType(1);
+			} else {
+				if (StringUtils.isNullOrEmpty(branchId)) {
+					// begin added by lijy02 2016.9.12:添加过滤条件
+					branchId = UserUtil.getCurrBranchId();
+					// end added by lijy02
+				}
+				qo.setBranchId(branchId);
+				Branches branches = branchesService.getBranchInfoById(branchId);
+				if (branches != null && StringUtils.isNotBlank(branches.getParentId())) {
+					// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
+					if (branches.getType() != 0 && branches.getType() != 1) {
+						// 查询店铺的分公司
+						// 把父级的id加入条件查询分公司的供应商
+						qo.setBranchId(branches.getParentId());
+					}
+				}
+				// 只对门店做允许门店订货控制
+				if (branches != null && !(BranchTypeEnum.SELF_STORE.getCode().equals(branches.getType())
+						|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branches.getType())
+						|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branches.getType()))) {
+					qo.setIsAllowPurchase(null);
+				}
+
+				//总部是否查询自己及下属所有的供应商,否则只查询自己的供应商 不为空就查询所有
+				if ("0".equals(branchId) && org.apache.commons.lang3.StringUtils.isNotBlank(qo.getSupplierSelectType())) {
+					qo.setBranchId("");
+					qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+				} else {
+					//公共组件默认带出总部的供应商
+					qo.setDataType(1);
 				}
 			}
-			// 只对门店做允许门店订货控制
-			if (branches != null && !(BranchTypeEnum.SELF_STORE.getCode().equals(branches.getType())
-					|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branches.getType())
-					|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branches.getType()))) {
-				qo.setIsAllowPurchase(null);
-			}
-
-			//总部是否查询自己及下属所有的供应商,否则只查询自己的供应商 不为空就查询所有
-			if("0".equals(branchId)&&org.apache.commons.lang3.StringUtils.isNotBlank(qo.getSupplierSelectType())){
-				qo.setBranchId("");
-				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			}else {
-				//公共组件默认带出总部的供应商
-				qo.setDataType(1);
-			}
-
 			LOG.debug("vo:" + qo.toString());
 			PageUtils<SupplierPo> suppliers = supplierService.queryLists(qo);
 			LOG.debug("page" + suppliers.toString());

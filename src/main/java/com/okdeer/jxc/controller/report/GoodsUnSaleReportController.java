@@ -19,7 +19,6 @@ import com.okdeer.jxc.report.qo.GoodsUnsaleReportQo;
 import com.okdeer.jxc.report.service.GoodsUnsaleReportService;
 import com.okdeer.jxc.report.vo.GoodsUnsaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,9 +129,11 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			//goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
-			goodsUnsaleReportService.exportList(vo);
-			Future<List<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
-			List<GoodsUnsaleReportVo> exportList = listFuture.get();
+			vo.setPageNumber(vo.getStartCount());
+			vo.setPageSize(vo.getEndCount() - vo.getStartCount());
+			goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
+			Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
+			List<GoodsUnsaleReportVo> exportList = listFuture.get().getList();
 			//Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
 			//goodsUnsaleReportVo.setBranchCode("合计:");
 			//exportList.add(goodsUnsaleReportVo);
