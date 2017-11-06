@@ -139,22 +139,22 @@ function getNowFormatDate() {
 }
 
 
-var gridHandel = new GridClass();
+var gridHandel_pricePrint = new GridClass();
 var gridDefault = {
 
 }
 function initPricePrintGrid() {
-    gridHandel.setGridName("pricePrint");
-    gridHandel.initKey({
+    gridHandel_pricePrint.setGridName("pricePrint");
+    gridHandel_pricePrint.initKey({
         firstName:'skuCode',
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                gridHandel_pricePrint.addRow(parseInt(gridHandel_pricePrint.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("skuCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                    gridHandel_pricePrint.setBeginRow(gridHandel_pricePrint.getSelectRowIndex()+1);
+                    gridHandel_pricePrint.setSelectFieldName("skuCode");
+                    gridHandel_pricePrint.setFieldFocus(gridHandel_pricePrint.getFieldTarget('skuCode'));
                 },100)
             }else{
                 chooseproduct(arg);
@@ -257,11 +257,11 @@ function initPricePrintGrid() {
 		           
 		           ]],
 		           onClickCell:function(rowIndex,field,value){
-		        	   gridHandel.setBeginRow(rowIndex);
-		        	   gridHandel.setSelectFieldName(field);
+		        	   gridHandel_pricePrint.setBeginRow(rowIndex);
+		        	   gridHandel_pricePrint.setSelectFieldName(field);
 		           },
 	});
-   gridHandel.setLoadData([$.extend({},gridDefault)]);
+   gridHandel_pricePrint.setLoadData([$.extend({},gridDefault)]);
 }
 
 //插入一行
@@ -272,25 +272,25 @@ function addLineHandel(event){
 	}
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
-    gridHandel.addRow(index,gridDefault);
+    gridHandel_pricePrint.addRow(index,gridDefault);
 }
 //删除一行
 function delLineHandel(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
-    gridHandel.delRow(index);
+    gridHandel_pricePrint.delRow(index);
 }
 
 function onChangeSalePrice(newV,oldV){
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+    if(!gridHandel_pricePrint.getFieldData(gridHandel_pricePrint.getSelectRowIndex(),'skuName')){
         return;
     }
     
-	var promotionPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'promotionPrice');
+	var promotionPrice = gridHandel_pricePrint.getFieldValue(gridHandel_pricePrint.getSelectRowIndex(),'promotionPrice');
 
 	if($('#priceType').val() === '1' && parseFloat(promotionPrice) > parseFloat(newV)){
 		  $_jxc.alert("销售价不能小于促销价");
-		  gridHandel.setFieldValue('salePrice',oldV);
+		  gridHandel_pricePrint.setFieldValue('salePrice',oldV);
 	        return;
 	}
 }
@@ -298,14 +298,14 @@ function onChangeSalePrice(newV,oldV){
 
 function onChangePromotionPrice(newV,oldV){
 	
-    if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
+    if(!gridHandel_pricePrint.getFieldData(gridHandel_pricePrint.getSelectRowIndex(),'skuName')){
         return;
     }
 	
-	var salePriceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'salePrice');
+	var salePriceVal = gridHandel_pricePrint.getFieldValue(gridHandel_pricePrint.getSelectRowIndex(),'salePrice');
 	if($('#priceType').val() === '1' && parseFloat(newV) > parseFloat(salePriceVal)){
 		  $_jxc.alert("促销价不能大于销售价");
-		  gridHandel.setFieldValue('promotionPrice',oldV);
+		  gridHandel_pricePrint.setFieldValue('promotionPrice',oldV);
 	        return;
 	}
 }
@@ -331,7 +331,7 @@ function updateListData(data){
 	    var rows = gFunUpdateKey(data,keyNames);
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
-	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
+	    var newRows = gridHandel_pricePrint.checkDatagrid(data,rows,argWhere,isCheck);
          
 	    $("#pricePrint").datagrid("loadData",data);
 	}
@@ -381,7 +381,7 @@ function printtable(){
 		return false;
 	}
 	else{
-		$('#'+datagridId).datagrid('endEdit', gridHandel.getSelectRowIndex());                  //结束之前的编辑
+		$('#'+datagridId).datagrid('endEdit', gridHandel_pricePrint.getSelectRowIndex());                  //结束之前的编辑
 		var storage=window.localStorage;
 		var printdata= $("#"+datagridId).datagrid('getRows');
 		console.log(printdata);
@@ -419,7 +419,7 @@ function chooseproduct(searchKey){
     }
     new publicGoodsServiceTem(param,function(data){
         if(searchKey){
-            $("#pricePrint").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#pricePrint").datagrid("deleteRow", gridHandel_pricePrint.getSelectRowIndex());
             $("#pricePrint").datagrid("acceptChanges");
         }
 
@@ -435,7 +435,7 @@ function chooseproduct(searchKey){
 
 		})
 
-        var rows = gridHandel.getRowsWhere({skuName:'1'});
+        var rows = gridHandel_pricePrint.getRowsWhere({skuName:'1'});
 		$.each(rows,function(i,rowItem){
 			$.each(data,function(j,dataItem){
 				if(rowItem.skuCode==dataItem.skuCode){
@@ -449,11 +449,11 @@ function chooseproduct(searchKey){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
-        // gridHandel.setLoadFocus();
+        // gridHandel_pricePrint.setLoadFocus();
         // setTimeout(function(){
-        //     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-        //     gridHandel.setSelectFieldName("promotionPrice");
-        //     gridHandel.setFieldFocus(gridHandel.getFieldTarget('promotionPrice'));
+        //     gridHandel_pricePrint.setBeginRow(gridHandel_pricePrint.getSelectRowIndex()||0);
+        //     gridHandel_pricePrint.setSelectFieldName("promotionPrice");
+        //     gridHandel_pricePrint.setFieldFocus(gridHandel_pricePrint.getFieldTarget('promotionPrice'));
         // },500)
 	});
 
@@ -469,8 +469,8 @@ function searchBranch(){
 		$("#branchName").val(data.branchName);
 		$("#actionId").val("");
 		$("#actionName").val("");
-		gridHandel.setLoadData([]);
-        gridHandel.setLoadData([$.extend({}, gridDefault)]);
+		gridHandel_pricePrint.setLoadData([]);
+        gridHandel_pricePrint.setLoadData([$.extend({}, gridDefault)]);
 	},'BF','');
 }
 
