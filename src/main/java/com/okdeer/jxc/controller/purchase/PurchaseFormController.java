@@ -1339,7 +1339,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
             replaceMap.put("_引用单号", form.getFormNo() != null ? form.getRefFormNo() : "");
 			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo() : "");
 			PurchaseFormPO refForm = purchaseFormServiceApi.selectPOByFormNo(form.getRefFormNo());
-			if (refForm != null && StringUtils.isNotBlank(refForm.getRefFormNo())) {
+			if (form.getFormNo() != null && StringUtils.startsWithIgnoreCase(form.getFormNo(), FormType.PI.name())) {
+				replaceMap.put("_采购订单号", refForm.getFormNo());
+			} else if (refForm != null && StringUtils.isNotBlank(refForm.getRefFormNo())) {
 				replaceMap.put("_采购订单号", refForm.getRefFormNo() != null ? refForm.getRefFormNo() : "");
 			} else {
 				replaceMap.put("_采购订单号", "");
