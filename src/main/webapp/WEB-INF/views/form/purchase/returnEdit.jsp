@@ -35,9 +35,9 @@
 					<div class="ubtns-item"
 						onclick="printChoose('PR','/form/purchase/')">打印</div>
 				</shiro:hasPermission>
-				<shiro:hasPermission name="JxcPurchaseOrder:terminate">
-					<div class="ubtns-item" onclick="stop()">终止</div>
-				</shiro:hasPermission>
+				<%--<shiro:hasPermission name="JxcPurchaseOrder:terminate">--%>
+					<%--<div class="ubtns-item" onclick="stop()">终止</div>--%>
+				<%--</shiro:hasPermission>--%>
 				<div class="ubtns-item" onclick="exportData('PR');">导出明细</div>
 				<div class="ubtns-item uinp-no-more">导出货号</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>

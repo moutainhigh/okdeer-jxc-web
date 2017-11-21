@@ -18,6 +18,7 @@ import com.okdeer.jxc.common.service.FileUploadService;
 import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.pos.entity.PosWheelsurfFormDetail;
 import com.okdeer.jxc.pos.service.PosWheelsurfServiceApi;
 import com.okdeer.jxc.pos.vo.PosWheelsurfFormDetailVo;
 import com.okdeer.jxc.pos.vo.PosWheelsurfFormVo;
@@ -34,6 +35,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author songwj
@@ -225,12 +227,21 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
         try {
 
             List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"), JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
-            for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
-                PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
-                vo.setPicUrl(StringUtils.replace(vo.getPicUrl(), filePrefix + "/", ""));
-                posGroupKeys.set(i, vo);
-            }
+
             PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"), PosWheelsurfFormVo.class);
+
+
+            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).distinct().collect(Collectors.toList());
+            if (
+                    !posWheelsurfServiceApi.cleckGoods(Arrays.asList(StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchIds(), ",")), skuIds)) {
+                return RespJson.error("所选机构下没有所选商品,请重新选择!");
+            }
+
+            for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
+                PosWheelsurfFormDetailVo posWheelsurfFormDetailVo = posGroupKeys.get(i);
+                posWheelsurfFormDetailVo.setPicUrl(StringUtils.replace(posWheelsurfFormDetailVo.getPicUrl(), filePrefix + "/", ""));
+                posGroupKeys.set(i, posWheelsurfFormDetailVo);
+            }
             vo.setUpdateTime(new Date());
             vo.setUpdateUserId(getCurrUserId());
             posWheelsurfServiceApi.updatePosWheelsurfFormAndDetail(vo, posGroupKeys);
@@ -246,12 +257,20 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
         try {
 
             List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"), JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
-            for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
-                PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
-                vo.setPicUrl(StringUtils.replace(vo.getPicUrl(), filePrefix + "/", ""));
-                posGroupKeys.set(i, vo);
-            }
+
             PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"), PosWheelsurfFormVo.class);
+
+            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).distinct().collect(Collectors.toList());
+            if (
+                    !posWheelsurfServiceApi.cleckGoods(Arrays.asList(StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchIds(), ",")), skuIds)) {
+                return RespJson.error("所选机构下没有所选商品,请重新选择!");
+            }
+
+            for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
+                PosWheelsurfFormDetailVo posWheelsurfFormDetailVo = posGroupKeys.get(i);
+                posWheelsurfFormDetailVo.setPicUrl(StringUtils.replace(posWheelsurfFormDetailVo.getPicUrl(), filePrefix + "/", ""));
+                posGroupKeys.set(i, posWheelsurfFormDetailVo);
+            }
             vo.setBranchCode(getCurrBranchCode());
             vo.setCreateUserId(getCurrUserId());
             vo.setCreateUserName(getCurrentUser().getUserName());

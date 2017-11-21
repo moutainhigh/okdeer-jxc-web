@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>收银日报</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/cash/cashDailyReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -40,8 +39,6 @@
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
-                   <input type="hidden" name="startCount" id="startCount" value="">
-				   <input type="hidden" name="endCount" id="endCount" value="">
                    <input class="uinp" type="hidden" id="branchCode" name="branchCode">
                    <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()">
                    <div class="uinp-more" onclick="searchBranch()">...</div>

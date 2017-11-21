@@ -18,12 +18,6 @@ $(function(){
     
     initDatagridEditOrder();
     
-    // 是否自动加载商品
-//    if($("#cascadeGoods").val() == 'true'){
-//        queryGoodsList();
-//    }
-    
-    
 });
 
 //初始化默认条件
@@ -48,9 +42,10 @@ function initConditionParams(){
     
     //如果供应商送货周期不会空，则交货期限需要加上送货周期
     if(diliveCycle){
-    	deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
+    	var deliverTime = new Date();
+    	deliverTime.setDate(deliverTime.getDate() + diliveCycle); 
     }
-    $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+    $("#deliverTime").val(deliverTime.format('yyyy-MM-dd'));
 }
 
 //获取机构设置
@@ -739,7 +734,7 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         //箱数判断  bug 19886
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
@@ -753,7 +748,7 @@ function saveItemHandel(){
             isCheckResult = false;
             isChcekNum = true;
             return false;
-        }
+        }*/
 
         var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
         var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
@@ -768,7 +763,10 @@ function saveItemHandel(){
         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
             isChcekPrice = true;
         }
-        
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
+        }
     });
 
     //验证备注的长度 20个字符
@@ -934,10 +932,11 @@ function selectSupplier(){
 	}
     new publicSuppliersService(param, function(data){
         //供应商交货期限
-        var diliveCycle = parseInt(data.diliveCycle||7)-1;
+        var diliveCycle = parseInt(data.diliveCycle||7);
         //如果供应商送货周期不会空，则交货期限需要加上送货周期
-        var deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
-        $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+    	var deliverTime = new Date();
+    	deliverTime.setDate(deliverTime.getDate() + diliveCycle); 
+        $("#deliverTime").val(deliverTime.format('yyyy-MM-dd'));
         
     	if('NO' == data)return;
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});

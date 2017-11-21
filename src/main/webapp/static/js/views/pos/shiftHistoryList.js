@@ -26,6 +26,7 @@ function initDatagridPosOrders(){
             {field: 'id', title: ' ID', width: '100px', align: 'left',hidden:true},
             {field: 'branchCode', title: ' 机构编码', width: '150px', align: 'left'},
             {field: 'branchName', title: '机构名称', width: '150px', align: 'left'},
+            {field: 'posNo', title: 'POS机编号', width: '150px', align: 'left'},
 			{field: 'createUserCode', title: '用户编码', width: '150px', align: 'left'},
 			{field: 'createUserName', title: '姓名', width: '150px', align: 'left'},
 			{field: 'loginTime', title: '登录时间', width: '150px', align: 'left',
@@ -36,6 +37,7 @@ function initDatagridPosOrders(){
 						return "";
                  }
 			},
+			
 			{field: 'exitTime', title: '交班时间', width: '150px', align: 'left'
 			,
 			 formatter: function(value,row,index){

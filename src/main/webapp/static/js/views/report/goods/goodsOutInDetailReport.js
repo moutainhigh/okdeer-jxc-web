@@ -1,7 +1,7 @@
 $(function(){
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00:00");
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+ " 23:59:59");
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+" 23:59");
     initDatagridRequire();
 
     //机构选择初始化 收货机构
@@ -27,7 +27,7 @@ $(function(){
 });
 
 var dataItems = [
-			{"text": "全部","id": "",iconCls:"combotree-p",
+			{"text": "全部","id": "ALL",iconCls:"combotree-p",
 				children:[
                 {"text": "采购收货","id": "PI",iconCls:"combotree-c"},
                 {"text": "采购退货","id": "PR",iconCls:"combotree-c"},
@@ -66,7 +66,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'branchCode',title:'店铺编号',width:'56',align:'left',
+			{field:'branchCode',title:'店铺编号',width:'70',align:'left',
 				formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
@@ -279,8 +279,15 @@ function initDatagridRequire(){
 function queryForm(){
     $("#startCount").val('');
     $("#endCount").val('');
-	// 赋值单据类型选择
-	$("#formTypes").val($("#fType").combotree('getValues'));
+
+    // 赋值单据类型选择
+    var formTypes = $("#fType").combotree('getValues');
+    if(formTypes.indexOf("ALL")>-1){
+        $("#formTypes").val("");
+    }else {
+        $("#formTypes").val($("#fType").combotree('getValues'));
+    }
+
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';

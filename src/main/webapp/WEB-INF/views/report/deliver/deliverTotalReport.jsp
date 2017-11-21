@@ -7,14 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>配送汇总查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
-	src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js?V=${versionNo}"></script>
-<style>
-.datagrid-header-row .datagrid-cell {
-	text-align: center !important;
-}
-</style>
+	src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js?V=${versionNo}33"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -25,8 +19,6 @@
 						<div class="ubtns-item" onclick="query()">查询</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcDLTotalReport:export">
-						<input type="hidden" id="startCount" name="startCount" />
-						<input type="hidden" id="endCount" name="endCount" />
 						<div class="ubtns-item" onclick="exportData()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
@@ -47,13 +39,6 @@
 					<div class="uinp-more">...</div>
 				</div>
 
-
-				<%--<div class="ub ub-ac umar-r60">--%>
-				<%--<div class="umar-r10 uw-80 ut-r">查询机构:</div>--%>
-				<%--<input type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>--%>
-				<%--<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>&lt;%&ndash;  value="${branchesGrow.branchName}"  &ndash;%&gt;--%>
-				<%--<div class="uinp-more" onclick="selectBranches()" >...</div>--%>
-				<%--</div>--%>
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-80 ut-r">单据编号:</div>
 					<input type="text" name="formNo" id="formNo" class="uinp"
@@ -133,7 +118,7 @@
 				</div>
 			</div>
 		</form>
-		<div class="ub ub-f1 umar-t20">
+		<div class="ub ub-f1 umar-t8 umar-b8">
 			<table id="cashDaily"></table>
 		</div>
 	</div>

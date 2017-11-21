@@ -190,7 +190,7 @@
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
-      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide ">
+      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide " style="min-height:50%;">
 			 <table id="salesetmj"></table>
 	  </div>
 	  

@@ -14,10 +14,9 @@ $(function(){
     initCashReconcileGrid();
 });
 var gridHandel = new GridClass();
-var dg;
 function initCashReconcileGrid() {
 	gridHandel.setGridName("cashReconcile");
-	dg = $("#cashReconcile").datagrid({
+	$("#cashReconcile").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -102,33 +101,17 @@ function clearCashierId() {
  * 导出
  */
 function exportData(){
-	var length = $('#cashReconcile').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var param = {
+        datagridId:"cashReconcile",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/cashCheck/report/exportList"
+    }
+
+    publicExprotService(param);
 }
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/cashCheck/report/exportList");
-	$("#queryForm").submit();
-}
-
 
 //查询
 function query(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -154,8 +137,6 @@ function updateFooter(){
 
 //打印
 function printReport(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	//var queryType = $("input[name='queryType']").val();
 	var startTime = $("#txtStartDate").val();
 	var endTime = $("#txtEndDate").val();

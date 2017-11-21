@@ -577,8 +577,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			/**
 			 * 2.4 新增条码表，判断是否重复要在条码表取值
 			 */
-			boolean isExistsBarCode = goodsBarcodeService.barCodeIsExist(barCode, id);// goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
-			if (isExistsBarCode) {
+			int isExistsBarCode = goodsBarcodeService.queryCountBaseByBarCode(barCode, id);
+			if (isExistsBarCode > 0) {
 				RespJson json = RespJson.error("商品条码在标准库重复");
 				json.put("_data", barCode);
 				return json;

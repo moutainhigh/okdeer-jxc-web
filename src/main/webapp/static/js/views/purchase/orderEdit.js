@@ -673,7 +673,7 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         //箱数判断  bug 19886
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
@@ -687,7 +687,7 @@ function saveItemHandel(){
             isCheckResult = false;
             isChcekNum = true;
             return false;
-        }
+        }*/
 
         var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
         var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
@@ -873,7 +873,7 @@ function check(){
     	 $_jxc.alert("采购商品数量全部为0");
 		return
 	}else if(parseFloat(num)>0){
-		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核?",function(data){
     		if(data){
     		    checkOrder();
     		}	

@@ -9,7 +9,7 @@ var exprotGridId = "";
 function initExportChoseParam(param) {
     exprotGridId = param.datagridId;
     url = param.url;
-    $("#totalRows").html("<strong>"+$("#"+exprotGridId).datagrid('getData').total+"</strong>");
+    $("#exportDataForm #totalRows").html("<strong>"+$("#"+exprotGridId).datagrid('getData').total+"</strong>");
     createForm(param.formObj)
 }
 
@@ -91,7 +91,7 @@ function sureExportExcel(){
     $("#endCount").val(data.endCount);
     $("#exportDataForm").attr("action",url);
     $("#exportDataForm").submit();
-
+    $("#exportDataForm").remove();
     $('#exportChose').panel('destroy');
 
 

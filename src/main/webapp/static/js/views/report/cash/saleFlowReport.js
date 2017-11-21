@@ -10,9 +10,8 @@ $(function(){
     initMarketWaterGrid();
 });
 var gridHandel = new GridClass();
-var dg;
 function initMarketWaterGrid() {
-	dg = $("#marketWater").datagrid({
+	$("#marketWater").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -133,33 +132,16 @@ function searchBranch (){
  * 导出
  */
 function exportData(){
-	var length = $('#marketWater').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var param = {
+        datagridId:"marketWater",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/saleFlow/report/exportList"
+    }
+    publicExprotService(param);
 }
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/saleFlow/report/exportList");
-	$("#queryForm").submit();
-}
-
 
 //查询
 function query(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){

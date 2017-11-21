@@ -7,29 +7,27 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	// 初始化列表
-	initCashDailyallGrid('data');
-	
-	//选择报表类型
+    initCashDailyGrid('cashier');
+
+    //选择报表类型
 	changeType();
 
 });
 
-var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
-    	var a = $(this).val();
-    	if (a=="cashier") {
-			// 初始化列表按收银员汇总
-			initCashDailyallGrid('cashier');
+    	var type = $(this).val();
+
+        initCashDailyGrid(type);
+        $("#cashDaily").datagrid("options").url = "";
+        $("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
+        $('#cashDaily').datagrid({showFooter:false});
+
+    	if (type=="cashier") {
 			showCashier();
-		} else if (a=="branch") {
-			// 初始化列表按门店汇总
-			initCashDailymdGrid('branch');
+		} else if (type=="branch") {
 			hideCashier();
-		} else if (a=="date") {
-			// 初始化列表按日期汇总
-			initCashDailydateGrid('data');
+		} else if (type=="date") {
 			hideCashier();
 		}
     	
@@ -51,10 +49,10 @@ function hideCashier(){
 
 var gridHandel = new GridClass();
 // 按收银汇总
-var dg;
-function initCashDailyallGrid(queryType) {
+
+function initCashDailyGrid(queryType) {
 	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
+	$("#cashDaily").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -69,350 +67,296 @@ function initCashDailyallGrid(queryType) {
         pageSize : pageSize,
         showFooter:true,
         height:'100%',
-        columns: [[
-            {field: 'branchCode', title: '机构编号', width: 100, align: 'left',rowspan:2,
-            	formatter:function(value,row,index){
-					if(!value || value == '合计'){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
-					return row.branchCode;
-				},
-            },
-            {field: 'branchName', title: '机构名称', width: 220, align: 'left',rowspan:2},
-            {field: 'cashierCode', title: '收银员编号', width: 100, align: 'left',rowspan:2},
-            {field: 'cashier', title: '收银员', width: 100, align: 'left',rowspan:2},
-            {field: 'rmb', title: '现金', width: 120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
-    			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-    		   },
-            },
-            {field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'yhk', title: '银行卡', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-			{field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
-			{field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
-
-            {field: 'yqb', title: '云钱包', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'djq', title: '代金券', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'pbt', title: '平台补贴', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'dxr', title: '店小二', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
-                },
-            },
-            {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	},
-            },
-            {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
-                },
-            },
-            {field: 'total', title: '合计金额', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
-                },
-            }
-        ],[
-			{field: 'posZfb', title: '支付宝', width:100, align: 'right',
-
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'posWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallZfb', title: '支付宝', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			}
-		]],
-		onLoadSuccess:function(data){
+        widht:'100%',
+        columns: getCashDailyColumns(queryType),
+		onBeforeLoad:function(data){
 			gridHandel.setDatagridHeader("center");
 //			updateFooter();
 		}
     });
-    if(flushFlg){
-    	query();
-    }
 }
 
-//门店汇总
-function initCashDailymdGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
-        //title:'普通表单-用键盘操作',
-        method: 'post',
-        align: 'center',
-        url:'',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect: false,  //单选  false多选
-        rownumbers: true,    //序号
-        pagination: true,    //分页
-        //fitColumns:true,    //占满
-        pageSize : pageSize,
-        showFooter:true,
-        columns: [[
-           {field: 'branchCode', title: '机构编号', width:100, align: 'left', rowspan:2,
-        	   formatter:function(value,row,index){
-					if(!value || value == '合计'){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
-					return row.branchCode;
-				},
-           	},
+
+function getCashDailyColumns(queryType) {
+    if (queryType ==="cashier") {
+      return [[
+          {field: 'branchCode', title: '机构编号', width: 100, align: 'left',rowspan:2,
+              formatter:function(value,row,index){
+                  if(!value || value == '合计'){
+                      return '<div class="ub ub-pc ufw-b">合计</div> '
+                  }
+                  return row.branchCode;
+              },
+          },
+          {field: 'branchName', title: '机构名称', width: 220, align: 'left',rowspan:2},
+          {field: 'cashierCode', title: '收银员编号', width: 100, align: 'left',rowspan:2},
+          {field: 'cashier', title: '收银员', width: 100, align: 'left',rowspan:2},
+          {field: 'rmb', title: '现金', width: 120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'yhk', title: '银行卡', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
+          {field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
+
+          {field: 'yqb', title: '云钱包', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'djq', title: '代金券', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'pbt', title: '平台补贴', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'dxr', title: '店小二', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+              },
+          },
+          {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+              },
+          },
+          {field: 'total', title: '合计金额', width:120, align: 'right',rowspan:2,
+              formatter : function(value, row,index) {
+                  return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+              },
+          }
+      ],[
+          {field: 'posZfb', title: '支付宝', width:100, align: 'right',
+
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'posWzf', title: '微支付', width:100, align: 'right',
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'mallZfb', title: '支付宝', width:100, align: 'right',
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          },
+          {field: 'mallWzf', title: '微支付', width:100, align: 'right',
+              formatter : function(value, row,index) {
+                  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+              },
+          }
+	  ]]
+    } else if (queryType ==="branch") {
+        return [[
+            {field: 'branchCode', title: '机构编号', width:100, align: 'left', rowspan:2,
+                formatter:function(value,row,index){
+                    if(!value || value == '合计'){
+                        return '<div class="ub ub-pc ufw-b">合计</div> '
+                    }
+                    return row.branchCode;
+                },
+            },
             {field: 'branchName', title: '机构名称', width:220, align: 'left',rowspan:2},
             {field: 'rmb', title: '现金', width:120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-			},
-		    {field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+            },
+            {field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'yhk', title: '银行卡', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-			{field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
-			{field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
+            {field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
+            {field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
 
             {field: 'yqb', title: '云钱包', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'djq', title: '代金券', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'pbt', title: '平台补贴', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'dxr', title: '店小二', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	},
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
             },
             {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+                formatter : function(value, row,index) {
+                    return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
                 },
             },
             {field: 'total', title: '合计金额', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             }
         ],[
-			{field: 'posZfb', title: '支付宝', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'posWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallZfb', title: '支付宝', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			}
-		]],
-		onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-//			updateFooter();
-		}
-    });
-    if(flushFlg){
-    	query();
-    }
-}
-//日期汇总
-function initCashDailydateGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg =  $("#cashDaily").datagrid({
-        //title:'普通表单-用键盘操作',
-        method: 'post',
-        align: 'center',
-        url:'',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect: false,  //单选  false多选
-        rownumbers: true,    //序号
-        pagination: true,    //分页
-        pageSize : pageSize,
-        //fitColumns:true,    //占满
-        //showFooter:true,
-        columns: [[
+            {field: 'posZfb', title: '支付宝', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'posWzf', title: '微支付', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'mallZfb', title: '支付宝', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'mallWzf', title: '微支付', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            }
+        ]]
+    } else  {
+        return [[
             {field: 'branchCode', title: '机构编号', width: 100, align: 'left', rowspan:2,
                 formatter:function(value,row,index){
-					if(!value || value == '合计'){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
-					return row.branchCode;
-				},
+                    if(!value || value == '合计'){
+                        return '<div class="ub ub-pc ufw-b">合计</div> '
+                    }
+                    return row.branchCode;
+                },
             },
             {field: 'branchName', title: '机构名称', width: 220, align: 'left',rowspan:2},
             {field:'opDate',title:'操作日期',sortable:false,width:150,align: 'left',rowspan:2},
-			{field: 'rmb', title: '现金', width:120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
+            {field: 'rmb', title: '现金', width:120, align: 'right',rowspan:2,
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-			},
-			{field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+            },
+            {field: 'zer', title: '抹零', width:120, align: 'right',rowspan:2,
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'yhk', title: '银行卡', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            /*{field: 'zfb', title: '支付宝', width:120, align: 'right',
-				formatter : function(value, row,index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field: 'wzf', title: '微支付', width:120, align: 'right',
-				formatter : function(value, row,index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },*/
-
-			{field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
-			{field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
+            {field:'oneflag',title:'POS',width: '200px',align:'left',colspan:2},
+            {field:'oneflag',title:'友门鹿商城',width:'200px',align:'left',colspan:2},
 
             {field: 'yqb', title: '云钱包', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'djq', title: '代金券', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'pbt', title: '平台补贴', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'dxr', title: '店小二', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
-            	formatter : function(value, row,index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	},
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
             },
             {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
-					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
+                formatter : function(value, row,index) {
+                    return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
                 },
             },
             {field: 'total', title: '合计金额', width:120, align: 'right',rowspan:2,
-				formatter : function(value, row,index) {
+                formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             }
         ],[
-			{field: 'posZfb', title: '支付宝', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'posWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallZfb', title: '支付宝', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			},
-			{field: 'mallWzf', title: '微支付', width:100, align: 'right',
-				formatter : function(value, row,index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-			}
-		]],
-		onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-//			updateFooter();
-		}
-    });
-    if(flushFlg){
-    	query();
+            {field: 'posZfb', title: '支付宝', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'posWzf', title: '微支付', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'mallZfb', title: '支付宝', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'mallWzf', title: '微支付', width:100, align: 'right',
+                formatter : function(value, row,index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            }
+        ]]
     }
 }
-
 
 /**
  * 机构列表下拉选
@@ -459,33 +403,18 @@ function clearCashierId() {
  * 导出
  */
 function exportData(){
-	var length = $('#cashDaily').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
+    var param = {
+        datagridId:"cashDaily",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/cashDaily/report/exportList"
+    }
 
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/cashDaily/report/exportList");
-	$("#queryForm").submit();
+    publicExprotService(param);
 }
 
 //查询
 function query(){
 	$("#cashDaily").datagrid("options").url =  "";
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -496,6 +425,7 @@ function query(){
 	if(cashierNameOrCode && cashierNameOrCode.indexOf("[")>=0 && cashierNameOrCode.indexOf("]")>=0){
 		formData.cashierNameOrCode = null;
 	}
+    $('#cashDaily').datagrid({showFooter:true});
 	$("#cashDaily").datagrid("options").queryParams = formData;
 	$("#cashDaily").datagrid("options").method = "post";
 	$("#cashDaily").datagrid("options").url =  contextPath+"/cashDaily/report/getList";
@@ -511,9 +441,6 @@ function updateFooter(){
 
 //打印
 function printReport(){
-	
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var queryType=$('input:radio[name="queryType"]:checked').val();
 
 	var startTime = $("#txtStartDate").val();

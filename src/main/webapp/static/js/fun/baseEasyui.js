@@ -1100,6 +1100,8 @@ var $_jxc = {
 		if ($btns){
 			$btns.forEach(function(btnObj,index){
 				$(btnObj).prop("disabled","disabled");
+                $(btnObj).prop("readOnly","readOnly");
+                $(btnObj).addClass('uinp-no-more');
 			})
         }
 		//ajax参数

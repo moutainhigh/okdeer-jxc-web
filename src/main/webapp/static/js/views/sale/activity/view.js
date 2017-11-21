@@ -317,9 +317,6 @@ function optionHide(){
 	$('#dailyStartTime').val("00:00:00");
 	$('#dailyEndTime').val("23:59:59");
 	$('#branchName').val("");
-	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
-	$("#saleMangeadd").datagrid("options").url ="";
-	// $('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
 	$('.ubcheckweek').prop('checked',true);
 	
 	initmmsDom();
@@ -1161,7 +1158,7 @@ function initDatagridsortMj(){
 		width:'100%',
         columns:[[
 					// {field:'ck',checkbox:true},
-            		{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            		{field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){

@@ -47,6 +47,7 @@ function initDatagridPosOrders(){
                   }
 			},
 			{field: 'bindAddress', title: '绑定地址', width: '180px', align: 'left'},
+			{field: 'version', title: '当前POS版本', width: '180px', align: 'left'},
 			{field: 'currentUserName', title: '当前登录用户', width: '150px', align: 'left'},
         ]],
         onLoadSuccess : function() {

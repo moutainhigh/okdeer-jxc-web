@@ -4,7 +4,9 @@
 <html>
 <head>
 <title>价签打印</title>
-<%@ include file="/WEB-INF/views/include/header.jsp"%>	
+
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<script src="${ctx}/static/js/views/retail/priceprint.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 

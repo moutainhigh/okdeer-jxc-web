@@ -143,7 +143,7 @@ function setInputValByObj(){
 	}
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
-	if(updateSku.saleWay=='A'){
+	if(selectionRow.saleWay=='A'){
 		$('#supplierRate').numberbox('disable');
 	}else{
 		$('#supplierRate').numberbox('enable');

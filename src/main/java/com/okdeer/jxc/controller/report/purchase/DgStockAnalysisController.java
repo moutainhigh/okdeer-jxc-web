@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /***
  * 
@@ -46,8 +47,6 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
     //@Reference(version = "1.0.0", check = false)
     @Resource
     private PurchaseReportService purchaseReportService;
-
-    ExecutorService excutor = Executors.newFixedThreadPool(5);
 
     /***
      * 
@@ -89,18 +88,35 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
                 qo.setEndTime(time);
             }
 
-            purchaseReportService.getDgStockAnalysisPageList(qo);
+            /*purchaseReportService.getDgStockAnalysisPageList(qo);
             Future<PageUtils<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
             // 2、查询合计
             purchaseReportService.getDgStockAnalysisListSum(qo);
-            Future<DgStockAnalysisVo> voFuture = RpcContext.getContext().getFuture();
+            Future<DgStockAnalysisVo> voFuture = RpcContext.getContext().getFuture();*/
 
-            PageUtils<DgStockAnalysisVo> list = listFuture.get();
-            DgStockAnalysisVo vo = voFuture.get();
+            //1、查询列表
+            purchaseReportService.getDgStockAnalysisPageListNew(qo);
+            Future<List<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
+
+            // 2、查询合计
+            purchaseReportService.sumDgStockAnalysis(qo);
+            Future<DgStockAnalysisVo> sumFuture = RpcContext.getContext().getFuture();
+
+            // 3、统计个数
+            purchaseReportService.countDgStockAnalysis(qo);
+            Future<Long> countFuture = RpcContext.getContext().getFuture();
+
+            DgStockAnalysisVo vo = sumFuture.get();
 
             List<DgStockAnalysisVo> footer = new ArrayList<>();
             footer.add(vo);
-            list.setFooter(footer);
+
+            List<DgStockAnalysisVo> vos = listFuture.get();
+            PageUtils<DgStockAnalysisVo> list = new PageUtils<>(vos, footer, countFuture.get());
+            list.setPageNum(pageNumber);
+            list.setPageSize(pageSize);
+
+            //list.setFooter(footer);
             // 过滤数据权限字段
             cleanAccessData(list);
             return list;
@@ -165,42 +181,54 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
         int resIndex = (endCount / 5000);
         int modIndex = endCount % 5000;
         LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数：{}, {}", resIndex, modIndex);
-        List<CompletableFuture<List<DgStockAnalysisVo>>> futures = Lists.newArrayList();
-
-        List<DgStockAnalysisVo> exportList = Lists.newArrayList();
+        List<DgStockAnalysisVo> data = Lists.newArrayList();
+        List<Future<List<DgStockAnalysisVo>>> futures = Lists.newArrayList();
         if (resIndex > 0) {
             for (int i = 0; i < resIndex; i++) {
                 int newStart = (i * 5000) + startCount;
                 qo.setStartCount(newStart);
                 qo.setEndCount(5000);
                 LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 5000);
-                CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
-                futures.add(future);
+                purchaseReportService.getDgStockAnalysisListNew(qo);
+                Future<List<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
+                //data.addAll(listFuture.get().getList());
+                futures.add(listFuture);
+                if (futures.size() % 5 == 0) {
+                    forEachFuture(data, futures);
+                }
             }
+            forEachFuture(data, futures);
             if (modIndex > 0) {
                 int newStart = (resIndex * 5000) + startCount;
                 int newEnd = modIndex;
                 qo.setStartCount(newStart);
                 qo.setEndCount(newEnd);
                 LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数mod、startCount、endCount参数:{}, {}", newStart, newEnd);
-                CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
-                futures.add(future);
+                purchaseReportService.getDgStockAnalysisListNew(qo);
+                Future<List<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
+                data.addAll(listFuture.get());
             }
         } else {
             LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数导出不超过:{}", 5000);
-            CompletableFuture<List<DgStockAnalysisVo>> future = CompletableFuture.supplyAsync(() -> purchaseReportService.getDgStockAnalysisList(qo), excutor);
-            futures.add(future);
+            purchaseReportService.getDgStockAnalysisListNew(qo);
+            Future<List<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
+            forEachFuture(data, futures);
+            data.addAll(listFuture.get());
         }
+        return data;
 
-        futures.stream().forEach((future) -> {
-            try {
-                exportList.addAll(future.get());
-            } catch (Exception e) {
-                LOG.error("遍历获取异步数据异常", e);
-            }
-        });
+    }
 
-        return exportList;
-
+    private void forEachFuture(List<DgStockAnalysisVo> data, List<Future<List<DgStockAnalysisVo>>> futures) {
+        if (!futures.isEmpty()) {
+            futures.stream().forEach((future) -> {
+                try {
+                    data.addAll(future.get());
+                } catch (Exception e) {
+                    LOG.error("东莞大仓導出異常!", e);
+                }
+            });
+            futures.clear();
+        }
     }
 }

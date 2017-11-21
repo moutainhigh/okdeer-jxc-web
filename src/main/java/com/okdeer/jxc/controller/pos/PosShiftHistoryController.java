@@ -18,7 +18,6 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.entity.PosLoginInfo;
-import com.okdeer.jxc.pos.entity.PosShiftHistory;
 import com.okdeer.jxc.pos.entity.PosShiftHistoryExt;
 import com.okdeer.jxc.pos.enums.ShiftTypeEnum;
 import com.okdeer.jxc.pos.service.PosShiftHistoryServiceApi;
@@ -117,10 +116,8 @@ public class PosShiftHistoryController extends BaseController<T> {
 	@ResponseBody
 	public RespJson shiftExchange(String id) {
 		try {
-			//获取当前班次
-			PosShiftHistory shiftHistory= posShiftHistoryServiceApi.getShift(id);
 			//根据班次获取用户信息
-			PosLoginInfo logininfo= posLoginInfoServiceApi.getCurrentLoginInfo(shiftHistory.getUserId());
+			PosLoginInfo logininfo= posLoginInfoServiceApi.getLoginInfoByShift( id);
 
 			RespJson json= posShiftHistoryServiceApi.changeShifts(id, UserUtil.getCurrBranchId(), UserUtil.getCurrUserId(),
 					ShiftTypeEnum.SHOPKEEPER.getValue());
