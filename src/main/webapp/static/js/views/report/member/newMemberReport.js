@@ -18,11 +18,14 @@ $(function () {
     //操作员组件初始化
     $('#cashierSelect').operatorSelect({
         onAfterRender:function(data){
-            branchName = data.branchName;
             $("#cashierId").val(data.id);
             $("#cashierName").val(data.userName);
+
         }
     });
+
+    $("#cashierName").prop("readOnly","readOnly");
+    $('#cashierName').addClass('uinp-no-more');
 
     $(".radioAudit").change(function () {
         auditStatus = $(this).val(); //选中的值

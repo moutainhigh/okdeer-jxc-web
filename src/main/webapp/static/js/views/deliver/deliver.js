@@ -1178,7 +1178,7 @@ function updateDeliverForm(rows){
 
 
 //审核
-function check(){
+function check(e){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
@@ -1219,7 +1219,9 @@ function check(){
 	            		"error":result['message']
 	            	});
 	    		}
-		    });
+		    },function () {
+
+            },[e]);
 		}
 	});
 }
