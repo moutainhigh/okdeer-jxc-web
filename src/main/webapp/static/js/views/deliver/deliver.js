@@ -249,24 +249,24 @@ function initDatagridRequireOrder(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-            {field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-
-                    if(!row.sourceStock){
-                        row.sourceStock = parseFloat(value||0).toFixed(2);
-                    }
-
-                    if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                        return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-                    }else{
-                        return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-                    }
-
-                }
-            },
+            // {field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
+            //     formatter:function(value,row,index){
+            //         if(row.isFooter){
+            //             return
+            //         }
+            //
+            //         if(!row.sourceStock){
+            //             row.sourceStock = parseFloat(value||0).toFixed(2);
+            //         }
+            //
+            //         if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
+            //             return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+            //         }else{
+            //             return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
+            //         }
+            //
+            //     }
+            // },
             {field:'alreadyNum',title:'被订数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -1178,7 +1178,7 @@ function updateDeliverForm(rows){
 
 
 //审核
-function check(){
+function check(e){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
@@ -1219,7 +1219,9 @@ function check(){
 	            		"error":result['message']
 	            	});
 	    		}
-		    });
+		    },function () {
+
+            },[e]);
 		}
 	});
 }

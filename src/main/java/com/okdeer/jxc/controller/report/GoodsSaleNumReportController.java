@@ -6,18 +6,9 @@
  */    
 package com.okdeer.jxc.controller.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
@@ -26,6 +17,15 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleNumReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleNumReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,6 +45,9 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 	
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSaleNumReportServiceApi goodsSaleNumReportServiceApi;
+
+	@Reference(version = "1.0.0", check = false)
+	BranchesServiceApi branchesServiceApi;
 	
 	@RequestMapping(value = "/list")
 	public String list(){
@@ -71,6 +74,10 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
+			if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
+				vo.setBrancheType(Boolean.TRUE);
+			}
 			PageUtils<GoodsSaleNumReportVo> goodsOutInfoDetailList = goodsSaleNumReportServiceApi.goodsSaleNumList(vo);
 			GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
 			List<GoodsSaleNumReportVo> footer = new ArrayList<GoodsSaleNumReportVo>();
@@ -102,6 +109,10 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
+			if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
+				vo.setBrancheType(Boolean.TRUE);
+			}
 			List<GoodsSaleNumReportVo> exportList = goodsSaleNumReportServiceApi.exportList(vo);
 			GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
 			goodsSaleNumReportVo.setBranchName("合计：");

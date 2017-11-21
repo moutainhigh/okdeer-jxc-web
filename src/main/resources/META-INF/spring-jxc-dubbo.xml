@@ -49,6 +49,7 @@
 		<dubbo:method name="queryGoodsUnsaleReportSum" async="true"></dubbo:method>
 		<dubbo:method name="getGoodsUnsaleReportList" async="true"></dubbo:method>
 		<dubbo:method name="exportList" async="true"></dubbo:method>
+		<dubbo:method name="getNewGoodsUnsaleReportList" async="true"></dubbo:method>
 	</dubbo:reference>
 
 	<dubbo:reference interface="com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi" id="goodsOutInDetailServiceApi" version="1.0.0" check="false">
@@ -65,13 +66,23 @@
 
 	<dubbo:reference interface="com.okdeer.jxc.form.purchase.service.PurchaseReportService" id="purchaseReportService"
 					 version="1.0.0" check="false">
-		<dubbo:method name="getDgStockAnalysisPageList" async="true"></dubbo:method>
-		<dubbo:method name="getDgStockAnalysisListSum" async="true"></dubbo:method>
+        <dubbo:method name="getDgStockAnalysisListNew" async="true"></dubbo:method>
+        <dubbo:method name="sumDgStockAnalysis" async="true"></dubbo:method>
+        <dubbo:method name="countDgStockAnalysis" async="true"></dubbo:method>
+        <dubbo:method name="getDgStockAnalysisPageListNew" async="true"></dubbo:method>
 	</dubbo:reference>
 
 	<dubbo:reference interface="com.okdeer.jxc.report.sale.GoodSaleDetailServiceApi" id="goodSaleDetailServiceApi"
 					 version="1.0.0"
 					 check="false">
+		<dubbo:method name="getListPage" async="true"></dubbo:method>
+		<dubbo:method name="getListNew" async="true"></dubbo:method>
+		<dubbo:method name="countGoodSaleDetail" async="true"></dubbo:method>
+		<dubbo:method name="sumList" async="true"></dubbo:method>
+	</dubbo:reference>
+
+	<dubbo:reference interface="com.okdeer.jxc.report.goods.service.NewGoodsSaleAnalysisService"
+					 id="newGoodsSaleAnalysisService" version="1.0.0" check="false">
 		<dubbo:method name="getListPage" async="true"></dubbo:method>
 		<dubbo:method name="getTotal" async="true"></dubbo:method>
 	</dubbo:reference>

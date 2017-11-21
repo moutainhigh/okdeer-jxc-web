@@ -10,7 +10,6 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}2"></script>
-	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -21,7 +20,7 @@
                 <div class="ubtns-item" onclick="addDeliverForm()">新增</div>
                 <div class="ubtns-item" onclick="updateOrder()">保存</div>
                 <shiro:hasPermission name="JxcDeliverDA:audit">
-                <div class="ubtns-item" onclick="check()">审核</div>
+                <div id="check_deliver" class="ubtns-item" onclick="check(this)">审核</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <shiro:hasPermission name="JxcDeliverDA:suggest">

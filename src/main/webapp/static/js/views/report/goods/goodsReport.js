@@ -76,7 +76,7 @@ $(function(){
 });
 
 var dataItems = [
-{"text": "全部","id": "",iconCls:"combotree-p",
+{"text": "全部","id": "ALL",iconCls:"combotree-p",
     children:[{"text": "正常","id": "NORMAL",iconCls:"combotree-c"},
         {"text": "停售","id": "STOPSELLING",iconCls:"combotree-c"},
         {"text": "停购","id": "STOPBUYING",iconCls:"combotree-c"},
@@ -431,8 +431,14 @@ function query(){
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
 	// 赋值单据类型选择
-	$("#statusList").val($("#statu").combotree('getValues'));
-	
+
+	var statusList = $("#statu").combotree('getValues');
+	if(statusList.indexOf("ALL")>-1){
+        $("#statusList").val("");
+    }else {
+        $("#statusList").val($("#statu").combotree('getValues'));
+	}
+
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var fromObjStr = $('#queryForm').serializeObject();

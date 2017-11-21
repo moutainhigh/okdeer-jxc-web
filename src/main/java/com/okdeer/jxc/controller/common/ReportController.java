@@ -7,21 +7,13 @@
 
 package com.okdeer.jxc.controller.common;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.okdeer.jxc.common.report.ReportService;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.jxc.utils.poi.ExcelExportUtil;
+import com.okdeer.retail.common.report.DataRecord;
+import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
@@ -30,14 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.jxc.utils.poi.ExcelExportUtil;
-import com.okdeer.retail.common.report.DataRecord;
-
-import net.sf.json.JSONObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * ClassName: ReportController 
@@ -132,9 +125,9 @@ public abstract class ReportController extends BaseController<T> {
 				List<DataRecord> tempList = getReportService().getList(param);
 				recordList.addAll(tempList);
 				// 如果实际只有100条数据，页面导出输入1-20000，查询到结果集不足每页最大时，不再执行后面的查询
-                if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
-                    break;
-                }
+				if (CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT) {
+					break;
+				}
 			}
 			if (modIndex > 0) {
 				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;

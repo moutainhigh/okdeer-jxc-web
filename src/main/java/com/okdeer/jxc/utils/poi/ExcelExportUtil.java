@@ -110,58 +110,35 @@ public class ExcelExportUtil {
 			XSSFSheet sheet = workbook.createSheet(sheetName);
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
+			
+			
+			// 标题头样式
+			XSSFCellStyle titlestyle = getXSSFTitleCellStyle(workbook);
+
+			// 设置标题头
+			XSSFRow row = sheet.createRow(0);
+			// 设置行高为28px;
+			row.setHeightInPoints(28);
+			XSSFCell cell = row.createCell(0);
+			cell.setCellStyle(titlestyle);
+			XSSFRichTextString text = new XSSFRichTextString(reportFileName);
+			cell.setCellValue(text);
+			// 合并标题单元格
+			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, columns.length - 1));
 
 			// 表头样式
 			XSSFCellStyle headerStyle = getXSSFHeaderCellStyle(workbook);
-			/*
-			 * 
-			 * 以下可以用于设置导出的数据的样式
-			 * 
-			 * // 生成并设置另一个样式 XSSFCellStyle style2 = workbook.createCellStyle();
-			 * style2.setFillForegroundColor(XSSFColor.LIGHT_YELLOW.index);
-			 * style2.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND); style2.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-			 * style2.setBorderLeft(XSSFCellStyle.BORDER_THIN); style2.setBorderRight(XSSFCellStyle.BORDER_THIN);
-			 * style2.setBorderTop(XSSFCellStyle.BORDER_THIN); style2.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-			 * style2.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER); // 生成另一个字体 XSSFFont font2 =
-			 * workbook.createFont(); font2.setBoldweight(XSSFFont.BOLDWEIGHT_NORMAL); // 把字体应用到当前的样式
-			 * style2.setFont(font2); // 声明一个画图的顶级管理器 XSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-			 * 
-			 * 
-			 * // 定义注释的大小和位置,详见文档 XSSFComment comment = patriarch.createComment(new XSSFClientAnchor(0, 0, 0, 0, (short)
-			 * 4, 2, (short) 6, 5)); // 设置注释内容 comment.setString(new XSSFRichTextString("可以在POI中添加注释！")); //
-			 * 设置注释作者，当鼠标移动到单元格上是可以在状态栏中看到该内容. comment.setAuthor("leno");
-			 */
-
-			// 产生表格标题行
-			// 表头的样式
-			// XSSFCellStyle titleStyle = workbook.createCellStyle();// 创建样式对象
-			// titleStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER_SELECTION);// 水平居中
-			// titleStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);// 垂直居中
-			// // 设置字体
-			// XSSFFont titleFont = workbook.createFont(); // 创建字体对象
-			// titleFont.setFontHeightInPoints((short) 15); // 设置字体大小
-			// titleFont.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);// 设置粗体
-			// // titleFont.setFontName("黑体"); // 设置为黑体字
-			// titleStyle.setFont(titleFont);
-			// sheet.addMergedRegion(new Region(0, (short) 0, 0, (short)
-			// (headers.length - 1)));// 指定合并区域
-			// XSSFRow rowHeader = sheet.createRow(0);
-			// XSSFCell cellHeader = rowHeader.createCell((short) 0); //
-			// 只能往第一格子写数据，然后应用样式，就可以水平垂直居中
-			// XSSFRichTextString textHeader = new
-			// XSSFRichTextString(sheetName);
-			// cellHeader.setCellStyle(titleStyle);
-			// cellHeader.setCellValue(textHeader);
-
-			XSSFRow row = sheet.createRow(0);
+						
+			row = sheet.createRow(1);
+			row.setHeightInPoints(22);
 			for (int i = 0; i < headers.length; i++) {
-				XSSFCell cell = row.createCell((short) i);
+				cell = row.createCell((short) i);
 				cell.setCellStyle(headerStyle);
-				XSSFRichTextString text = new XSSFRichTextString(headers[i]);
+				text = new XSSFRichTextString(headers[i]);
 				cell.setCellValue(text);
 			}
 			// 遍历集合数据，产生数据行
-			generateData(columns, dataList, pattern, workbook, sheet, 0);
+			generateData(columns, dataList, pattern, workbook, sheet, 1);
 
 			// 写入输出流
 			out = responseWrite(reportFileName, response, workbook);

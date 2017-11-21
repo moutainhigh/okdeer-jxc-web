@@ -46,7 +46,7 @@ function getFiledsList(){
 		                        return
 		                    }
 		                    if(!value){
-		                    	row["price"] = 0.00;
+		                    	row["price"] = 0.0000;
 		                    }
 		                    
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

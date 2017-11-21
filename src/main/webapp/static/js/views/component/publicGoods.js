@@ -81,24 +81,25 @@ $(function () {
              * **/
             function zTreeOnClick(event, treeId, treeNode) {
                 categoryCode=treeNode.code;
-                var text =  $("#goodsType").combobox('getText');
+                var goodsTypeVal =  $("#goodsType").combobox('getValue');
                 var type = $('#type').val();
                 var _searchParam = serializeParam();
-                if(text =='类别'){
+                if(goodsTypeVal === 'categoryCode'){
                     brandId = "";
                     supplierId = "";
                     // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
-                    if(type != 'PM'){
-                    	_searchParam.supplierId = "";
-                    }
-                }else if(text =="品牌"){
+                    // if(type != 'PM' ){
+                    // 	_searchParam.supplierId = "";
+                    // }
+
+                }else if(goodsTypeVal === "brandId"){
                     brandId = treeNode.id;
                     supplierId = "";
                     // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
-                    if(type != 'PM'){
-                    	_searchParam.supplierId = "";
-                    }
-                }else if(text=="供应商"){
+                    // if(type != 'PM'){
+                    // 	_searchParam.supplierId = "";
+                    // }
+                }else if(goodsTypeVal === "supplierId"){
                     brandId = "";
                     supplierId = treeNode.id;
                     _searchParam.supplierId = supplierId;
@@ -344,21 +345,19 @@ $(function () {
              */
             cx = function (){
                 setTimeout(function(){
-                    var text =  $("#goodsType").combobox('getText');
+                    // var text =  $("#goodsType").combobox('getText');
+                    var goodsTypeVal =  $("#goodsType").combobox('getValue');
                     var searchSupplierId = '';
                     var _searchParam = serializeParam();
-                    if(text=='供应商'){
+                    if(goodsTypeVal === "supplierId"){
                         searchSupplierId = $("#supplierId").val();
                         _searchParam.supplierId = searchSupplierId;
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
-                    // 梁利 提出左边树与右边的查询无关系
+                    // 采购订单和促销进价单都需要传递供应商，不管左侧树选中的是供应商，品牌还是类别
                     var queryParams=_searchParam;
                     if (queryParams.type == 'PA') {
                         queryParams.activitySupplierId = _searchParam.supplierId;
-                    }
-                    if(text!='供应商'){
-                    	queryParams.supplierId = "";
                     }
                     
                     //1002回车 弹窗选择后 点击查询无效 2.7 修改

@@ -99,7 +99,6 @@ function initDatagridRequire(){
 			//updateFooter();
 		}
     });
-    //queryForm();
 }
 
 //合计
@@ -114,8 +113,6 @@ function queryForm(){
         $_jxc.alert("请选择店铺名称");
         return;
     } 
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
     fromObjStr.categoryName = "";
 	$("#categorySale").datagrid("options").method = "post";

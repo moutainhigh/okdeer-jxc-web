@@ -947,7 +947,6 @@ function checkDirectForm(){
 			 if(data){
 				 checkOrder();
 			 }
-		    
 		 });
 	}
 }

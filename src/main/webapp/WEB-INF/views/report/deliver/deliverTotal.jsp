@@ -7,14 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>配送汇总(按单机构查询)</title>
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp" %>
     <script
-            src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js?V=${versionNo}"></script>
-    <style>
-        .datagrid-header-row .datagrid-cell {
-            text-align: center !important;
-        }
-    </style>
+            src="${ctx}/static/js/views/report/deliver/deliverTotalReport.js?V=${versionNo}44"></script>
+
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -25,8 +20,6 @@
                     <div class="ubtns-item" onclick="query()">查询</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="newJxcDLTotalReport:export">
-                    <input type="hidden" id="startCount" name="startCount"/>
-                    <input type="hidden" id="endCount" name="endCount"/>
                     <div class="ubtns-item" onclick="exportData()">导出</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>

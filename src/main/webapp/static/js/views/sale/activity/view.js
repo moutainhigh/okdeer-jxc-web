@@ -317,9 +317,6 @@ function optionHide(){
 	$('#dailyStartTime').val("00:00:00");
 	$('#dailyEndTime').val("23:59:59");
 	$('#branchName').val("");
-	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
-	$("#saleMangeadd").datagrid("options").url ="";
-	// $('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
 	$('.ubcheckweek').prop('checked',true);
 	
 	initmmsDom();

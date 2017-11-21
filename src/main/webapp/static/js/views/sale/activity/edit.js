@@ -389,7 +389,6 @@ function selectOptionMj(param){
     disableGoods('SelectGoods','GoodsType');
 
 	if(radioVal=="2"){
-        $("#consaleadd").addClass('ub-f1');
         $('#consaleadd').removeClass('unhide');
         $('#consalesetmj').addClass('unhide');
         $('#activityScopemj').val('2');
@@ -399,7 +398,7 @@ function selectOptionMj(param){
 		initDatagridsortSet();
 	}
     else if(radioVal=="1"){
-        $("#consaleadd").addClass('ub-f1');
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
         $('#consaleadd').removeClass('unhide');
         $('#consalesetmj').removeClass('unhide');
         $('#activityScopemj').val('1');
@@ -409,7 +408,8 @@ function selectOptionMj(param){
   	  initDatagridsortSet();
     }
     else {
-        $("#consaleadd").removeClass('ub-f1');
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
+        // $("#consaleadd").removeClass('ub-f1');
         $('#consaleadd').removeClass('unhide');
         $('#consalesetmj').removeClass('unhide');
         $('#activityScopemj').val('0');
@@ -438,7 +438,7 @@ function cleardata(){
 
 //状态初始化 隐藏 清空数据 
 function optionHide(){
-	$("#consaleadd").addClass('ub-f1');
+	// $("#consaleadd").addClass('ub-f1');
 	$('.special').addClass('unhide');
 	$('.discount').addClass('unhide');
 	$('.oddprice ').addClass('unhide');
@@ -1934,15 +1934,6 @@ function initDatagridRedemption(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-//			    editor:{
-//			        type:'numberbox',
-//			        options:{
-//			            disabled:true,
-//			            min:0,
-//			            precision:2,
-//			
-//			        }
-//			    },
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -2138,7 +2129,7 @@ function initDatagridsortSet(){
         fitColumns:true,    //每列占满
        fit:true,            //占满
 //        showFooter:true,
-		height:'100%',
+		height:'500px',
 //		pageSize:50,
 		width:'100%',
         columns:[[

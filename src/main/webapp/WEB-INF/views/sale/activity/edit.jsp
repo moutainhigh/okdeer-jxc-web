@@ -189,12 +189,12 @@
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;height:50%">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
-      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide " style="min-height:50%;">
-			 <table id="salesetmj"></table>
+      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide " style="height:300px;height:50%">
+			 <table id="salesetmj" style="min-height:300px"></table>
 	  </div>
 	  
 	  <!-- 买满送  -->

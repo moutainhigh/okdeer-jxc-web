@@ -42,9 +42,10 @@ function initConditionParams(){
     
     //如果供应商送货周期不会空，则交货期限需要加上送货周期
     if(diliveCycle){
-    	deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
+    	var deliverTime = new Date();
+    	deliverTime.setDate(deliverTime.getDate() + diliveCycle); 
     }
-    $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+    $("#deliverTime").val(deliverTime.format('yyyy-MM-dd'));
 }
 
 //获取机构设置
@@ -931,10 +932,11 @@ function selectSupplier(){
 	}
     new publicSuppliersService(param, function(data){
         //供应商交货期限
-        var diliveCycle = parseInt(data.diliveCycle||7)-1;
+        var diliveCycle = parseInt(data.diliveCycle||7);
         //如果供应商送货周期不会空，则交货期限需要加上送货周期
-        var deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
-        $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+    	var deliverTime = new Date();
+    	deliverTime.setDate(deliverTime.getDate() + diliveCycle); 
+        $("#deliverTime").val(deliverTime.format('yyyy-MM-dd'));
         
     	if('NO' == data)return;
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});

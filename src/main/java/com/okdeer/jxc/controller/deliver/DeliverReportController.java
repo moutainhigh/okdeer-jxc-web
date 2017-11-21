@@ -11,6 +11,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -225,15 +226,22 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
                                                                   @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
-			if (StringUtils.isBlank(vo.getSourceBranchId())) {
-				vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			}
-			if (StringUtils.isBlank(vo.getTargetBranchId())) {
-			    vo.setTargetBranchId(UserUtil.getCurrBranchId());
-			}
-			if (StringUtils.isBlank(vo.getBranchId())) {
-			    vo.setBranchId(UserUtil.getCurrBranchId());
-			}
+            if (Constant.INTEGER_ONE.equals(vo.getType())) {
+                // 多机构查询（配送明细查询）
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(vo.getSourceBranchId()) && StringUtils.isBlank(vo.getTargetBranchId())) {
+                    /**vo.setSourceBranchId(UserUtil.getCurrBranchId());
+                    vo.setTargetBranchId(UserUtil.getCurrBranchId());*/
+                    vo.setBranchCompleCode(getCurrBranchCompleCode());
+                }
+            } else {
+                // 单机构查询（配送明细（按单机构查询））
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(vo.getBranchId())) {
+                    /**vo.setBranchId(UserUtil.getCurrBranchId());*/
+                    vo.setBranchCompleCode(getCurrBranchCompleCode());
+                }
+            }
 			if (StringUtils.isBlank(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
@@ -268,17 +276,27 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 */
 	@RequestMapping(value = "exportDeliverFormList")
 	public void exportDeliverFormList(HttpServletResponse response, DeliverFormReportQo qo) {
-		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, qo);
 		try {
-			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
-				qo.setBranchId(UserUtil.getCurrBranchId());
-			}
+            if (Constant.INTEGER_ONE.equals(qo.getType())) {
+                // 多机构查询（配送明细查询）
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(qo.getSourceBranchId()) && StringUtils.isBlank(qo.getTargetBranchId())) {
+                    /**vo.setSourceBranchId(UserUtil.getCurrBranchId());
+                    vo.setTargetBranchId(UserUtil.getCurrBranchId());*/
+                    qo.setBranchCompleCode(getCurrBranchCompleCode());
+                }
+            } else {
+                // 单机构查询（配送明细（按单机构查询））
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(qo.getBranchId())) {
+                    /**vo.setBranchId(UserUtil.getCurrBranchId());*/
+                    qo.setBranchCompleCode(getCurrBranchCompleCode());
+                }
+            }
 			if (StringUtils.isNullOrEmpty(qo.getDeliverType())) {
 				qo.setDeliverType("");
 			}
-			// if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-			// vo.setBranchId(null);
-			// }
 			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(qo);
 
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi

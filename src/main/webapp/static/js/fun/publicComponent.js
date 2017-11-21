@@ -2836,6 +2836,12 @@ function publicColumnSettingService(param,callback) {
  *
  * */
 function publicExprotService(param,callback) {
+    var length = $('#'+param.datagridId).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
     var exportChoseTemp = $('<div id="exportChose"/>').dialog({
         href: contextPath + "/common/exportChose",
         width:400,
@@ -2970,7 +2976,7 @@ function initCombobox(id,dataItems,defValue){
 function initCombotree(id,dataItems,defValue){
     $('#'+id).combotree({
         cascadeCheck: true,
-        //onlyLeafCheck: true,
+        // onlyLeafCheck: true,
         checkbox: true,
         data: dataItems,
         width: 200,

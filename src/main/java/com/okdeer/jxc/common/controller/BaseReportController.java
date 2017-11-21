@@ -1,22 +1,6 @@
 
 package com.okdeer.jxc.common.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
@@ -25,8 +9,21 @@ import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
-
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 
@@ -205,9 +202,9 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 				List<V> tempList = getReportFade().queryList(qo);
 				exportList.addAll(tempList);
 				// 如果实际只有100条数据，页面导出输入1-20000，查询到结果集不足每页最大时，不再执行后面的查询
-                if (CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT) {
-                    break;
-                }
+				if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
+				    break;
+				}
 			}
 			
 			// 存在余数时，查询剩余的数据

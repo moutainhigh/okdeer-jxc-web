@@ -40,10 +40,10 @@
                  	<div class="ub ub-ac">
                     <div class="umar-r10">机构类型:</div>
                  		<label class="ub ub-ac umar-r40">
-                 			<input type="radio" class="ub ub-ac" name="groupType" value="0"> <span>所有</span>
+                 			<input type="radio" class="ub ub-ac" name="groupType" value="0" checked="checked"> <span>所有</span>
                  		</label>
                  		<label class="ub ub-ac umar-r40">
-                 			<input type="radio" class="ub ub-ac" name="groupType" value="1" checked="checked" > <span>机构组合</span>
+                 			<input type="radio" class="ub ub-ac" name="groupType" value="1"  > <span>机构组合</span>
                  		</label >
                  		<label class="ub ub-ac umar-r40">
                  			<input type="radio" class="ub ub-ac" name="groupType" value="2"> <span>直营店</span>

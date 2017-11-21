@@ -17,10 +17,8 @@ $(function() {
 
 });
 
-var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-
     	var a = $(this).val();
     	if (a=="memberTotalAll") {
             $("#orderNo").attr("readonly","readonly");
@@ -96,9 +94,6 @@ function initMemberTotalAllGrid() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    if(flushFlg){
-    	query();
-    }
 }
 function initMemberOrderAllGrid() {
 	gridHandel.setGridName('memberOrderData');
@@ -144,9 +139,6 @@ function initMemberOrderAllGrid() {
 		        	   gridHandel.setDatagridHeader("center");
 		           }
 	});
-	if(flushFlg){
-		query();
-	}
 }
 
 //消费明细
@@ -222,9 +214,6 @@ function initMemberOrderListGrid() {
 			gridHandel.setDatagridHeader("center");
 		}
 	});
-	if(flushFlg){
-		query();
-	}
 }
 
 //查询
