@@ -230,14 +230,16 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
                 // 多机构查询（配送明细查询）
                 // 没有机构查询条件时，以当前登录机构查询
                 if (StringUtils.isBlank(vo.getSourceBranchId()) && StringUtils.isBlank(vo.getTargetBranchId())) {
-                    vo.setSourceBranchId(UserUtil.getCurrBranchId());
-                    vo.setTargetBranchId(UserUtil.getCurrBranchId());
+                    /**vo.setSourceBranchId(UserUtil.getCurrBranchId());
+                    vo.setTargetBranchId(UserUtil.getCurrBranchId());*/
+                    vo.setBranchCompleCode(getCurrBranchCompleCode());
                 }
             } else {
                 // 单机构查询（配送明细（按单机构查询））
                 // 没有机构查询条件时，以当前登录机构查询
                 if (StringUtils.isBlank(vo.getBranchId())) {
-                    vo.setBranchId(UserUtil.getCurrBranchId());
+                    /**vo.setBranchId(UserUtil.getCurrBranchId());*/
+                    vo.setBranchCompleCode(getCurrBranchCompleCode());
                 }
             }
 			if (StringUtils.isBlank(vo.getDeliverType())) {
