@@ -343,7 +343,10 @@ $(function () {
             cx = function (){
                 //取消树节点的选中 查询按钮查询与树节点查询无关 ----2017-11-22 与产品确认
                 var treeObj = $.fn.zTree.getZTreeObj("treeGoodsType");
-                treeObj.cancelSelectedNode();
+                if(treeObj){
+                    treeObj.cancelSelectedNode();
+                }
+
                 setTimeout(function(){
                     // var text =  $("#goodsType").combobox('getText');
                     var goodsTypeVal =  $("#goodsType").combobox('getValue');
