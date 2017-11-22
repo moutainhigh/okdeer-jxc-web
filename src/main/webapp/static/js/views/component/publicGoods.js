@@ -98,7 +98,7 @@ $(function () {
                 _searchParam.brandId = brandId;
                 _searchParam.supplierId = supplierId;
                 //如果单据为 促销进价单 品牌 类别 都需要带上供应商
-                //2017-11-22  宋文杰与产品新需求
+                //2017-11-22  宋文杰与产品新需求  目前去掉
                 // if(type === "PL"){
                 //     _searchParam.supplierId = fromParams.supplierId
                 // }
