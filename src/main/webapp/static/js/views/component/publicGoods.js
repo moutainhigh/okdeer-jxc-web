@@ -88,17 +88,17 @@ $(function () {
                     brandId = "";
                     supplierId = "";
                     // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM' ){
-                    // 	_searchParam.supplierId = "";
-                    // }
+                    if(type != 'PM' ){
+                    	_searchParam.supplierId = "";
+                    }
 
                 }else if(goodsTypeVal === "brandId"){
                     brandId = treeNode.id;
                     supplierId = "";
                     // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM'){
-                    // 	_searchParam.supplierId = "";
-                    // }
+                    if(type != 'PM'){
+                    	_searchParam.supplierId = "";
+                    }
                 }else if(goodsTypeVal === "supplierId"){
                     brandId = "";
                     supplierId = treeNode.id;
@@ -355,6 +355,7 @@ $(function () {
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
                     // 采购订单和促销进价单都需要传递供应商，不管左侧树选中的是供应商，品牌还是类别
+                    //采购订单使用 activitySupplierId
                     var queryParams=_searchParam;
                     if (queryParams.type == 'PA') {
                         queryParams.activitySupplierId = _searchParam.supplierId;
