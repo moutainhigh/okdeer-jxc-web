@@ -1,4 +1,4 @@
-package com.okdeer.jxc.controller.report;
+/*package com.okdeer.jxc.controller.report;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -12,8 +12,10 @@ import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.facade.DaySumReportFacade;
 import com.okdeer.retail.facade.report.qo.DaySumReportQo;
 import com.okdeer.retail.facade.report.vo.DaySumReportVo;
+import com.okdeer.retail.framework.gpe.annotation.GpeMethodListener;
+import com.okdeer.retail.framework.gpe.helper.GpeHelper;
 
-/**
+*//**
  * 
  * ClassName: DaySumReportController 
  * @Description: 日进销存报表
@@ -24,14 +26,14 @@ import com.okdeer.retail.facade.report.vo.DaySumReportVo;
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *
- */
+ *//*
 @Controller
-@RequestMapping("report/day")
+@RequestMapping("report/day1")
 public class DaySumReportController extends BaseReportController<DaySumReportQo,DaySumReportVo> {
 
-	/**
+	*//**
 	 * 日进销存报表Dubbo接口
-	 */
+	 *//*
 	@Reference(version = "1.0.0", check = false)
 	private DaySumReportFacade daySumReportFacade;
 	
@@ -42,6 +44,8 @@ public class DaySumReportController extends BaseReportController<DaySumReportQo,
 	
 	@Override
 	protected String getViewName() {
+		
+		test01(UserUtil.getCurrentUser().getId());
 		return "/report/day/daySumReport";
 	}
 	
@@ -65,4 +69,12 @@ public class DaySumReportController extends BaseReportController<DaySumReportQo,
 	protected Class<DaySumReportVo> getViewObjectClass() {
 		return DaySumReportVo.class;
 	}
+	
+	@GpeMethodListener(moudle = "report", section = "daysum", key = "list")
+	public String test01(String userId) {
+		GpeHelper.getGpeBean(DaySumReportVo.class);
+		return null;
+	}
+	
 }
+*/
