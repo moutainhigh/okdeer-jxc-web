@@ -306,6 +306,16 @@
 					<input id="brandName" name="brandName"
 						value="${supplier.brandName }" class="uinp" type="text">
 				</div>
+                <div class="ub ub-ac uw-320">
+                    <div class="umar-r10 uw-80 ut-r">采购税率:</div>
+<!--                     <input id="inputTaxRate" name="inputTaxRate" -->
+<%--                         value="${supplier.inputTaxRate}" class="uinp" type="text"> --%>
+                    <input id="inputTaxRate" name="inputTaxRate" value="${supplier.inputTaxRate*100}" style="width: 195px;"
+                        class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+                        data-options="min:0,precision:2,min:0.00,max:999999.99" type="text"
+                        align="right" maxlength="10" onkeyup="checkPrice(this);"
+                        onafterpaste="checkPrice(this);">%
+                </div>
 
 				<div class="ub ub-ac" id="minAmountDiv">
 					<div class="umar-r10 uw-80 ut-r">保底金额:</div>

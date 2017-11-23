@@ -86,4 +86,12 @@
 		<dubbo:method name="getListPage" async="true"></dubbo:method>
 		<dubbo:method name="getTotal" async="true"></dubbo:method>
 	</dubbo:reference>
+	
+	
+	<dubbo:reference interface="com.okdeer.jxc.form.purchase.service.PurchaseReplenishAnalyService" id="purchaseReplenishAnalyService"
+					 version="1.0.0" check="false">
+        <dubbo:method name="getBranchReplenishAnalyReportList" async="true"></dubbo:method>
+        <dubbo:method name="getBranchReplenishAnalyReportSum" async="true"></dubbo:method>
+        <dubbo:method name="getBranchReplenishAnalyExportList" async="true"></dubbo:method>
+	</dubbo:reference>
 </beans>
