@@ -309,11 +309,10 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				PurchaseFormDetail formDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 				
-                if (formDetail.checkPirce()) {
-                    return RespJson.error("[" + formDetail.getSkuCode() + "]采购价格不能为0");
-                }
 	            // 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-	            formDetail.setPriceBack(formDetail.getPrice());
+                if(formDetail.checkPirceBack()){
+                    formDetail.setPriceBack(formDetail.getPrice());
+                }
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -555,11 +554,10 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
 				
-                if (purchaseFormDetail.checkPirce()) {
-                    return RespJson.error("[" + purchaseFormDetail.getSkuCode() + "]采购价格不能为0");
-                } 
                 // 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-                purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+                if(purchaseFormDetail.checkPirceBack()){
+                    purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+                }
 				purchaseFormDetail.setId(UUIDHexGenerator.generate());
 				purchaseFormDetail.setFormId(formId);
 				purchaseFormDetail.setCreateTime(now);

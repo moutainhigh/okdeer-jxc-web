@@ -38,35 +38,48 @@
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50">
                    		<div class="uinp-more">...</div>
                 </div>
-                <div class="ub ub-ac  umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-                    <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
-                </div>  
-            </div>
-	      <div class="ub umar-t8">
+
                 <div class="ub  ub-ac">
-                    <div class="umar-r10 uw-80 ut-r">单号:</div>
-                    <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
+                <div class="umar-r10 uw-80 ut-r">单据编号:</div>
+                <input class="uinp ub ub-f1" type="text" name="formNo" id="formNo">
                 </div>
-                 <div class="ub ub-ac uselectw umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">计价方式:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
-							<option value="" selected="selected">全部</option> 	
-							<option value="0">普通</option> 
-							<option value="1">计重</option> 
-							<option value="2">计件</option> 
-				        </select>
+
+                <div class="ub ub-ac uselectw">
+                <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
+                <input name="formTypes" id="formTypes" type="hidden">
+                <select  name="fType" id="fType" class="easyui-combotree"></select>
                 </div>
+
             </div>
 	      <div class="ub umar-t8">
-                  <div class="ub ub-ac uselectw">
-                    <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
-                    <input name="formTypes" id="formTypes" type="hidden">
-                    <select  name="fType" id="fType" class="easyui-combotree"></select>
+
+                <div class="ub ub-ac ">
+                <div class="umar-r10 uw-80 ut-r">货号/条码:</div>
+                <input class="uinp ub ub-f1" type="text" name="skuBarCode" id="skuBarCode">
                 </div>
-                <div class="ub ub-ac umar-l20" id="supplierSelect">
-                    <div class="umar-r10 uw-70 ut-r">供应商:</div>
+
+                <div class="ub ub-ac">
+                <div class="umar-r10 uw-80 ut-r">商品名称:</div>
+                <input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
+                </div>
+
+            </div>
+
+	      <div class="ub umar-t8">
+
+                <div class="ub ub-ac uselectw">
+                <div class="umar-r10 uw-80 ut-r">计价方式:</div>
+                <!--select-->
+                <select class="easyui-combobox uselect" name="pricingType" id="pricingType" data-options="editable:false">
+                <option value="" selected="selected">全部</option>
+                <option value="0">普通</option>
+                <option value="1">计重</option>
+                <option value="2">计件</option>
+                </select>
+                </div>
+
+                <div class="ub ub-ac" id="supplierSelect">
+                    <div class="umar-r10 uw-80 ut-r">供应商:</div>
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden">
 					<%--<input class="uinp" name="supplierCode" id="supplierCode" type="hidden">--%>
                     <input class="uinp easyui-validatebox" name="supplierName" id="supplierName" type="text" maxlength="50">

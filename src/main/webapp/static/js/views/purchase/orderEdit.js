@@ -4,12 +4,21 @@
 var isEdit = true;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
+var oldData = {};
 
 $(function(){
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
     if('undefined' != typeof(allowUpdatePrice)){
     	isEdit = false;
+    }
+
+    oldData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),                  // 备注
     }
     
     initDatagridEditOrder();
@@ -323,10 +332,17 @@ function initDatagridEditOrder(){
         	}
         	return data;
         },
+        onBeforLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
         onLoadSuccess:function(data){
             if((data.rows).length <= 0)return;
+            if(!oldData["grid"]){
+                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                    return $.extend(true,{},obj);//返回对象的深拷贝
+                });
+            }
             gFunEndLoading();
-            gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
@@ -673,7 +689,7 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-        
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         //箱数判断  bug 19886
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
@@ -687,7 +703,7 @@ function saveItemHandel(){
             isCheckResult = false;
             isChcekNum = true;
             return false;
-        }
+        }*/
 
         var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
         var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
@@ -847,6 +863,22 @@ function saveDataHandel(rows){
 }
 function check(){
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+   var  newData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),
+       grid: $.map(gridHandel.getRows(), function(obj){
+           return $.extend(true,{},obj);//返回对象的深拷贝
+       })
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        $_jxc.alert("数据有修改，请先保存再审核");
+        return;
+    }
+
     var rows = gridHandel.getRows();
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -869,11 +901,12 @@ function check(){
     if(!isCheckResult){
         return
     }
+
     if(num==rows.length){
     	 $_jxc.alert("采购商品数量全部为0");
 		return
 	}else if(parseFloat(num)>0){
-		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核?",function(data){
     		if(data){
     		    checkOrder();
     		}	

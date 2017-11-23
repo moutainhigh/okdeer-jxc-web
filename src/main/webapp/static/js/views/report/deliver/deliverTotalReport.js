@@ -7,7 +7,7 @@ $(function() {
 	changeType();
 
 	// 初始化列表
-	initCashDailyallGrid('data');
+    initCashDailyGrid('goods');
 	var s = $("#txtStartDate").val();
 	if(!$("#txtStartDate").val()){
 		// 开始和结束时间
@@ -46,26 +46,21 @@ $(function() {
     setReadOnly("goods");
 
 });
-var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
 		var type_val = $(this).val();
         setReadOnly(type_val);
 		$("#cashDaily").datagrid("options").url = "";
+        initCashDailyGrid(type_val);
 		if (type_val=="goods") {
 			// 初始化列表按收银员汇总
-            initCashDailyallGrid('goods');
 			showCashier();
 		} else if (type_val=="form") {
-			initCashDailymdGrid('form');
 			hideCashier();
 		} else if (type_val=="category") {
 			// 初始化列表按日期汇总
-			initCashDailydateGrid('category');
 			hideCashier();
 		}else if(type_val=="branch"){
-			initbranchGrid();
 		}
 		$("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
     	$('#cashDaily').datagrid({showFooter:false});
@@ -169,342 +164,281 @@ function hideCashier(){
 
 var gridHandel = new GridClass();
 var gridName = "cashDaily";
-//按商品汇总
-function initCashDailyallGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
-		//title:'普通表单-用键盘操作',
-		method: 'post',
-		align: 'center',
-		//url: "",
-		//toolbar: '#tb',     //工具栏 id为tb
-		singleSelect: false,  //单选  false多选
-		rownumbers: true,    //序号
-		pagination: true,    //分页
-		//fitColumns:true,    //占满
-		showFooter:true,
-		pageSize : 50,
-		showFooter:true,
-		height:'100%',
-		columns: [[
-		           {field: 'skuCode', title: '货号', width:'55px', align: 'left',
-		        	   formatter : function(value, row,index) {
-		                    var str = value;
-		                    if(row.isFooter){
-		                        str ='<div class="ub ub-pc ufw-b">合计</div> '
-		                    }
-		                    return str;
-		                }
-		           },
-		           {field: 'skuName', title: '商品名称', width:'185px', align: 'left'},
-		           {field: 'barCode', title: '条码', width:'100px', align: 'left'},
-		           {field: 'receiveLargeNum', title: '调入箱数', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealLargeNum', title: '调出箱数', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
 
-		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }   
-		           },
-		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }   
-		           },
-		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
-		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
-		           {field: 'spec', title: '规格', width:'45px', align: 'left'},
-		           {field: 'unit', title: '单位', width:'45px', align: 'left'}
-		           ]],
-		           onLoadSuccess:function(data){
-		        	   gridHandel.setDatagridHeader("center");
-		           }
-	});
+function initCashDailyGrid(type) {
+    gridHandel.setGridName("cashDaily");
+    $("#cashDaily").datagrid({
+        //title:'普通表单-用键盘操作',
+        method: 'post',
+        align: 'center',
+        //url: "",
+        //toolbar: '#tb',     //工具栏 id为tb
+        singleSelect: false,  //单选  false多选
+        rownumbers: true,    //序号
+        pagination: true,    //分页
+        //fitColumns:true,    //占满
+        showFooter:true,
+        pageSize : 50,
+        height:'100%',
+        width:'100%',
+        columns:getColumnsfield(type),
+        onBeforeLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        }
+	})
     if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
+        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount","amount"])
     }
 }
 
-//按单汇总
-function initCashDailymdGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
-		//title:'普通表单-用键盘操作',
-		method: 'post',
-		align: 'center',
-		//toolbar: '#tb',     //工具栏 id为tb
-		singleSelect: false,  //单选  false多选
-		rownumbers: true,    //序号
-		pagination: true,    //分页
-		//fitColumns:true,    //占满
-		showFooter:true,
-		pageSize : 50,
-		columns: [[
-		           {field: 'formNo', title: '单据编号', width:'130px', align: 'left',
-		        	   formatter:function(value,row,index){
-		            			if(row.formId){
-		            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
-		            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-		            			}else{
-		            				return '<div class="ub  ufw-b">合计</div>'; 
-		            			}
-		                }   
-		           },
-		           {field: 'sourceBranchCode', title: '发货机构编码', width:'80px', align: 'left'},
-		           {field: 'sourceBranchName', title: '发货机构', width:'86px', align: 'left'},
-		           {field: 'targetBranchCode', title: '要货机构编码', width:'80px', align: 'left'},
-		           {field: 'targetBranchName', title: '要货机构', width:'80px', align: 'left'},
-		           {field: 'referenceNo', title: '引用单号', width:'135px', align: 'left',
-		        	   formatter:function(value,row,index){
-		        		   if(row.formId){
-	            				var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
-	            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-	            			}else{
-	            				return ''; 
-	            			}
-		                }    
-		           },
-		           {field: 'statusName', title: '单据状态', width:'60px', align: 'center' },
-		           {field: 'status', title: '状态', width:120, align: 'right',hidden:true},
-		           
-		           {field: 'num', title: '数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'amount', title: '金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'validTime', title: '审核日期', width:'115px', align: 'left',
-		        	   formatter : function(value, rowData, rowIndex) {
-		        		   return formatDate(value,'yyyy-MM-dd');
-		        	   }   
-		           },
-		           {field: 'remark', title: '备注', width:'100px', align: 'left'}
-		           ]],
-		           onLoadSuccess:function(data){
-		        	   gridHandel.setDatagridHeader("center");
-		           }
-	});
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["amount"])
+function getColumnsfield(type_val) {
+    if (type_val=="goods") {//按商品汇总
+        return [[
+
+            {field: 'skuCode', title: '货号', width:'55px', align: 'left',
+                formatter : function(value, row,index) {
+                    var str = value;
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc ufw-b">合计</div> '
+                    }
+                    return str;
+                }
+            },
+            {field: 'skuName', title: '商品名称', width:'185px', align: 'left'},
+            {field: 'barCode', title: '条码', width:'100px', align: 'left'},
+            {field: 'receiveLargeNum', title: '调入箱数', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealLargeNum', title: '调出箱数', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+
+            {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
+            {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
+            {field: 'spec', title: '规格', width:'45px', align: 'left'},
+            {field: 'unit', title: '单位', width:'45px', align: 'left'}
+        ]]
+    } else if (type_val=="form") {
+        return [[
+            {field: 'formNo', title: '单据编号', width:'130px', align: 'left',
+                formatter:function(value,row,index){
+                    if(row.formId){
+                        var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
+                        return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+                    }else{
+                        return '<div class="ub  ufw-b">合计</div>';
+                    }
+                }
+            },
+            {field: 'sourceBranchCode', title: '发货机构编码', width:'80px', align: 'left'},
+            {field: 'sourceBranchName', title: '发货机构', width:'86px', align: 'left'},
+            {field: 'targetBranchCode', title: '要货机构编码', width:'80px', align: 'left'},
+            {field: 'targetBranchName', title: '要货机构', width:'80px', align: 'left'},
+            {field: 'referenceNo', title: '引用单号', width:'135px', align: 'left',
+                formatter:function(value,row,index){
+                    if(row.formId){
+                        var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.referenceId+'")';
+                        return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+                    }else{
+                        return '';
+                    }
+                }
+            },
+            {field: 'statusName', title: '单据状态', width:'60px', align: 'center' },
+            {field: 'status', title: '状态', width:120, align: 'right',hidden:true},
+
+            {field: 'num', title: '数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'amount', title: '金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'validTime', title: '审核日期', width:'115px', align: 'left',
+                formatter : function(value, rowData, rowIndex) {
+                    return formatDate(value,'yyyy-MM-dd');
+                }
+            },
+            {field: 'remark', title: '备注', width:'100px', align: 'left'}
+        ]]
+    } else if (type_val=="category") {
+        // 初始化列表按日期汇总
+        return [[
+            {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
+            {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
+            {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+
+            {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            }
+        ]]
+    }else if(type_val=="branch"){
+        return [[
+            {field: 'branchCode', title: '往来机构编码', width:'80px', align: 'left'},
+            {field: 'branchName', title: '往来机构名称', width:'220px', align: 'left'},
+            {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+
+            {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            }
+        ]]
     }
 }
-//类别汇总
-function initCashDailydateGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
-		//title:'普通表单-用键盘操作',
-		method: 'post',
-		align: 'center',
-		//toolbar: '#tb',     //工具栏 id为tb
-		singleSelect: false,  //单选  false多选
-		rownumbers: true,    //序号
-		pagination: true,    //分页
-		//fitColumns:true,    //占满
-		showFooter:true,
-		pageSize : 50,
-		columns: [[
-		           {field: 'categoryCode', title: '类别编号', width:'56px', align: 'left'},
-		           {field: 'categoryName', title: '类别', width:'65px', align: 'left'},
-		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-
-		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           }
-		           ]],
-		           onLoadSuccess:function(data){
-		        	   gridHandel.setDatagridHeader("center");
-		           }
-	});
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
-    }
-}
-
-
-//往来汇总
-function initbranchGrid(queryType) {
-	gridHandel.setGridName("cashDaily");
-	dg = $("#cashDaily").datagrid({
-		//title:'普通表单-用键盘操作',
-		method: 'post',
-		align: 'center',
-		//toolbar: '#tb',     //工具栏 id为tb
-		singleSelect: false,  //单选  false多选
-		rownumbers: true,    //序号
-		pagination: true,    //分页
-		//fitColumns:true,    //占满
-		showFooter:true,
-		pageSize : 50,
-		columns: [[
-		           {field: 'branchCode', title: '往来机构编码', width:'80px', align: 'left'},
-		           {field: 'branchName', title: '往来机构名称', width:'220px', align: 'left'},
-		           {field: 'receiveNum', title: '调入数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'receiveAmount', title: '调入金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealNum', title: '调出数量', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'dealAmount', title: '调出金额', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-
-		           {field: 'sumNum', title: '数量小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           },
-		           {field: 'sumAmount', title: '金额小计', width:'80px', align: 'right',
-		        	   formatter:function(value,row,index){
-		        		   if(row.isFooter){
-		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        		   }
-		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-		        	   }
-		           }
-		           ]],
-		           onLoadSuccess:function(data){
-		        	   gridHandel.setDatagridHeader("center");
-		           }
-	});
-    if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["receiveAmount","dealAmount","sumAmount"])
-    }
-}
-
-
-
 
 /**
  * 收银员下拉选
@@ -542,47 +476,25 @@ var dg;
  * 导出
  */
 function exportData(){
-	var length = $('#cashDaily').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$_jxc.alert(data.message);
-			}
-		}
-	});
-}
-//调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-	
-	var formData = $("#queryForm").serializeObject();
-	// 去除编码
+    var formData = $("#queryForm").serializeObject();
+    // 去除编码
     formData.targetBranchName = "";
     formData.sourceBranchName = "";
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1);
     $('#categoryCode').val(formData.categoryCode);
 
-	$("#queryForm").attr("action",contextPath+'/report/deliverTotalReport/exportDeliverExcel')
-	$("#queryForm").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url: contextPath + "/report/deliverTotalReport/exportDeliverExcel"
+    }
+    publicExprotService(param);
+
 }
+
 
 //查询
 function query(){
-    $("#startCount").val('');
-    $("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	
 	var queryType = $("input[name='queryType']:checked").val();
@@ -637,11 +549,6 @@ function selectBranches(){
 
 //打印
 function printReport(){
-	/*  var dg = $("#cashDaily");
-     var row = dg.datagrid("getSelected");
-     if(rowIsNull(row)){
-           return null;
-     }*/
 	var queryType = $("input[name='queryType']").val();
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();

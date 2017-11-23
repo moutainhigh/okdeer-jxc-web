@@ -44,7 +44,7 @@ import com.okdeer.retail.common.report.DataRecord;
  */
  
 @Controller
-@RequestMapping("report/goodsTotalAnalysi")
+@RequestMapping("report/goodsTotalAnalysi1")
 public class GoodsTotalAnalsiController extends ReportController {
 	
 	/**

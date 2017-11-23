@@ -24,16 +24,16 @@ function initDatagridRequire(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchName',title:'机构名称',width:'220px',align:'left',
-            	formatter : function(value, row,index) {
+            {
+                field: 'skuCode', title: '货号', width: '70px', align: 'left',
+                formatter: function (value, row, index) {
                     var str = value;
-                    if(!value){
-	                    return '<div class="ub ub-pc ufw-b">合计</div> '
-	                }
+                    if (!value) {
+                        return '<div class="ub ub-pc ufw-b">合计</div> '
+                    }
                     return str;
                 }
             },
-            {field:'skuCode',title: '货号', width: '70px', align: 'left'},
 			{field:'skuName', title: '商品名称', width: '200px', align: 'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
 			{field:'spec',title:'规格',width:'90px',align:'left'},
@@ -111,13 +111,13 @@ function initDatagridRequire(){
     		  maxRate= obj.totalRate.substring(0, obj.totalRate.length-2)/100;
     		  console.log(maxRate);
     	  }
-		gridHandel.setDatagridHeader("center");
+
 			
 	 },onBeforeLoad:function(params){
 		 if(maxRate ||maxRate == 0){
 			 params = $.extend(params,{maxRate:maxRate});
 		 }
-		 console.log(params);
+            gridHandel.setDatagridHeader("center");
 	 }
     });
 

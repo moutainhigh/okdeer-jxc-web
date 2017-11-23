@@ -434,7 +434,7 @@ function saveStocktakingForm(opType){
 		$_jxc.alert("请选择盘点批次");
 		return;
 	}
-    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){

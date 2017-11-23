@@ -613,6 +613,7 @@ function saveItemHandel(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -620,7 +621,7 @@ function saveItemHandel(){
             isCheckResult = false;
             return false;
         };
-
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         //箱数判断  bug 19886
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
@@ -632,7 +633,7 @@ function saveItemHandel(){
         	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
             isCheckResult = false;
             return false;
-        }
+        }*/
 
         var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
         var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
@@ -654,7 +655,10 @@ function saveItemHandel(){
                 isChcekPrice = true;
             }
         }
-
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
+        }
     });
     if(isCheckResult){
         if(isChcekPrice){
@@ -666,7 +670,15 @@ function saveItemHandel(){
                 }
             });
         }else{
-            saveDataHandel(rows);
+        	if(isChcekNum){
+        		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
+        			if(data){
+        				saveDataHandel(rows);
+        		    }
+        		 });
+          }else{
+        	  saveDataHandel(rows);
+          }
         }
     }
 
@@ -749,6 +761,7 @@ function check(){
         return;
     }
     var isCheckResult = true;
+    var num=0;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuCode"]){
@@ -756,38 +769,56 @@ function check(){
             isCheckResult = false;
             return false;
         };
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         if(parseFloat(v["realNum"])<=0){
             $_jxc.alert("第"+(i+1)+"行，存在商品数量为0");
             isCheckResult = false;
             return false;
+        }*/
+        
+        if(parseFloat(v["realNum"])<=0){
+        	num++;
         }
     });
     if(!isCheckResult){
         return
     }
 
-	var id = $("#formId").val();
-	$_jxc.confirm('是否审核通过？',function(data){
-		if(data){
-//		    gFunStartLoading();
-			$_jxc.ajax({
-		    	url:contextPath+"/form/purchase/check",
-		    	data:{
-		    		formId:id,
-		    		status:1
-		    	}
-		    },function(result){
-//	    		gFunEndLoading();
-	    		if(result['code'] == 0){
-	    			$_jxc.alert("操作成功！",function(){
-	    				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
-	    			});
-	    		}else{
-	    			$_jxc.alert(result['message']);
-	    		}
-		    });
-		}
-	});
+    if(num==rows.length){
+   	 	$_jxc.alert("采购商品数量全部为0");
+		return
+	}else if(parseFloat(num)>0){
+		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核?",function(data){
+    		if(data){
+    		    checkOrder();
+    		}	
+    	});
+	}else{
+		 $_jxc.confirm('是否审核通过？',function(data){
+			 if(data){
+				 checkOrder();
+			 }
+		 });
+	}
+}
+//审核采购单
+function checkOrder() {
+	var id = $("#formId").val(); 
+	$_jxc.ajax({
+    	url:contextPath+"/form/purchase/check",
+    	data:{
+    		formId:id,
+    		status:1
+    	}
+    },function(result){
+		if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/form/purchase/receiptEdit?formId=" + id;
+			});
+		}else{
+			$_jxc.alert(result['message']);
+		} 
+    });
 }
 
 function orderDelete(){

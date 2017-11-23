@@ -89,12 +89,11 @@ var sessionSupplierDiliveCycle = '${sessionSupplier.diliveCycle}';
 var exportMaxRow = 20000; //导出最大记录数
 </script>
 <script src="${ctx}/static/js/fun/priceGrant.js"></script>
-<!-- 导入 -->
-<%-- <script  src="${ctx}/static/js/views/retail/importdetails.js"></script> --%>
+
 <!--excel common 导入 -->
 <script src="${ctx}/static/libs/xlsx/excel.js"></script>
 <script  src="${ctx}/static/libs/xlsx/upfile.js"></script>
-<script src="${ctx}/static/js/views/retail/priceprint.js"></script>
+<%--<script src="${ctx}/static/js/views/retail/priceprint.js"></script>--%>
 
 
 

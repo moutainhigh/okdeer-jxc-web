@@ -1,7 +1,6 @@
 package com.okdeer.jxc.controller.report.sales;
 
 import com.alibaba.dubbo.rpc.RpcContext;
-import com.google.common.collect.Lists;
 import com.okdeer.jxc.common.enums.BusinessTypeEnum;
 import com.okdeer.jxc.common.enums.OrderResourceEnum;
 import com.okdeer.jxc.common.report.ReportService;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,20 +99,33 @@ public class GoodSaleDetailController extends ReportController {
 												@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
 												@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) throws ExecutionException, InterruptedException {
 		Map<String, Object> param = getParam(request);
-		goodSaleDetailServiceApi.getListPage(param, page, rows);
-		Future<PageUtils<DataRecord>> listFuture = RpcContext.getContext().getFuture();
-		goodSaleDetailServiceApi.getTotal(param);
-		Future<DataRecord> footerDataFuture = RpcContext.getContext().getFuture();
-		PageUtils<DataRecord> list = listFuture.get();
-		DataRecord footerData = footerDataFuture.get();
-		if (footerData == null) {
-			footerData = new DataRecord();
-		}
-		List<DataRecord> footer = Lists.newArrayList();
-		footer.add(footerData);
-		list.setFooter(footer);
+        //goodSaleDetailServiceApi.getListPage(param, page, rows);
+        //Future<PageUtils<DataRecord>> listFuture = RpcContext.getContext().getFuture();
+        ///goodSaleDetailServiceApi.getTotal(param);
+        //Future<DataRecord> footerDataFuture = RpcContext.getContext().getFuture();
 
-		for (DataRecord dataRecord : list.getList()) {
+        //1、查询列表
+        goodSaleDetailServiceApi.getListNew(param);
+        Future<List<DataRecord>> listFuture = RpcContext.getContext().getFuture();
+
+        // 2、统计个数
+        goodSaleDetailServiceApi.countGoodSaleDetail(param);
+        Future<Long> countFuture = RpcContext.getContext().getFuture();
+
+        // 3、查询合计
+        goodSaleDetailServiceApi.sumList(param);
+        Future<DataRecord> sumFuture = RpcContext.getContext().getFuture();
+
+        DataRecord vo = sumFuture.get();
+
+        List<DataRecord> footer = new ArrayList<>();
+        footer.add(vo);
+
+        List<DataRecord> vos = listFuture.get();
+        PageUtils<DataRecord> list = new PageUtils<>(vos, footer, countFuture.get());
+        list.setPageNum(page);
+        list.setPageSize(rows);
+        for (DataRecord dataRecord : list.getList()) {
 			formatter(dataRecord);
 		}
 		cleanDataMaps(getPriceAccess(), list.getList());

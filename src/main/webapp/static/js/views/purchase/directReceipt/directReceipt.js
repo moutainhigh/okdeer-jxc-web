@@ -708,7 +708,7 @@ function addDirect(){
 //新增保存
 function saveDirectForm(){
 
-    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -836,7 +836,7 @@ function saveDataHandel(rows, url){
 
 //查看 保存修改
 function updateDirectForm() {
-    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
@@ -937,7 +937,7 @@ function checkDirectForm(){
    	 	$_jxc.alert("采购商品数量全部为0");
 		return;
 	}else if(parseFloat(num)>0){
-		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核?",function(data){
 	 		if(data){
 	 		    checkOrder();
 	 		}	
@@ -947,7 +947,6 @@ function checkDirectForm(){
 			 if(data){
 				 checkOrder();
 			 }
-		    
 		 });
 	}
 }

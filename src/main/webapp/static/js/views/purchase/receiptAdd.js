@@ -632,6 +632,7 @@ function saveItemHandel(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
+    var isChcekNum = false;
     $.each(rows,function(i,v){
         v["rowNo"] = i+1;
         if(!v["skuName"]){
@@ -644,7 +645,7 @@ function saveItemHandel(){
                 isChcekPrice = true;
             }
         }
-        
+        /** BUG 22017 购模块的单据标准化，保存的时候 允许保存数量为0的商品  ，审核的时候会踢出数量为0的记录。
         //箱数判断  bug 19886
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
@@ -656,7 +657,7 @@ function saveItemHandel(){
         	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
             isCheckResult = false;
             return false;
-        }
+        }**/
 
         var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
         var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
@@ -671,6 +672,10 @@ function saveItemHandel(){
             $_jxc.alert("第"+(i+1)+"行，备注不能大于20个字符");
             isCheckResult = false;
             return false;
+        }
+        //数量判断
+        if(parseFloat(v["realNum"])<=0){
+        	isChcekNum = true;
         }
     });
 
@@ -689,7 +694,15 @@ function saveItemHandel(){
                 }
             });
         }else{
-            saveDataHandel(rows);
+        	if(isChcekNum){
+         		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
+         			if(data){
+         				saveDataHandel(rows);
+         		    }
+         		 });
+           }else{
+        	   saveDataHandel(rows);
+           }
         }
     }
 

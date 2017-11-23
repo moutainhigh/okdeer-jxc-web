@@ -125,22 +125,22 @@ function initDatagridViewRequireOrder(){
                     return  '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 }
             },
-			{field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
-				formatter : function(value, row, index) {
-					if(row.isFooter){
-						return ;
-					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-				editor:{
-					type:'numberbox',
-					options:{
-						disabled:true,
-						min:0,
-						precision:2,
-					}
-				}
-			},
+			// {field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
+			// 	formatter : function(value, row, index) {
+			// 		if(row.isFooter){
+			// 			return ;
+			// 		}
+			// 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			// 	},
+			// 	editor:{
+			// 		type:'numberbox',
+			// 		options:{
+			// 			disabled:true,
+			// 			min:0,
+			// 			precision:2,
+			// 		}
+			// 	}
+			// },
 			/*{field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){

@@ -49,70 +49,80 @@ public interface ImportExcelConstant {
 	 * @Fields IMPORTMAXERRO : 导入数据不能超过10000
 	 */
 	String IMPORTMAXERRO = "导入数据不能超过10000";
+	
+	/*************************************** 配送要货单 货号导入 start  ***************************************/
 
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段、箱数
-	 */
+	/*** 要货申请单货号导入字段、箱数  */
 	String[] DELIVER_GOODS_SKUCODE_LARGE_NUM = { "skuCode", "largeNum" };
 
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段、箱数
-	 */
+	/*** 要货申请单货号导入字段、箱数 */
 	String[] DELIVER_GOODS_SKUCODE_HEADERS_LARGE_NUM = { "货号", "箱数" };
-
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段、箱数
-	 */
-	String[] DELIVER_GOODS_BARCODE_LARGE_NUM = { "barCode", "largeNum" };
-
-	/**
-	 * @Fields DELIVER_GOODS_BARCODE_HEADERS : 要货申请单货号导入字段、箱数
-	 */
-	String[] DELIVER_GOODS_BARCODE_HEADERS_NUM = { "条码", "箱数" };
-
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单货号导入字段、数量
-	 */
+	
+	/*** 要货申请单货号导入字段、数量 */
 	String[] DELIVER_GOODS_SKUCODE_NUM = { "skuCode", "num" };
 
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS : 要货申请单货号导入字段、数量
-	 */
+	/*** 要货申请单货号导入字段、数量 */
 	String[] DELIVER_GOODS_SKUCODE_HEADERS_NUM = { "货号", "数量" };
+	
+	/*************************************** 配送要货单 货号导入 end  *****************************************/
+	
+	
+	
+	
+	/*************************************** 配送要货单 条码导入 start  ***************************************/
+	
+	/*** 要货申请单条码导入字段、箱数 */
+	String[] DELIVER_GOODS_BARCODE_LARGE_NUM = { "barCode", "largeNum" };
 
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE : 要货申请单条码导入字段、数量
-	 */
+	/*** 要货申请单货号导入字段、箱数 */
+	String[] DELIVER_GOODS_BARCODE_HEADERS_NUM = { "条码", "箱数" };
+
+	/*** 要货申请单条码导入字段、数量 */
 	String[] DELIVER_GOODS_BARCODE_NUM = { "barCode", "num" };
 
-	/**
-	 * @Fields DELIVER_GOODS_BARCODE_HEADERS : 要货申请单货号导入字段
-	 */
+	/*** 要货申请单货号导入字段、数量 */
 	String[] DELIVER_GOODS_BARCODE_HEADERS_LARGE_NUM = { "条码", "数量" };
+	
+	/*************************************** 配送要货单 货号导入 end  *****************************************/
+	
+	
+	
+	
+	
+	/*************************************** 配送出库单 货号导入 start  ***************************************/
+	
+	/*** 配送出库单货号导入字段——箱数  */
+	String[] DO_GOODS_SKUCODE_COLUMNS_LARGENUM = { "skuCode", "largeNum", "distributionPrice", "amount", "isGift" };
 
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE_REPORT : 配送出库单货号导入字段
-	 */
-	String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "largeNum", "distributionPrice", "amount", "isGift" };
+	/*** 配送出库单货号导入字段——箱数 */
+	String[] DO_GOODS_SKUCODE_HEADERS_LARGENUM = { "货号", "箱数", "单价", "金额", "是否赠品" };
+	
+	/*** 配送出库单货号导入字段——数量  */
+	String[] DO_GOODS_SKUCODE_COLUMNS_NUM = { "skuCode", "num", "distributionPrice", "amount", "isGift" };
+	
+	/*** 配送出库单货号导入字段——数量 */
+	String[] DO_GOODS_SKUCODE_HEADERS_NUM = { "货号", "数量", "单价", "金额", "是否赠品" };
+	
+	/*************************************** 配送出库单 货号导入 end  *****************************************/
+	
+	
+	
+	/*************************************** 配送出库单 条码导入 start  ***************************************/
 
-	// String[] DELIVER_GOODS_SKUCODE_REPORT = { "skuCode", "largeNum"};
-	/**
-	 * @Fields DELIVER_GOODS_SKUCODE_HEADERS_REPORT : 配送出库单货号导入字段
-	 */
-	String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "箱数", "单价", "金额", "是否赠品" };
+	/*** 配送出库单条码导入字段——箱数 */
+	String[] DO_GOODS_BARCODE_COLUMNS_LARGENUM = { "barCode", "largeNum", "distributionPrice", "amount", "isGift" };
 
-	// String[] DELIVER_GOODS_SKUCODE_HEADERS_REPORT = { "货号", "箱数"};
-	/**
-	 * @Fields DELIVER_GOODS_BARCODE_REPORT : 配送出库单条码导入字段
-	 */
-	String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "largeNum", "distributionPrice", "amount", "isGift" };
-
-	// String[] DELIVER_GOODS_BARCODE_REPORT = { "barCode", "largeNum" };
-	/**
-	 * @Fields DELIVER_GOODS_BARCODE_HEADERS_REPORT : 配送出库单货号导入字段
-	 */
-	String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "箱数", "单价", "金额", "是否赠品" };
-	// String[] DELIVER_GOODS_BARCODE_HEADERS_REPORT = { "条码", "箱数"};
+	/*** 配送出库单货号导入字段——箱数 */
+	String[] DO_GOODS_BARCODE_HEADERS_LARGENUM = { "条码", "箱数", "单价", "金额", "是否赠品" };
+	
+	/*** 配送出库单条码导入字段——数量 */
+	String[] DO_GOODS_BARCODE_COLUMNS_NUM = { "barCode", "num", "distributionPrice", "amount", "isGift" };
+	
+	/*** 配送出库单货号导入字段 ——数量*/
+	String[] DO_GOODS_BARCODE_HEADERS_NUM = { "条码", "数量", "单价", "金额", "是否赠品" };
+	
+	/*************************************** 配送出库单 条码导入 end  *****************************************/
+	
 	
 	
 	/*** 门店费用导入字段    */

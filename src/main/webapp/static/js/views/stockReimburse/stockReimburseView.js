@@ -46,7 +46,7 @@ function getFiledsList(){
 		                        return
 		                    }
 		                    if(!value){
-		                    	row["price"] = 0.00;
+		                    	row["price"] = 0.0000;
 		                    }
 		                    
 		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -56,7 +56,7 @@ function getFiledsList(){
 		                    options:{
 		                    	disabled:true,
 		                        min:0,
-		                        precision:2
+		                        precision:4
 		                    }
 		                },
 		            },
@@ -149,7 +149,7 @@ function getFiledsList(){
 		                    options:{
 		                    	disabled:true,
 		                        min:0,
-		                        precision:2
+		                        precision:4
 		                    }
 		                },
 		            },

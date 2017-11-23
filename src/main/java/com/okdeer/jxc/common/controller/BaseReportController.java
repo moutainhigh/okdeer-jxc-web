@@ -1,7 +1,6 @@
 
 package com.okdeer.jxc.common.controller;
 
-import com.google.common.collect.Lists;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
@@ -11,6 +10,7 @@ import com.okdeer.retail.common.util.GridExportPrintUtils;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -194,17 +194,17 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			// 余数，按2K拆分后，剩余的数据
 			int modIndex = endCount % LIMIT_REQ_COUNT;
 
-			List<CompletableFuture<List<V>>> futureList = Lists.newArrayList();
-
 			// 每2K条数据一次查询
 			for(int i = 0; i < resIndex; i++){
 				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
 				qo.setStartCount(newStart);
 				qo.setEndCount(LIMIT_REQ_COUNT);
-				//List<V> tempList = getReportFade().queryList(qo);
-				//exportList.addAll(tempList);
-				CompletableFuture<List<V>> future = CompletableFuture.supplyAsync(() -> getReportFade().queryList(qo), excutor);
-				futureList.add(future);
+				List<V> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
+				// 如果实际只有100条数据，页面导出输入1-20000，查询到结果集不足每页最大时，不再执行后面的查询
+				if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
+				    break;
+				}
 			}
 			
 			// 存在余数时，查询剩余的数据
@@ -213,20 +213,9 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 				int newEnd = modIndex;
 				qo.setStartCount(newStart);
 				qo.setEndCount(newEnd);
-				//List<V> tempList = getReportFade().queryList(qo);
-				//exportList.addAll(tempList);
-				CompletableFuture<List<V>> future = CompletableFuture.supplyAsync(() -> getReportFade().queryList(qo), excutor);
-				futureList.add(future);
+				List<V> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
 			}
-
-
-			futureList.stream().forEach((future) -> {
-				try {
-					exportList.addAll(future.get());
-				} catch (Exception e) {
-					LOG.error("遍历获取异步数据异常", e);
-				}
-			});
 
 			exportList.add(totalFuture.get());
 			// 无权限访问的字段

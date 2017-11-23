@@ -210,23 +210,23 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		return "form/deliver/rebate";
 	}
 
-//	/**
-//	 * @Description: 有效天数设置页面
-//	 * @return   
-//	 * @return String  
-//	 * @throws
-//	 * @author zhangchm
-//	 * @date 2016年9月6日
-//	 */
-//	@RequestMapping(value = "validityDays")
-//	public String validityDays(Model model) {
-//		// 在页面显示有效天数
-//		int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
-//		model.addAttribute("validityDay", validityDay);
-//		BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
-//		model.addAttribute("branchSpec", branchSpec);
-//		return "form/deliver/validityDays";
-//	}
+	// /**
+	// * @Description: 有效天数设置页面
+	// * @return
+	// * @return String
+	// * @throws
+	// * @author zhangchm
+	// * @date 2016年9月6日
+	// */
+	// @RequestMapping(value = "validityDays")
+	// public String validityDays(Model model) {
+	// // 在页面显示有效天数
+	// int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
+	// model.addAttribute("validityDay", validityDay);
+	// BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
+	// model.addAttribute("branchSpec", branchSpec);
+	// return "form/deliver/validityDays";
+	// }
 
 	/**
 	 * @Description: 新增页面
@@ -520,11 +520,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
-
+				BigDecimal itemNum;
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getApplyNum();
+                } else {
+                    itemNum = deliverFormListVo.getDealNum();
+                }
 				// 单价备份默认用单价
-				if (deliverFormListVo.getPriceBack() == null) {
+				if (deliverFormListVo.checkPirceBack()) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+				deliverFormListVo.setZeroAmount(itemNum);
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
@@ -618,10 +626,20 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
 				
+                BigDecimal itemNum;
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getApplyNum();
+                } else {
+                    itemNum = deliverFormListVo.getDealNum();
+                }
 				// 单价备份默认用单价
-				if (deliverFormListVo.getPriceBack() == null) {
+				if (deliverFormListVo.checkPirceBack()) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+				
+                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+				deliverFormListVo.setZeroAmount(itemNum);
 			}
 
 			respJson = deliverFormServiceApi.updateForm(vo);
@@ -1154,8 +1172,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 					}, map);
 			respJson.put("importInfo", vo);
-        } catch (BusinessException e) {
-            respJson = RespJson.error(e.getMessage());
+		} catch (BusinessException e) {
+			respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);
@@ -1193,7 +1211,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
 			// 货号
 			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE_NUM;
-			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS_NUM;
+			headers = ImportExcelConstant.DO_GOODS_SKUCODE_HEADERS_NUM;
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {
 			// 条码
 			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE_NUM;
@@ -1338,39 +1356,161 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			SysUser user = UserUtil.getCurrentUser();
 			// 文件流
 			InputStream is = file.getInputStream();
+			InputStream tempIs = file.getInputStream();
+
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
-			String[] fields = null;
-			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				fields = ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
-			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				fields = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
-			}
 
+			// 获取标题
+			List<String> firstColumn = ExcelReaderUtil.readXlsxTitle(tempIs);
+
+			String[] fields = null;
+
+			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
+				if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+					fields = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_LARGENUM;
+				} else {
+					fields = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_NUM;
+					type = GoodsSelectImportHandle.TYPE_SKU_CODE_NUM;
+				}
+
+			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
+				if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+					fields = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_LARGENUM;
+				} else {
+					fields = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_NUM;
+					type = GoodsSelectImportHandle.TYPE_BAR_CODE_NUM;
+				}
+			}
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("targetBranchId", targetBranchId);
 			map.put("sourceBranchId", sourceBranchId);
 			map.put("formType", formType);
-
+			final String finalType = type;
 			GoodsSelectImportVo<GoodsSelectDeliver> vo = goodsSelectImportComponent.importSelectGoods(fileName, is,
 					fields, new GoodsSelectDeliver(), sourceBranchId, user.getId(), type,
 					"/form/deliverForm/downloadError", new GoodsSelectImportBusinessValid() {
 
 						@Override
-						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
-								List<JSONObject> excelListErrorData) {
+						public void formatter(List<? extends GoodsSelect> successData,
+								List<JSONObject> excelListSuccessData, List<JSONObject> excelListErrorData) {
+							if (firstColumn.indexOf(GoodsSelectImportHandle.LARGE_NUM) == 1) {
+								for (GoodsSelect objGoods : successData) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) objGoods;
+									if (!StringUtils.isEmpty(obj.getLargeNum()) && obj.getDistributionSpec() != null) {
+										obj.setNum(new BigDecimal(obj.getLargeNum())
+												.multiply(obj.getDistributionSpec()).toEngineeringString());
+									}
+								}
+							} else {
+								Map<String, String> map = new HashMap<String, String>();
+								List<GoodsSelectDeliver> lists = new ArrayList<GoodsSelectDeliver>();
+								for (int i = 0; i < successData.size(); i++) {
+									GoodsSelectDeliver obj = (GoodsSelectDeliver) successData.get(i);
+									if (checkNumAndDistributionSpec(obj, excelListErrorData, finalType, map)) {
+										// 设置箱数
+										obj.setLargeNum(new BigDecimal(obj.getNum()).divide(obj.getDistributionSpec(),
+												4, RoundingMode.HALF_UP).toEngineeringString());
+									} else {
+										lists.add(obj);
+									}
+								}
+								for (GoodsSelectDeliver obj : lists) {
+									successData.remove(obj);
+								}
+								// 从新组织数据
+								setSuccessData(map, excelListSuccessData, finalType);
+							}
+						}
+
+						private void setSuccessData(Map<String, String> map, List<JSONObject> excelListSuccessData,
+								String type) {
+							for (JSONObject json : excelListSuccessData) {
+								String temp = "";
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									temp = json.getString("skuCode");
+								} else {
+									temp = json.getString("barCode");
+								}
+								if (map.get(temp) != null) {
+									json.element("error", map.get(temp));
+								}
+							}
+						}
+
+						private boolean checkNumAndDistributionSpec(GoodsSelectDeliver obj,
+								List<JSONObject> excelListErrorData, String type, Map<String, String> map) {
+							JSONObject json = null;
+							BigDecimal checkNum = new BigDecimal(obj.getNum());
+							String goodsTip = null;
+							String goodsTipKey = null;
+							try {
+								BigDecimal realLargeNum = checkNum.divide(obj.getDistributionSpec(), 8,
+										RoundingMode.HALF_UP);
+								BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
+										RoundingMode.HALF_UP);
+								if (realLargeNum.compareTo(tempLargeNum) == 0) {
+									return true;
+								}
+								
+								json = new JSONObject();
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									goodsTip = obj.getSkuCode();
+									goodsTipKey = "skuCode";
+								} else {
+									goodsTip = obj.getBarCode();
+									goodsTipKey = "barCode";
+								}
+								map.put(goodsTip, goodsTip + " 该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+								json.element(goodsTipKey, goodsTip);
+								json.element("num", checkNum);
+								json.element("error", goodsTip + "该商品输入数量不是箱数的整数倍,规格 : " + obj.getDistributionSpec());
+								excelListErrorData.add(json);
+								return false;
+							} catch (NumberFormatException e) {
+								json = new JSONObject();
+								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+									goodsTip = obj.getSkuCode();
+									goodsTipKey = "skuCode";
+								} else {
+									goodsTip = obj.getBarCode();
+									goodsTipKey = "barCode";
+								}
+								map.put(goodsTip, goodsTip + " 输入的数量不是数字!");
+								json.element(goodsTipKey, goodsTip);
+								json.element("num", checkNum);
+								json.element("error", goodsTip + " 输入的数量不是数字!");
+								excelListErrorData.add(json);
+								LOG.error("导入的箱数或数量不是数字", e);
+								return false;
+							}
 						}
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
-								String num = obj.getString("largeNum");
-								try {
-									Double.parseDouble(num);
-								} catch (Exception e) {
-									obj.element("largeNum", 0);
-								}
 
+								String numKey = null;
+								if (obj.containsKey("largeNum")) {
+									numKey = "largeNum";
+								} else {
+									numKey = "num";
+								}
+								String num = obj.getString(numKey);
+								
+								// 如果为空时，默认为0
+								if(StringUtils.isBlank(num)){
+									num = "0";
+									obj.element(numKey, 0);
+								}else{
+									try {
+										Double.parseDouble(num);
+									} catch (Exception e) {
+//										obj.element(numKey, 0);
+										obj.element("error", "箱数/数量 填写有误");
+									}
+								}
+								
 								try {
 									String isGift = obj.getString("isGift");
 									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
@@ -1379,7 +1519,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 									} else if ("否".equals(isGift)) {
 										obj.element("isGift", "0");
 									} else {
-										obj.element("error", "是否赠品字段填写有误");
+										obj.element("isGift", "0"); //赠品默认为否
 									}
 								} catch (Exception e) {
 									obj.element("error", "是否赠品字段填写有误");
@@ -1402,8 +1542,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						}
 					}, map);
 			respJson.put("importInfo", vo);
-        } catch (BusinessException e) {
-            respJson = RespJson.error(e.getMessage());
+		} catch (BusinessException e) {
+			respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);
@@ -1429,14 +1569,25 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		String[] headers = null;
 		String[] columns = null;
 
-		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-			// 货号
-			columns = ImportExcelConstant.DELIVER_GOODS_SKUCODE_REPORT;
-			headers = ImportExcelConstant.DELIVER_GOODS_SKUCODE_HEADERS_REPORT;
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) { // 货号
+			
+			columns = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_LARGENUM;
+			headers = ImportExcelConstant.DO_GOODS_SKUCODE_HEADERS_LARGENUM;
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
-			columns = ImportExcelConstant.DELIVER_GOODS_BARCODE_REPORT;
-			headers = ImportExcelConstant.DELIVER_GOODS_BARCODE_HEADERS_REPORT;
+			columns = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_LARGENUM;
+			headers = ImportExcelConstant.DO_GOODS_BARCODE_HEADERS_LARGENUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+			// 货号
+			columns = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_NUM;
+			headers = ImportExcelConstant.DO_GOODS_SKUCODE_HEADERS_NUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {
+			// 条码
+			columns = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_NUM;
+			headers = ImportExcelConstant.DO_GOODS_BARCODE_HEADERS_NUM;
+		} else {
+			LOG.warn("导入类型错误");
+			return;
 		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
@@ -1507,10 +1658,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson refuseDeliverForm(@RequestBody String[] ids) {
 		RespJson resp = RespJson.success();
 		try {
-			if(ids==null||ids.length==0){
+			if (ids == null || ids.length == 0) {
 				return RespJson.error("请选择单据再操作！");
 			}
-			resp = deliverFormServiceApi.refuseDeliverForm(ids,getCurrUserId());
+			resp = deliverFormServiceApi.refuseDeliverForm(ids, getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("拒收操作失败", e);
 			resp = RespJson.error("拒收操作失败");

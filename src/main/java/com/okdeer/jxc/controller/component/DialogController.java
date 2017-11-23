@@ -30,9 +30,27 @@ public class DialogController {
 		return "component/publicErrorDialog";
 	}
 
-    @RequestMapping(value = "columnSetting")
-    public String columnSetting(){
-        return "component/publicColumnSetting";
+	/**
+	 * 
+	 * @Description: GPE设置窗口
+	 * @return String  
+	 * @author zhangq
+	 * @date 2017年11月9日
+	 */
+    @RequestMapping(value = "gpeSettingDialog")
+    public String gpeSetting(){
+        return "component/publicGpeSetting";
     }
 	
+    /**
+     * 
+     * @Description: GPE导出窗口
+     * @return String  
+     * @author zhangq
+     * @date 2017年11月9日
+     */
+    @RequestMapping(value = "gpeExportDialog")
+    public String gpeExport(){
+    	return "component/publicGpeExport";
+    }
 }

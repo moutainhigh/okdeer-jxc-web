@@ -679,25 +679,45 @@ function saveItemHandel(){
                 if (r){
                     return ;
                 }else{
-                	 saveDataHandel(rows);
+                	 saveDataHandel();
                 }
             });
         }else{
         	if(isChcekNum){
        		 $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
        			if(data){
-       				saveDataHandel(rows);
+       				saveDataHandel();
        		    }
        		 });
          	}else{
-         		saveDataHandel(rows);
+         		saveDataHandel();
          	}
         }
     }
 
 }
-function saveDataHandel(rows){
+function saveDataHandel(){
     gFunStartLoading();
+
+    var req = getFromData();
+    var id = $("#formId").val();
+    $_jxc.ajax({
+        url:contextPath+"/form/purchase/updateReturn",
+        contentType:'application/json',
+        data:req
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert( "操作成功！",function(){
+                location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
+            });
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    });
+}
+
+function getFromData() {
     //供应商
     var supplierId = $("#supplierId").val();
     //收货机构
@@ -711,12 +731,13 @@ function saveDataHandel(rows){
     //备注
     var remark = $("#remark").val();
     // 旧单号
-    oldRefFormNo = $("#oldRefFormNo").val();
+    var oldRefFormNo = $("#oldRefFormNo").val();
     //TODO 计算获取商品总数量和总金额
     //商品总数量
     var totalNum = 0;
     //总金额
     var amount=0;
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
 
     //验证表格数据
     var footerRows = $('#'+gridName).datagrid("getFooterRows");
@@ -740,23 +761,9 @@ function saveDataHandel(rows){
         oldRefFormNo:oldRefFormNo,
         detailList:rows
     };
-    
-    var req = JSON.stringify(reqObj);
 
-    $_jxc.ajax({
-        url:contextPath+"/form/purchase/updateReturn",
-        contentType:'application/json',
-        data:req
-    },function(result){
-//        gFunEndLoading();
-        if(result['code'] == 0){
-            $_jxc.alert( "操作成功！",function(){
-                location.href = contextPath +"/form/purchase/returnEdit?formId=" + id;
-            });
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    });
+    var req = JSON.stringify(reqObj);
+    return req;
 }
 
 //直接查询商品
@@ -944,7 +951,7 @@ function check(){
    	 $_jxc.alert("采购商品数量全部为0");
 		return
 	}else if(parseFloat(num)>0){
-		$_jxc.confirm("是否清除单据中数量为0的商品记录?",function(data){
+		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核？",function(data){
 	   		if(data){
 	   		    checkOrder();
 	   		}	

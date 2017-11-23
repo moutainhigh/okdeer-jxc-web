@@ -2804,25 +2804,163 @@ function publicGiftGoodsService(param,callback) {
 /*--------------------------------------------------------------------*/
 
 /*------------------------------设置--------------------------------------*/
-function publicColumnSettingService(param,callback) {
-    var columnSetting = $('<div id="columnSetting"/>').dialog({
-        href: contextPath + "/component/dialog/columnSetting",
-        width:550,
-        height:600,
-        title:"列设置",
-        closable:true,
-        resizable:true,
-        onClose: function(){
-            $(this).dialog('destroy');
-            columnSetting = null;
-        },
-        modal: true,
-        onLoad: function () {
-            initColumnSetting(param);
-            initColumnCallback(callback)
+/**
+ * 打开gpe设置
+ */
+function publicGpeSetting(data) {
+	var settingDiv = {
+		href : contextPath + "/component/dialog/gpeSettingDialog",
+		width : 600,
+		height : 600,
+		title : "列设置",
+		closable : true,
+		resizable : true,
+		onClose : function() {
+			$(this).dialog('destroy');
+			columnSetting = null;
+		},
+		modal : true,
+		onLoad : function() {
+			// 参数
+			var params = {};
+			if(data.tabKey){
+				params.tabKey = data.tabKey;
+			}
+			var gpeSettingClass = new GpeSettingClass();
+			gpeSettingClass.initGpeParams(params);
+			gpeSettingClass.initGpeDataGrid();
+			gpeSettingClass.initGpeDataGridCallback(callback);
+		},
+	}
 
-        },
-    });
+	settingDiv["buttons"] = [ {
+		text : '保存',
+		height: 45,
+		handler : function() {
+			gpeUserSettingGridSave();
+		}
+	}, {
+		text : '重置',
+		height: 45,
+		handler : function() {
+			gpeUserSettingGridRestore();
+		}
+	}, {
+		text : '取消',
+		height: 45,
+		handler : function() {
+			$(columnSetting).panel('destroy');
+			columnSetting = null;
+		}
+	}, {
+		text : '>',
+		width : 35,
+		height: 45,
+		handler : function() {
+			if($(this).text()=='>'){
+				gpeUserSettingGridExpand();
+				$(columnSetting).window('resize',{width:'800px'});
+				$(this).html('<span class="l-btn-left" style="margin-top: 0px;"><span class="l-btn-text">&lt;</span></span>');
+			}else{
+				gepUserSettingGridCollapse();
+				$(columnSetting).window('resize',{width:'600px'});
+				$(this).html('<span class="l-btn-left" style="margin-top: 0px;"><span class="l-btn-text">&gt;</span></span>');
+			}
+		}
+	} ];
+
+	var columnSetting = $('<div id="columnSetting"/>').dialog(settingDiv);
+
+	function callback(columns,frozenColumns) {
+		data.onSettingChange(columns,frozenColumns);
+	}
+}
+
+/**
+ * 获取 grid columns array
+ * @param data
+ */
+function publicGpeGridColumns(data) {
+	// 该功能上一级路径
+	var path = window.location.pathname;
+	path = path.substring(0, path.lastIndexOf('/'));
+	
+	// 请求路径
+	var url = path + '/gpegridcolumns?timestamp=' + new Date().getTime();
+	
+	// 参数
+	var params = {};
+	if(data.tabKey){
+		params.tabKey = data.tabKey;
+	}
+	
+	// 请求columns
+	$_jxc.ajax({
+		url : url,
+		data: params,
+		dataType : 'text'
+	}, function(result) {
+		// array[0]:正常的列，array[1]:冻结的列
+		var array = eval(result);
+		data.onLoadSuccess(array[0],array[1]);
+	});
+}
+
+/**
+ * GPE 导出
+ * @param data
+ */
+function publicGpeExport(data){
+	// 该功能上一级路径
+	var path = window.location.pathname;
+	path = path.substring(0, path.lastIndexOf('/'));
+	// 导出请求路径
+	var url = path + '/export?timestamp=' + new Date().getTime();
+	data.url = url;
+
+	// 数据条数
+	var total = $("#" + data.datagridId).datagrid('getData').total;
+	if (total == 0) {
+		$_jxc.alert("无数据可导");
+		return;
+	}
+	
+	if(!data.onBeforeExport || data.onBeforeExport()){
+		var gpeExportDiv = {
+			href : contextPath + "/component/dialog/gpeExportDialog",
+			width : 500,
+			height : 350,
+			title : "导出选项-当前搜索共" + total + "条结果",
+			closable : true,
+			resizable : true,
+			onClose : function() {
+				$(this).dialog('destroy');
+			},
+			modal : true,
+			onLoad : function() {
+				var gpeExportClass = new GpeExportClass();
+				gpeExportClass.initGpeParams(data);
+			},
+		};
+		
+		// 按钮
+		gpeExportDiv["buttons"] = [ {
+			text : '导出',
+			height: 45,
+			handler : function() {
+				var gpeExportClass = new GpeExportClass();
+				gpeExportClass.toGpeExportOk();
+			}
+		},{
+			text : '取消',
+			height: 45,
+			handler : function() {
+				$(gpeExportDialog).panel('destroy');
+				gpeExportDialog = null;
+			}
+		}];
+		var gpeExportDialog = $('<div id="gpeExportDialog"/>').dialog(gpeExportDiv);
+	}
 }
 
 /*--------------------------------------------------------------------*/
@@ -2836,6 +2974,12 @@ function publicColumnSettingService(param,callback) {
  *
  * */
 function publicExprotService(param,callback) {
+    var length = $('#'+param.datagridId).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
     var exportChoseTemp = $('<div id="exportChose"/>').dialog({
         href: contextPath + "/common/exportChose",
         width:400,
@@ -2970,7 +3114,7 @@ function initCombobox(id,dataItems,defValue){
 function initCombotree(id,dataItems,defValue){
     $('#'+id).combotree({
         cascadeCheck: true,
-        //onlyLeafCheck: true,
+        // onlyLeafCheck: true,
         checkbox: true,
         data: dataItems,
         width: 200,

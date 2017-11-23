@@ -41,8 +41,6 @@ var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
 
 $(function(){
 	// 开始和结束时间
-// $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-// $("#endTime").val("2016-11-18");
     $("#dailyStartTime").val("00:00:00");
     $("#dailyEndTime").val("23:59:59");
     $(".special").after(dvVipOne);
@@ -2125,7 +2123,7 @@ function initDatagridsortSet(){
         fitColumns:true,    // 每列占满
         // fit:true, //占满
         showFooter:true,
-		height:'300px',
+		height:'500px',
 		pageSize:50,
 		width:'100%',
         columns:[[
