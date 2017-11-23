@@ -708,7 +708,7 @@ function addDirect(){
 //新增保存
 function saveDirectForm(){
 
-    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -836,7 +836,7 @@ function saveDataHandel(rows, url){
 
 //查看 保存修改
 function updateDirectForm() {
-    $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){

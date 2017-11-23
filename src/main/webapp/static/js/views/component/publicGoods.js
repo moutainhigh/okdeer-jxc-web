@@ -73,12 +73,6 @@ $(function () {
             var categoryCode="";
             var supplierId="";
             var brandId="";
-            /***
-             *
-             *
-             *
-             *
-             * **/
             function zTreeOnClick(event, treeId, treeNode) {
                 categoryCode=treeNode.code;
                 var goodsTypeVal =  $("#goodsType").combobox('getValue');
@@ -87,25 +81,28 @@ $(function () {
                 if(goodsTypeVal === 'categoryCode'){
                     brandId = "";
                     supplierId = "";
-                    // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM' ){
-                    // 	_searchParam.supplierId = "";
-                    // }
-
                 }else if(goodsTypeVal === "brandId"){
-                    brandId = treeNode.id;
+                    // 如果品牌选中所有，处理为0的数据 不需要传到后台----  2017-11-22与产品确认
+                    if(treeNode.id === "0"){
+                        brandId = "";
+                    }else{
+                        brandId = treeNode.id;
+                    }
                     supplierId = "";
-                    // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM'){
-                    // 	_searchParam.supplierId = "";
-                    // }
                 }else if(goodsTypeVal === "supplierId"){
+                    //如果供应商选中所有，不处理为0的数据，点击可能没有数据----  2017-11-22与产品确认
                     brandId = "";
                     supplierId = treeNode.id;
-                    _searchParam.supplierId = supplierId;
                 }
                 _searchParam.categoryCode = categoryCode;
-                
+                _searchParam.brandId = brandId;
+                _searchParam.supplierId = supplierId;
+                //如果单据为 促销进价单 品牌 类别 都需要带上供应商
+                //2017-11-22  宋文杰与产品新需求  目前去掉
+                // if(type === "PL"){
+                //     _searchParam.supplierId = fromParams.supplierId
+                // }
+
                 /***
                  * 'categoryCode':categoryCode, 点击树节点的类别值
                  * 'categoryCodes':$('#categoryCodes').val(), 外部传人的业务类别 数组
@@ -344,6 +341,12 @@ $(function () {
              * 查询
              */
             cx = function (){
+                //取消树节点的选中 查询按钮查询与树节点查询无关 ----2017-11-22 与产品确认
+                var treeObj = $.fn.zTree.getZTreeObj("treeGoodsType");
+                if(treeObj){
+                    treeObj.cancelSelectedNode();
+                }
+
                 setTimeout(function(){
                     // var text =  $("#goodsType").combobox('getText');
                     var goodsTypeVal =  $("#goodsType").combobox('getValue');
@@ -353,12 +356,14 @@ $(function () {
                         searchSupplierId = $("#supplierId").val();
                         _searchParam.supplierId = searchSupplierId;
                     }
-                    // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
-                    // 采购订单和促销进价单都需要传递供应商，不管左侧树选中的是供应商，品牌还是类别
-                    var queryParams=_searchParam;
-                    if (queryParams.type == 'PA') {
-                        queryParams.activitySupplierId = _searchParam.supplierId;
+
+                    // 当左侧树选中的是类别或者品牌时，点击查询按钮不带供应商条件
+                    //2017-11-22 由产品彭冲 开发许永勤 赵燎原  测试姜国亮 共同确认
+                    if(goodsTypeVal === "categoryCode" || goodsTypeVal === "brandId"){
+                        _searchParam.supplierId = "";
                     }
+
+                    var queryParams=_searchParam;
                     
                     //1002回车 弹窗选择后 点击查询无效 2.7 修改
                     if($.trim(queryParams.goodsInfo)){

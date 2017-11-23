@@ -408,8 +408,10 @@ function initDatagridRequireOrder(){
         onLoadSuccess:function(data){
         	if(deliverStatus==='edit'){
                 if(!oldData["grid"]){
-                	oldData["grid"] = gridHandel.getRows();
-                 };
+                    oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                        return $.extend(true,{},obj);//返回对象的深拷贝
+                    });
+                 }
         	}
             gridHandel.setDatagridHeader("center");
             updateFooter();

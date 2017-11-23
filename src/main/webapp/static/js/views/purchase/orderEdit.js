@@ -4,12 +4,21 @@
 var isEdit = true;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
+var oldData = {};
 
 $(function(){
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
     if('undefined' != typeof(allowUpdatePrice)){
     	isEdit = false;
+    }
+
+    oldData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),                  // 备注
     }
     
     initDatagridEditOrder();
@@ -323,10 +332,17 @@ function initDatagridEditOrder(){
         	}
         	return data;
         },
+        onBeforLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
         onLoadSuccess:function(data){
             if((data.rows).length <= 0)return;
+            if(!oldData["grid"]){
+                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                    return $.extend(true,{},obj);//返回对象的深拷贝
+                });
+            }
             gFunEndLoading();
-            gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
@@ -847,6 +863,22 @@ function saveDataHandel(rows){
 }
 function check(){
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+   var  newData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),
+       grid: $.map(gridHandel.getRows(), function(obj){
+           return $.extend(true,{},obj);//返回对象的深拷贝
+       })
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        $_jxc.alert("数据有修改，请先保存再审核");
+        return;
+    }
+
     var rows = gridHandel.getRows();
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -869,6 +901,7 @@ function check(){
     if(!isCheckResult){
         return
     }
+
     if(num==rows.length){
     	 $_jxc.alert("采购商品数量全部为0");
 		return
