@@ -2732,9 +2732,7 @@ function selectGoods(searchKey){
 
 //保存
 function saveActivity(){
-  //保存结束编辑
-  $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-    var rows= gridHandel.getRows();
+
   //活动类型
   var activityType=$("#activityType").combobox('getValue');
   // 打折活动类型
@@ -2742,11 +2740,6 @@ function saveActivity(){
   // 满减活动类型
   var activityScopemj=$("#activityScopemj").val();
 
-  if(rows.length==0){
-      $_jxc.alert("表格不能为空");
-      return;
-  }
-  
   	if(!$("#startTime").val() || !$("#endTime").val()){
 		$_jxc.alert("<活动时间>不能为空");
 		return;
@@ -2776,6 +2769,14 @@ function saveActivity(){
   var isCheckResult = true;
   // 活动类型特价验证
   if(activityType=="1"){
+      //保存结束编辑
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
+
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 		  if(!v["skuCode"]){
@@ -2801,7 +2802,16 @@ function saveActivity(){
   }
   
   // 活动类型折扣验证
-  else if(activityType=="2"){ 
+  else if(activityType=="2"){
+      //保存结束编辑
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
+
+
 	// 活动类型单品折扣验证
 	  if(activityScopedis=="0"){
 		  for(var i=0;i<rows.length;i++){
@@ -2862,6 +2872,14 @@ function saveActivity(){
   }
 // 活动类型偶数特价验证
   else if(activityType=="3"){
+      //保存结束编辑
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
+
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 	      if(!v["skuCode"]){
@@ -2886,6 +2904,14 @@ function saveActivity(){
   }
 // 活动类型换购价验证
   else if(activityType=="4"){
+      //保存结束编辑
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
+
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 	      if(!v["skuCode"]){
@@ -2910,7 +2936,12 @@ function saveActivity(){
   }
 // 活动满减验证
   else if(activityType=="5"){
-	 
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
 		  if(activityScopemj=="0"){  
@@ -3006,6 +3037,13 @@ function saveActivity(){
   }
   //组合特价
   else if(activityType=="6"){
+      //保存结束编辑
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
 	 
 	  var flag = false;//判断是否有不同的组号
 	  
@@ -3126,10 +3164,14 @@ function saveActivity(){
 	  saveDataHandel(tjRows,setRows);
   }
   else{
+      $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
+      var rows= gridHandel.getRows();
+      if(rows.length==0){
+          $_jxc.alert("表格不能为空");
+          return;
+      }
 	  saveDataHandel(rows);
   }
- 
-
 }
 
 
@@ -3156,11 +3198,6 @@ function saveDataHandel(rows,setrows){
   var dailyEndTime=Date.parse("1970-1-1 "+$("#dailyEndTime").val());
   // 星期值获取
   var weeklyActivityDay=$('#weeklyActivityDay').val();
-  //验证表格数据
-  var footerRows = $("#saleMangeadd").datagrid("getFooterRows");
-  if(footerRows){
-	  saleAmount = parseFloat(footerRows[0]["saleAmount"]||0.0).toFixed(4);
-  }
   // 活动分店机构id
   var branchsName = $("#branchName").val();
   var branchsFullName = $("#branchsFullName").val();
