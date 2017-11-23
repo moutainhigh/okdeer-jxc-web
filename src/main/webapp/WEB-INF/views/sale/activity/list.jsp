@@ -24,6 +24,10 @@
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
+				<!-- 引入时间选择控件 -->
+				<div class="ub ub-ac">
+				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+				</div>
 
             </div>
 	        <div class="ub uline umar-t8"></div>
@@ -45,6 +49,8 @@
 						  <option value="1">特价</option>
 						  <option value="2">折扣</option>
 						  <option value="3">偶数特价</option>
+							<option value="11">N元N件</option>
+							<option value="12">特价打包</option>
 						  <!-- <option value="4">换购</option> -->
 						  <option value="5">满减</option>
 						  <option value="6">组合特价</option>

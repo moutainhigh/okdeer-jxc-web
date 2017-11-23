@@ -127,6 +127,35 @@
 					</div>
                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
+
+
+				<div class="ub ub-ac uw-410 umar-l10 special unhide">
+				<div class="umar-r10 uw-100 ut-r">批量特价:</div>
+				<!-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value))execCommand('undo')" readonly="readonly" onafterpaste="if(isNaN(value))execCommand('undo')" id="special"> -->
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="special">
+				</div>
+
+				<div class="ub ub-ac uw-410 umar-l10 topMoney unhide">
+				<div class="umar-r10 uw-100 ut-r">最高优惠:</div>
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,disabled:true" type="text"
+				id="maxDiscountAmount" name="maxDiscountAmount">
+				</div>
+
+				<div class="ub ub-ac uw-410 umar-l10 oddprice unhide">
+				<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="batchcount">
+				</div>
+
+				<div class="ub ub-ac uw-424 umar-l10 limitCount unhide">
+				<div class="umar-r10 uw-100 ut-r">整单组合限量:</div>
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,disabled:true" type="text"  id="maxDiscountNum" name="maxDiscountNum">
+				</div>
+
+				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount2">
+				<div class="umar-r10 uw-70 ut-r">销售金额:</div>
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+				</div>
+
             </div>
 
 	          <div class="ub umar-t8">
@@ -136,27 +165,16 @@
 	                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" readonly="readonly" value="" name="branchName" >
 	                   <div class="uinp-more" >...</div>
 	             </div>
-	              <div class="ub ub-ac uw-410 umar-l10 special unhide">
-					<div class="umar-r10 uw-100 ut-r">批量特价:</div>
-					<!-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value))execCommand('undo')" readonly="readonly" onafterpaste="if(isNaN(value))execCommand('undo')" id="special"> -->
-					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="special">
-				  </div>
 
-					<div class="ub ub-ac uw-410 umar-l10 topMoney unhide">
-					<div class="umar-r10 uw-100 ut-r">最高优惠:</div>
-					<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,disabled:true" type="text"
-					id="maxDiscountAmount" name="maxDiscountAmount">
-					</div>
-
-					<div class="ub ub-ac uw-410 umar-l10 oddprice unhide">
-					<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
-					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="batchcount">
-					</div>
-
-					<div class="ub ub-ac uw-424 umar-l10 limitCount unhide">
-					<div class="umar-r10 uw-100 ut-r">整单组合限量:</div>
-					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,disabled:true" type="text"  id="maxDiscountNum" name="maxDiscountNum">
-					</div>
+				<div class="ub ub-ac" id="dvOnlyVip">
+				<div class="umar-r10 uw-110 ut-r">会员独享:</div>
+				<select class="easyui-combobox" style="width:302px" name="vipType" id="vipType" data-options="editable:false,value:0">
+				<option value="0">不独享</option>
+				<option value="1">会员独享</option>
+				<option value="2">会员独享一次</option>
+				<option value="3">会员每日独享一次</option>
+				</select>
+				</div>
 
 				   <!--买满条件 -->
 				   <div class="ub ub-ac umar-l10 mmstype unhide">
@@ -165,15 +183,35 @@
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
 			        </select>
-
 	          	  </div>
+
+			<div class="ub ub-ac umar-l30 unhide" id="dvmms">
+			<div class="ub ub-ac umar-r10">
+			<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" />
+			<label for="mmsofactType1">促销商品参与</label> </div>
+			<div class="ub ub-ac umar-r10">
+			<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
+			</div>
+			</div>
+
 			</div>
 
 			<div class="ub umar-t8">
-			<div class="ub ub-ac uw-390 discount unhide">
-			<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
-			<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="discount">
-			</div>
+				<div class="ub ub-ac uw-390 discount unhide">
+				<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="discount">
+				</div>
+
+				<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
+				<div class="umar-r10 uw-70 ut-r">任选数量:</div>
+				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,precision:0" type="text" id="n2nCount">
+				</div>
+
+				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
+				<div class="umar-r10 uw-110 ut-r">销售金额:</div>
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+				</div>
+
 			</div>
        	</form>
            
