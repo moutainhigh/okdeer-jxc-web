@@ -421,6 +421,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 					stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().abs());
 					stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().abs());
 					stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().abs());
+					stockFormDetailVo.setUntaxedAmount(stockFormDetailVo.getUntaxedAmount().abs());
+					stockFormDetailVo.setTax(stockFormDetailVo.getTax().abs());
 				}
 			}
 			// 过滤数据权限字段
