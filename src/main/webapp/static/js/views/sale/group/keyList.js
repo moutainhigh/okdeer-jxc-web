@@ -41,7 +41,7 @@ function  initKeygrid() {
             {field:'id',title:'id',width:'85px',align:'left',hidden:true},
             {field:'groupNo',title:'分组编号',width:'85px',align:'left',
                 formatter : function(value, row,index) {
-                    if(value === "01"){
+                    if(value === "01" || value === "TC"){
                         return value;
                     }else{
                         var str =  '<a name="edit" onclick="editKeyGroup('+index+')" ' +
@@ -75,8 +75,16 @@ function  initKeygrid() {
         },
         onSelect:function (rowIndex,rowData) {
             if(rowData.groupNo == "01"){
+                $("#dvbtn").removeClass("unhide");
+                $("#goodsgridForm").removeClass("unhide");
                 $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
+            }else if(rowData.groupNo == "TC"){
+                $("#dvbtn").addClass("unhide");
+                $("#goodsgridForm").addClass("unhide");
+                return;
             }else{
+                $("#dvbtn").removeClass("unhide");
+                $("#goodsgridForm").removeClass("unhide");
                 $('#btnHot').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
             }
             getGgoodsList();
