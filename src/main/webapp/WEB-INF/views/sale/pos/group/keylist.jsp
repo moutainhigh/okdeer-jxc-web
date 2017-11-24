@@ -62,7 +62,7 @@
 			<table id="keygrid"></table>
 		</div>
 
-		<div class="ub umar-t8 umar-b8">
+		<div id="dvbtn" class="ub umar-t8 umar-b8">
 			<div class="ub  ub-ac">
 				<div class="umar-r10 uw-70 ut-r">商品信息:</div>
 				<div class="ubtns">
