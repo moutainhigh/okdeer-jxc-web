@@ -121,9 +121,10 @@ function initPurReportDetailGrid(queryType) {
 			{field: 'supplierName', title: '供应商名称', width: 155, align: 'left'},
             {field: 'categoryName', title: '类别名称', width:95, align: 'left'}
         ]],
+        onBeforeLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
 		onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-			//updateFooter();
 		}
     });
 
@@ -131,16 +132,12 @@ function initPurReportDetailGrid(queryType) {
         priceGrantUtil.grantPurchasePrice(gridName,["costPrice","stockAmount"])
     }
 }
-//合计
-function updateFooter(){
-}
+
 /**
  * 查询
  */
 function purchaseDetailCx(){
 	//机构日期不能为空
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	if(!(startDate && endDate)){
@@ -166,30 +163,18 @@ function exportDetails(){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
-	var length = $('#purReportDetail').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
 
-	$("#queryForm").attr("action", contextPath+"/purchase/report/replenishAnaly/exportList");
-	$("#queryForm").submit();	
+    var param = {
+        datagridId:"purReportDetail",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/purchase/report/replenishAnaly/exportList"
+    }
+    publicExprotService(param);
 }
+
 
 /**
- * 商品类别
+ * 商品类别 直接传的类别中文名称查的
  */
 function searchCategory(){
 	new publicCategoryService(function(data){

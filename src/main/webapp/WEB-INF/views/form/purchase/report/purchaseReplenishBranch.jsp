@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>机构补货分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/purchase/report/purchaseReplenishBranch.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -21,8 +20,6 @@
 	            	<shiro:hasPermission name="JxcBranchReplenish:search">
 	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
 	                </shiro:hasPermission>
-	                <input type="hidden" id="startCount" name="startCount" />
-					<input type="hidden" id="endCount" name="endCount" />
 					<shiro:hasPermission name="JxcBranchReplenish:export">
 	                <div class="ubtns-item" onclick="exportDetails()">导出</div>
 	                </shiro:hasPermission>
@@ -65,7 +62,7 @@
              <div class="ub umar-t8">
 			  <div class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">货号/条码:</div>
-				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
+				<input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp ub ub-f1" />
 			  </div>
                <div class="ub ub-ac uw-300" id="supplierComponent">
 				<div class="umar-r10 uw-80 ut-r">供应商:</div>
