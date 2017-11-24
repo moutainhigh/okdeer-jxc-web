@@ -11,7 +11,7 @@
 <c:set var="sessionSupplier" value="${sessionScope.session_default_supplier}"/>
 <c:set var="priceGrantStr" value="${user.priceGrant}"/>
 <c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="versionNo" value="v2.9.2_A01"/>
+<c:set var="versionNo" value="v2.10.0_A01"/>
 <!-- title图标 -->
 <link rel="shortcut icon" href="${ctx}/static/images/okdeer_favicon.ico" type="image/x-icon"/>
 
@@ -39,6 +39,8 @@
 
 <!--ztree-->
 <script src="${ctx}/static/libs/zTree/js/jquery.ztree.core.min.js"></script>
+<script src="${ctx}/static/libs/zTree/js/jquery.ztree.excheck.js"></script>
+<script src="${ctx}/static/libs/zTree/js/jquery.ztree.exedit.js"></script>
 <script src="${ctx}/static/js/fun/baseEasyui.js?V=${versionNo}"></script>
 <script src="${ctx}/static/js/fun/base.js?V=${versionNo}"></script>
 <!-- 公共服务 -->
