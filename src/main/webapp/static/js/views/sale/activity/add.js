@@ -2627,7 +2627,8 @@ function  initDatagridGoodsSpecialPackage() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field: 'count', title: '数量', width: 100, align: 'right',
+            {
+                field: 'limitCount', title: '数量', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -3433,7 +3434,7 @@ function saveActivity(){
               $_jxc.alert("第"+(i+1)+"行，货号不能为空");
               return false;
           }
-          if(!v["count"]){
+          if (!v["limitCount"]) {
               $_jxc.alert("第"+(i+1)+"行，数量不能为空");
               return false;
           }
@@ -3470,7 +3471,7 @@ function saveDataHandel(rows,setrows){
   var weeklyActivityDay=$('#weeklyActivityDay').val();
 
   //会员独享
-  var vipType =   $('#vipType').combobox('getValue');
+    var vipType = $('#memberExclusive').combobox('getValue');
  
   // 活动分店机构id
   var branchsName = $("#branchName").val();
@@ -3490,7 +3491,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
-		  vipType:vipType,
+          memberExclusive: vipType,
           detailList: []
 	  };
 	  $.each(rows,function(i,data){
@@ -3517,7 +3518,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
-          vipType:vipType,
+          memberExclusive: vipType,
           maxDiscountNum: $("#maxDiscountNum").numberbox("getValue"),
           detailList: []
 	  };
@@ -3548,7 +3549,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
-          vipType:vipType,
+          memberExclusive: vipType,
           maxDiscountAmount: $("#maxDiscountAmount").numberbox("getValue"),
           detailList: []
 	  };
@@ -3600,7 +3601,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
-          vipType:vipType,
+          memberExclusive: vipType,
 	          detailList : []
 	  };
 	// 活动状态为满减 -商品
@@ -3692,7 +3693,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:actScope,
-	          activityPattern:$('#activitymmsType').combobox('getValue')||'',
+          activityPattern: $('#activityPattern').combobox('getValue') || '',
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
           detailList: setrows, //活动范围数据集合
@@ -3700,6 +3701,9 @@ function saveDataHandel(rows,setrows){
 	  };
 	  
   }else if(activityType=="11"){
+      //类别(1)  商品(0)
+      var actScope = $("input[name='n2nstatus']:checked").val() || '';
+
       var reqObj = {
           branchIds:branchIds,
           branchsName:branchsName,
@@ -3711,10 +3715,10 @@ function saveDataHandel(rows,setrows){
           dailyStartTime:dailyStartTime,
           dailyEndTime:dailyEndTime,
           weeklyActivityDay:weeklyActivityDay,
-          activityScope:0,
-          vipType:vipType,
-          n2nCount:$("#n2nCount").numberbox("getValue"),
-          n2nSaleAmount:$("#n2nSaleAmount").numberbox("getValue"),
+          memberExclusive: vipType,
+          activityScope: actScope,
+          maxDiscountNum: $("#n2nCount").numberbox("getValue"),
+          maxDiscountAmount: $("#n2nSaleAmount").numberbox("getValue"),
           detailList: rows
       };
   }else if(activityType=="12"){
@@ -3730,8 +3734,8 @@ function saveDataHandel(rows,setrows){
           dailyEndTime:dailyEndTime,
           weeklyActivityDay:weeklyActivityDay,
           activityScope:0,
-          vipType:vipType,
-          n2nSaleAmount:$("#n2nSaleAmount").numberbox("getValue"),
+          memberExclusive: vipType,
+          maxDiscountAmount: $("#saleAmount").numberbox("getValue"),
           detailList: rows
       };
   }
