@@ -56,7 +56,13 @@ function initProductInquireGrid() {
     	   {field: 'costPrice', title: '成本价', width: 80, align: 'right',formatter : function(value){
     		   return getTwoDecimalB(value);
      		}},
+     		{field: 'untaxedCostPrice', title: '不含税成本价', width: 80, align: 'right',formatter : function(value){
+     			return getTwoDecimalB(value);
+     		}},
     		{field: 'costAmount', title: '库存金额', width: 100, align: 'right',formatter : function(value){
+    			return getTwoDecimalB(value);
+    		}},
+    		{field: 'untaxedCostAmount', title: '不含税库存金额', width: 100, align: 'right',formatter : function(value){
     			return getTwoDecimalB(value);
     		}},
     		{field: 'salePrice', title: '售价', width: 80, align: 'right',formatter : function(value){
@@ -95,7 +101,7 @@ function initProductInquireGrid() {
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice("productInquire",["costPrice","costAmount"])
+        priceGrantUtil.grantCostPrice("productInquire",["costPrice","costAmount","untaxedCostPrice","untaxedCostAmount"])
 	}
 }
 
