@@ -419,6 +419,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 					stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().abs());
 					stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().abs());
 					stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().abs());
+                    stockFormDetailVo.setUntaxedAmount(stockFormDetailVo.getUntaxedAmount().abs());
+                    stockFormDetailVo.setTax(stockFormDetailVo.getTax().abs());
 				}
 			}
 			exportListForXLSX(response, exportList, fileName, templateName);
