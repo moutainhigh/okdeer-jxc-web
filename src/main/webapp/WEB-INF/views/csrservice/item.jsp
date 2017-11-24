@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>机构信息</title>
+    <title>服务项目维护</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <c:set var="ctx" value="${pageContext.request.contextPath}"/>
