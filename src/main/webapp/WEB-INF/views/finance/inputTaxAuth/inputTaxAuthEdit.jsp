@@ -47,7 +47,7 @@
 						<div class="ubtns-item-disabled" >审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item-disabled" >费用选择</div>
-					<div class="ubtns-item-disabled" >费用导入</div>
+					<!-- <div class="ubtns-item-disabled" >费用导入</div> -->
 					<shiro:hasPermission name="JxcInputTaxAuth:delete">
 						<div class="ubtns-item-disabled" >删除</div>
 					</shiro:hasPermission>

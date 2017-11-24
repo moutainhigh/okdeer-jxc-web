@@ -3,7 +3,15 @@ $(function(){
 	//开始和结束时间
     $("#rptDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     
-    $('#branchSelect').branchSelect();
+    $('#branchSelect').branchSelect({
+    	param:{
+    		// 不包括总部、仓库
+			branchTypesStr:	$_jxc.branchTypeEnum.BRANCH_COMPANY + ',' + 
+							$_jxc.branchTypeEnum.OWN_STORES + ',' + 
+							$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + 
+							$_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		}
+    });
     
     initDataStoreExpendDetailReport();
 });
@@ -42,8 +50,8 @@ function initDataStoreExpendDetailReport(){
 }
 
 function queryForm(){
-	 if($("#branchName").val()==""){
-	    $_jxc.alert("请选择店铺名称");
+	 if($("#branchCodeName").val()==""){
+	    $_jxc.alert("请选择机构");
 	    return;
 	 } 
 	var fromObjStr = $('#queryForm').serializeObject();
