@@ -63,7 +63,11 @@ function initDatagridRequire(){
             		return '组合特价';
             	}else if(value == '10'){
             		return '买满送';
-            	}else{
+                } else if (value == '11') {
+                    return 'N元N件';
+                } else if (value == '12') {
+                    return '特价打包';
+                } else {
             		return '未知类型：'+ value;
             	}
             }},

@@ -158,7 +158,8 @@
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount2">
 				<div class="umar-r10 uw-70 ut-r">销售金额:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+					<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text"
+						   id="saleAmount" name="saleAmount">
 				</div>
 
             </div>
@@ -175,7 +176,8 @@
 
 				<div class="ub ub-ac" id="dvOnlyVip">
 					<div class="umar-r10 uw-110 ut-r">会员独享:</div>
-					<select class="easyui-combobox" style="width:302px" name="vipType" id="vipType" data-options="editable:false,value:0">
+					<select class="easyui-combobox" style="width:302px" name="memberExclusive" id="memberExclusive"
+							data-options="editable:false,value:0">
 					<option value="0">不独享</option>
 					<option value="1">会员独享</option>
 					<option value="2">会员独享一次</option>
@@ -200,7 +202,8 @@
 				   <!--买满条件 -->
 				   <div class="ub ub-ac umar-l10 mmstype unhide">
 					<div class="umar-r10 uw-100 ut-r">活动条件:</div>
-					<select class="easyui-combobox" style="width:302px" name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0,onChange:onChangemmsSelect">
+					   <select class="easyui-combobox" style="width:302px" name="activityPattern" id="activityPattern"
+							   data-options="editable:false,value:0,onChange:onChangemmsSelect">
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
 			        </select>

@@ -138,6 +138,9 @@ public class ActivityController extends BaseController<ActivityController> {
 			LOG.debug("保存促销活动参数信息:{}", jsonText);
 			// 转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			// if(activityVo.getActivityType()==12){
+			// 	activityVo.setMaxDiscountAmount(activityVo.getSaleAmount());
+			// }
 			// 数据验证
 			String validMsg = activityVo.validate();
 
@@ -183,7 +186,10 @@ public class ActivityController extends BaseController<ActivityController> {
 					activityDetail.setId(detailId);
 					activityDetail.setActivityId(main.getId());
                     activityDetail.setDiscountNum(activityDetailVo.getDiscountNum() != null ? activityDetailVo.getDiscountNum().intValue() : null);
-                    detailList.add(activityDetail);
+					if (activityVo.getActivityType() == 12) {
+						activityDetail.setGoodsPackageGroupId(main.getId());
+					}
+					detailList.add(activityDetail);
 				}
 			}
 
@@ -295,6 +301,10 @@ public class ActivityController extends BaseController<ActivityController> {
 			LOG.debug("修改促销活动参数信息:{}", jsonText);
 			// 转换Json数据
 			ActivityVo activityVo = JSON.parseObject(jsonText, ActivityVo.class);
+			//
+			// if(activityVo.getActivityType()==12){
+			// 	activityVo.setMaxDiscountAmount(activityVo.getSaleAmount());
+			// }
 			// 验证数据
 			String validMsg = activityVo.validate();
 

@@ -190,7 +190,6 @@ function  editstart(){
   		    		$("#activityType").combobox("disable");
   		    		//combobox 会员独享
                   // var onlyVip = listinfo.onlyVip;
-                  // $("#vipType").combobox('dvOnlyVip',onlyVip);
 
   		    		if(sUrl != 'toCopy'){
   		    			//序列化指定表单  -- 旧数据
@@ -201,6 +200,8 @@ function  editstart(){
                         var param = {
                             activityScopemj:listinfo.activityScope,
                         }
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
                         selectOptionMj(param);
 						//买满送
 					  }else if(activtype==10){
@@ -216,7 +217,9 @@ function  editstart(){
 					  }
 					  //其他类型请求
 					  else if(activtype==2){
-					  	var param = {
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
+                        var param = {
                             activityId:activityId,
                             activityScopedis:listinfo.activityScope,
                             maxDiscountAmount:listinfo.maxDiscountAmount
@@ -227,24 +230,35 @@ function  editstart(){
 							var param = {
                                 activityId:activityId,
 							}
-							selectOptionSpecial(param)
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
+                        selectOptionSpecial(param)
 			    		}else if(activtype==3){
-							var param = {
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
+                        var param = {
                                 activityId:activityId,
 							}
                         	selectOptionOdd(param);
 						 }else if(activtype==6){
-							var param = {
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
+                        var param = {
                                 activityId:activityId,
                                 maxDiscountNum:listinfo.maxDiscountNum
 							}
                         selectOptionGroupSpecial(param);
 			    		}else if(activtype==11){
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+
                         var param = {
                             activityId:activityId,
+                            activityScopeN2N: data.obj.activityScope
                         }
                         selectOptionN2N(param);
                     }else if(activtype==12){
+                        $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+                        $("#saleAmount").numberbox('setValue', data.obj.maxDiscountAmount);
                         var param = {
                             activityId:activityId,
                         }
@@ -363,9 +377,9 @@ function selectOptionMj(param){
 //N元N件
 function selectOptionN2N(param){
     var radioVal = param.activityScopeN2N;
-	if(radioVal === "1"){
+    if (radioVal === 1) {
         initDatagridsortN2N();
-	}else if(radioVal === "0"){
+    } else if (radioVal === 0) {
         initDatagridGoodsN2N();
 	}
     initmangeDatagrid(param.activityId);
@@ -514,6 +528,7 @@ function initDatagridGoodsN2N() {
 
 
 function selectOptionSpecialPackage(param){
+    $("#dvn2nSaleAmount2").removeClass("unhide");
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }
@@ -576,7 +591,8 @@ function  initDatagridGoodsSpecialPackage() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field: 'count', title: '数量', width: 100, align: 'right',
+            {
+                field: 'limitCount', title: '数量', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -681,7 +697,7 @@ function initmmsDom(){
 	//初始化 倍数送 促销商品参与
 	$("input[name='mmsofactType']").prop('checked',false);
 	//初始化活动条件
-	$("#activitymmsType").combobox('setValue',0)
+    $("#activityPattern").combobox('setValue', 0)
 	
 	choosemmsTab(2);
 }
@@ -762,7 +778,7 @@ function selectOptionmms(param){
 	gridTitleName = param.activityPattern == 1 ?'买满数量':'买满金额';
 	
 	//初始化活动条件
-	$("#activitymmsType").combobox('setValue',param.activityPattern);
+    $("#activityPattern").combobox('setValue', param.activityPattern);
 	
 	//先移除事件
 	//买满送 --- 全场 类别 商品 选择事件 禁用
@@ -3414,7 +3430,7 @@ function saveActivity(){
               $_jxc.alert("第"+(i+1)+"行，货号不能为空");
               return false;
           }
-          if(!v["count"]){
+          if (!v["limitCount"]) {
               $_jxc.alert("第"+(i+1)+"行，数量不能为空");
               return false;
           }
@@ -3474,7 +3490,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
-
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
           detailList: []
 	  };
 	  $.each(rows,function(i,data){
@@ -3500,6 +3516,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
           maxDiscountNum: $("#maxDiscountNum").numberbox("getValue"),
           detailList: []
 	  };
@@ -3530,6 +3547,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
           maxDiscountAmount: $("#maxDiscountAmount").numberbox("getValue"),
           detailList: []
 	  };
@@ -3580,6 +3598,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
           detailList: []
 	  };
 	// 活动状态为满减 -商品
@@ -3674,7 +3693,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:actScope,
-	          activityPattern:$('#activitymmsType').combobox('getValue')||'',
+          activityPattern: $('#activityPattern').combobox('getValue') || '',
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
           detailList: setrows, //活动范围数据集合
@@ -3695,10 +3714,9 @@ function saveDataHandel(rows,setrows){
           dailyStartTime:dailyStartTime,
           dailyEndTime:dailyEndTime,
           weeklyActivityDay:weeklyActivityDay,
-          activityScope:0,
-          vipType:vipType,
-          n2nCount:$("#n2nCount").numberbox("getValue"),
-          n2nSaleAmount:$("#n2nSaleAmount").numberbox("getValue"),
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
+          maxDiscountNum: $("#n2nCount").numberbox("getValue"),
+          maxDiscountAmount: $("#n2nSaleAmount").numberbox("getValue"),
           detailList: rows
       };
   }
@@ -3716,8 +3734,8 @@ function saveDataHandel(rows,setrows){
           dailyEndTime:dailyEndTime,
           weeklyActivityDay:weeklyActivityDay,
           activityScope:0,
-          vipType:vipType,
-          n2nSaleAmount:$("#n2nSaleAmount").numberbox("getValue"),
+          memberExclusive: $('#memberExclusive').combobox('getValue'),
+          maxDiscountAmount: $("#saleAmount").numberbox("getValue"),
           detailList: rows
       };
   }
