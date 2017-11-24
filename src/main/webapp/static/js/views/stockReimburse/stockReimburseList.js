@@ -103,6 +103,18 @@ function initDatagridRequire() {
 									width : '220px',
 									align : 'left'
 								},
+								{field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+									formatter:function(value,row,index){
+										if(row.isFooter){
+											return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+										}
+										if(value && parseFloat(value) < 0){
+											value = value*-1;
+											row["untaxedAmount"] = value;
+										}
+										return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+									}
+								},
 					            {field:'amount',title:'金额',width:'80px',align:'right',
 					                formatter:function(value,row,index){
 					                    if(row.isFooter){
