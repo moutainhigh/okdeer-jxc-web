@@ -89,7 +89,7 @@ function initDgTakeStockDiffSearch(){
 		}
 	});
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice("diffSearchList",["snapshootCostPrice","costAmountHandle","profitLossCostAmount"])
+        priceGrantUtil.grantCostPrice("diffSearchList",["snapshootCostPrice","costAmountHandle","profitLossCostAmount","untaxedSnapshootCostPrice","untaxedCostAmountHandle","untaxedProfitLossCostAmount"])
     }
 }
 function getFiledsList(){
@@ -138,6 +138,19 @@ function getFiledsList(){
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
 				  },
+				  {field: 'untaxedProfitLossCostAmount', title: '盈亏金额（不含税成本价）', width: 140, align: 'right',
+					  formatter : function(value, row, index) {
+						  if(row.isFooter){
+							  return;
+						  }
+						  
+						  if(!row.untaxedProfitLossCostAmount){
+							  row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(2);
+						  }
+						  
+						  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					  },
+				  },
 		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right',
                       formatter : function(value, row, index) {
                           if(row.isFooter){
@@ -176,6 +189,19 @@ function getFiledsList(){
 
                           return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                       },
+				  },
+				  {field: 'untaxedCostAmountHandle', title: '实际处理金额（不含税成本价）', width: 200, align: 'right',
+					  formatter : function(value, row, index) {
+						  if(row.isFooter){
+							  return;
+						  }
+						  
+						  if(!row.untaxedCostAmountHandle){
+							  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(2);
+						  }
+						  
+						  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					  },
 				  },
 		          {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'right',
                       formatter : function(value, row, index) {
@@ -245,6 +271,17 @@ function getFiledsList(){
 					},
 
 		          {field: 'handle', title: '是否处理', width: 80, align: 'left'},
+		          {field:'untaxedSnapshootCostPrice',title:'原库存不含税成本价',width:'120px',align:'right',
+		        	  formatter:function(value,row,index){
+		        		  if(row.isFooter){
+		        			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		  }
+		        		  if(!value){
+		        			  row["untaxedSnapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+		        		  }
+		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	  },
+		          },
 		            {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
@@ -264,6 +301,19 @@ function getFiledsList(){
 							if(!value){
 								row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
 							}
+							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						},
+					},
+					{field: 'untaxedProfitLossCostAmount', title: '盈亏金额（不含税成本价）', width: 140, align: 'right',
+						formatter : function(value, row, index) {
+							if(row.isFooter){
+								return;
+							}
+							
+							if(!row.untaxedProfitLossCostAmount){
+								row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(2);
+							}
+							
 							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 						},
 					},
@@ -370,6 +420,19 @@ function getFiledsList(){
 
                 return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             },
+		  },
+		  {field: 'untaxedCostAmountHandle', title: '实际处理金额（不含税成本价）', width: 200, align: 'right',
+			  formatter : function(value, row, index) {
+				  if(row.isFooter){
+					  return;
+				  }
+				  
+				  if(!row.untaxedCostAmountHandle){
+					  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(2);
+				  }
+				  
+				  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			  },
 		  },
         {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'right',
             formatter : function(value, row, index) {
