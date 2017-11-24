@@ -174,13 +174,13 @@ function initDatagridRequireOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
             		
             		if(!value){
-            			row["largeNum"] = parseFloat(value||0).toFixed(2);
+            			row["largeNum"] = parseFloat(value||0).toFixed(4);
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -194,12 +194,12 @@ function initDatagridRequireOrder(){
             {field:'applyNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
             		if(!value){
-            			row["applyNum"] = parseFloat(value||0).toFixed(2);
+            			row["applyNum"] = parseFloat(value||0).toFixed(4);
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -312,9 +312,9 @@ function initDatagridRequireOrder(){
                         return
                     }
                     if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
+                    	row.price = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -330,14 +330,14 @@ function initDatagridRequireOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
 
                     if(!row.amount){
-                    	row.amount = parseFloat(value||0).toFixed(2);
+                    	row.amount = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -356,10 +356,10 @@ function initDatagridRequireOrder(){
             		}
             		
             		if(!row.salePrice){
-            			row.salePrice = parseFloat(value||0).toFixed(2);
+            			row.salePrice = parseFloat(value||0).toFixed(4);
             		}
             		
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	}
             },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
@@ -409,9 +409,9 @@ function initDatagridRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
+                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
                     row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -540,7 +540,7 @@ function onChangeLargeNum(newV,oldV){
     gridHandel.setFieldValue('amount',_tempAmount.toFixed(4));
     
     var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
     gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
@@ -605,7 +605,7 @@ function onChangeRealNum(newV,oldV) {
                    //金额=数量*单价
 
     var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
     gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
     
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
@@ -651,7 +651,7 @@ function onSelectIsGift(data){
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
             gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
         }
@@ -871,10 +871,10 @@ function saveOrder(){
             return false;
         }
 
-        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(2);
-        var _largeNum = parseFloat(v["applyNum"] / v["distributionSpec"]).toFixed(2);
-        if (parseFloat(_realNum).toFixed(2) != parseFloat(v["applyNum"]).toFixed(2)
-            && parseFloat(_largeNum).toFixed(2) != parseFloat(v["largeNum"]).toFixed(2)) {
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"] / v["distributionSpec"]).toFixed(4);
+        if (parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)) {
             $_jxc.alert("第" + (i + 1) + "行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             return false;
@@ -1050,10 +1050,10 @@ function updateOrder(){
             return false;
         }
 
-        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(2);
-        var _largeNum = parseFloat(v["applyNum"] / v["distributionSpec"]).toFixed(2);
-        if (parseFloat(_realNum).toFixed(2) != parseFloat(v["applyNum"]).toFixed(2)
-            && parseFloat(_largeNum).toFixed(2) != parseFloat(v["largeNum"]).toFixed(2)) {
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"] / v["distributionSpec"]).toFixed(4);
+        if (parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)) {
             $_jxc.alert("第" + (i + 1) + "行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             return false;

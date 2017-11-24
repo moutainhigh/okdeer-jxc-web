@@ -37,17 +37,17 @@ function initDatagridViewRequireOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
 			},
             {field:'applyNum',title:'数量',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
 			},
             {field:'price',title:'单价',width:'80px',align:'right',
@@ -55,15 +55,15 @@ function initDatagridViewRequireOrder(){
 					if(row.isFooter){
 						return ;
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
 			},
             {field:'amount',title:'金额',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
 			},
             {field:'isGift',title:'赠送',width:'80px',align:'left',
@@ -104,8 +104,8 @@ function initDatagridViewRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
-					var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
-                    return  '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
+					var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
+                    return  '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
                 }
             },
             {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
