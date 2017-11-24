@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.sale;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -186,9 +187,6 @@ public class ActivityController extends BaseController<ActivityController> {
 					activityDetail.setId(detailId);
 					activityDetail.setActivityId(main.getId());
                     activityDetail.setDiscountNum(activityDetailVo.getDiscountNum() != null ? activityDetailVo.getDiscountNum().intValue() : null);
-					if (activityVo.getActivityType() == 12) {
-						activityDetail.setGoodsPackageGroupId(main.getId());
-					}
 					detailList.add(activityDetail);
 				}
 			}
@@ -204,6 +202,14 @@ public class ActivityController extends BaseController<ActivityController> {
 				activityBranch.setBranchId(branchId);
 				branchList.add(activityBranch);
 			}
+
+			List<ActivityDetail> datas = Lists.newArrayList();
+			detailList.stream().forEach(activityDetailVo -> {
+				if (activityVo.getActivityType() == 12) {
+					activityDetailVo.setGoodsPackageGroupId(main.getId());
+					datas.add(activityDetailVo);
+				}
+			});
 
 			// 保存活动
 			mainServiceApi.save(main, detailList, branchList, goodsGiftList);
@@ -364,8 +370,15 @@ public class ActivityController extends BaseController<ActivityController> {
 				branchList.add(activityBranch);
 			}
 
+			List<ActivityDetail> datas = Lists.newArrayList();
+			detailList.stream().forEach(activityDetailVo -> {
+				if (activityVo.getActivityType() == 12) {
+					activityDetailVo.setGoodsPackageGroupId(main.getId());
+					datas.add(activityDetailVo);
+				}
+			});
 			// 保存活动
-			return mainServiceApi.update(main, detailList, branchList, goodsGiftList);
+			return mainServiceApi.update(main, datas, branchList, goodsGiftList);
 
 		} catch (Exception e) {
 			LOG.error("修改活动出现异常：", e);
