@@ -87,7 +87,7 @@ function initDatagridOrders(){
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'amount',title:'总金额',width:'120px',align:'right',
                 formatter : function(value, row, index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'refFormNo',title:'引用单号',width:'200px',align:'left'},

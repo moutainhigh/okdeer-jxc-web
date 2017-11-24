@@ -211,14 +211,14 @@ function initDirectDataGrid(){
            {field:'largeNum',title:'箱数',width:'80px',align:'right',
                formatter : function(value, row, index) {
                    if(row.isFooter){
-                       return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                       return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                    }
                    
                    if(!value){
-                       row["largeNum"] = parseFloat(value||0).toFixed(2);
+                       row["largeNum"] = parseFloat(value||0).toFixed(4);
                    }
                    
-                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                   return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },
                editor:{
                    type:'numberbox',
@@ -233,12 +233,12 @@ function initDirectDataGrid(){
            {field:'realNum',title:'数量',width:'100px',align:'right',
                formatter:function(value,row,index){
                    if(row.isFooter){
-                       return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                       return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                    }
                    if(!value){
-                       row["realNum"] = parseFloat(value||0).toFixed(2);
+                       row["realNum"] = parseFloat(value||0).toFixed(4);
                    }
-                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                   return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },
                editor:{
                    type:'numberbox',
@@ -273,14 +273,14 @@ function initDirectDataGrid(){
            {field:'amount',title:'金额',width:'100px',align:'right',
                formatter : function(value, row, index) {
                    if(row.isFooter){
-                       return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                       return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                    }
 
                    if(!value){
-                   	row.amount = parseFloat(value||0).toFixed(2);
+                   	row.amount = parseFloat(value||0).toFixed(4);
                    }
                    
-                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                   return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },
                editor:{
                    type:'numberbox',
@@ -352,9 +352,9 @@ function initDirectDataGrid(){
                    if(row.isFooter){
                        return;
                    }
-                   var taxAmountVal = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.0000).toFixed(2);
+                   var taxAmountVal = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.0000).toFixed(4);
                    row["taxAmount"] = taxAmountVal;
-                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                   return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },
                editor:{
                    type:'numberbox',
@@ -645,7 +645,7 @@ function onSelectIsGift(data){
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum')||0;
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
             gridHandel.setFieldValue('amount',oldAmount);//总金额
             gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总税额
         }

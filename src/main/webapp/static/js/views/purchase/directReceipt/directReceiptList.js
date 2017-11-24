@@ -183,7 +183,7 @@ function initDatagridFormPA(){
             {field:'supplierName',title:'供应商',width:200,align:'left'},
             {field:'amount',title:'单据金额',width:200,align:'right',
             	formatter:function(value, row, index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	}
             },
             {field:'validTime',title:'审核时间',width:200,align:'center', formatter: function (value, row, index) {
@@ -239,7 +239,7 @@ function initDirectDatagrid(){
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'amount',title:'总金额',width:100,align:'right',
             	formatter:function(value,row,index){
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'refFormNo',title:'采购单号',width:'140px',align:'left'},

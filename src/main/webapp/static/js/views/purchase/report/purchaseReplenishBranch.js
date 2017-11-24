@@ -84,7 +84,7 @@ function initPurReportDetailGrid(queryType) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'stockNum', title: '库存数量', width:80, align: 'right',
+			{field: 'stockNum', title: '库存数量', width:120, align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -92,7 +92,7 @@ function initPurReportDetailGrid(queryType) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'stockAmount', title: '库存金额', width:80, align: 'right',
+			{field: 'stockAmount', title: '库存金额', width:120, align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -100,7 +100,7 @@ function initPurReportDetailGrid(queryType) {
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field: 'saleNum', title: '销售数量', width:80, align: 'right',
+			{field: 'saleNum', title: '销售数量', width:120, align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
