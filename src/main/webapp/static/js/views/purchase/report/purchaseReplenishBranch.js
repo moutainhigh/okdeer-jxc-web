@@ -20,10 +20,10 @@ $(function() {
 		}
 	});
 	
-	//机构选择初始化 收货机构 一般数据
+	//机构选择初始化
     $('#targetBranch').branchSelect({
     	param:{
-    		// 不包括仓库
+    		// 只允许分公司
 			branchTypesStr: $_jxc.branchTypeEnum.BRANCH_COMPANY
 		}
     });
