@@ -144,7 +144,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public PageUtils<StockFormVo> getStockFormList(StockFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -154,7 +154,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 			// 过滤数据权限字段
 			cleanAccessData(stockFormList);
-			LOG.debug(LogConstant.PAGE, stockFormList.toString());
+			LOG.debug(LogConstant.PAGE, stockFormList);
 			return stockFormList;
 		} catch (Exception e) {
 			LOG.error("获取单据列表信息异常:{}", e);

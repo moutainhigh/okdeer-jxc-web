@@ -74,6 +74,25 @@ function initDatagridEditRequireOrder(){
                   {field:'barCode',title:'国际条码',width:'150px',align:'left'},
                   {field:'unit',title:'单位',width:'60px',align:'left'},
                   {field:'spec',title:'规格',width:'90px',align:'left'},
+                  {field:'untaxedPrice',title:'不含税成本价',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return
+                		  }
+                		  if(!value){
+                			  row["price"] = 0.00;
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  },
+                	  editor:{
+                		  type:'numberbox',
+                		  options:{
+                			  disabled:true,
+                			  min:0,
+                			  precision:4
+                		  }
+                	  },
+                  },
                   {field:'price',title:'成本价',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
@@ -162,6 +181,22 @@ function initDatagridEditRequireOrder(){
                       },
                   },
                  
+                  {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  },
+                	  editor:{
+                		  type:'numberbox',
+                		  options:{
+                			  disabled:true,
+                			  precision:2
+                		  }
+                	  },
+                	  
+                  },
                   {field:'amount',title:'金额',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
@@ -178,6 +213,34 @@ function initDatagridEditRequireOrder(){
                       },
 
                   },
+                  {field:'taxRate',title:'参考税率',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return
+                          }
+                          if(!value){
+                          	row["price"] = 0.00;
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  }
+                  },
+                  {field:'tax',title:'税额',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  },
+                	  editor:{
+                		  type:'numberbox',
+                		  options:{
+                			  disabled:true,
+                			  precision:2
+                		  }
+                	  },
+                	  
+                  },
+                  
                   {field:'reason',title:'调整原因',width:'200px',align:'left',
                       editor:{
                           type:'textbox',
@@ -231,7 +294,7 @@ function initDatagridEditRequireOrder(){
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(gridName,["price","amount"])
+        priceGrantUtil.grantCostPrice(gridName,["price","amount","untaxedPrice","untaxedAmount","taxRate","tax"])
     }
 
 }
@@ -314,16 +377,14 @@ function onChangeRealNum(newV,oldV) {
     }
     
     n = 1;
-    gridHandel.setFieldValue('amount',parseFloat(priceValue*_tempNewRealNum).toFixed(4));
+    var amount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
+    gridHandel.setFieldValue('amount',amount);
+    var untaxedPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    var untaxedAmount = parseFloat(untaxedPrice*_tempNewRealNum).toFixed(4);
+    gridHandel.setFieldValue('untaxedAmount',untaxedAmount);
+    gridHandel.setFieldValue('tax',amount - untaxedAmount);
     gridHandel.setFieldValue('realNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
 
-    /*var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-    if(parseFloat(realNumValue)<0){
-        gridHandel.setFieldValue('amount',parseFloat(priceValue*realNumValue*-1).toFixed(4));                  //金额=数量*单价
-    }
-    else{
-        gridHandel.setFieldValue('amount',parseFloat(priceValue*realNumValue).toFixed(4));
-    }*/
     updateFooter();
 }
 
@@ -366,8 +427,12 @@ function totleChangePrice(newV,oldV) {
     }
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-    gridHandel.setFieldValue('amount',parseFloat(price*newV).toFixed(4)); 
-    
+    var amount = parseFloat(price*newV).toFixed(4);
+    gridHandel.setFieldValue('amount',amount); 
+    var untaxedPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    var untaxedAmount = parseFloat(untaxedPrice*newV).toFixed(4);
+    gridHandel.setFieldValue('untaxedAmount',untaxedAmount);
+    gridHandel.setFieldValue('tax',amount - untaxedAmount);
     m = 1;
 	var _tempLargeNum = parseFloat(newV/purchaseSpecValue);
 	gridHandel.setFieldsData({tmpLargeNum:_tempLargeNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
@@ -378,7 +443,7 @@ function totleChangePrice(newV,oldV) {
 
 //合计
 function updateFooter(){
-    var fields = {stockNum:0,sellable:0,largeNum:0,realNum:0,amount:0,isGift:0, };
+    var fields = {stockNum:0,sellable:0,largeNum:0,realNum:0,amount:0,isGift:0,untaxedAmount:0,tax:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -529,6 +594,8 @@ function selectTion(){
 		var realNum = el.realNum;
 		var largeNum = el.largeNum;
 		el["amount"] = parseFloat(el.amount)*-1;
+		el["untaxedAmount"] = parseFloat(el.untaxedAmount)*-1;
+		el["tax"] = parseFloat(el.tax)*-1;
 		el["realNum"] = parseFloat(realNum)*-1;
 		el["largeNum"] = parseFloat(largeNum)*-1;
 	})
@@ -720,12 +787,15 @@ function updateListData(data){
 	    			  el["realNum"]=el["realNum"]*-1;
 	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
 	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
-	    			  
+	    			  el["untaxedAmount"] =parseFloat(el["realNum"])*parseFloat(el["untaxedPrice"]);
+	    			  el["tax"]=el["amount"]-el["untaxedAmount"];
 	    			}
 	    			else{
 	    			  el["realNum"]=el["realNum"];
 	       			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
 	       			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	       			  el["untaxedAmount"] =parseFloat(el["realNum"])*parseFloat(el["untaxedPrice"]);
+	       			  el["tax"]=el["amount"]-el["untaxedAmount"];
 	    			}
 	    		 }
 	    	   if(parseFloat(el["largeNum"])){
@@ -733,11 +803,15 @@ function updateListData(data){
 	    			   el["largeNum"]=el["largeNum"]*-1;
 	        		   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
 	        		   el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	        		   el["untaxedAmount"] =parseFloat(el["largeNum"])*parseFloat(el["untaxedPrice"])*parseFloat(el["purchaseSpec"]);
+	        		   el["tax"]=el["amount"]-el["untaxedAmount"];
 	    		   }
 	    		   else{
 	    			   el["largeNum"]=el["largeNum"];
 	      			   el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
 	      			  el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	      			  el["untaxedAmount"] =parseFloat(el["largeNum"])*parseFloat(el["untaxedPrice"])*parseFloat(el["purchaseSpec"]);
+	      			  el["tax"]=el["amount"]-el["untaxedAmount"];
 	    		   }
 	    	}
 	    	}
@@ -747,11 +821,15 @@ function updateListData(data){
 	    			  el["realNum"]=el["realNum"]*-1;
 	      			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
 	      			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	      			  el["untaxedAmount"] =parseFloat(el["realNum"])*parseFloat(el["untaxedPrice"]);
+	      			  el["tax"]=el["amount"]-el["untaxedAmount"];
 	    			}
 	    			else{
 	    			  el["realNum"]=el["realNum"];
 	    			  el["largeNum"] =parseFloat(el["realNum"])/parseFloat(el["purchaseSpec"]);
 	    			  el["amount"] =parseFloat(el["realNum"])*parseFloat(el["price"]);
+	    			  el["untaxedAmount"] =parseFloat(el["realNum"])*parseFloat(el["untaxedPrice"]);
+	    			  el["tax"]=el["amount"]-el["untaxedAmount"];
 	    			 }
 	    		}
 	    		if(parseFloat(el["largeNum"])){
@@ -759,12 +837,16 @@ function updateListData(data){
 	    			  el["largeNum"]=el["largeNum"]*-1;
 	    	          el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
 	    	          el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	    	          el["untaxedAmount"] =parseFloat(el["largeNum"])*parseFloat(el["untaxedPrice"])*parseFloat(el["purchaseSpec"]);
+	    	          el["tax"]=el["amount"]-el["untaxedAmount"];
 	       		   
 	    			}
 	    			else{
 	    			 el["largeNum"]=el["largeNum"];
 	    			 el["realNum"] =parseFloat(el["largeNum"])*parseFloat(el["purchaseSpec"]);
 	    			 el["amount"] =parseFloat(el["largeNum"])*parseFloat(el["price"])*parseFloat(el["purchaseSpec"]);
+	    			 el["untaxedAmount"] =parseFloat(el["largeNum"])*parseFloat(el["untaxedPrice"])*parseFloat(el["purchaseSpec"]);
+	    			 el["tax"]=el["amount"]-el["untaxedAmount"];
 	    			}
 	    		} 
 		
@@ -788,6 +870,8 @@ function getImportData(data){
         data[i]["realNum"]=data[i]["realNum"]||0;
       
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["untaxedAmount"]  = parseFloat(data[i]["untaxedPrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["tax"]=data[i]["amount"]-data[i]["untaxedAmount"];
         if(parseInt(data[i]["spec"])){
         	 data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["spec"])).toFixed(4);
         }else{
