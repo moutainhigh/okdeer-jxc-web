@@ -14,9 +14,7 @@ $(function(){
     }
 	operateStatus = $('#disposeStatus').val();
 	var batchId = $('#batchId').val();
-	if(operateStatus === 'add'){
-	
-	}else if(operateStatus === '0'){
+	if(operateStatus === '0'){
 		url = contextPath +"/stocktaking/diffDispose/stocktakingDifferenceList?id=" + batchId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','block');
@@ -137,6 +135,17 @@ function initOperateDataGrid(url){
                         onChange:reasonChange
 	                }
             	}},
+        	{field:'untaxedSnapshootCostPrice',title:'原库存不含税成本价',width:'120px',align:'right',
+        		formatter:function(value,row,index){
+        			if(row.isFooter){
+        				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        			}
+        			if(!value){
+        				row["untaxedSnapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+        			}
+        			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		},
+        	},
             {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -159,6 +168,17 @@ function initOperateDataGrid(url){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
+			{field:'untaxedCostAmount',title:'原库存金额（不含税成本价）',width:'150px',align:'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					if(!value){
+						row["untaxedCostAmount"] = parseFloat(value||0).toFixed(2);
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+			},
             {field:'costAmount',title:'原库存金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -170,6 +190,17 @@ function initOperateDataGrid(url){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
 			},
+			{field:'untaxedStocktakingCostAmount',title:'盘点金额（不含税成本价）',width:'150px',align:'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					if(!value){
+						row["untaxedStocktakingCostAmount"] = parseFloat(value||0).toFixed(2);
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+			},
             {field:'stocktakingCostAmount',title:'盘点金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -180,6 +211,17 @@ function initOperateDataGrid(url){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+			},
+			{field:'untaxedProfitLossCostAmount',title:'盈亏金额（不含税成本价）',width:'150px',align:'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					if(!value){
+						row["untaxedProfitLossCostAmount"] = parseFloat(value||0).toFixed(2);
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
 			},
             {field:'profitLossCostAmount',title:'盈亏金额（成本价）',width:'150px',align:'right',
                 formatter:function(value,row,index){
