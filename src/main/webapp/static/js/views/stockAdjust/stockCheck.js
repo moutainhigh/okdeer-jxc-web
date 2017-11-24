@@ -76,6 +76,14 @@ function initDatagridEditRequireOrder(){
                   {field:'barCode',title:'国际条码',width:'150px',align:'left'},
                   {field:'unit',title:'单位',width:'60px',align:'left'},
                   {field:'spec',title:'规格',width:'90px',align:'left'},
+                  {field:'untaxedPrice',title:'不含税成本价',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  }
+                  },
                   {field:'price',title:'成本价',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
@@ -144,6 +152,23 @@ function initDatagridEditRequireOrder(){
                       }
                   },
                  
+                  {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  },
+                	  editor:{
+                		  type:'numberbox',
+                		  options:{
+                			  disabled:true,
+                			  min:0,
+                			  precision:2
+                		  }
+                	  },
+                	  
+                  },
                   {field:'amount',title:'金额',width:'80px',align:'right',
                       formatter:function(value,row,index){
                           if(row.isFooter){
@@ -160,6 +185,34 @@ function initDatagridEditRequireOrder(){
                           }
                       },
 
+                  },
+                  {field:'taxRate',title:' 参考税率',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                          if(row.isFooter){
+                              return
+                          }
+                          if(!value){
+                          	row["price"] = 0.00;
+                          }
+                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  }                	  
+                  },
+                  {field:'tax',title:'税额',width:'80px',align:'right',
+                	  formatter:function(value,row,index){
+                		  if(row.isFooter){
+                			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                		  }
+                		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                	  },
+                	  editor:{
+                		  type:'numberbox',
+                		  options:{
+                			  disabled:true,
+                			  min:0,
+                			  precision:2
+                		  }
+                	  },
+                	  
                   },
                   {field:'reason',title:'调整原因',width:'200px',align:'left'},
                   {field:'remark',title:'备注',width:'200px',align:'left'}
@@ -186,7 +239,7 @@ function initDatagridEditRequireOrder(){
     });
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["price","amount"])
+        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["price","amount","untaxedPrice","untaxedAmount","taxRate","tax"])
     }
 
 }
@@ -230,6 +283,7 @@ function onChangeRealNum(newV,oldV) {
         return;
     }
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var untaxedPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'untaxedPrice');
 	var selectVal=$("#io").combobox('getValue');
 	if(gridHandel.getSelectFieldName()!="realNum"){
 		if(selectVal==1){
@@ -240,10 +294,18 @@ function onChangeRealNum(newV,oldV) {
 		} 
 		var realNumValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
 		if(realNumValue<0){
-		   gridHandel.setFieldValue('amount',parseFloat(priceValue*realNumValue*-1).toFixed(4));                  //金额=数量*单价
+			var amount = parseFloat(priceValue*realNumValue*-1).toFixed(4);
+		    gridHandel.setFieldValue('amount',amount);                  //金额=数量*单价
+		    var untaxedAmount = parseFloat(untaxedPrice*realNumValue*-1).toFixed(4);
+		    gridHandel.setFieldValue('untaxedAmount',untaxedAmount);    //金额=数量*单价
+		    gridHandel.setFieldValue('tax',amount - untaxedAmount); 
 		}
 		else{
-		   gridHandel.setFieldValue('amount',parseFloat(priceValue*realNumValue).toFixed(4));
+			var amount = parseFloat(priceValue*realNumValue).toFixed(4);
+		    gridHandel.setFieldValue('amount',amount);
+		    var untaxedAmount = parseFloat(untaxedPrice*realNumValue).toFixed(4);
+		    gridHandel.setFieldValue('untaxedAmount',untaxedAmount);    //金额=数量*单价
+		    gridHandel.setFieldValue('tax',amount - untaxedAmount); 
 		}
 	}
     updateFooter();
@@ -266,6 +328,7 @@ function totleChangePrice(newV,oldV) {
     var selectVal=$("#io").combobox('getValue');
 
     var price = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var untaxedPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'untaxedPrice');
 	  if(selectVal==1&&parseFloat(newV)>0){
 //		   gridHandel.setFieldValue('realNum',newV*-1); 
 		   gridHandel.setFieldValue('largeNum',parseFloat(newV/purchaseSpecValue*-1).toFixed(4));   //箱数=数量/商品规格
@@ -274,10 +337,18 @@ function totleChangePrice(newV,oldV) {
 		   gridHandel.setFieldValue('largeNum',parseFloat(newV/purchaseSpecValue).toFixed(4));   //箱数=数量/商品规格	  
 	   }
 	  if(newV<0){
-          gridHandel.setFieldValue('amount',parseFloat(price*newV*-1).toFixed(4));   //金额=数量*单价
-        }                       
+		  var amount = parseFloat(price*newV*-1).toFixed(4);
+          gridHandel.setFieldValue('amount',amount);   //金额=数量*单价
+          var untaxedAmount = parseFloat(untaxedPrice*newV*-1).toFixed(4);
+          gridHandel.setFieldValue('untaxedAmount',untaxedAmount);   //金额=数量*单价
+          gridHandel.setFieldValue('tax',amount - untaxedAmount);
+      }                       
 	  else{
-		  gridHandel.setFieldValue('amount',parseFloat(price*newV).toFixed(4));    
+		  var amount = parseFloat(price*newV).toFixed(4);
+		  gridHandel.setFieldValue('amount',amount);    
+		  var untaxedAmount = parseFloat(untaxedPrice*newV).toFixed(4);
+		  gridHandel.setFieldValue('untaxedAmount',untaxedAmount);    
+		  gridHandel.setFieldValue('tax',amount - untaxedAmount);
 	  }
 	  updateFooter();
 }
@@ -285,7 +356,7 @@ function totleChangePrice(newV,oldV) {
 
 //合计
 function updateFooter(){
-    var fields = {stockNum:0,sellable:0,largeNum:0,realNum:0,amount:0,isGift:0, };
+    var fields = {stockNum:0,sellable:0,largeNum:0,realNum:0,amount:0,isGift:0,untaxedAmount:0,tax:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -624,6 +695,8 @@ function getImportData(data){
         data[i]["realNum"]=data[i]["realNum"]||0;
       
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["untaxedAmount"]  = parseFloat(data[i]["untaxedPrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["tax"] =data[i]["amount"] -data[i]["untaxedAmount"] ;
         if(parseInt(data[i]["spec"])){
         	 data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["spec"])).toFixed(4);
         }else{
