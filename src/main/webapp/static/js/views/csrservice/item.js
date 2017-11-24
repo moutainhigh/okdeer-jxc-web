@@ -25,11 +25,12 @@ function initTreeArchives() {
         var setting = {
             view: {
                 addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom,
                 selectedMulti: false
             },
             edit: {
                 enable: true,
-                editNameSelectAll: true,
+                // editNameSelectAll: true,
                 showRemoveBtn: showRemoveBtn,
                 showRenameBtn: showRenameBtn
             },
@@ -45,7 +46,11 @@ function initTreeArchives() {
                 }
             },
             callback: {
-                onClick: zTreeOnClick
+                onClick: zTreeOnClick,
+                beforeRemove: beforeRemove,
+                // onRemove: onRemove,
+                onRename: onRename
+
             }
         };
         if (data == "") {
@@ -60,18 +65,99 @@ function initTreeArchives() {
     });
 }
 
+var newCount = 1;
+var className = "dark";
 function addHoverDom(treeId, treeNode) {
-    var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
-    zTree.addNodes(treeNode, {id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++)});
-    return false;
+    if(treeNode.level == 1){
+        return;
+    }
+    var sObj = $("#" + treeNode.tId + "_span");
+    if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+        + "' title='add node' onfocus='this.blur();'></span>";
+    sObj.after(addStr);
+    var btn = $("#addBtn_"+treeNode.tId);
+    if (btn) btn.bind("click", function(){
+        var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+        zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, text:"子节点" + (newCount++)});
+        return false;
+    });
 }
+
+
+function removeHoverDom(treeId, treeNode) {
+    $("#addBtn_"+treeNode.tId).unbind().remove();
+};
 
 function showRemoveBtn(treeId, treeNode) {
-    return !treeNode.isFirstNode;
+    if(treeNode.level == 0){
+        return;
+    }
+    return true;
+}
+function showRenameBtn(treeId, treeNode) {
+    if(treeNode.level == 0){
+        return;
+    }
+    return true;
 }
 
-function showRenameBtn(treeId, treeNode) {
-    return !treeNode.isLastNode;
+function beforeRemove(treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+    zTree.selectNode(treeNode);
+
+    $_jxc.confirm("确认删除服务类型--" + treeNode.name + " 吗？",function (res) {
+        if(res){
+            onRemove(treeId, treeNode);
+        }
+    });
+
+    return false;
+
+}
+
+function onRemove(reeId, treeNode) {
+    var treeId = treeId;
+    var treeNode = treeNode;
+    // showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+    var param = {
+        id:treeNode.id
+    }
+    $_jxc.ajax({
+        url:contextPath+'/pos/group/key/goods/top/list',
+        data:param,
+    },function(result){
+        if(result.code == 0){
+
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
+}
+
+function onRename(e, treeId, treeNode, isCancel) {
+    var e = e;
+    var treeId = treeId;
+    var treeNode = treeNode;
+    if($_jxc.isStringNull(treeNode.text)){
+        $_jxc.alert("服务类型不能为空");
+        return;
+    }
+    var param = {
+        id:treeNode.id,
+        text:treeNode.text
+    }
+
+    $_jxc.ajax({
+        url:contextPath+'/pos/group/key/goods/top/list',
+        data:param,
+    },function(result){
+        if(result.code == 0){
+
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
 }
 
 //选择树节点
