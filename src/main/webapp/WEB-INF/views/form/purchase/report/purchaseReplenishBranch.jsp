@@ -18,10 +18,14 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
+	            	<shiro:hasPermission name="JxcBranchReplenish:search">
 	                <div class="ubtns-item" onclick="purchaseDetailCx()">查询</div>
+	                </shiro:hasPermission>
 	                <input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
+					<shiro:hasPermission name="JxcBranchReplenish:export">
 	                <div class="ubtns-item" onclick="exportDetails()">导出</div>
+	                </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>

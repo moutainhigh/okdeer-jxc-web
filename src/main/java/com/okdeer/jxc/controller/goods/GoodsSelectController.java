@@ -423,7 +423,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
                         paramVo.setBranchIdStrs(Joiner.on(",").join(branchList));
                         paramVo.setBranchIds(branchIdList);
-                        //suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+                        /**suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);*/
 
                     }
 					suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
@@ -455,7 +455,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                     }
                 }
 			}
-			LOG.debug("根据货号查询商品:{}", suppliers.toString());
+			LOG.debug("根据货号查询商品:{}", suppliers);
 			// 用查询条件的国际码替换主条码
 			replaceBarCode(suppliers, paramVo);
 			return suppliers;
