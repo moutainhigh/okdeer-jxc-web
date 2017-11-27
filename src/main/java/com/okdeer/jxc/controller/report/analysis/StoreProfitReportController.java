@@ -145,7 +145,7 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 			// 金额格式化，getPriceFmtB 函数在JS文件中实现
 			StringBuffer amountFmt = new StringBuffer();
 			amountFmt.append(".separator.function(value,row,index){");
-			amountFmt.append("return getPriceFmtB(value);");
+			amountFmt.append("return displayAmount(value);");
 			amountFmt.append("}.separator.");
 
 			// 构建 合计金额 列
