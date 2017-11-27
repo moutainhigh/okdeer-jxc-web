@@ -19,9 +19,13 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
+<<<<<<< HEAD
+
+=======
 import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
 import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
 import org.springframework.web.bind.annotation.PathVariable;
+>>>>>>> branch 'master' of http://zhaoly@10.20.101.5/ERP/okdeer-jxc-web.git
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,7 +94,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         }
         return maps;
     }
-
+    
     @RequestMapping(value = "add/{branchId}/{pid}", method = RequestMethod.POST)
     public Map<String, String> add(@PathVariable("branchId") String branchId, @PathVariable("pid") String pid) {
         String uuid = UUIDHexGenerator.generate();
@@ -140,4 +144,11 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
             return RespJson.error("删除服务类型失败!");
         }
     }
+    
+    
+    
+	@RequestMapping(value = "editService", method = RequestMethod.GET)
+	public ModelAndView editService() {
+		return new ModelAndView("/csrservice/editServiceDialog");
+	}
 }

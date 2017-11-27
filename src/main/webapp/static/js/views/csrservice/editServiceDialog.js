@@ -7,7 +7,12 @@ $(function () {
 var type = "add";
 
 var nodeCode = "" ;
-function initFinanceDialog(param) {
+var servciecallback = null;
+function initServiceDialogCallback(cb) {
+    servciecallback = cb;
+}
+
+function initServiceDialog(param) {
     type = param.type;
 	if(param.type === "edit"){
 		$("#id").val(param.id);
@@ -31,7 +36,7 @@ function initFinanceDialog(param) {
     }
 }
 
-function saveFinanceCode() {
+function saveServiceCode() {
     //校验表单
     if($_jxc.isStringNull($("#value").val())){
         $_jxc.alert("编号不能为空");
@@ -54,16 +59,17 @@ function saveFinanceCode() {
 	
 	var isFixed = null;
 	
-	if(nodeCode.startWith("101005")){
-		isFixed = $('#isFixed').is(':checked') ? 1 : 0;
-	}
+	// if(nodeCode.startWith("101005")){
+	// 	isFixed = $('#isFixed').is(':checked') ? 1 : 0;
+	// }
 	
 	var data = {
         dictTypeId:$("#dictTypeId").val(),
         value:$("#value").val(),
         label:$("#label").val().trim(),
+        price:1,
         remark:$("#remark").val(),
-        isFixed:isFixed
+        isFixed:$("ckbchangePrice").is("checked")?"1":"0",
     }
     if(type === "edit"){
         data.id = $("#id").val();
@@ -74,19 +80,8 @@ function saveFinanceCode() {
 	}
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
-            queryFinanceCode();
             $_jxc.alert("保存成功");
-            if(type === "add"){
-                if($("#ckbSave").is(":checked")){
-                    cleanForm();
-                }else {
-                    closeFinanceDialog();
-                }
-            }else{
-                closeFinanceDialog();
-            }
-
-
+            servciecallback({code:"1"});
         }else{
             $_jxc.alert(result['message']);
         }

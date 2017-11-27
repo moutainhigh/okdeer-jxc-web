@@ -163,7 +163,7 @@ var selectNode = null;
 function zTreeOnClick(event, treeId, treeNode) {
     selectNode = treeNode;
     $("#branchCompleCode").val(treeNode.code);
-    queryBranch();
+    queryService();
 }
 
 function initDatagridBranchList() {
@@ -183,7 +183,7 @@ function initDatagridBranchList() {
                 field: 'serviceCode', title: '编号', width: 80, align: 'left',
                 formatter: function (value, row, index) {
                     if (value) {
-                        return "<a href='#' onclick=\"editHandel('" + row.serviceCode + "')\" class='ualine'>" + value + "</a>";
+                        return "<a href='#' onclick=\"editHandel('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"','"+row.price+"')\" class='ualine'>" + value + "</a>";
                     } else {
                         return value;
                     }
@@ -191,6 +191,7 @@ function initDatagridBranchList() {
             },
             {field: 'serviceName', title: '名称', width: 180, align: 'left'},
             {field: 'price', title: '单价', width: 80, align: 'right'},
+            {field: 'isChangePrice', title: '是否可以改价', width: 120, align: 'center'},
             {field: 'remark', title: '备注', width: 180, align: 'left'},
         ]],
         onBeforeLoad: function () {
@@ -204,16 +205,16 @@ var dialogWidth = 1000;//$(window).width()*(5/9);
 var dialogLeft = $(window).width() * (1 / 5);
 var editDialogTemp
 
-function openEditServiceDailog(branchId) {
+function openEditServiceDailog(param) {
     editDialogTemp = $('<div/>').dialog({
-        href: contextPath + "/archive/branch/toEdit",
-        queryParams: {
-            branchId: branchId
-        },
+        href: contextPath + "/service/item/editService",
+        // queryParams: {
+        //     branchId: branchId
+        // },
         width: dialogWidth, //bug19840
         height: dialogHeight,
 //        left:dialogLeft,
-        title: "修改机构信息",
+        title: "服务项目",
         closable: true,
         resizable: true,
         onClose: function () {
@@ -222,12 +223,20 @@ function openEditServiceDailog(branchId) {
         },
         modal: true,
         onLoad: function () {
-            initBranchInfo();
+            initServiceDialog(param);
+            initServiceDialogCallback(serviceDialogCb);
         }
     })
 }
 
-function closeDialogHandel() {
+function serviceDialogCb(res) {
+    if(res.code === "1"){
+        closeServiceDialog();
+        queryService();
+    }
+}
+
+function closeServiceDialog() {
     $(editDialogTemp).panel('destroy');
     editDialogTemp = null;
 }
@@ -235,7 +244,7 @@ function closeDialogHandel() {
 /**
  * 搜索
  */
-function queryBranch() {
+function queryService() {
     var formData = $('#formList').serializeObject();
     $("#" + gridName).datagrid("options").queryParams = formData;
     $("#" + gridName).datagrid("options").method = "post";
@@ -246,9 +255,15 @@ function queryBranch() {
 /**
  * 修改
  */
-function editHandel(seviceCode) {
+function editHandel(id,value,label,remark,price) {
     var param = {
-
+        type:"edit",
+        id:id,
+        value:value,
+        label:label,
+        remark:remark,
+        price:price,
+        nodeCode:selectNode.branchesId
     }
     openEditServiceDailog(param);
 }
@@ -258,7 +273,11 @@ function addServiceItem() {
         var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
         zTree.addNodes(selectNode, {id:(100 + newCount), pId:selectNode.id, text:"子节点" + (newCount++)});
     }else if(selectNode.level == 1){
-        openEditServiceDailog(row.branchesId);
+        var param = {
+            type:"add",
+            branchId:selectNode.branchesId
+        }
+        openEditServiceDailog(param);
     }
 }
 
