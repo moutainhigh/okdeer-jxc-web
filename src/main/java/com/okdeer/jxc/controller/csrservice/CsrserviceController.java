@@ -15,7 +15,9 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -69,4 +71,11 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         }
         return maps;
     }
+    
+	@RequestMapping(value = "editService", method = RequestMethod.GET)
+	public ModelAndView editService() {
+		return new ModelAndView("/csrservice/editServiceDialog");
+	}
+    
+    
 }

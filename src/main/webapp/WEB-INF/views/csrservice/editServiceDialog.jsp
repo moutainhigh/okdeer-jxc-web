@@ -3,18 +3,18 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-<title>新增编辑财务代码</title>
+<title>新增编辑服务代码</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}3"></script>
+	src="${ctx}/static/js/views/financeCode/editServiceDialog.js?V=${versionNo}3"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="saveFinanceCode()" id="saveBtn">保存</button>
-			<button class="ubtns-item" onclick="closeFinanceDialog()">关闭</button>
+			<button class="ubtns-item" onclick="saveServiceCode()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="closeServiceDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
@@ -58,6 +58,14 @@
 					<input class="uinp ub ub-f1" type="text" id="remark" name="remark"
 						maxlength="20" />
 				</div>
+			</div>
+
+			<div class="ub upad-4 umar-t10">
+
+			<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r"></div>
+				<input id="ckbchangePrice" name="ckbchangePrice" type="checkbox"><label for="ckbchangePrice">可以改价</label>
+			</div>
 			</div>
 
 		</div>
