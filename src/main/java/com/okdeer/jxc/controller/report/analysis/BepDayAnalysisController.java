@@ -72,8 +72,8 @@ public class BepDayAnalysisController extends AbstractMutilGpeController<BepAnal
 
 	@Override
 	protected MutilCustomMarkBean getMutilCustomMark() {
-		return new MutilCustomMarkBean(MOUDLE_REPORT, "bepDayAnalysis", "depreciation",
-				"unDepreciation");
+		return new MutilCustomMarkBean(MOUDLE_REPORT , SECTION_BEPDAY_ANALYSIS, KEY_BY_DEPRECIATION,
+				KEY_BY_UN_DEPRECIATION);
 	}
 
 	@Override

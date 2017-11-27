@@ -106,7 +106,7 @@ public class CashFlowReportController extends AbstractSimpleGpeController<CashFl
 
 	@Override
 	protected CustomMarkBean getCustomMark() {
-		return new CustomMarkBean(GpeMarkContrant.MOUDLE_REPORT, "cashFlow", GpeMarkContrant.KEY_LIST);
+		return new CustomMarkBean(GpeMarkContrant.MOUDLE_REPORT, GpeMarkContrant.SECTION_CASH_FLOW, GpeMarkContrant.KEY_LIST);
 	}
 
 	@Override

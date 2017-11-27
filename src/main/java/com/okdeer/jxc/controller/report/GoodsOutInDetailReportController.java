@@ -57,7 +57,8 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected CustomMarkBean getCustomMark() {
-		return new CustomMarkBean("stock", "stockDetail", GpeMarkContrant.KEY_LIST);
+		return new CustomMarkBean(GpeMarkContrant.MOUDLE_STOCK, GpeMarkContrant.SECTION_STOCK_DETAIL, GpeMarkContrant.KEY_LIST);
+		
 	}
 
 	@Override
