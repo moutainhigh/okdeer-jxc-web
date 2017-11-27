@@ -70,7 +70,23 @@
 						<div class="ub  ub-ac upad-t16">每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
 					</div>
 				</div>
-                <div class="ub ub-ac upad-16 ">
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-200 ut-r">建议订货数量公式:</div>
+					<div class="ub ub-f1 ub-ver">
+						<div class="ub ub-ac">
+							<label class="satetyLabel" ><input  type="radio" id="isAllowMinusStock1" name="deliverSuggestType" value="0" />建议订货数量 = 存量指标上限 - 当前库存 【取配送规格整数倍】</label>
+						</div>
+					</div>
+				</div>
+				<div class="ub ub-ac umar-16">
+					<div class="ub uw-200 ut-r"></div>
+					<div class="ub ub-f1 ub-ver">
+						<div class="ub ub-ac">
+							<label class="satetyLabel" ><input  type="radio" id="isAllowMinusStock0" name="deliverSuggestType" value="1" />建议订货数量 = 订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量) － 当前库存 【取配送规格整数倍】</label>
+						</div>
+					</div>
+				</div>
+                <div class="ub ub-ac umar-16">
                     <div class="ub uw-200 ut-l">供应商结算先对账后结算模式（开启前审核所有结算单）:</div>
                     <div class="ub uw-110 ub-ac umar-r10">
                         <label>
@@ -171,6 +187,12 @@
 			var safetyCoefficientValue = data.safetyCoefficientValue;
 			$('#safetyCoefficientValue').numberbox('setValue', safetyCoefficientValue);
 		}
+		
+		
+		var deliverSuggestType = data.deliverSuggestType;
+		
+		// 初始化建议订货数量公式
+		$(":radio[name='deliverSuggestType']").eq(deliverSuggestType).prop('checked',true); 
 		
 		//切换是否为自然月
 		changeIsNaturalMonth();

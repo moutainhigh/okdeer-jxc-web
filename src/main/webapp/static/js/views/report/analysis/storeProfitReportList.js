@@ -117,3 +117,11 @@ function isBold(value, row, index){
 	}
 	return value;
 }
+
+
+function displayAmount(value){
+	if(value == "-"){
+		return value;
+	}
+	return getPriceFmtB(value);
+}
