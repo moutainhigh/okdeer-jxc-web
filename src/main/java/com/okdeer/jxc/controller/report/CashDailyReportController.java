@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.AbstractMutilGpeController;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -151,8 +152,8 @@ public class CashDailyReportController extends AbstractMutilGpeController<CashDa
 
 	@Override
 	protected MutilCustomMarkBean getMutilCustomMark() {
-		return new MutilCustomMarkBean(MOUDLE_REPORT, "cashDailyReport", "cashier",
-				"branch", "date");
+		return new MutilCustomMarkBean(MOUDLE_REPORT, GpeMarkContrant.SECTION_CASH_DAILY_REPORT, GpeMarkContrant.KEY_BY_CASHIER,
+				GpeMarkContrant.KEY_BY_BRANCH, GpeMarkContrant.KEY_BY_CASHIER);
 	}
 
 	@Override

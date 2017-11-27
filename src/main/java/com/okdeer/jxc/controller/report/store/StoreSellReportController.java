@@ -135,7 +135,7 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 
 	@Override
 	protected CustomMarkBean getCustomMark() {
-		return new CustomMarkBean(GpeMarkContrant.MOUDLE_REPORT, "storeSell", GpeMarkContrant.KEY_LIST);
+		return new CustomMarkBean(GpeMarkContrant.MOUDLE_REPORT, GpeMarkContrant.SECTION_STORE_SELL, GpeMarkContrant.KEY_LIST);
 	}
 
 	@Override
