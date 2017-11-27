@@ -66,7 +66,6 @@ function initTreeArchives() {
 }
 
 var newCount = 1;
-var className = "dark";
 function addHoverDom(treeId, treeNode) {
     if(treeNode.level == 1){
         return;
@@ -79,8 +78,10 @@ function addHoverDom(treeId, treeNode) {
     var btn = $("#addBtn_"+treeNode.tId);
     if (btn) btn.bind("click", function(){
         var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
-        zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, text:"子节点" + (newCount++)});
-        return false;
+        $_jxc.ajax({url: contextPath + '/service/item/add'}, function (data) {
+            zTree.addNodes(treeNode, {id: data.id, pId: treeNode.id, text: data.id + "子节点" + (newCount++)});
+            return false;
+        });
     });
 }
 
@@ -116,7 +117,7 @@ function beforeRemove(treeId, treeNode) {
 
 }
 
-function onRemove(reeId, treeNode) {
+function onRemove(treeId, treeNode) {
     var treeId = treeId;
     var treeNode = treeNode;
     // showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
