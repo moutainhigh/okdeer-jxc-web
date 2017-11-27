@@ -13,6 +13,16 @@ public interface GpeMarkContrant {
 	public static final String SECTION_DAYSUM = "daysum";
 
 	/**
+	 * 月结报表Section
+	 */
+	public static final String SECTION_MONTHSUM = "monthsum";
+
+	/**
+	 * 财务月进销存报表
+	 */
+	public static final String SECTION_FINANCEMONTHSUM = "financeMonthsum";
+
+	/**
 	 * 商品销售汇总分析
 	 */
 	public static final String SECTION_GOODS_SALE_SUMMARY_ANALYSIS = "goodsSaleSummaryAnalysis";

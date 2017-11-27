@@ -1,5 +1,9 @@
 $(function(){
-	initDatagridYueJXC();
+	// initDatagridYueJXC();
+	
+	// 初始化表格
+	initGridByGpeGridColumns();
+	
     //机构选择初始化
 	$('#branchComponent').branchSelect({
 		//ajax参数
@@ -14,6 +18,8 @@ $(function(){
 	});
 	
 });
+
+var tabKey = 'byBranch';
 
 function updateWdatePicker(){
 	   WdatePicker({
@@ -33,47 +39,22 @@ var gridHandelDetail = new GridClass();
 var gridYueJXCList;
 
 //初始化表格
-function initDatagridYueJXC(){
-	var reportType = $('input[type="radio"][name="reportType"]:checked').val();
-	var defaultColumns;
-
-	switch (reportType) {
-		case '1':
-			defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns1 + ")");
-			break;
-		case '2':
-			defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns2 + ")");
-			break;
-		case '3':
-			defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns3 + ")");
-			break;
-		case '4':
-			defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns4 + ")");
-			break;
-		default:
-			return;
-	}
-
-	if(gridYueJXCList){
-		$("#"+datagridId).datagrid('options').url = '';
-	}
+function initDatagridYueJXC(columns,frozenColumns){
+	gridHandel.setGridName(datagridId);
 	gridYueJXCList = $("#"+datagridId).datagrid({
-		method:'post',
-		align:'center',
-		singleSelect:false,  //单选  false多选
-		rownumbers:true,    //序号
-		pagination:true,    //分页
-		showFooter:true,
-		fitColumns:false,    //每列占满
-		height:'100%',
-		width:'100%',
-		pageSize:50,
-		columns:[defaultColumns], 
-		onLoadSuccess:function(data){
-			/* if($("#createBranchId").val()&&data.total<=0)
-				$_jxc.alert("该机构可能未月结,请先月结!"); */
-		}
-	}).datagrid("columnMoving");
+		method : 'post',
+		align : 'center',
+		singleSelect : false,
+		rownumbers : true,
+		pagination : true,
+		fitColumns : false,
+		showFooter : true,
+		pageSize : 50,
+		height : '100%',
+		width : '100%',
+		columns : columns,
+		frozenColumns : frozenColumns
+	});
     $("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);
 }
@@ -90,6 +71,9 @@ function queryForm(){
 	$("#"+datagridId).datagrid("options").method = "post";
 	$("#"+datagridId).datagrid('options').url = contextPath + '/report/month/finance/list';
 	$("#"+datagridId).datagrid('load', fromObjStr);
+	
+	// 清除url，避免自动查询
+	$("#"+datagridId).datagrid('options').url = null;
 }
 
 
@@ -111,39 +95,6 @@ var resetForm = function() {
 };
 
 var dg;
-/**
- * 导出
- */
-function exportData(){
-	dg = gridYueJXCList;
-	var length = gridYueJXCList.datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(gridYueJXCList.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-
-/**
- * 导出
- */
-function exportExcel(){
-	var length = gridYueJXCList.datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-
-	$("#queryForm").attr("action",contextPath+"/report/month/finance/export");
-	
-	$("#queryForm").submit();
-}
 
 var printReport = function(){
 	var length = gridYueJXCList.datagrid('getData').total;
@@ -178,3 +129,52 @@ var urlEncode = function(param, key, encode) {
 	}
 	return paramStr;
 };
+
+/**
+ * 切换tabKey
+ */
+function changeTabKey(){
+	$("#"+datagridId).datagrid('loadData', {
+		total : 0,
+		rows : []
+	});
+	$("#"+datagridId).datagrid('reloadFooter',[]);
+	
+	tabKey = $('input[type="radio"][name="tabKey"]:checked').val();
+	initGridByGpeGridColumns();
+}
+
+
+/**
+ * GPE获取列
+ */
+function initGridByGpeGridColumns(){
+	publicGpeGridColumns({
+		tabKey : tabKey,
+		onLoadSuccess:function(columns,frozenColumns){
+			initDatagridYueJXC(columns,frozenColumns);
+		}
+	});
+}
+
+/**
+ * GPE设置
+ */
+function toGpeSetting(){
+	publicGpeSetting({
+		tabKey : tabKey,
+		onSettingChange:function(columns,frozenColumns){
+			initGoodsSaleSummaryAnalysisGrid(columns,frozenColumns);
+		}
+	});
+}
+
+/**
+ * GPE导出
+ */
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : datagridId,
+		queryParams : $("#queryForm").serializeObject()
+	});
+}

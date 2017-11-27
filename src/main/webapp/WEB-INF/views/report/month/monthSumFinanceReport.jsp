@@ -15,15 +15,15 @@
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
-			<input type="hidden" id="columnsArr" value="<c:out value="${columnsArr}"/>">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 					<shiro:hasPermission name="JxcReportFinance:export">
 		                <input type="hidden" id="startCount" name="startCount" />
 						<input type="hidden" id="endCount" name="endCount" />
-	                	<div class="ubtns-item" onclick="exportData()">导出</div>
+	                	<div class="ubtns-item" onclick="toGpeExport()">导出</div>
 	                </shiro:hasPermission>
+	                <div class="ubtns-item" onclick="toGpeSetting()">设置</div>
 					<shiro:hasPermission name="JxcReportFinance:print">
 	                	<div class="ubtns-item-disabled">打印</div>
 	                </shiro:hasPermission>
@@ -64,22 +64,22 @@
 					<div class="umar-r10 uw-70 ut-r">报表类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem" type="radio" name="reportType" onclick="initDatagridYueJXC()" value="4" checked="checked" /><span>机构汇总</span>
+						<input class="radioItem" type="radio" name="tabKey" onclick="changeTabKey()" value="byBranch" checked="checked" /><span>机构汇总</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem" type="radio" name="reportType" onclick="initDatagridYueJXC()" value="2" /><span>商品汇总</span>
+						<input class="radioItem" type="radio" name="tabKey" onclick="changeTabKey()" value="byGoods" /><span>商品汇总</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem" type="radio" name="reportType" onclick="initDatagridYueJXC()" value="3" /><span>机构明细</span>
+						<input class="radioItem" type="radio" name="tabKey" onclick="changeTabKey()" value="byBranchDetail" /><span>机构明细</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem" type="radio" name="reportType" onclick="initDatagridYueJXC()" value="1" /><span>商品明细</span>
+						<input class="radioItem" type="radio" name="tabKey" onclick="changeTabKey()" value="byGoodsDetail" /><span>商品明细</span>
 						</label>
 					</div>
 				</div>
