@@ -184,7 +184,7 @@ function initDatagridStockLead(){
             		options:{
             			disabled:true,
             			min:0,
-            			precision:2
+            			precision:4
             		}
             	},
             },
@@ -200,7 +200,7 @@ function initDatagridStockLead(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2
+                        precision:4
                     }
                 },
             },

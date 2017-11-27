@@ -188,7 +188,7 @@ function initDatagridAddRequireOrder(){
             		type:'numberbox',
             		options:{
             			disabled:true,
-            			precision:2
+            			precision:4
             		}
             	},
             	
@@ -204,7 +204,7 @@ function initDatagridAddRequireOrder(){
                     type:'numberbox',
                     options:{
                     	disabled:true,
-                        precision:2
+                        precision:4
                     }
                 },
 
