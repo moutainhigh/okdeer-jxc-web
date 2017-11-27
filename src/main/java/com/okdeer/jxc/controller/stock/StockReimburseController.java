@@ -105,7 +105,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	public PageUtils<StockFormVo> getStockFormList(StockFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
@@ -115,7 +115,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			PageUtils<StockFormVo> stockFormList = stockAdjustServiceApi.getStockFormList(vo);
 		    // 过滤数据权限字段
 	        cleanAccessData(stockFormList);
-			LOG.debug(LogConstant.PAGE, stockFormList.toString());
+			LOG.debug(LogConstant.PAGE, stockFormList);
 			return stockFormList;
 		} catch (Exception e) {
 			LOG.error("获取报损单列表信息异常:{}", e);
@@ -421,6 +421,8 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 					stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().abs());
 					stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().abs());
 					stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().abs());
+					stockFormDetailVo.setUntaxedAmount(stockFormDetailVo.getUntaxedAmount().abs());
+					stockFormDetailVo.setTax(stockFormDetailVo.getTax().abs());
 				}
 			}
 			// 过滤数据权限字段
@@ -447,7 +449,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
-			LOG.debug("报损单打印参数：{}", vo.toString());
+			LOG.debug("报损单打印参数：{}", vo);
 			int lenght = stockAdjustServiceApi.queryPageListCount(vo);
 			if (lenght > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
@@ -504,16 +506,16 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			replaceMap.put("validUserName", form.getValidUserName() != null ? form.getValidUserName() : "");
 			// 制单时间
 			if (form.getCreateTime() != null) {
-				replaceMap.put("_制单时间", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd HH:mm"));
-				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd HH:mm"));
+				replaceMap.put("_制单时间", DateUtils.formatDate(form.getCreateTime(), DateUtils.DATE_JFP_STR_HM));
+				replaceMap.put("createTime", DateUtils.formatDate(form.getCreateTime(), DateUtils.DATE_JFP_STR_HM));
 			} else {
 				replaceMap.put("_制单时间", "");
 				replaceMap.put("createTime", "");
 			}
 			// 修改时间
 			if (form.getUpdateTime() != null) {
-				replaceMap.put("_修改时间", DateUtils.formatDate(form.getUpdateTime(), "yyyy-MM-dd HH:mm"));
-				replaceMap.put("updateTime", DateUtils.formatDate(form.getUpdateTime(), "yyyy-MM-dd HH:mm"));
+				replaceMap.put("_修改时间", DateUtils.formatDate(form.getUpdateTime(), DateUtils.DATE_JFP_STR_HM));
+				replaceMap.put("updateTime", DateUtils.formatDate(form.getUpdateTime(), DateUtils.DATE_JFP_STR_HM));
 			} else {
 				replaceMap.put("_修改时间", "");
 				replaceMap.put("updateTime", "");

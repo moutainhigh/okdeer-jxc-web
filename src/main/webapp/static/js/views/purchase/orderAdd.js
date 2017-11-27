@@ -138,14 +138,14 @@ function initDatagridEditOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value){
                         row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -160,14 +160,14 @@ function initDatagridEditOrder(){
             {field:'realNum',title:'数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value){
-                        row["realNum"] = parseFloat(value||0).toFixed(2);
+                        row["realNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -185,9 +185,9 @@ function initDatagridEditOrder(){
                         return;
                     }
                     if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
+                    	row.price = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -202,9 +202,9 @@ function initDatagridEditOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -247,7 +247,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
 
@@ -267,9 +267,9 @@ function initDatagridEditOrder(){
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -507,7 +507,7 @@ function onChangePrice(newV,oldV) {
 function onChangeAmount(newV,oldV) {
     //获取税率
     var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tax');
-    gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(2));
+    gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(4));
 }
 
 //用于判断价格的变化 以便修改piceBack2.7
@@ -547,7 +547,7 @@ function onSelectIsGift(data){
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
             gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额 
         }

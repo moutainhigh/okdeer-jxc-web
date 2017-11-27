@@ -105,17 +105,17 @@ function initDatagridEditOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'realNum',title:'数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'price',title:'单价',width:'80px',align:'right',
@@ -129,9 +129,9 @@ function initDatagridEditOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'isGift',title:'是否赠品',width:'80px',align:'left',
@@ -148,7 +148,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
 
@@ -163,9 +163,9 @@ function initDatagridEditOrder(){
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
                     if(row.isFooter){
-                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    row.taxAmount = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.00).toFixed(2);
+                    row.taxAmount = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.00).toFixed(4);
                     return  '<b>'+row.taxAmount+'</b>';
                 },
             },

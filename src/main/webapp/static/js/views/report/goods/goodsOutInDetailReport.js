@@ -227,9 +227,39 @@ function initDatagridRequire(columns,frozenColumns){
 					}
 				}
 			},
+			{field: 'untaxedCostPrice', title: '不含税成本价', width: '80', align: 'right',
+				formatter:function(value,row,index){
+					return getTwoDecimalB(value);
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
 			{field: 'costPrice', title: '成本价', width: '60', align: 'right',
 				formatter:function(value,row,index){
 					return getTwoDecimalB(value);
+				},
+				editor:{
+					type:'numberbox',
+					options:{
+						disabled:true,
+						min:0,
+						precision:2
+					}
+				}
+			},
+			{field: 'untaxedCostAmount', title: '不含税库成本金额', width: '110', align: 'right',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 				editor:{
 					type:'numberbox',
@@ -274,7 +304,7 @@ function initDatagridRequire(columns,frozenColumns){
         wholesalePrice:["wholesalePrice"],
         purchasePrice:["purchasePrice","price","priceAmount"],
         distributionPrice:["distributionPrice"],
-        costPrice:["costPrice","costAmount"],
+        costPrice:["costPrice","costAmount","untaxedCostPrice","untaxedCostAmount"],
         vipPrice:["vipPrice"],
         salePrice:["salePrice","saleAmount"],
     }

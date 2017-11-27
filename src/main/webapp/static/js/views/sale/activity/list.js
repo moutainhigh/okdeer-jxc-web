@@ -1,9 +1,7 @@
 $(function(){
-	//开始和结束时间
-	toChangeDatetime(0);
-	
-	$("#txtStartDate").val("");
-	$("#txtEndDate").val("");
+    // 开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	
     initDatagridRequire();
 });
@@ -65,7 +63,11 @@ function initDatagridRequire(){
             		return '组合特价';
             	}else if(value == '10'){
             		return '买满送';
-            	}else{
+                } else if (value == '11') {
+                    return 'N元N件';
+                } else if (value == '12') {
+                    return '特价打包';
+                } else {
             		return '未知类型：'+ value;
             	}
             }},

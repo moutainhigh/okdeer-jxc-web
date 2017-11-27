@@ -59,6 +59,9 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 东莞大仓补货分析
 	 */
 	String DG_STOCK_ANALYSIS = "DgStockAnalysis.xlsx";
+	
+	/*** 机构补货分析 */
+	String PURCHASE_REPLENISH_BRANCH = "purchaseReplenishBranch.xlsx";
 
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板

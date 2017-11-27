@@ -119,13 +119,13 @@ function initDatagridRequireOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
 
                     if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -139,12 +139,12 @@ function initDatagridRequireOrder(){
             {field:'applyNum',title:'数量',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value){
-                        row["applyNum"] = parseFloat(value||0).toFixed(2);
+                        row["applyNum"] = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -161,9 +161,9 @@ function initDatagridRequireOrder(){
                         return
                     }
                     if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
+                    	row.price = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
 //                editor:{
 //                    type:'numberbox',
@@ -177,14 +177,14 @@ function initDatagridRequireOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
 
                     if(!row.amount){
-                    	row.amount = parseFloat(value||0).toFixed(2);
+                    	row.amount = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -240,9 +240,9 @@ function initDatagridRequireOrder(){
                     if(row.isFooter){
                         return;
                     }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(2);
+                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
                     row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
                 },
             },
             {field: 'targetStock', title: '店铺库存', width: '80px', hidden:true,align: 'right',

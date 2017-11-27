@@ -78,10 +78,10 @@ function initPurchaseGuideGoodsListDg(){
                     }
 
                     if(!value){
-                        row["purchasePrice"] = parseFloat(value||0).toFixed(2);
+                        row["purchasePrice"] = parseFloat(value||0).toFixed(4);
                     }
 
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -229,10 +229,10 @@ function initPurchaseGuideGoodsListDg(){
 			        }
 			        
                     if(!value){
-                        row["totalAmount"] = parseFloat(value||0).toFixed(2);
+                        row["totalAmount"] = parseFloat(value||0).toFixed(4);
                     }
 			        
-			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+			        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			    },
 			    editor:{
 			        type:'numberbox',

@@ -4,12 +4,21 @@
 var isEdit = true;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
+var oldData = {};
 
 $(function(){
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
     if('undefined' != typeof(allowUpdatePrice)){
     	isEdit = false;
+    }
+
+    oldData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),                  // 备注
     }
     
     initDatagridEditOrder();
@@ -94,14 +103,14 @@ function initDatagridEditOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -116,14 +125,14 @@ function initDatagridEditOrder(){
             {field:'realNum',title:'数量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value){
-                        row["realNum"] = parseFloat(value||0).toFixed(2);
+                        row["realNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -159,9 +168,9 @@ function initDatagridEditOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -204,7 +213,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 //editor:{
                 //    type:'numberbox',
@@ -231,9 +240,9 @@ function initDatagridEditOrder(){
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
                     if(row.isFooter){
-                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    row.taxAmount = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.00).toFixed(2);
+                    row.taxAmount = (row.tax*(row.amount/(1+parseFloat(row.tax)))||0.0000).toFixed(4);
                     return  '<b>'+row.taxAmount+'</b>';
                 },
                 editor:{
@@ -241,7 +250,7 @@ function initDatagridEditOrder(){
                     options:{
                         disabled:true,
                         min:0,
-                        precision:2,
+                        precision:4,
                     }
                 },
             },
@@ -323,10 +332,17 @@ function initDatagridEditOrder(){
         	}
         	return data;
         },
+        onBeforLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
         onLoadSuccess:function(data){
             if((data.rows).length <= 0)return;
+            if(!oldData["grid"]){
+                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                    return $.extend(true,{},obj);//返回对象的深拷贝
+                });
+            }
             gFunEndLoading();
-            gridHandel.setDatagridHeader("center");
             updateFooter();
         }
     });
@@ -554,7 +570,7 @@ function onSelectIsGift(data){
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum')||0;
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
             gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
             
@@ -847,6 +863,22 @@ function saveDataHandel(rows){
 }
 function check(){
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+   var  newData = {
+        supplierId:$("#supplierId").val(),
+        deliverTime:$("#deliverTime").val(),
+        branchId:$("#branchId").val(),
+        salesmanId:$("#salesmanId").val(),
+        remark:$("#remark").val(),
+       grid: $.map(gridHandel.getRows(), function(obj){
+           return $.extend(true,{},obj);//返回对象的深拷贝
+       })
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        $_jxc.alert("数据有修改，请先保存再审核");
+        return;
+    }
+
     var rows = gridHandel.getRows();
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
@@ -869,6 +901,7 @@ function check(){
     if(!isCheckResult){
         return
     }
+
     if(num==rows.length){
     	 $_jxc.alert("采购商品数量全部为0");
 		return

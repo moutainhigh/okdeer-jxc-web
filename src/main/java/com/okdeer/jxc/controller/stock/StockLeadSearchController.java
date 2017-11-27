@@ -7,7 +7,6 @@
 
 package com.okdeer.jxc.controller.stock;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;

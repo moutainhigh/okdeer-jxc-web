@@ -1,43 +1,5 @@
 //全局变量
 var datagridId = "saleMangeadd";
-// var activtype="";
-// var activityType="";
-
-var dvVip = '<div id="dvVip" class="ub ub-ac umar-l20"> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" disabled/><label for="memberExclusive">会员独享</label>'+
-    '</div> ' +
-    '</div>';
-var dvVipOne = '<div id="dvVipOne" class="ub ub-ac umar-l20"> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
-    '</div> ' +
-    '</div>';
-
-var dvzhspecial =  ' <div class="ub ub-ac umar-l50" id="dvzhspecial"> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" disabled/><label for="memberExclusive">会员独享</label>'+
-    '</div> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
-    '</div> ' +
-    '</div>';
-
-var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" disabled/>' +
-    '<label for="mmsofactType1">促销商品参与</label> </div>' +
-    ' <div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" disabled/><label for="mmsofactType2">倍数送</label> ' +
-    '</div> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" disabled/><label for="memberExclusive">会员独享</label>'+
-    '</div> ' +
-    '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
-    '</div> ' +
-    '</div>';
-
 
 $(function(){
 	optionHide();
@@ -51,10 +13,6 @@ $(function(){
     
   // 一周星期获取和初始化
 	  weekCheckDay();
-	$(document).on('click','#weekday .ubcheckweek',function(){
-	// 点击取消切换方法执行
-	  weekCheckDay();
-	})
 	
 });
 
@@ -77,10 +35,6 @@ function  editstart(){
 	    		  // 活动名称
 	    		  console.log(data.obj.activityName);
 	    		  $('#activityName').val(data.obj.activityName);
-	    		  $("#memberExclusive").prop('checked',data.obj.memberExclusive == 1?true:false);
-	    			$(document).on('click','input[name="memberExclusive"]',function(){
-	    				return false;
-	    			})
 	    		  // 日期转换格式
 		    	  var startTimeedit= new Date(listinfo.startTime);
 		    	  var endTimeedit=new Date(listinfo.endTime);
@@ -131,14 +85,16 @@ function  editstart(){
                     // combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
+                  //combobox 会员独享
+                  // var onlyVip = listinfo.onlyVip;
+                  // $("#vipType").combobox('dvOnlyVip',onlyVip);
+                  // $("#vipType").combobox("disable");
   		    	    // checkbox 禁止所有选中状态
   		    		checkboxDisabled();
 		    		// 满减类型赋值
 					if(activtype==5){
                         var param = {
                             activityScopemj:listinfo.activityScope,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum
                         }
                         selectOptionMj(param);
 					  }
@@ -149,15 +105,11 @@ function  editstart(){
                             allowActivity : listinfo.allowActivity,
                             allowMultiple :listinfo.allowMultiple,
                             activityId:activityId,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum
                         }
                         selectOptionmms(param);
 					  }else if(activtype==1){
                         var param = {
                             activityId:activityId,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum
                         }
                         selectOptionSpecial(param)
                     }
@@ -166,26 +118,30 @@ function  editstart(){
                         var param = {
                             activityId:activityId,
                             activityScopedis:listinfo.activityScope,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum,
                             maxDiscountAmount:listinfo.maxDiscountAmount
                         }
                         selectOptionzk(param);
                     }else if(activtype==3){
                         var param = {
                             activityId:activityId,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum
                         }
                         selectOptionOdd(param);
                     }else if(activtype==6){
                         var param = {
                             activityId:activityId,
-                            memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum,
                             maxDiscountNum:listinfo.maxDiscountNum
                         }
                         selectOptionGroupSpecial(param);
+                    }else if(activtype==11){
+                        var param = {
+                            activityId:activityId,
+                        }
+                        selectOptionN2N(param);
+                    }else if(activtype==12){
+                        var param = {
+                            activityId:activityId,
+                        }
+                        selectOptionSpecialPackage(param);
                     }
 
 	              }else{
@@ -196,11 +152,7 @@ function  editstart(){
 }
 
 function selectOptionGroupSpecial(param) {
-    $(".activityTypeDv").after(dvVip);
     $('.limitCount').removeClass('unhide');
-    $('.limitCount').after(dvVipOne);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
     $("#maxDiscountNum").numberbox("setValue",param.maxDiscountNum);
     //组合特价
     initDatagridCompose();
@@ -212,10 +164,6 @@ function selectOptionGroupSpecial(param) {
 function selectOptionSpecial(param){
     //设置批量特价不显示 除了activtype==1
     $('.special').removeClass('unhide');
-    $(".special").after(dvVipOne);
-    $(".activityTypeDv").after(dvVip);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
     initDatagridSpecial();
     initmangeDatagrid(param.activityId);
 }
@@ -223,13 +171,9 @@ function selectOptionSpecial(param){
 // 偶数特价状态选择隐藏
 function selectOptionOdd(param){
     $('.oddprice ').removeClass('unhide');
-    $(".oddprice").after(dvzhspecial);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
     initDatagridOddtj();
     initmangeDatagrid(param.activityId);
 }
-
 
 // 折扣状态状态radio 赋值
 function selectOptionzk(param){
@@ -238,9 +182,6 @@ function selectOptionzk(param){
     $('#disradio'+radioVal).prop('checked',true);
     $('#activityScopedis').val(radioVal);
     $(".topMoney").removeClass("unhide");
-    $(".topMoney").after(dvzhspecial);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
     $("#maxDiscountAmount").numberbox("setValue",param.maxDiscountAmount);//最高优惠
     //类别折扣
     if(radioVal=="1"){
@@ -266,9 +207,6 @@ function selectOptionMj(param){
     $('.mjradio').prop('checked',false);
     $('#mjradio'+radioVal).prop('checked',true);
     $('#activityScopemj').val(radioVal);
-    $("#branchComponent").after(dvzhspecial);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
 
 
     if(radioVal=="2"){
@@ -297,6 +235,285 @@ function selectOptionMj(param){
         initmjFullDatagrid(activityId);
     }
 }
+
+//N元N件
+function selectOptionN2N(param){
+    var radioVal = param.activityScopeN2N;
+    if(radioVal === "1"){
+        initDatagridsortN2N();
+    }else if(radioVal === "0"){
+        initDatagridGoodsN2N();
+    }
+    initmangeDatagrid(param.activityId);
+}
+
+//N元N件类别
+function initDatagridsortN2N() {
+    gridHandel.setGridName("saleMangeadd");
+    $("#saleMangeadd").datagrid({
+        align:'center',
+        // toolbar: '#tb', //工具栏 id为tb
+        singleSelect:true,  // 单选 false多选
+        rownumbers:true,    // 序号
+        fitColumns:true,    // 每列占满
+        // fit:true, //占满
+        showFooter:true,
+        height:'100%',
+        pageSize:50,
+        width:'100%',
+        columns:[[
+            {field:'cz',title:'操作',width:'60px',align:'center',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }else{
+                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                    }
+                    return str;
+                },
+            },
+            {field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
+        ]],
+        onBeforeLoad:function(){
+            gridHandel.setDatagridHeader("center");
+        }
+    });
+    gridHandel.setLoadData([$.extend({},gridDefault)])
+}
+
+//N元N件商品
+function initDatagridGoodsN2N() {
+    gridHandel.setGridName("saleMangeadd");
+    gridHandel.initKey({
+        firstName:'skuCode',
+        enterName:'skuCode',
+        enterCallBack:function(arg){
+            if(arg&&arg=="add"){
+                if(checkenter())return;
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
+            }else{
+                selectGoods(arg);
+            }
+        },
+    })
+    $("#saleMangeadd").datagrid({
+        align:'center',
+        // toolbar: '#tb', //工具栏 id为tb
+        singleSelect:true,  // 单选 false多选
+        rownumbers:true,    // 序号
+        fitColumns:true,    // 每列占满
+        // fit:true, //占满
+        showFooter:true,
+        height:'100%',
+        pageSize:50,
+        width:'100%',
+        columns:[[
+            {field:'cz',title:'操作',width:'60px',align:'center',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }else{
+                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                    }
+                    return str;
+                },
+            },
+            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+            {field:'barCode',title:'条码',width:'150px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
+            {field:'unit',title:'单位',width:'60px',align:'left'},
+            {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'price',title:'零售价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+        ]],
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
+        onClickCell : function(rowIndex, field, value) {
+            gridHandel.setBeginRow(rowIndex);
+            gridHandel.setSelectFieldName(field);
+            var target = gridHandel.getFieldTarget(field);
+            if(target){
+                gridHandel.setFieldFocus(target);
+            }else{
+                gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
+        onLoadSuccess:function(data){
+
+        }
+    });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
+    gridHandel.setLoadData([$.extend({},gridDefault)])
+}
+
+function selectOptionSpecialPackage(param){
+    initDatagridGoodsSpecialPackage();
+    initmangeDatagrid(param.activityId);
+}
+
+//特价打包 datagrid
+function  initDatagridGoodsSpecialPackage() {
+    gridHandel.setGridName("saleMangeadd");
+    gridHandel.initKey({
+        firstName:'skuCode',
+        enterName:'skuCode',
+        enterCallBack:function(arg){
+            if(arg&&arg=="add"){
+                if(checkenter())return;
+                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                setTimeout(function(){
+                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
+                    gridHandel.setSelectFieldName("skuCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+                },100)
+            }else{
+                selectGoods(arg);
+            }
+        },
+    })
+    $("#saleMangeadd").datagrid({
+        align:'center',
+        // toolbar: '#tb', //工具栏 id为tb
+        singleSelect:true,  // 单选 false多选
+        rownumbers:true,    // 序号
+        fitColumns:true,    // 每列占满
+        // fit:true, //占满
+        showFooter:true,
+        height:'100%',
+        pageSize:50,
+        width:'100%',
+        columns:[[
+            {field:'cz',title:'操作',width:'60px',align:'center',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }else{
+                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                    }
+                    return str;
+                },
+            },
+            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+            {field:'barCode',title:'条码',width:'150px',align:'left'},
+            {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
+            {field:'unit',title:'单位',width:'60px',align:'left'},
+            {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'count', title: '数量', width: 100, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:1,
+                        precision:0,
+                    }
+                },
+            },
+            {field:'price',title:'零售价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+        ]],
+        onBeforeEdit:function (rowIndex, rowData) {
+            editRowData = $.extend(true,{},rowData);
+        },
+        onAfterEdit:function(rowIndex, rowData, changes){
+            if(typeof(rowData.id) === 'undefined'){
+                // $("#"+gridName).datagrid('acceptChanges');
+            }else{
+                if(editRowData.skuCode != changes.skuCode){
+                    rowData.skuCode = editRowData.skuCode;
+                    gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+                }
+            }
+        },
+        onClickCell : function(rowIndex, field, value) {
+            gridHandel.setBeginRow(rowIndex);
+            gridHandel.setSelectFieldName(field);
+            var target = gridHandel.getFieldTarget(field);
+            if(target){
+                gridHandel.setFieldFocus(target);
+            }else{
+                gridHandel.setSelectFieldName("skuCode");
+            }
+        },
+        onBeforeLoad:function () {
+            gridHandel.setDatagridHeader("center");
+        },
+        onLoadSuccess:function(data){
+
+        }
+    });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
+    gridHandel.setLoadData([$.extend({},gridDefault)])
+}
+
+
+
 // checkbox 禁止 状态
 function checkboxDisabled(){
 	$(".ubcheckweek").prop('disabled',true);
@@ -318,6 +535,7 @@ function optionHide(){
 	$('#dailyEndTime').val("23:59:59");
 	$('#branchName').val("");
 	$('.ubcheckweek').prop('checked',true);
+    $('#dvOnlyVip').removeClass('unhide');
 	
 	initmmsDom();
 }
@@ -388,17 +606,14 @@ function selectOptionmms(param){
 	
 	$('.mmsTypechoose').removeClass('unhide');
 	$('.mmstype').removeClass('unhide');
-	
+    $('#dvOnlyVip').addClass('unhide');
 	$('#consolemms').addClass('ub-f1');
 	$('#consolemms').removeClass('unhide');
-    $(".mmstype").after(dvmms);
     //初始化为全场折扣
     $("input[name='mmsstatus'][value='"+param.activityScope+"']").prop('checked',true);
     //初始化 倍数送 促销商品参与
     $("#mmsofactType1").prop('checked',param.allowActivity == 1?true:false);
     $("#mmsofactType2").prop('checked',param.allowMultiple == 1?true:false);
-    $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
-    $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
 
     gridTitleName = param.activityPattern == 1 ?'买满数量':'买满金额';
 
@@ -1471,456 +1686,7 @@ function delLineHandelmj(event){
     var index = $(event.target).attr('data-index');
     gridHandelMj.delRow(index);
 }
-// 选择商品
-function selectGoods(searchKey){
 
-    var param = {
-        type:'',
-        key:searchKey,
-        isRadio:0,
-        sourceBranchId:"",
-        targetBranchId:"",
-        branchId:'',
-        supplierId:'',
-        flag:'0',
-    }
-    new publicGoodsServiceTem(param,function(data){
-        if(searchKey){
-            $("#saleMangeadd").datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#saleMangeadd").datagrid("acceptChanges");
-        }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-        	skuId:'goodsSkuId'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  // 验证重复性
-        var isCheck ={isGift:1 };   // 只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#saleMangeadd").datagrid("loadData",newRows);
-        /*
-		 * setTimeout(function(){
-		 * gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-		 * gridHandel.setSelectFieldName("saleAmount");
-		 * gridHandel.setFieldFocus(gridHandel.getFieldTarget('saleAmount'));
-		 * },100)
-		 */
-    });
-}
-
-// 保存
-function saveActivity(){
-  // 保存结束编辑
-  $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-  var rows=$('#saleMangeadd').datagrid('getRows');
-  // 活动类型
-  var activityType=$("#activityType").combobox('getValue');
-  // 打折活动类型
-  var activityScopedis=$("#activityScopedis").val();
-  // 满减活动类型
-  var activityScopemj=$("#activityScopemj").val();
-  // 满减活动类型
-  var activityScopemj=$("#activityScopemj").val();
-
-  var check = {skuCode:'1'};
-  
-  if(activityScopedis == 1 || activityScopemj == 1){
-	  var check ={goodsCategoryCode:'1'}
-  }
-  // 获取非空的数据
-  var rows= gridHandel.getRowsWhere(check);// $('#saleMangeadd').datagrid('getRows');
-  // 重新加载数据，去除空数据
-  $("#saleMangeadd").datagrid("loadData",rows);
-  
-  if(rows.length==0){
-      $_jxc.alert("表格不能为空");
-      return;
-  }
-  
-  var isCheckResult = true;
-  // 活动类型特价验证
-  if(activityType=="1"){
-	  for(var i=0;i<rows.length;i++){
-		  var v = rows[i];
-		  if(!v["skuCode"]){
-	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	      if(!v["saleAmount"]){
-	          $_jxc.alert("第"+(i+1)+"行，促销价不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	  }
-	  saveDataHandel(rows);
-  }
-  
-  // 活动类型折扣验证
-  else if(activityType=="2"){ 
-	// 活动类型单品折扣验证
-	  if(activityScopedis=="0"){
-		  for(var i=0;i<rows.length;i++){
-			  var v = rows[i];
-		      if(!v["skuCode"]){
-		          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-		          isCheckResult = false;
-		          return false;
-		      };
-		      if(!v["discount"]){
-		          $_jxc.alert("第"+(i+1)+"行，折扣不能为空");
-		          isCheckResult = false;
-		          return false;
-		      };
-		      if(v["discount"]>10||v["discount"]<0){
-		          $_jxc.alert("第"+(i+1)+"行，折扣值在0~10之间");
-		          isCheckResult = false;
-		          return false;
-		      };
-		  }
-		  saveDataHandel(rows);
-	  }
-	// 活动类型类别折扣验证
-	  else{
-		  for(var i=0;i<rows.length;i++){
-			  var v = rows[i];
-		      if(!v["categoryName"]){
-		          $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
-		          isCheckResult = false;
-		          return false;
-		      };
-		      if(!v["discount"]){
-		          $_jxc.alert("第"+(i+1)+"行，折扣不能为空");
-		          isCheckResult = false;
-		          return false;
-		      };
-		      if(v["discount"]>10||v["discount"]<0){
-		          $_jxc.alert("第"+(i+1)+"行，折扣值在0~10之间");
-		          isCheckResult = false;
-		          return false;
-		      };
-		     
-		  }
-		  saveDataHandel(rows);
-	  }
-	  
-  }
-// 活动类型偶数特价验证
-  else if(activityType=="3"){
-	  for(var i=0;i<rows.length;i++){
-		  var v = rows[i];
-	      if(!v["skuCode"]){
-	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	      if(!v["saleAmount"]){
-	          $_jxc.alert("第"+(i+1)+"行，偶数特价不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	     
-	  }
-	  saveDataHandel(rows);
-  }
-// 活动类型换购价验证
-  else if(activityType=="4"){
-	  for(var i=0;i<rows.length;i++){
-		  var v = rows[i];
-	      if(!v["skuCode"]){
-	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	      if(!v["saleAmount"]){
-	          $_jxc.alert("第"+(i+1)+"行，换购价不能为空");
-	          isCheckResult = false;
-	          return false;
-	      };
-	     
-	  }
-	  saveDataHandel(rows);
-  }
-// 活动满减验证
-  else if(activityType=="5"){
-	 
-	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
-	  var setrows=$('#salesetmj').datagrid('getRows');
-		  if(activityScopemj=="0"){  
-			  if(setrows.length==0){
-			      $_jxc.alert("满减设置表格不能为空");
-			      return;
-			  }
-			  for(var i=0;i<rows.length;i++){
-				  var v = rows[i];
-			      if(!v["skuCode"]){
-			          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			  }
-			  for(var i=0;i<setrows.length;i++){
-				  var v = setrows[i];
-			      if(!v["limitAmount"]){
-			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			      if(!v["discountPrice"]){
-			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			  }
-			  saveDataHandel(rows,setrows);
-		 }
-		  else if(activityScopemj=="1"){
-			  if(setrows.length==0){
-			      $_jxc.alert("满减设置表格不能为空");
-			      return;
-			  }
-			  for(var i=0;i<rows.length;i++){
-				  var v = rows[i];
-			      if(!v["categoryName"]){
-			          $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			  }
-			  for(var i=0;i<setrows.length;i++){
-				  var v = setrows[i];
-			      if(!v["limitAmount"]){
-			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			      if(!v["discountPrice"]){
-			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			  }
-			  saveDataHandel(rows,setrows); 
-		 }
-		  else if(activityScopemj=="2"){
-			  for(var i=0;i<rows.length;i++){
-				  var v = rows[i];
-			      if(!v["limitAmount"]){
-			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			      if(!v["discountPrice"]){
-			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空");
-			          isCheckResult = false;
-			          return false;
-			      };
-			  }
-			  saveDataHandel(rows);
-		  }
-  }
-  else{
-	  saveDataHandel(rows);
-  }
- 
-
-}
-
-
-
-function saveDataHandel(rows,setrows){
-  // 活动分店机构id
-  var branchIds = $("#branchIds").val();
-  // 活动名称
-  var activityName = $("#activityName").val();
-  // 活动类型
-  var activityType=$("#activityType").combobox('getValue');
-  // 打折活动类型
-  var activityScopedis=$("#activityScopedis").val();
-  // 满减活动类型
-  var activityScopemj=$("#activityScopemj").val();
-  // 开始日期
-  var startTime=$("#startTime").val();
-  // 结束日期
-  var endTime=$("#endTime").val();
-  // 开始时间
-  var dailyStartTime=Date.parse("1970-1-1 "+$("#dailyStartTime").val());
-  // 结束时间
-  var dailyEndTime=Date.parse("1970-1-1 "+$("#dailyEndTime").val());
-  // 星期值获取
-  var weeklyActivityDay=$('#weeklyActivityDay').val();
-  // 验证表格数据
-  var footerRows = $("#saleMangeadd").datagrid("getFooterRows");
-  if(footerRows){
-	  saleAmount = parseFloat(footerRows[0]["saleAmount"]||0.0).toFixed(4);
-  }
- 
-  // 活动状态为特价--偶数特价--换购
-  if(activityType=="1"||activityType=="3"||activityType=="4"||activityType=="6"){
-	  var reqObj = {
-	          branchIds:branchIds,
-	          activityName:activityName,
-	          activityType:activityType,
-	          startTime:startTime,
-	          endTime:endTime,
-	          dailyStartTime:dailyStartTime,
-	          dailyEndTime:dailyEndTime,
-	          weeklyActivityDay:weeklyActivityDay,
-	          activityScope:0,
-	          detailList : []
-	  };
-	  $.each(rows,function(i,data){
-	      var temp = {
-	    	  goodsSkuId: data.goodsSkuId,
-	    	  saleAmount:data.saleAmount,
-	    	  price:data.price
-	      }
-	      reqObj.detailList[i] = temp;
-	  });
-  }
-  // 活动状态为折扣
-  else if(activityType=="2"){
-	// 活动状态为折扣--拼接数据
-	  var reqObj = {
-	          branchIds:branchIds,
-	          activityName:activityName,
-	          activityType:activityType,
-	          startTime:startTime,
-	          endTime:endTime,
-	          dailyStartTime:dailyStartTime,
-	          dailyEndTime:dailyEndTime,
-	          weeklyActivityDay:weeklyActivityDay,
-	          activityScope:activityScopedis,
-	          detailList : []
-	  };
-	  // 活动状态为折扣--单品折扣
-	   if(activityScopedis=="0"){
-		   $.each(rows,function(i,data){
-			      var temp = {
-			    	  goodsSkuId: data.goodsSkuId,
-			    	  discount:data.discount,
-			    	  price:data.price
-			      }
-			      reqObj.detailList[i] = temp;
-			  });
-	   }
-	  // 活动状态为折扣--类别折扣
-	   else{
-		   $.each(rows,function(i,data){
-			      var temp = {
-			    		goodsCategoryId:data.goodsCategoryId,
-			    		goodsCategoryCode:data.goodsCategoryCode,
-			    	    discount:data.discount,
-			      }
-			      reqObj.detailList[i] = temp;
-			  });
-	   }
-	 
-  }
-  // 活动状态为满折
-  else if(activityType=="5"){
-	// 活动状态为满减--拼接数据
-	  var reqObj = {
-	          branchIds:branchIds,
-	          activityName:activityName,
-	          activityType:activityType,
-	          startTime:startTime,
-	          endTime:endTime,
-	          dailyStartTime:dailyStartTime,
-	          dailyEndTime:dailyEndTime,
-	          weeklyActivityDay:weeklyActivityDay,
-	          activityScope:activityScopemj,
-	          detailList : []
-	  };
-	// 活动状态为满减 -商品
-	  if(activityScopemj=="0"){
-		  $.each(rows,function(i,data){
-		      var goods = {
-		    	  goodsSkuId: data.goodsSkuId,
-		    	  price:data.price
-		      }
-		      $.each(setrows,function(i,data){
-			      var fullCutData = {
-			    	  limitAmount:data.limitAmount,
-			          discountPrice:data.discountPrice,
-			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
-			      
-			      reqObj.detailList.push(goodsFullCut);
-			      
-			  });
-		      
-		  });
-	  }
-	// 活动状态为满减 -商品
-	  else if(activityScopemj=="1"){
-		  $.each(rows,function(i,data){
-		      var goods = {
-		    	  goodsCategoryId:data.goodsCategoryId,
-				  goodsCategoryCode:data.goodsCategoryCode,
-		      }
-		      $.each(setrows,function(i,data){
-			      var fullCutData = {
-			    	  limitAmount:data.limitAmount,
-			          discountPrice:data.discountPrice,
-			      }
-			      var goodsFullCut = $.extend(goods,fullCutData);
-			      
-			      reqObj.detailList.push(goodsFullCut);
-			      
-			  });  
-		  });
-	  } 
-// 满减全场类型
-	  else if(activityScopemj=="2"){
-		  $.each(rows,function(i,data){
-		      var temp = {
-		    	  goodsCategoryId:data.goodsCategoryId,
-				  goodsCategoryCode:data.goodsCategoryCode,
-		      }
-		      reqObj.detailList[i] = temp;
-		  });
-	  }
-  }
-  var req = JSON.stringify(reqObj);
-  console.log(req)
-  $_jxc.ajax({
-      url:contextPath+"/sale/activity/update",
-      contentType:'application/json',
-      data:req
-  },function(result){
-	  
-	  if(result['code'] == 0){
-          $_jxc.alert("操作成功！");
-      }else{
-          $_jxc.alert(result['message']);
-      }
-  });
-}
-
-// 审核
-function check(){
-	var activityId = $("#activityId").val();
-	$_jxc.confirm('是否审核通过？',function(data){
-		if(data){
-			$_jxc.ajax({
-		    	url : contextPath+"/sale/activity/check",
-		    	data : {
-		    		activityId:$("#activityId").val(),
-		    	}
-		    },function(result){
-	    		if(result['code'] == 0){
-	    			$_jxc.alert("操作成功！",function(){
-	    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
-	    			});
-	    		}else{
-	    			$_jxc.alert(result['message']);
-	    		}
-		    });
-		}
-	});
-}
 
 /**
  * 星期选择赋值

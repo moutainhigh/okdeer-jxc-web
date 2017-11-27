@@ -136,10 +136,10 @@ function initGridCost() {
                         return ;
                     }
                     if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
 
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'realNum',title:'数量',width:'80px',align:'right',
@@ -149,10 +149,10 @@ function initGridCost() {
                         return ;
                     }
                     if(!value){
-                        row["realNum"] = parseFloat(value||0).toFixed(2);
+                        row["realNum"] = parseFloat(value||0).toFixed(4);
                     }
 
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'actual',title:'当前库存',width:'80px',align:'right',
@@ -170,7 +170,7 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'price',title:'原进货价',width:'80px',align:'right',
@@ -179,23 +179,23 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'amount',title:'原采购金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'newAmount',title:'实际采购金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -210,9 +210,9 @@ function initGridCost() {
             {field:'totalMoney',title:'调价差额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -228,7 +228,7 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'tax',title:'税率',width:'80px',align:'right',
@@ -251,14 +251,14 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                         disabled:true,
                         min:0,
-                        precision:2,
+                        precision:4,
                     }
                 }
             },
