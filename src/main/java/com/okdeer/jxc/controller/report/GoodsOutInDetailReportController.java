@@ -6,28 +6,20 @@
  */    
 package com.okdeer.jxc.controller.report;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.Set;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.dubbo.rpc.RpcContext;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.GpeMarkContrant;
+import com.okdeer.jxc.common.controller.AbstractSimpleGpeController;
 import com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi;
 import com.okdeer.jxc.report.vo.GoodsOutInDetailVo;
-import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.page.EasyUIPageInfo;
+import com.okdeer.retail.framework.gpe.bean.CustomMarkBean;
 
 /**
  * ClassName: GoodsOutInDetailReportController 
@@ -42,13 +34,12 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("goods/goodsDetail")
-public class GoodsOutInDetailReportController extends BaseController<GoodsOutInDetailReportController> {
+public class GoodsOutInDetailReportController extends AbstractSimpleGpeController<GoodsOutInDetailVo, GoodsOutInDetailVo>{
 	
 	/**
 	 * 商品出入库明细报表Dubbo接口
 	 */
-	//@Reference(version = "1.0.0", check = false)
-	@Resource
+	@Reference(version = "1.0.0", check = false)
 	private GoodsOutInDetailServiceApi goodsOutInDetailServiceApi;
 	
 	/**
@@ -63,117 +54,41 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 		return "/report/goods/goodsOutInDetailReport";
 	}
 	
-	/**
-	 * 
-	 * @Description: 获取列表数据
-	 * @param vo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return PageUtils<GoodsOutInDetailVo>  
-	 * @author zhangq
-	 * @date 2017年5月5日
-	 */
-	@RequestMapping(value = "getGoodsOutInDetailList", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<GoodsOutInDetailVo> getGoodsOutInDetailList(
-			GoodsOutInDetailVo vo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug("获取商品出入库明细报表数据,入参{}", vo.toString());
-		
-		try {
-			//分页参数设置
-			vo.setPageNumber(pageNumber);
-			vo.setPageSize(pageSize);
-			
-			//处理供应商
-			String supplierName = vo.getSupplierName();
-			if(StringUtils.isNotBlank(supplierName)){
-				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
-				vo.setSupplierName(supplierName);
-			}
-			
-			//机构编号
-			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
-			Future<PageUtils<GoodsOutInDetailVo>> goodsOutInfoDetailListFuture = RpcContext.getContext().getFuture();
 
-			goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
-			Future<GoodsOutInDetailVo> goodsOutInDetailVoFuture = RpcContext.getContext().getFuture();
+	@Override
+	protected CustomMarkBean getCustomMark() {
+		return new CustomMarkBean("stock", "stockDetail", GpeMarkContrant.KEY_LIST);
+	}
 
-			//报表数据
-			//PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList =
-			//汇总数据
-			//GoodsOutInDetailVo goodsOutInDetailVo =
-			// 过滤数据权限字段
-			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
-			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailVoFuture.get();
-			if (goodsOutInDetailVo != null){
-				cleanAccessData(goodsOutInDetailVo);
-				footer.add(goodsOutInDetailVo);
-			}
-			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInfoDetailListFuture.get();
-			goodsOutInfoDetailList.setFooter(footer);
+	@Override
+	protected ModelAndView getModelAndView(ModelAndView modelAndView) {
+		modelAndView.setViewName("/report/goods/goodsOutInDetailReport");
+		return modelAndView;
+	}
 
-			// 过滤数据权限字段
-			cleanAccessData(goodsOutInfoDetailList);
-			return goodsOutInfoDetailList;
-		} catch (Exception e) {
-			LOG.error("获取商品出入库明细报表异常:{}", e);
-		}
-		
+	@Override
+	protected Set<String> getForbidSet() {
 		return null;
-	}	
-	
+	}
 
-	/**
-	 * 
-	 * @Description: 导出数据
-	 * @param response
-	 * @param vo
-	 * @return RespJson  
-	 * @author zhangq
-	 * @date 2017年5月5日
-	 */
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, GoodsOutInDetailVo vo) {
-		LOG.debug("导出商品出入库明细报表数据,入参{}", vo.toString());
-		
-		RespJson resp = RespJson.success();
-		try {
-			//处理供应商
-			String supplierName = vo.getSupplierName();
-			if(StringUtils.isNotBlank(supplierName)){
-				supplierName = supplierName.substring(supplierName.lastIndexOf("]")+1,supplierName.length());
-				vo.setSupplierName(supplierName);
-			}
-			
-			//机构编号
-			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+	@Override
+	protected Class<GoodsOutInDetailVo> getViewObjectClass() {
+		return GoodsOutInDetailVo.class;
+	}
 
-			goodsOutInDetailServiceApi.exportList(vo);
-			Future<List<GoodsOutInDetailVo>> goodsOutInfoDetailListFuture = RpcContext.getContext().getFuture();
+	@Override
+	protected EasyUIPageInfo<GoodsOutInDetailVo> queryListPage(GoodsOutInDetailVo qo) {
+		EasyUIPageInfo<GoodsOutInDetailVo> page= goodsOutInDetailServiceApi.getGoodsOutInDetailList(qo);
+		return page;
+	}
 
-			goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
-			Future<GoodsOutInDetailVo> goodsOutInDetailVoFuture = RpcContext.getContext().getFuture();
-			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailVoFuture.get();
-			goodsOutInDetailVo.setBranchCode("合计：");
+	@Override
+	protected GoodsOutInDetailVo queryTotal(GoodsOutInDetailVo qo) {
+		return goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(qo);
+	}
 
-			List<GoodsOutInDetailVo> exportList = goodsOutInfoDetailListFuture.get();
-			exportList.add(goodsOutInDetailVo);
-			// 过滤数据权限字段
-			cleanAccessData(exportList);
-			
-			//导出Excel
-			String fileName = "商品出入库明细查询";
-			String templateName = ExportExcelConstant.GOODS_OUT_IN_DETAIL_REPORT;
-			exportListForXLSX(response, exportList, fileName, templateName);
-		} catch (Exception e) {
-			LOG.error("导出商品出入库明细异常:{}", e);
-			resp = RespJson.error("导出商品出入库明细异常");
-		}
-		
-		return resp;
+	@Override
+	protected List<GoodsOutInDetailVo> queryList(GoodsOutInDetailVo qo) {
+		return goodsOutInDetailServiceApi.exportList(qo);
 	}
 }

@@ -7,34 +7,24 @@
 
 package com.okdeer.jxc.controller.report;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.constant.GpeMarkContrant;
+import com.okdeer.jxc.common.controller.AbstractSimpleGpeController;
 import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.report.qo.CashFlowReportQo;
 import com.okdeer.jxc.report.service.CashFlowReportService;
 import com.okdeer.jxc.report.vo.CashFlowReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.page.EasyUIPageInfo;
+import com.okdeer.retail.framework.gpe.bean.CustomMarkBean;
 
 /**
  * 	
@@ -52,7 +42,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("cashFlow/report")
-public class CashFlowReportController extends BaseController<CashFlowReportController> {
+public class CashFlowReportController extends AbstractSimpleGpeController<CashFlowReportQo, CashFlowReportVo> {
 
 	@Reference(version = "1.0.0", check = false)
 	private CashFlowReportService cashFlowReportService;
@@ -63,49 +53,11 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	 * @author taomm
 	 * @date 2016年8月25日
 	 */
-	@RequestMapping(value = "view")
-	public String view() {
-		return "report/cash/cashFlowReport";
+	@RequestMapping(value = "/view")
+	public ModelAndView view(ModelAndView modelAndView) {
+		return super.index(modelAndView);
 	}
 
-	/**
-	 * 
-	 * @Description: 收银流水查询
-	 * @param qo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
-	 * @author dongh
-	 * @date 2016年8月18日
-	 */
-	@RequestMapping(value = "getList", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<CashFlowReportVo> getList(CashFlowReportQo qo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		try {
-			LOG.debug("收银流水查询参数：{}", qo);
-			// 1、查询列表数据
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(pageSize);
-			// 2、封装请求参数
-			qo = getParmas(qo);
-
-			// 3、价格保留两位小数特殊处理
-			PageUtils<CashFlowReportVo> page = cashFlowReportService.queryPageList(qo);
-
-			// 4、查询汇总
-			CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
-			cashFlowReportVo.setBranchCode("<b>" + cashFlowReportVo.getBranchCode() + "</b>");
-			List<CashFlowReportVo> footer = new ArrayList<CashFlowReportVo>();
-			footer.add(cashFlowReportVo);
-			page.setFooter(footer);
-			return page;
-		} catch (Exception e) {
-			LOG.error("收银流水查询异常:", e);
-		}
-		return PageUtils.emptyPage();
-	}
 
 	// 封装请求参数
 	private CashFlowReportQo getParmas(CashFlowReportQo qo) {
@@ -152,77 +104,39 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 		return qo;
 	}
 
-	/**
-	 * 
-	 * @Description: 收银流水导出
-	 * @param response
-	 * @param vo
-	 * @return
-	 * @author zhongy
-	 * @date 2016年11月28日
-	 */
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, CashFlowReportQo qo) {
+	@Override
+	protected CustomMarkBean getCustomMark() {
+		return new CustomMarkBean(GpeMarkContrant.MOUDLE_REPORT, "cashFlow", GpeMarkContrant.KEY_LIST);
+	}
 
-		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
-		try {
-			// 1、封装请求参数
-			qo = getParmas(qo);
-			List<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
-			if (CollectionUtils.isNotEmpty(exportList)) {
-				// 2、查询汇总
-				CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
-				exportList.add(cashFlowReportVo);
+	@Override
+	protected ModelAndView getModelAndView(ModelAndView modelAndView) {
+		modelAndView.setViewName("report/cash/cashFlowReport");
+		return modelAndView;
+	}
 
-				String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
-				String templateName = ExportExcelConstant.CASHFLOWREPORT;
-				exportListForXLSX(response, exportList, fileName, templateName);
-			} else {
-				RespJson json = RespJson.error("无数据可导");
-				return json;
-			}
-		} catch (Exception e) {
-			LOG.error("UserController.exportList Exception:", e);
-			RespJson json = RespJson.error("导出失败");
-			return json;
-		}
+	@Override
+	protected Set<String> getForbidSet() {
 		return null;
 	}
 
-	/**
-	 * @Description: 收银流水打印
-	 * @param qo
-	 * @param response
-	 * @param request
-	 * @param pageNumber
-	 * @param pageSize
-	 * @author lijy02
-	 * @date 2016年9月5日
-	 */
-	@RequestMapping(value = "printReport", method = RequestMethod.GET)
-	@ResponseBody
-	public String printReport(CashFlowReportQo qo, HttpServletResponse response, HttpServletRequest request) {
-		try {
-			// 2、封装请求参数
-			qo = getParmas(qo);
-			LOG.debug("收银流水打印参数：{}", qo.toString());
-			if (cashFlowReportService.queryListCount(qo) > PrintConstant.PRINT_MAX_ROW) {
-				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
-			}
-			List<CashFlowReportVo> list = cashFlowReportService.queryList(qo);
-			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
-				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
-			}
-			String path = PrintConstant.CASH_FLOW_REPORT;
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", qo.getStartTime());
-			map.put("endDate", qo.getEndTime());
-			map.put("printName", UserUtil.getCurrentUser().getUserName());
-			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
-		} catch (Exception e) {
-			LOG.error(PrintConstant.CASH_DAILY_PRINT_ERROR, e);
-		}
-		return null;
+	@Override
+	protected Class<CashFlowReportVo> getViewObjectClass() {
+		return CashFlowReportVo.class;
+	}
+
+	@Override
+	protected EasyUIPageInfo<CashFlowReportVo> queryListPage(CashFlowReportQo qo) {
+		return cashFlowReportService.queryPageList(getParmas(qo));
+	}
+
+	@Override
+	protected CashFlowReportVo queryTotal(CashFlowReportQo qo) {
+		return cashFlowReportService.queryCashFlowReportSum(getParmas(qo));
+	}
+
+	@Override
+	protected List<CashFlowReportVo> queryList(CashFlowReportQo qo) {
+		return cashFlowReportService.queryList(getParmas(qo));
 	}
 }

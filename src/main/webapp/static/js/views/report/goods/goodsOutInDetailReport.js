@@ -2,7 +2,13 @@ $(function(){
 	//开始和结束时间
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+" 23:59");
-    initDatagridRequire();
+   /* initDatagridRequire();*/
+	 // 初始化表格
+	publicGpeGridColumns({
+		onLoadSuccess:function(columns,frozenColumns){
+			initDatagridRequire(columns,frozenColumns);
+		}
+	});
 
     //机构选择初始化 收货机构
     $('#regBranch').branchSelect({
@@ -50,7 +56,7 @@ var dataItems = [
 
 var gridHandel = new GridClass();
 //初始化表格
-function initDatagridRequire(){
+function initDatagridRequire(columns,frozenColumns){
 	gridHandel.setGridName("goodsOutInDetail");
 	dg = $("#goodsOutInDetail").datagrid({
         method:'post',
@@ -65,7 +71,9 @@ function initDatagridRequire(){
         pageSize:50,
 		height:'100%',
 		width:'100%',
-        columns:[[
+		columns : columns,
+        frozenColumns : frozenColumns
+       /* columns:[[
 			{field:'branchCode',title:'店铺编号',width:'70',align:'left',
 				formatter : function(value, row,index) {
                     var str = value;
@@ -286,11 +294,10 @@ function initDatagridRequire(){
 			{field: 'categoryCode', title: '类别编码', width: '56', align: 'left'},
 			{field: 'categoryName', title: '类别名称', width: '65', align: 'left'},
             {field: 'supplierName', title: '供应商名称', width: '185', align: 'left'},
-            {field: 'ticketNo', title: '小票号', width: 160, align: 'left'}
-        ]],
-        onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
-		}
+            {field: 'ticketNo', title: '小票号', width: 160, align: 'left'}*/
+        ,onBeforeLoad:function(param){
+        	gridHandel.setDatagridHeader("center");
+        }
         
     });
     var param = {
@@ -320,40 +327,11 @@ function queryForm(){
 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
-	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
+	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/list';
 	$("#goodsOutInDetail").datagrid('load', fromObjStr);
 }
 var dg;
-/**
- * 导出
- */
-function exportData(){
-	var length = $('#goodsOutInDetail').datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#goodsOutInDetail").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
 
-	$("#queryForm").attr("action",contextPath+"/goods/goodsDetail/exportList");
-	$("#queryForm").submit();
-}
 
 /**
  * 重置
@@ -367,3 +345,70 @@ var resetForm = function() {
 	 $('#pricingType').combobox('setText','全部');
 	 $('#pricingType').combobox('setValue','');
 };
+
+function formatter_formNo(value,row,index,formatter){
+	var hrefStr='';
+	if(row.formType=="库存调整"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/stock/adjust/checkSuccess?report=close&id='+row.formId+'")';
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="采购收货"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="采购退货"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="配送入库"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="配送出库"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="组合拆分"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/stock/combineSplit/combineSplitView?id='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="销售"){
+		return value
+	}else if(row.formType=="礼品兑换"){
+		return value
+	}else if(row.formType=="领用"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/stock/lead/edit?id='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="报损"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/stock/reimburse/edit?id='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="盘点"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/stocktaking/diffDispose/stocktakingBatchView?id='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="直送收货"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/directReceipt/edit?formId='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else if(row.formType=="成本调价"){
+		hrefStr='parent.addTab("详情","'+contextPath+'/cost/costAdjust/edit?id='+row.formId+'")';  
+		return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+	}else{
+		return value;
+	}
+}
+/**
+ * GPE设置
+ */
+/**
+ * GPE设置
+ */
+function toGpeSetting() {
+	publicGpeSetting({
+		onSettingChange:function(columns,frozenColumns){
+			initDaySumGrid(columns,frozenColumns);
+		}
+	});
+}
+
+/**
+ * GPE导出
+ */
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : "goodsOutInDetail",
+		queryParams : $("#queryForm").serializeObject()
+	});
+}

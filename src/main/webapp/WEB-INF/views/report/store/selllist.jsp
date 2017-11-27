@@ -22,11 +22,12 @@
 					<div class="ubtns-item" onclick="query()">查询</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStoreSellRp:export">
-					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<div class="ubtns-item" onclick="toGpeExport()">导出</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStoreSellRp:print">
 					<div class="ubtns-item" onclick="printReport()">打印</div>
 					</shiro:hasPermission>
+	                <div class="ubtns-item" onclick="toGpeSetting()">设置</div>
 					<shiro:hasPermission name="JxcStoreSellRp:reset">
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					</shiro:hasPermission>
