@@ -69,16 +69,16 @@ function initDatagridAddRequireOrder(){
                         return
                     }
                     if(!value){
-                        row["oldCostPrice"] = 0.00;
+                        row["oldCostPrice"] = 0.0000;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2,
+                        precision:4,
                      
                     }
                 },
@@ -88,7 +88,7 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -125,15 +125,15 @@ function initDatagridAddRequireOrder(){
             {field:'diffMoney',title:'调价差额',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
-                        precision:2,
+                        precision:4,
                     }
                 },
 
@@ -201,7 +201,7 @@ function onChangeCostPrice(newV,oldV) {
 	var actual = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'actual')||0;
 	var oldCostPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldCostPrice')||0;
 	var CostPrice = newV;
-	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(newV)-parseFloat(oldCostPrice)).toFixed(2)));
+	gridHandel.setFieldValue('diffMoney',(parseFloat(actual)*(parseFloat(newV)-parseFloat(oldCostPrice)).toFixed(4)));
 	updateFooter();
 }
 

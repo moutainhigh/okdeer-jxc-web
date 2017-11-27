@@ -69,12 +69,12 @@ function getFiledsList(){
                  {field:'realNum',title:'数量',width:'80px',align:'right',
                  	 formatter:function(value,row){
                          if(row.isFooter){
-                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                             return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                          }
                          if(!value||value==""){
                        	   value = "0.00";
                          }
-                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                         return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                      },
                      editor:{
                    	  type:'numberbox',

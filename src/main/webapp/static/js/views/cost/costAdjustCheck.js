@@ -69,7 +69,7 @@ function initDatagridEditRequireOrder(){
 		        		  if(row.isFooter){
 		        			  return
 		        		  }
-		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 		          },
 		          {field:'costPrice',title:'新价',width:'80px',align:'right',
@@ -77,7 +77,7 @@ function initDatagridEditRequireOrder(){
 		        		  if(row.isFooter){
 		        			  return
 		        		  }
-		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 		          },
 		          {field:'actual',title:'当前库存',width:'80px',align:'right',
@@ -95,9 +95,9 @@ function initDatagridEditRequireOrder(){
 		          {field:'diffMoney',title:'调价差额',width:'80px',align:'right',
 		        	  formatter:function(value,row,index){
 		        		  if(row.isFooter){
-		        			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        			  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        		  }
-		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 
 		          },

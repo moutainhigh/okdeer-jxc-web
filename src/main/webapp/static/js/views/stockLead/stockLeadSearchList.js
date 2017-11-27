@@ -172,14 +172,14 @@ function getColumns(){
 				 if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
                      return '';
                  }
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			}
 		}]);
 	}
 	
 	defaultColumns =defaultColumns.concat([{field: 'amount', title: '领用金额', width: '80px', align: 'right',
 		formatter: function (value, row, index) {
-			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 		}
 	}]);
 	
@@ -189,14 +189,14 @@ function getColumns(){
 				 if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
                      return '';
                  }
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			}
 		}]);
 	}
 	
 	defaultColumns =defaultColumns.concat([{field: 'saleAmount', title: '零售金额', width: '80px', align: 'right',
 		formatter: function (value, row, index) {
-			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 		}
 	}]);
 	

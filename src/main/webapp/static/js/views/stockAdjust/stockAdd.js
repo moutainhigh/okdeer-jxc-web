@@ -69,9 +69,9 @@ function initDatagridAddRequireOrder(){
             			return
             		}
             		if(!value){
-            			row["price"] = 0.00;
+            			row["price"] = 0.0000;
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -88,9 +88,9 @@ function initDatagridAddRequireOrder(){
                         return
                     }
                     if(!value){
-                    	row["price"] = 0.00;
+                    	row["price"] = 0.0000;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -137,14 +137,14 @@ function initDatagridAddRequireOrder(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value||value==""){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -159,13 +159,13 @@ function initDatagridAddRequireOrder(){
             {field:'realNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
                     	row["realNum"] = row["dealNum"];
                   	  value = row["realNum"];
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -180,9 +180,9 @@ function initDatagridAddRequireOrder(){
             {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -196,9 +196,9 @@ function initDatagridAddRequireOrder(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -223,15 +223,15 @@ function initDatagridAddRequireOrder(){
             {field:'tax',title:'税额',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
             		options:{
             			disabled:true,
-            			precision:2
+            			precision:4
             		}
             	},
             	
