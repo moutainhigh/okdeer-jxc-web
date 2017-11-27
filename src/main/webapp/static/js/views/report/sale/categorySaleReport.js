@@ -187,7 +187,7 @@ function purchaseTotalCx(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/sale/categorySaleReport/reportListPage";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/sale/categorySaleReport/reportListPageNew";
 	$("#"+gridName).datagrid("load");
 }
 
