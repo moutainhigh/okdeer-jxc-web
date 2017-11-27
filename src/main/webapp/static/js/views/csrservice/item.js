@@ -2,10 +2,8 @@
  * Created by zhaoly on 2017/5/18.
  */
 
-var gridName = "gridBranchList";
+var gridName = "gridServiceList";
 var gridHandel = new GridClass();
-var gVarBranchId = "";
-var gVarBranchCompleCode = "";
 $(function () {
     initTreeArchives();
     initDatagridBranchList();
@@ -162,57 +160,44 @@ function onRename(e, treeId, treeNode, isCancel) {
 }
 
 //选择树节点
+var selectNode = null;
 function zTreeOnClick(event, treeId, treeNode) {
-    gVarBranchId = treeNode.id;
-    gVarBranchCompleCode = treeNode.code;
+    selectNode = treeNode;
     $("#branchCompleCode").val(treeNode.code);
     queryBranch();
 }
 
 function initDatagridBranchList() {
-    var updatePermission = $.trim($("#updatePermission").html());
     gridHandel.setGridName(gridName);
     $("#" + gridName).datagrid({
         method: 'post',
         align: 'center',
         url: contextPath + '/archive/branch/getBranchList',
-        singleSelect: true,  //单选  false多选
+        singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
         pageSize: 50,
         fit: true,
         columns: [[
+            {field:'ck',checkbox:true},
             {
-                field: 'branchCode', title: '机构编码', width: 80, align: 'left',
+                field: 'serviceCode', title: '编号', width: 80, align: 'left',
                 formatter: function (value, row, index) {
-                    if (updatePermission) {
-                        return "<a href='#' onclick=\"editHandel('" + row.branchesId + "')\" class='ualine'>" + value + "</a>";
+                    if (value) {
+                        return "<a href='#' onclick=\"editHandel('" + row.serviceCode + "')\" class='ualine'>" + value + "</a>";
                     } else {
                         return value;
                     }
                 }
             },
-            {field: 'branchName', title: '机构名称', width: 180, align: 'left'},
-            {field: 'branchTypeStr', title: '机构类型', width: 80, align: 'left'},
-            {field: 'parentBranchName', title: '所属机构', width: 180, align: 'left'},
-            {field: 'offlineStatusStr', title: '机构状态', width: 80, align: 'left'},
-            {field: 'areaSize', title: '店铺面积(m*2)', width: 110, align: 'right'},
-            // {field:'costAvgYear',title:'费用均摊年数',width:110,align:'right'},
-            {field: 'contacts', title: '联系人', width: 120, align: 'left'},
-            {field: 'mobile', title: '联系电话', width: 120, align: 'left'},
-            {field: 'createTimeStr', title: '建店时间', width: 150, align: 'left'}
+            {field: 'serviceName', title: '名称', width: 180, align: 'left'},
+            {field: 'price', title: '单价', width: 80, align: 'right'},
+            {field: 'remark', title: '备注', width: 180, align: 'left'},
         ]],
-        onLoadSuccess: function () {
+        onBeforeLoad: function () {
             gridHandel.setDatagridHeader("center");
         }
     });
-}
-
-/**
- * 修改
- */
-function editHandel(branchId) {
-    openEditBranchDailog(branchId);
 }
 
 var dialogHeight = 550;//$(window).height()*(4/5);
@@ -220,7 +205,7 @@ var dialogWidth = 1000;//$(window).width()*(5/9);
 var dialogLeft = $(window).width() * (1 / 5);
 var editDialogTemp
 
-function openEditBranchDailog(branchId) {
+function openEditServiceDailog(branchId) {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath + "/archive/branch/toEdit",
         queryParams: {
@@ -255,29 +240,33 @@ function queryBranch() {
     var formData = $('#formList').serializeObject();
     $("#" + gridName).datagrid("options").queryParams = formData;
     $("#" + gridName).datagrid("options").method = "post";
-    $("#" + gridName).datagrid("options").url = contextPath + '/archive/branch/getBranchList',
+    $("#" + gridName).datagrid("options").url = contextPath + '/archive/branch/getBranchList';
         $("#" + gridName).datagrid('load');
 }
 
-function editBranch() {
-    var row = $("#" + gridName).datagrid("getSelected");
-    if (!row || row == null) {
-        $_jxc.alert("请选择一条数据!");
-        return;
+/**
+ * 修改
+ */
+function editHandel(seviceCode) {
+    var param = {
+
     }
-    openEditBranchDailog(row.branchesId);
+    openEditServiceDailog(param);
+}
+
+function addServiceItem() {
+    if(selectNode.level == 0){
+        var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+        zTree.addNodes(selectNode, {id:(100 + newCount), pId:selectNode.id, text:"子节点" + (newCount++)});
+    }else if(selectNode.level == 1){
+        openEditServiceDailog(row.branchesId);
+    }
 }
 
 /**
  * 导出
  */
 function exportData() {
-    var length = $('#' + gridName).datagrid('getData').rows.length;
-    if (length == 0) {
-        $_jxc.alert("无数据可导");
-        return;
-    }
-
     var param = {
         datagridId: gridName,
         formObj: $("#formList").serializeObject(),

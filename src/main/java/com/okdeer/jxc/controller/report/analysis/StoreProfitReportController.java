@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -66,7 +67,7 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 	public PageUtils<DataRecord> getList(StoreExpendDetailQo qo) {
 
 		try {
-
+			
 			// 构建查询参数
 			buildParams(qo);
 
@@ -234,7 +235,7 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 	private void buildParams(StoreExpendDetailQo qo) {
 		// 默认当前机构
 		if (StringUtils.isBlank(qo.getBranchCompleCode())) {
-			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			throw new BusinessException("查询机构为空");
 		}
 
 		if (qo.getRptDate() != null) {

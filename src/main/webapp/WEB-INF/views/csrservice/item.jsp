@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>机构信息</title>
+    <title>服务项目维护</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <c:set var="ctx" value="${pageContext.request.contextPath}"/>
@@ -32,10 +32,10 @@
             <div class="ubtns">
                 <div class="ubtns-item" onclick="query()">查询</div>
                 <shiro:hasPermission name="jxc_service_item:append">
-                    <div class="ubtns-item" onclick="add()">新增</div>
+                    <div class="ubtns-item" onclick="addServiceItem()">新增</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="jxc_service_item:delete">
-                    <div class="ubtns-item" onclick="del()">删除</div>
+                    <div class="ubtns-item" onclick="delServiceItem()">删除</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="jxc_service_item:export">
                     <div class="ubtns-item" onclick="exportData()">导出</div>
@@ -55,7 +55,7 @@
 
         </form>
         <div class="ub umar-t10 ub-f1">
-            <table id="gridBranchList"></table>
+            <table id="gridServiceList"></table>
         </div>
     </div>
 

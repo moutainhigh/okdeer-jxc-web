@@ -124,6 +124,9 @@ public class StockReportController extends BaseController<StockReportController>
 		if (null == footer.getCostAmount()) {
 			footer.setCostAmount(BigDecimal.ZERO);
 		}
+		if (null == footer.getUntaxedCostAmount()) {
+		    footer.setUntaxedCostAmount(BigDecimal.ZERO);
+		}
 		if (null == footer.getSaleAmount()) {
 			footer.setSaleAmount(BigDecimal.ZERO);
 		}
@@ -158,6 +161,9 @@ public class StockReportController extends BaseController<StockReportController>
 			}
 			if (null == footer.getCostAmount()) {
 				footer.setCostAmount(BigDecimal.ZERO);
+			}
+			if (null == footer.getUntaxedCostAmount()) {
+			    footer.setUntaxedCostAmount(BigDecimal.ZERO);
 			}
 			if (null == footer.getSaleAmount()) {
 				footer.setSaleAmount(BigDecimal.ZERO);
