@@ -76,8 +76,8 @@ function addHoverDom(treeId, treeNode) {
     var btn = $("#addBtn_"+treeNode.tId);
     if (btn) btn.bind("click", function(){
         var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
-        $_jxc.ajax({url: contextPath + '/service/item/add'}, function (data) {
-            zTree.addNodes(treeNode, {id: data.id, pId: treeNode.id, text: data.id + "子节点" + (newCount++)});
+        $_jxc.ajax({url: contextPath + '/service/item/add/' + treeNode.id + "/" + treeNode.id}, function (data) {
+            zTree.addNodes(treeNode, {id: data.id, pId: treeNode.id, text: '新增服务类型'});
             return false;
         });
     });
@@ -135,24 +135,23 @@ function onRemove(treeId, treeNode) {
 }
 
 function onRename(e, treeId, treeNode, isCancel) {
-    var e = e;
-    var treeId = treeId;
     var treeNode = treeNode;
     if($_jxc.isStringNull(treeNode.text)){
         $_jxc.alert("服务类型不能为空");
         return;
     }
     var param = {
-        id:treeNode.id,
-        text:treeNode.text
-    }
+        typeName: treeNode.text
+    };
+
+    var parentNode = treeNode.getParentNode();
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/goods/top/list',
+        url: contextPath + '/service/item/update/' + parentNode.id + '/' + treeNode.id,
         data:param,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert(result['修改成功']);
         }else{
             $_jxc.alert(result['message']);
         }
