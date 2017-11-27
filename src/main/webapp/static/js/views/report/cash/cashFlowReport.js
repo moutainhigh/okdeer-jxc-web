@@ -9,61 +9,35 @@ $(function(){
 
     //开始和结束时间
 	toChangeDatetime(0);
-    //初始化列表
-    initCashWaterGrid();
+	// 初始化表格
+	publicGpeGridColumns({
+		onLoadSuccess:function(columns,frozenColumns){
+			initCashWaterGrid(columns,frozenColumns);
+		}
+	});
 });
 var gridHandel = new GridClass();
-function initCashWaterGrid() {
+function initCashWaterGrid(columns,frozenColumns) {
 	$("#cashWater").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
-        url: "",
+        //url: "",
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect: false,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
-        //fitColumns:true,    //占满
+        fitColumns:false,    //占满
         showFooter:true,
         pageSize : pageSize,
         height:'100%',
-        columns: [[
-            {field: 'branchCode', title: '店铺编号', width: 100, align: 'left'},
-            {field: 'branchName', title: '店铺名称', width: 220, align: 'left'},
-            {field: 'orderNo', title: '单据编号', width: 180, align: 'left'},
-            {field: 'saleTime', title: '销售时间', width: 150, align: 'left',formatter : function(saleTime){
-    			if(saleTime){
-    				var now = new Date(saleTime);
-    				var nowStr = now.format("yyyy-MM-dd hh:mm:ss"); 
-    				return nowStr;
-    			}
-    			return null;
-    		}},
-            {field: 'saleAmount', title: '销售金额', width: 120, align: 'right',formatter : function(saleAmount){
-    			if(saleAmount){
-    				saleAmount = parseFloat(saleAmount);
-    				return saleAmount.toFixed(2);
-    			}
-    			return '0.00';
-    		}},
-            {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
-            {field: 'payAmount', title: '付款金额', width: 120, align: 'right',formatter : function(payAmount){
-    			if(payAmount){
-    				payAmount = parseFloat(payAmount);
-    				return payAmount.toFixed(2);
-    			}
-    			return '0.00';
-    		}},
-            {field: 'payType', title: '付款方式', width: 100, align: 'center'},
-            {field: 'cashier', title: '收银员', width: 100, align: 'left'},
-            {field: 'returnOrderNo', title: '退货原单号', width: 135, align: 'left'},
-            {field: 'orderTypeStr', title: '订单类型', width: 100, align: 'center' },
-            {field: 'ticketNo', title: '小票号', width: 180, align: 'center' },
-            {field: 'orderWayStr', title: '销售方式', width: 100, align: 'center' },
-            {field: 'remark', title: '备注', width: 150, align: 'left'},
-        ]]
+        columns : columns,
+        frozenColumns : frozenColumns,
+        onBeforeLoad:function(param){
+        	gridHandel.setDatagridHeader("center");
+        }
     });
-    gridHandel.setDatagridHeader("center");
+    
 }
 
 
@@ -124,18 +98,25 @@ function searchCashierId(){
 
 
 /**
- * 导出
+ * GPE设置
  */
-function exportData(){
-    var param = {
-        datagridId:"cashWater",
-        formObj:$("#queryForm").serializeObject(),
-        url:contextPath+"/cashFlow/report/exportList"
-    }
-
-    publicExprotService(param);
+function toGpeSetting() {
+	publicGpeSetting({
+		onSettingChange:function(columns,frozenColumns){
+			initCashWaterGrid(columns,frozenColumns);
+		}
+	});
 }
 
+/**
+ * GPE导出
+ */
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : "cashWater",
+		queryParams : $("#queryForm").serializeObject()
+	});
+}
 //查询
 function query(){
 	var formData = $("#queryForm").serializeObject();
@@ -149,7 +130,7 @@ function query(){
 	}
 	$("#cashWater").datagrid("options").queryParams = formData;
 	$("#cashWater").datagrid("options").method = "post";
-	$("#cashWater").datagrid("options").url = contextPath+'/cashFlow/report/getList';
+	$("#cashWater").datagrid("options").url = contextPath+'/cashFlow/report/list';
 	$("#cashWater").datagrid("load");
 	
 }

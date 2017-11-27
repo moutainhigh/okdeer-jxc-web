@@ -66,7 +66,7 @@ public class BepMonthAnalysisController extends BaseController<BepMonthAnalysisC
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 
-		qo.setPageNumber(pageNumber);
+		qo.setPageNum(pageNumber);
 		qo.setPageSize(pageSize);
 		
 		// 构建查询参数
