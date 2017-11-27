@@ -24,8 +24,9 @@
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcCashDaily:export">
-	                <div class="ubtns-item" onclick="exportData()">导出</div>
+	                <div class="ubtns-item" onclick="toGpeExport()">导出</div>
 	            </shiro:hasPermission>
+	            	<div class="ubtns-item" onclick="toGpeSetting()">设置</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>

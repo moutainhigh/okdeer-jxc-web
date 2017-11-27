@@ -8,35 +8,37 @@
 package com.okdeer.jxc.controller.report;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.httpclient.util.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.controller.AbstractMutilGpeController;
 import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
-import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.report.qo.CashDailyReportQo;
 import com.okdeer.jxc.report.service.CashDailyReportService;
+import com.okdeer.jxc.report.vo.CashDailyReportByCashierVo;
+import com.okdeer.jxc.report.vo.CashDailyReportByDateVo;
 import com.okdeer.jxc.report.vo.CashDailyReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.page.EasyUIPageInfo;
+import com.okdeer.retail.framework.gpe.bean.MutilCustomMarkBean;
 
 /**
  * 
@@ -55,7 +57,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 @Controller
 @RequestMapping("cashDaily/report")
-public class CashDailyReportController extends BaseController<CashDailyReportController> {
+public class CashDailyReportController extends AbstractMutilGpeController<CashDailyReportQo> {
 
 	@Reference(version = "1.0.0", check = false)
 	private CashDailyReportService cashDailyReportService;
@@ -67,47 +69,9 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	 * @author taomm
 	 * @date 2016年8月25日
 	 */
-	@RequestMapping(value = "view")
-	public String view() {
-		return "report/cash/cashDailyReport";
-	}
-
-	/**
-	 * 
-	 * @Description: 收银日报
-	 * @param qo
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
-	 * @author dongh
-	 * @date 2016年8月18日
-	 */
-	@RequestMapping(value = "getList", method = RequestMethod.POST)
-	@ResponseBody
-	public PageUtils<CashDailyReportVo> getList(CashDailyReportQo qo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		try {
-			LOG.debug("收银日报查询参数：{}", qo);
-			qo.setPageNumber(pageNumber);
-			qo.setPageSize(pageSize);
-
-			// 初始化默认参数
-			qo = buildDefaultParams(qo);
-
-			// 1、查询列表
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
-
-			// 2、查询合计
-			CashDailyReportVo vo = cashDailyReportService.queryCashDailyReportSum(qo);
-			List<CashDailyReportVo> footer = new ArrayList<CashDailyReportVo>();
-			footer.add(vo);
-			cashFlowReport.setFooter(footer);
-			return cashFlowReport;
-		} catch (Exception e) {
-			LOG.error("收银日报查询异常:", e);
-		}
-		return PageUtils.emptyPage();
+	@RequestMapping(value = "/view")
+	public ModelAndView view(ModelAndView modelAndView) {
+		return super.index(modelAndView);
 	}
 
 	/**
@@ -143,53 +107,6 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	}
 
 	/**
-	 * @Description: 收银日报导出
-	 * @param response
-	 * @param vo
-	 * @author dongh
-	 * @date 2016年8月25日
-	 */
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
-	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, CashDailyReportQo qo) {
-		LOG.debug("收银日报导出查询参数：{}" + qo);
-		try {
-			// 初始化默认参数
-			qo = buildDefaultParams(qo);
-			// 1、列表查询
-			List<CashDailyReportVo> list = cashDailyReportService.queryList(qo);
-			if(CollectionUtils.isNotEmpty(list)){
-				// 2、查询合计
-				CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
-				cashDailyReportVo.setBranchCode("合计");
-				list.add(cashDailyReportVo);
-				String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
-				
-				String templateName = ExportExcelConstant.CASHDAILYREPORT;
-				if(qo.getQueryType().equals("cashier")){
-					templateName = ExportExcelConstant.CASHDAILYREPORT_SYY;
-				}
-				if(qo.getQueryType().equals("branch")){
-					templateName = ExportExcelConstant.CASHDAILYREPORT_MD;
-				}
-				if(qo.getQueryType().equals("date")){
-					templateName = ExportExcelConstant.CASHDAILYREPORT_RQ;
-				}
-				
-				exportListForXLSX(response, list, fileName, templateName);
-			}else{
-				RespJson json = RespJson.error("无数据可导");
-				return json;
-			}
-		} catch (Exception e) {
-			LOG.error("收银日报导出异常:", e);
-			RespJson json = RespJson.error("导出失败");
-			return json;
-		}
-		return null;
-	}
-
-	/**
 	 * @Description: 日结报表打印
 	 * @param FormNo
 	 * @param request
@@ -202,7 +119,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 	public String printReport(CashDailyReportQo qo, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
-			qo.setPageNumber(pageNumber);
+			qo.setPageNum(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
 			// 初始化默认参数
 			qo = buildDefaultParams(qo);
@@ -211,7 +128,7 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			if(lenght>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
-			PageUtils<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
+			EasyUIPageInfo<CashDailyReportVo> cashFlowReport = cashDailyReportService.queryPageList(qo);
 			List<CashDailyReportVo> list = cashFlowReport.getList();
 			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
@@ -231,5 +148,42 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
 		}
 		return null;
+	}
+
+	@Override
+	protected MutilCustomMarkBean getMutilCustomMark() {
+		return new MutilCustomMarkBean(MOUDLE_REPORT, GpeMarkContrant.SECTION_CASH_DAILY_REPORT, GpeMarkContrant.KEY_BY_CASHIER,
+				GpeMarkContrant.KEY_BY_BRANCH, GpeMarkContrant.KEY_BY_CASHIER);
+	}
+
+	@Override
+	protected ModelAndView getModelAndView(ModelAndView modelAndView) {
+		modelAndView.setViewName("report/cash/cashDailyReport");
+		return modelAndView;
+	}
+
+	@Override
+	protected Set<String>[] getForbidSetArray() {
+		return null;
+	}
+
+	@Override
+	protected Class<?>[] getViewObjectClassArray() {
+		return new Class<?>[] {CashDailyReportByCashierVo.class,CashDailyReportVo.class,CashDailyReportByDateVo.class};
+	}
+
+	@Override
+	protected EasyUIPageInfo<?> queryListPage(CashDailyReportQo qo) {
+		return cashDailyReportService.queryPageList(qo);
+	}
+
+	@Override
+	protected Object queryTotal(CashDailyReportQo qo) {
+		return cashDailyReportService.queryCashDailyReportSum(qo);
+	}
+
+	@Override
+	protected List<?> queryList(CashDailyReportQo qo) {
+		return cashDailyReportService.queryList(qo);
 	}
 }

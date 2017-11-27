@@ -1,10 +1,12 @@
 /**
  * Created by zhaoly on 2017/5/26.
  */
-
+var tabKey = 'depreciation';
 var  costTitle = '开店成本(均摊含折旧)';
 $(function () {
-    initGridDayAnalysis();
+   /* initGridDayAnalysis();*/
+	 // 初始化表格
+	initGridByGpeGridColumns();
     toChangeDate(1);
     changeStatus();
 })
@@ -14,22 +16,26 @@ function changeStatus(){
     $(".radioItem.costType").change(function(){
         if($(this).val() === "0"){
             costTitle = '开店成本(均摊含折旧)';
+            type="depreciation";
         }else{
             costTitle = '开店成本(均摊不含折旧)';
+            type="unDepreciation";
         }
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] }); 
         $("#"+gridName).datagrid("options").url = "";
     	
-        initGridDayAnalysis();
+        tabKey=type;
+        initGridByGpeGridColumns();
         $('#'+gridName).datagrid('reloadFooter',[]);
         //queryDayAnalysis();
+       
     });
 }
 
 var gridName = "gridDayAnalysis";
 var gridHandel = new GridClass();
 var dg = null;
-function initGridDayAnalysis() {
+function initGridDayAnalysis(columns,frozenColumns) {
     gridHandel.setGridName(gridName);
     dg = $("#"+gridName).datagrid({
         align:'center',
@@ -41,136 +47,11 @@ function initGridDayAnalysis() {
         height:'100%',
         width:'100%',
         fitColumns:true,    //每列占满
-        columns:[[
-			{field:'dateStr',title:'日期',width:"100px",align:'left'},
-			{field:'branchCode',title:'机构编码',width:"80px",align:'left'},
-			{field:'branchName',title:'机构名称',width:"150px",align:'left'},
-			{field:'parentName',title:'所属分公司',width:"150px",align:'left'},
-			{field:'areaSize',title:'店铺面积(m<sup>2</sup>)',width:"100px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return parseFloat(value||0).toFixed(2);
-                },
-            },
-//			{field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
-//                formatter : function(value, row, index) {
-//                	if(!value){
-//                		return "";
-//                	}
-//                    if(row.isFooter){
-//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                    }
-//                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                },
-//            },
-			
-			{field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'profitLossAmount',title:'盈亏金额',width:"100px",align:'right',
-            	formatter : function(value, row, index) {
-            		if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-            			return '';
-            		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	},
-            },
-			{field:'dayTotalAmount',title:'当天销售金额',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'dayTotalCost',title:'当天成本金额',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'dayTotalProfit',title:'当天毛利金额',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'lastMonthProfitMargin',title:'上月毛利率',width:"120px",align:'right',
-            	 formatter : function(value, row, index) {
-                     if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                         return '';
-                     }
-                     return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>';
-                 },
-            },
-            {field:'lastMonthCost',title:'上月成本小计',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'lastMonthManageCost',title:'上月经营成本',width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'lastMonthMaterielAmount',title:'上月物料领用金额',width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'lastMonthFaultyAmount',title:'上月报损金额',width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-			{field:'dayOrderNum',title:'客单数',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-			{field:'dayAvgPrice',title:'客单价',width:"120px",align:'right',
-                formatter : function(value, row, index) {
-                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
-                        return '';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            }
-        ]]
+        columns : columns,
+		frozenColumns : frozenColumns,
+		onBeforeLoad : function(data) {
+			gridHandel.setDatagridHeader("center");
+		}
     })
 
 }
@@ -200,7 +81,7 @@ function queryDayAnalysis() {
     }
 
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/report/bepDayAnalysis/getList';
+    $("#"+gridName).datagrid("options").url = contextPath+'/report/bepDayAnalysis/list';
     $("#"+gridName).datagrid("load");
 }
 
@@ -231,11 +112,36 @@ function exportData(){
 	$("#totalRows").html(dg.datagrid('getData').total);
 	$("#exportWin").window("open");
 }
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
+/**
+ * GPE获取columns
+ */
+function initGridByGpeGridColumns(){
+	// 初始化表格
+	publicGpeGridColumns({
+		tabKey : tabKey,
+		onLoadSuccess:function(columns,frozenColumns){
+			initGridDayAnalysis(columns,frozenColumns);
+		}
+	});
+}
 
-	$("#queryForm").attr("action",contextPath+"/report/bepDayAnalysis/exportExcelList");
-	$("#queryForm").submit();
+/**
+ * GPE设置
+ */
+function toGpeSetting(){
+	publicGpeSetting({
+		tabKey : tabKey,
+		onSettingChange:function(columns,frozenColumns){
+			initCashDailyGrid(columns,frozenColumns);
+		}
+	});
+}
+/**
+ * GPE导出
+ */
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : gridName,
+		queryParams : $("#queryForm").serializeObject()
+	});
 }

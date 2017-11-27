@@ -7,26 +7,19 @@
 
 package com.okdeer.jxc.controller.print;
 
-import com.alibaba.fastjson.JSONObject;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.okdeer.jxc.common.constant.Constant;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.exception.BusinessException;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
-import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.goods.entity.GoodsSelect;
-import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
-import com.okdeer.jxc.system.entity.SysUser;
-import com.okdeer.jxc.utils.UserUtil;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -41,17 +34,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONObject;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.exception.BusinessException;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
+import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: PrintController 
@@ -80,7 +94,9 @@ public class PrintController extends BaseController<PrintController> {
 
 	// 价签logo图片
 	private static Image logo = null;
-
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchesService;
 	/**
 	 * @Description: 打印选择商品界面
 	 * @return   
@@ -642,14 +658,30 @@ public class PrintController extends BaseController<PrintController> {
 		}
 	}
 
-    @RequestMapping(value = "downBranchQrCodeImage")
-    public void downBranchQrCodeImage(HttpServletResponse response) {
+    /**
+     * @Description: 下载机构二维码
+     * @param response
+     * @param branchId   
+     * @return void  
+     * @throws
+     * @author yangyq02
+     * @date 2017年11月17日
+     */
+    @RequestMapping(value = "downBranchQrCode")
+    public void downQrCode(HttpServletResponse response,String branchId,String branchCode) {
         try {
-            String info = MessageFormat.format(qrCodeUrl + "?type=1&branchId={0}", this.getCurrBranchId());
+        	Branches branches=null;
+        	if(StringUtils.isEmpty(branchId)&& StringUtils.isNotEmpty(branchCode)){
+        		//查询机构ID
+        		branches=branchesService.getBranchInfoByCode(branchCode);
+        	}else if(StringUtils.isNotEmpty(branchId)&&! this.getCurrBranchId().equals(branchId)){
+        		branches=branchesService.getBranchInfoById(branchId);
+        	}
+            String info = MessageFormat.format(qrCodeUrl + "?type=1&branchId={0}",branches==null? this.getCurrBranchId():branches.getBranchId());
             BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info, 1000, 1000,200,200);
             response.setContentType("image/jpeg");
             response.setHeader("content-disposition", "attachment;filename="
-                    + URLEncoder.encode(this.getCurrBranchName()+"店铺二维码.png", "UTF-8"));
+                    + URLEncoder.encode((branches==null?this.getCurrBranchName():branches.getBranchName())+"店铺二维码.png", "UTF-8"));
 
             ImageIO.write(bufferedImage, "png", response.getOutputStream());
         } catch (Exception e) {

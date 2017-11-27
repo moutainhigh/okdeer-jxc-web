@@ -7,10 +7,16 @@ $(function(){
 	toChangeDatetime(0);
 
     //初始化列表
-    initMarketWaterGrid();
+   /* initMarketWaterGrid();*/
+ // 初始化表格
+	publicGpeGridColumns({
+		onLoadSuccess:function(columns,frozenColumns){
+			initDaySumGrid(columns,frozenColumns);
+		}
+	});
 });
 var gridHandel = new GridClass();
-function initMarketWaterGrid() {
+function initDaySumGrid(columns,frozenColumns) {
 	$("#marketWater").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
@@ -23,51 +29,8 @@ function initMarketWaterGrid() {
         showFooter:true,
         pageSize : pageSize,
         height:'100%',
-        columns: [[
-            {field: 'branchCode', title: '店铺编号', width:100, align: 'left'},
-            {field: 'branchName', title: '店铺', width: 200, align: 'left',},
-            {field: 'orderNo', title: '单据编号', width: 200, align: 'left'},
-            {field: 'time', title: '时间', width: 150, align: 'left',formatter : function(time){
-    			if(time){
-    				var now = new Date(time);
-    				var nowStr = now.format("yyyy-MM-dd hh:mm:ss"); 
-    				return nowStr;
-    			}
-    			return null;
-    		}},
-            
-            {field: 'skuCode', title: '货号', width: 100, align: 'left'},
-            {field: 'skuName', title: '商品名称', width: 200, align: 'left'},
-            {field: 'barCode', title: '条码', width: 100, align: 'left'},
-            {field: 'spec', title: '规格', width: 80, align: 'center'},
-            {field: 'unit', title: '单位', width: 80, align: 'center'},
-            {field: 'goodsTypeStr', title: '商品类型', width: 150, align: 'center'},
-            {field: 'saleWayStr', title: '经营方式', width: 150, align: 'center'},
-            {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
-            {field: 'num', title: '数量', width: 120, align: 'right',formatter : function(value,row,index){
-                return formatTwoDecimal(value) ;
-    		}},
-            {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(value,row,index){
-                return formatTwoDecimal(value) ;
-    		}},
-            {field: 'saleAmount', title: '销售金额', width: 120, align: 'right',formatter : function(value,row,index){
-                return formatTwoDecimal(value) ;
-    		}},
-            {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(value,row,index){
-                return formatTwoDecimal(value) ;
-    		}},
-            {field: 'totalAmount', title: '原价金额', width: 120, align: 'right',formatter : function(value,row,index){
-                return formatTwoDecimal(value) ;
-    		}},
-            {field: 'categoryCode', title: '类别编码', width: 100, align: 'left'},
-            {field: 'categoryName', title: '类别名称', width: 150, align: 'left'},
-            {field: 'cashier', title: '收银员', width: 100, align: 'left'},
-            {field: 'discount', title: '折扣', width: 100, align: 'right'},
-            {field: 'orderTypeStr', title: '订单类型', width: 100, align: 'center' },
-            {field: 'ticketNo', title: '小票号', width: 180, align: 'center' },
-            {field: 'orderWayStr', title: '销售方式', width: 100, align: 'center' },
-            {field: 'remark', title: '备注', width: 150, align: 'left'}
-        ]]
+        columns : columns,
+        frozenColumns : frozenColumns
     });
     gridHandel.setDatagridHeader("center");
 }
@@ -118,26 +81,24 @@ function changeDate(index){
 }
 
 /**
- * 机构列表下拉选
+ * GPE设置
  */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
+function toGpeSetting() {
+	publicGpeSetting({
+		onSettingChange:function(columns,frozenColumns){
+			initDaySumGrid(columns,frozenColumns);
+		}
+	});
 }
 
-
 /**
- * 导出
+ * GPE导出
  */
-function exportData(){
-    var param = {
-        datagridId:"marketWater",
-        formObj:$("#queryForm").serializeObject(),
-        url:contextPath+"/saleFlow/report/exportList"
-    }
-    publicExprotService(param);
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : "marketWater",
+		queryParams : $("#queryForm").serializeObject()
+	});
 }
 
 //查询
@@ -149,7 +110,7 @@ function query(){
 	}
 	$("#marketWater").datagrid("options").queryParams = formData;
 	$("#marketWater").datagrid("options").method = "post";
-	$("#marketWater").datagrid("options").url = contextPath+"/saleFlow/report/getList";
+	$("#marketWater").datagrid("options").url = contextPath+"/saleFlow/report/list";
 	$("#marketWater").datagrid("load");
 }
 
@@ -194,4 +155,24 @@ function clearBranchCode(){
 			(branchNameOrCode && branchNameOrCode.indexOf("[")<0 && branchNameOrCode.indexOf("]")<0)){
 		$("#branchCode").val('');
 	}
+}
+/**
+ * GPE设置
+ */
+function toGpeSetting() {
+	publicGpeSetting({
+		onSettingChange:function(columns,frozenColumns){
+			initDaySumGrid(columns,frozenColumns);
+		}
+	});
+}
+
+/**
+ * GPE导出
+ */
+function toGpeExport() {
+	publicGpeExport({
+		datagridId : "marketWater",
+		queryParams : $("#queryForm").serializeObject()
+	});
 }
