@@ -84,12 +84,12 @@ function initCombineSplieEditGrid() {
             {field: 'componentNum', title: '数量', width:'100px', align: 'left',
             	formatter:function(value,row,index){
                     if(row.isFooter){
-                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value||value==""){
-                        row["componentNum"] = parseFloat(value||0).toFixed(2);
+                        row["componentNum"] = parseFloat(value||0).toFixed(4);
                     }
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',

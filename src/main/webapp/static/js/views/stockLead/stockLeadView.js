@@ -46,9 +46,9 @@ function getFiledsList(){
 		            			return
 		            		}
 		            		if(!value){
-		            			row["untaxedPrice"] = 0.00;
+		            			row["untaxedPrice"] = 0.0000;
 		            		}
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	},
 		            	editor:{
 		            		type:'numberbox',
@@ -65,17 +65,17 @@ function getFiledsList(){
 		                        return
 		                    }
 		                    if(!value){
-		                    	row["price"] = 0.00;
+		                    	row["price"] = 0.0000;
 		                    }
 		                    
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
 		                    	disabled:true,
 		                        min:0,
-		                        precision:2
+		                        precision:4
 		                    }
 		                },
 		            },
@@ -99,12 +99,12 @@ function getFiledsList(){
 		            {field:'largeNum',title:'箱数',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
-		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                    }
 		                    
 		                    if(!value||value==""){
                                 row['largeNum'] = "0.0000";
-                                value = "0.00";
+                                value = "0.0000";
 		                    }
 		                    
 		                    if(value && parseFloat(value) < 0){
@@ -112,7 +112,7 @@ function getFiledsList(){
 		                    	row["largeNum"] = value;
 		                    }
 		                    
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
@@ -128,18 +128,18 @@ function getFiledsList(){
 		            {field:'realNum',title:'数量',width:'80px',align:'right',
 		            	formatter:function(value,row){
 		                    if(row.isFooter){
-		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                    }
 		                    if(!value||value==""||parseFloat(value)==0.0){
                                 row['largeNum'] = "0.0000";
-                                value = "0.00";
+                                value = "0.0000";
 		                    }
 		                    if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    	row["realNum"] = value;
 		                    }
 		                    
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
@@ -155,40 +155,40 @@ function getFiledsList(){
 		            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
 		            	formatter:function(value,row,index){
 		            		if(row.isFooter){
-		            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            		}
 		            		if(value && parseFloat(value) < 0){
 		            			value = value*-1;
 		            			row["untaxedAmount"] = value;
 		            		}
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	},
 		            	editor:{
 		            		type:'numberbox',
 		            		options:{
 		            			disabled:true,
 		            			min:0,
-		            			precision:2
+		            			precision:4
 		            		}
 		            	},
 		            },
 		            {field:'amount',title:'金额',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
-		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                    }
 		                    if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    	row["amount"] = value;
 		                    }
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                },
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
 		                    	disabled:true,
 		                        min:0,
-		                        precision:2
+		                        precision:4
 		                    }
 		                },
 		            },
@@ -206,20 +206,20 @@ function getFiledsList(){
 		            {field:'tax',title:'税额',width:'80px',align:'right',
 		            	formatter:function(value,row,index){
 		                    if(row.isFooter){
-		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                    }
 		                    if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    	row["tax"] = value;
 		                    }
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	},
 		                editor:{
 		                    type:'numberbox',
 		                    options:{
 		                    	disabled:true,
 		                        min:0,
-		                        precision:2
+		                        precision:4
 		                    }
 		                },
 		            },
@@ -256,9 +256,9 @@ function getFiledsList(){
 		            			return
 		            		}
 		            		if(!value){
-		            			row["untaxedPrice"] = 0.00;
+		            			row["untaxedPrice"] = 0.0000;
 		            		}
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'price',title:'成本价',width:'80px',align:'right',
@@ -266,7 +266,7 @@ function getFiledsList(){
 		            		if(row.isFooter){
 		                        return
 		                    }
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'stockNum',title:'当前库存',width:'80px',align:'right',
@@ -279,7 +279,7 @@ function getFiledsList(){
 		            		if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    }
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'realNum',title:'数量',width:'80px',align:'right',
@@ -287,7 +287,7 @@ function getFiledsList(){
 		            		if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    }
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
@@ -295,7 +295,7 @@ function getFiledsList(){
 		            		if(value && parseFloat(value) < 0){
 		            			value = value*-1;
 		            		}
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'amount',title:'金额',width:'80px',align:'right',
@@ -303,7 +303,7 @@ function getFiledsList(){
 		            		if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    }
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'taxRate',title:'参考税率',width:'80px',align:'right',
@@ -322,7 +322,7 @@ function getFiledsList(){
 		            		if(value && parseFloat(value) < 0){
 		                    	value = value*-1;
 		                    }
-		            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		            	}
 		            },
 		            {field:'remark',title:'备注',width:'200px',align:'left'}
@@ -387,13 +387,16 @@ function initDatagridStockLeadView(){
                 }
             }
         },
+		onBeforeLoad:function (param) {
+            gridHandel.setDatagridHeader("center");
+        },
         onLoadSuccess:function(data){        	
         	if(!oldData["grid"]){
 	        	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
 	        		return $.extend(true,{},obj);//返回对象的深拷贝
 	        	});
         	}
-            gridHandel.setDatagridHeader("center");
+
             updateFooter();
         }
 

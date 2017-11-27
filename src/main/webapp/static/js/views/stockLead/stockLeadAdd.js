@@ -77,16 +77,16 @@ function initDatagridStockLead(){
             			return
             		}
             		if(!value){
-            			row["untaxedPrice"] = 0.00;
+            			row["untaxedPrice"] = 0.0000;
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
             		options:{
             			disabled:true,
             			min:0,
-            			precision:2
+            			precision:4
             		}
             	},
             },
@@ -96,16 +96,16 @@ function initDatagridStockLead(){
                         return
                     }
                     if(!value){
-                    	row["price"] = 0.00;
+                    	row["price"] = 0.0000;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2
+                        precision:4
                     }
                 },
             },
@@ -129,7 +129,7 @@ function initDatagridStockLead(){
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     
                     if(!value||value==""){
@@ -137,7 +137,7 @@ function initDatagridStockLead(){
                         value = "0.00";
                     }
                     
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -153,13 +153,13 @@ function initDatagridStockLead(){
             {field:'realNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
                         row['realNum'] = "0.0000";
                         value = "0.00";
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -175,9 +175,9 @@ function initDatagridStockLead(){
             {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -191,9 +191,9 @@ function initDatagridStockLead(){
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -218,16 +218,16 @@ function initDatagridStockLead(){
             {field:'tax',title:'税额',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             		}
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
                 editor:{
                     type:'numberbox',
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2
+                        precision:4
                     }
                 },
             },
