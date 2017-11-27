@@ -208,8 +208,10 @@ function getAccountColumns(){
 }
 
 var dg;
+var gridHandel = new GridClass();
 //初始化表格
 function initfraAcountList(){
+    gridHandel.setGridName(datagirdID);
 	if(dg){
 		$("#"+datagirdID).datagrid('options').url = '';
 	}
@@ -226,8 +228,11 @@ function initfraAcountList(){
 		pageSize:50,
 //		pageList:[[10,20,30,40,50]]
         columns:getAccountColumns(),
+		onBeforeLoad:function (param) {
+            gridHandel.setDatagridHeader("center");
+        },
 		onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
+
 		}
     });
     $("#"+datagirdID).datagrid('loadData',[]);
