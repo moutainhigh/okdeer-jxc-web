@@ -579,14 +579,14 @@ function onChangeLargeNum(newV,oldV) {
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var amount = parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4);
     gridHandel.setFieldValue('amount',amount); //金额=箱数*单价*规格
-    calcUntaxedPriceAndAmount(priceValue,newV,amount);// 计算不含税单价，金额    
+    var realNum = parseFloat(newV*purchaseSpecValue).toFixed(4);
 
     var largeNumVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'largeNum');
     if(largeNumVal&&oldV){
         n=1;
-        var realNum = parseFloat(newV*purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('realNum',realNum);
     }
+    calcUntaxedPriceAndAmount(priceValue,realNum,amount);// 计算不含税单价，金额    
 
     updateFooter();
 }
