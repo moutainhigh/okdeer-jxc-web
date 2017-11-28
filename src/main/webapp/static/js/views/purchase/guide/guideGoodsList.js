@@ -425,10 +425,14 @@ function initPurchaseGuideGoodsListDg(){
     }
 }
 
-function actualStockChange(newVal,oldVal){
-	 var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-		
-		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);
+function actualStockChange(newVal, oldVal) {
+	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(), 'purchasePrice');
+	var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(), 'untaxedPrice');
+	var totalAmount = parseFloat(purchasePrice * newVal).toFixed(4);
+	var untaxedAmount = parseFloat(untaxedPrice * newVal).toFixed(4);
+	gridHandel.setFieldValue('totalAmount', totalAmount);
+	gridHandel.setFieldValue('untaxedAmount', untaxedAmount);
+	gridHandel.setFieldValue('taxAmount', totalAmount - untaxedAmount);
 }
 
 //删除一行
