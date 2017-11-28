@@ -135,11 +135,15 @@ function  editstart(){
                     }else if(activtype==11){
                         var param = {
                             activityId:activityId,
+                            activityScopeN2N: data.obj.activityScope,
+                            maxDiscountNum:data.obj.maxDiscountNum,
+                            maxDiscountAmount:data.obj.maxDiscountAmount
                         }
                         selectOptionN2N(param);
                     }else if(activtype==12){
                         var param = {
                             activityId:activityId,
+                            maxDiscountAmount:data.obj.maxDiscountAmount
                         }
                         selectOptionSpecialPackage(param);
                     }
@@ -238,10 +242,14 @@ function selectOptionMj(param){
 
 //N元N件
 function selectOptionN2N(param){
+    $('#dvn2nCount').removeClass('unhide');
+    $('#dvn2nSaleAmount').removeClass('unhide');
+    // $("#dvn2nCount").numberbox('setValue', param.maxDiscountNum);
+    // $("#dvn2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     var radioVal = param.activityScopeN2N;
-    if(radioVal === "1"){
+    if(radioVal == 1){
         initDatagridsortN2N();
-    }else if(radioVal === "0"){
+    }else if(radioVal == 0){
         initDatagridGoodsN2N();
     }
     initmangeDatagrid(param.activityId);
@@ -389,6 +397,8 @@ function initDatagridGoodsN2N() {
 }
 
 function selectOptionSpecialPackage(param){
+    $("#dvn2nSaleAmount2").removeClass("unhide");
+    $("#saleAmount").numberbox('setValue', param.maxDiscountAmount);
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }
