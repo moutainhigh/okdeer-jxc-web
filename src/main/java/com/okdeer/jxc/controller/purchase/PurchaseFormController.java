@@ -7,6 +7,34 @@
 
 package com.okdeer.jxc.controller.purchase;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +54,14 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.*;
+import com.okdeer.jxc.common.utils.BigDecimalUtils;
+import com.okdeer.jxc.common.utils.CommonUtil;
+import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.Disabled;
+import com.okdeer.jxc.common.utils.NumberToCN;
+import com.okdeer.jxc.common.utils.OrderNoUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.form.entity.PurchaseForm;
 import com.okdeer.jxc.form.entity.PurchaseFormDetail;
 import com.okdeer.jxc.form.enums.FormDealStatus;
@@ -38,32 +73,20 @@ import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseActivityService;
 import com.okdeer.jxc.form.purchase.service.PurchaseCostFormService;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
-import com.okdeer.jxc.form.purchase.vo.*;
+import com.okdeer.jxc.form.purchase.vo.PurchaseActivityDetailVo;
+import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
+import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
+import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
+import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
-import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.price.PriceConstant;
-import net.sf.json.JSONObject;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.*;
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -1686,31 +1709,36 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 * @date 2017年3月16日
 	 */
 	public RespJson saveValid(List<String> skuIds, String branchId) {
-		// 订单明细商品是否有停购或淘汰情况
-		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-
-		// 所有商品ID
-		qo.setGoodsStoreSkuIds(skuIds);
-
-		// 机构ID
-		qo.setBranchId(branchId);
-
-		// 其他参数
-		qo.setPage(1);
-		qo.setRows(skuIds.size());
-		// 查询商品信息
-		PageUtils<GoodsBranchPriceVo> page = null;
-		Branches branch = branchesServiceApi.getBranchInfoById(branchId);// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
-			page = goodsBranchPriceService.queryBranchGoods(qo);
-		} else {
-			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+//		// 订单明细商品是否有停购或淘汰情况
+//		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
+//
+//		// 所有商品ID
+//		qo.setGoodsStoreSkuIds(skuIds);
+//
+//		// 机构ID
+//		qo.setBranchId(branchId);
+//
+//		// 其他参数
+//		qo.setPage(1);
+//		qo.setRows(skuIds.size());
+//		// 查询商品信息
+//		PageUtils<GoodsBranchPriceVo> page = null;
+//		Branches branch = branchesServiceApi.getBranchInfoById(branchId);// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+//		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
+//			page = goodsBranchPriceService.queryBranchGoods(qo);
+//		} else {
+//			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
+//		}
+//		List<GoodsBranchPriceVo> list = page.getList();
+		List<List<String>> listSkuIds = CommonUtil.splitList(skuIds, 200);
+		List<GoodsBranchPriceVo> lists = new ArrayList<GoodsBranchPriceVo>();
+		for (List<String> listSkuId : listSkuIds) {
+			List<GoodsBranchPriceVo> list = goodsBranchPriceService.querySimpleBranchGoods(branchId, listSkuId);
+			lists.addAll(list);
 		}
-		List<GoodsBranchPriceVo> list = page.getList();
-
 		// 处理结果
 		StringBuilder sb = new StringBuilder();
-		for (GoodsBranchPriceVo branchGoodsVo : list) {
+		for (GoodsBranchPriceVo branchGoodsVo : lists) {
 			// 停购
 			if ("2".equals(branchGoodsVo.getStatus())) {
 				sb.append(branchGoodsVo.getSkuName() + "[" + branchGoodsVo.getSkuCode() + "]已停购；\n");
