@@ -1,11 +1,12 @@
 //采购向导 第三步
-
+var gridHandel = new GridClass();
 $(function(){
 	initdgOrderList();
 })
 
 
 function initdgOrderList(){
+	gridHandel.setGridName("dgGuideOrderList");
 	var guideNo = $("#guideNo").val();
 	if(!guideNo){
 		$_jxc.alert("数据异常！");
@@ -41,6 +42,7 @@ function initdgOrderList(){
             {field:'statusStr',title:'状态',width:80,align:'left'},
             {field:'supplierName',title:'供应商',width:150,align:'left'},
             {field:'branchName',title:'收货机构',width:150,align:'center'},
+            {field:'untaxedAmount',title:'不含税单据金额',width:120,align:'left'},
             {field:'amount',title:'单据金额',width:120,align:'left'},
             {field:'createTime',title:'制单时间',width:150,align:'left',
             	formatter : function(value, rowData, rowIndex) {
@@ -64,7 +66,7 @@ function initdgOrderList(){
     });
 
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("dgGuideOrderList",["amount"])
+        priceGrantUtil.grantPurchasePrice("dgGuideOrderList",["amount","untaxedAmount"])
     }
 }
 
