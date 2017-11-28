@@ -179,18 +179,35 @@ function initDatagridBranchList() {
         columns: [[
             {field:'ck',checkbox:true},
             {
-                field: 'serviceCode', title: '编号', width: 80, align: 'left',
+                field: 'csrserviceCode', title: '编号', width: 80, align: 'left',
                 formatter: function (value, row, index) {
                     if (value) {
-                        return "<a href='#' onclick=\"editHandel('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"','"+row.price+"')\" class='ualine'>" + value + "</a>";
+                        return "<a href='#' onclick=\"editHandel('" + row.id + "','" + row.csrserviceCode + "','" + row.referencePrice + "','" + row.remark + "','" + row.csrserviceName + "','" + row.isAllowAdjustPrice + "')\" class='ualine'>" + value + "</a>";
                     } else {
                         return value;
                     }
                 }
             },
-            {field: 'serviceName', title: '名称', width: 180, align: 'left'},
-            {field: 'price', title: '单价', width: 80, align: 'right'},
-            {field: 'isChangePrice', title: '是否可以改价', width: 120, align: 'center'},
+            {field: 'csrserviceName', title: '名称', width: 180, align: 'left'},
+            {
+                field: 'referencePrice', title: '单价', width: 80, align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return '<b>' + parseFloat(value || 0).toFixed(4) + '</b>';
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(4) + '</b>';
+                }
+            },
+            {
+                field: 'isAllowAdjustPrice', title: '是否可以改价', width: 120, align: 'center',
+                formatter: function (value, row, index) {
+                    if (value == 0) {
+                        return '否';
+                    } else {
+                        return '是';
+                    }
+                }
+            },
             {field: 'remark', title: '备注', width: 180, align: 'left'},
         ]],
         onBeforeLoad: function () {
@@ -207,9 +224,7 @@ var editDialogTemp
 function openEditServiceDailog(param) {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath + "/service/item/editService",
-        // queryParams: {
-        //     branchId: branchId
-        // },
+        //queryParams: param,
         width: dialogWidth, //bug19840
         height: dialogHeight,
 //        left:dialogLeft,
@@ -254,15 +269,17 @@ function queryService() {
 /**
  * 修改
  */
-function editHandel(id,value,label,remark,price) {
+function editHandel(id, csrserviceCode, referencePrice, remark, csrserviceName, isAllowAdjustPrice) {
     var param = {
         type:"edit",
         id:id,
-        value:value,
-        label:label,
+        csrserviceCode: csrserviceCode,
+        referencePrice: referencePrice,
         remark:remark,
-        price:price,
-        nodeCode:selectNode.branchesId
+        csrserviceName: csrserviceName,
+        isAllowAdjustPrice: isAllowAdjustPrice,
+        branchName: selectNode.getParentNode().text,
+        csrserviceType: selectNode.text
     }
     openEditServiceDailog(param);
 }
@@ -280,20 +297,65 @@ function addServiceItem() {
     }else if(selectNode.level == 1){
         var param = {
             type:"add",
-            branchId:selectNode.branchesId
-        }
+            branchName: selectNode.getParentNode().text,
+            csrserviceType: selectNode.text,
+            typeId: selectNode.id
+        };
         openEditServiceDailog(param);
     }
+}
+
+
+function delServiceItem() {
+    var rows = $("#" + gridName).datagrid("getChecked");
+    if (rows.length <= 0) {
+        $_jxc.alert('请勾选数据！');
+        return;
+    }
+    var ids = '';
+    $.each(rows, function (i, v) {
+        ids += v.id + ",";
+    });
+
+    $_jxc.confirm('是否要删除选中数据?', function (data) {
+        if (data) {
+            var param = {
+                url: contextPath + "/service/item/del/csrservice",
+                data: {
+                    ids: ids
+                }
+            };
+            $_jxc.ajax(param, function (result) {
+                queryService();
+                if (result['code'] == 0) {
+                    $_jxc.alert("删除成功");
+                } else {
+                    $_jxc.alert(result['message']);
+                }
+            });
+        }
+
+    })
 }
 
 /**
  * 导出
  */
 function exportData() {
+    var length = $("#" + gridName).datagrid('getData').rows.length;
+    if (length == 0) {
+        $_jxc.alert("无数据可导");
+        return;
+    }
     var param = {
         datagridId: gridName,
         formObj: $("#formList").serializeObject(),
-        url: contextPath + "/archive/branch/exportHandel"
+        url: contextPath + "/service/item/export"
     }
     publicExprotService(param);
+}
+
+function closeFinanceDialog() {
+    $(editDialogTemp).panel('destroy');
+    editDialogTemp = null;
 }

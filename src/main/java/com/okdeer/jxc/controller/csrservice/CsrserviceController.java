@@ -9,13 +9,15 @@
 package com.okdeer.jxc.controller.csrservice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.common.utils.entity.Tree;
@@ -24,11 +26,11 @@ import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
 import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
 import com.okdeer.jxc.csrservice.vo.CsrserviceVo;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -148,8 +150,8 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     
 	@RequestMapping(value = "editService", method = RequestMethod.GET)
 	public ModelAndView editService() {
-		return new ModelAndView("/csrservice/editServiceDialog");
-	}
+        return new ModelAndView("/csrservice/editServiceDialog", ImmutableMap.of("code", csrserviceTypeService.getCsrserviceCode()));
+    }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -167,10 +169,10 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
 
 
     @RequestMapping(value = "/del/csrservice", method = RequestMethod.POST)
-    public RespJson delete(String ids) {
+    public RespJson delete(String[] ids) {
         try {
-            if (StringUtils.isNotBlank(ids)) {
-                csrserviceTypeService.delCsrservice(Splitter.on(",").splitToList(ids));
+            if (ids != null && ids.length > 0) {
+                csrserviceTypeService.delCsrservice(Arrays.asList(ids));
             }
             return RespJson.success();
         } catch (Exception e) {
@@ -179,7 +181,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         }
     }
 
-    @RequestMapping(value = "/edit/csrservice", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/csrservice", method = RequestMethod.POST)
     public RespJson edit(CsrserviceVo csrserviceVo, HttpServletResponse response) {
 
         try {
@@ -201,12 +203,44 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
             csrserviceVo.setCreateTime(new Date());
             csrserviceVo.setCreateUserId(getCurrUserId());
             csrserviceVo.setDisabled(DisabledEnum.NO.getIndex());
+            //if(StringUtils.isBlank(csrserviceVo.getCsrserviceCode())) {
             csrserviceVo.setCsrserviceCode(csrserviceTypeService.getCsrserviceCode());
+            //}
             csrserviceTypeService.saveCsrservice(csrserviceVo);
             return RespJson.success();
         } catch (Exception e) {
             LOG.error("新增服务项目失败!");
             return RespJson.error("新增服务项目失败!");
         }
+    }
+
+
+    @RequestMapping(value = "export", method = RequestMethod.POST)
+    public RespJson exportHandel(CsrserviceVo vo, HttpServletResponse response) {
+        try {
+            LOG.debug("导出服务项目条件：{}", vo);
+
+            List<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo);
+
+            RespJson respJson = super.validateExportList(list);
+            if (!respJson.isSuccess()) {
+                LOG.info(respJson.getMessage());
+                return respJson;
+            }
+
+            // 导出文件名称，不包括后缀名
+            String fileName = "服务项目列表_" + DateUtils.getCurrSmallStr();
+
+            // 模板名称，包括后缀名
+            String templateName = ExportExcelConstant.CSRSERVICE_TYPE_EXPORT_TEMPLATE;
+
+            // 导出Excel
+            exportListForXLSX(response, list, fileName, templateName);
+            return null;
+
+        } catch (Exception e) {
+            LOG.error("导出财务代码失败", e);
+        }
+        return RespJson.error();
     }
 }

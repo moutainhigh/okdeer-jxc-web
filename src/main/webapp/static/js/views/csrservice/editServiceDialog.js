@@ -16,60 +16,49 @@ function initServiceDialog(param) {
     type = param.type;
 	if(param.type === "edit"){
 		$("#id").val(param.id);
-        $("#value").val(param.value);
-        $("#value").addClass("uinp-no-more")
-        $("#value").prop("readOnly","readOnly");
-        $("#label").val(param.label);
+        $("#branchName").val(param.branchName);
+        $("#csrserviceType").val(param.csrserviceType);
+        $("#csrserviceName").val(param.csrserviceName);
+        $("#referencePrice").numberbox('setValue', param.referencePrice);
+        $("#isAllowAdjustPrice").combobox('setValue', param.isAllowAdjustPrice ? 1 : 0);
         $("#remark").val(param.remark);
+        $("#csrserviceCode").val(param.csrserviceCode);
         $("#ckbSaveLabel").css("display","none");
-	}
-    $("#dictTypeId").val(param.dictTypeId);
-    
-    // 机构运营费用打开是否固定的选项
-    nodeCode = param.nodeCode;
-    if(nodeCode.startWith("101005")){
-    	$("#isFixedLabel").removeClass("none");
-    	if(param.type === "edit" && param.isFixed === '1'){
-    		$('#isFixed').prop('checked', true);
-    	}
-    	
+    } else {
+        $("#typeId").val(param.typeId);
+        $("#branchName").val(param.branchName);
+        $("#csrserviceType").val(param.csrserviceType);
     }
+    $("#dictTypeId").val(param.dictTypeId);
 }
 
 function saveServiceCode() {
     //校验表单
-    if($_jxc.isStringNull($("#value").val())){
-        $_jxc.alert("编号不能为空");
+    if ($_jxc.isStringNull($("#csrserviceName").val())) {
+        $_jxc.alert("服务名称不能为空");
         return;
     }
 
-    if($("#value").val().trim().length < 4){
-        $_jxc.alert("编号为4位数字");
+    if ($_jxc.isStringNull($("#referencePrice").val())) {
+        $_jxc.alert("单价不能为空");
         return;
     }
 
+    var addUrl = contextPath + '/service/item/save/csrservice';
+    var updateUrl = contextPath + '/service/item/edit/csrservice';
 
-    if($_jxc.isStringNull($("#label").val())){
-        $_jxc.alert("名称不能为空");
-        return;
-    }
-
-	var addUrl = contextPath+'/archive/financeCode/addFinanceCode'; 
-	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode';
-	
-	var isFixed = null;
+    //var isFixed = null;
 	
 	// if(nodeCode.startWith("101005")){
 	// 	isFixed = $('#isFixed').is(':checked') ? 1 : 0;
 	// }
 	
 	var data = {
-        dictTypeId:$("#dictTypeId").val(),
-        value:$("#value").val(),
-        label:$("#label").val().trim(),
-        price:1,
+        csrserviceName: $("#csrserviceName").val(),
+        referencePrice: $("#referencePrice").numberbox('getValue'),
+        isAllowAdjustPrice: $("#isAllowAdjustPrice").combobox("getValue"),
         remark:$("#remark").val(),
-        isFixed:$("ckbchangePrice").is("checked")?"1":"0",
+        typeId: $("#typeId").val()
     }
     if(type === "edit"){
         data.id = $("#id").val();
@@ -81,7 +70,16 @@ function saveServiceCode() {
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             $_jxc.alert("保存成功");
-            servciecallback({code:"1"});
+            if (type === "add") {
+                if ($("#ckbSave").is(":checked")) {
+                    cleanForm();
+                } else {
+                    closeFinanceDialog();
+                }
+            } else {
+                closeFinanceDialog();
+            }
+            queryService();
         }else{
             $_jxc.alert(result['message']);
         }
@@ -92,8 +90,8 @@ function saveServiceCode() {
 
 //清空表单
 function cleanForm(){
-    $("#value").val('');
-    $("#label").val('');
+    $("#csrserviceName").val('');
+    $("#referencePrice").numberbox('setValue', '');
+    $("#isAllowAdjustPrice").combobox('setValue', '0');
     $("#remark").val('');
 }
-
