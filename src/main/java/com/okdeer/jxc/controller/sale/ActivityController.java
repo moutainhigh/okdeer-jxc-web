@@ -574,6 +574,7 @@ public class ActivityController extends BaseController<ActivityController> {
 		try {
 			LOG.debug("查询活动列表：listData：{}", queryVo);
 			queryVo.setSourceBranchId(UserUtil.getCurrBranchId());
+			queryVo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());;
 			PageUtils<Map<String, Object>> page = mainServiceApi.listPage(queryVo);
 			return page;
 		} catch (Exception e) {

@@ -208,6 +208,7 @@ function getAccountColumns(){
 }
 
 var dg;
+var gridHandel = new GridClass();
 //初始化表格
 function initfraAcountList(){
 	if(dg){

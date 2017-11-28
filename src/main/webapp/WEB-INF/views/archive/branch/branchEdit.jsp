@@ -200,15 +200,25 @@
 									<option value="${i.code }" >${i.label }</option>
 				               	</c:forEach>
 							</select>
-
 						</div>
 
+						<div class="ub ub-ac">
+							<div class="umar-r10 uw-80 ut-r">授信额度:</div>
+							<input id="creditLimit" name="creditLimit" type="text" value=""
+								class="uinp uw-200 easyui-numberbox" data-options="min:0,precision:2">
+						</div>
+						
 						<div class="ub ub-ac uw-320">
-							<div class="umar-r10 uw-80 ut-r">修改人:</div>
+							<div class="umar-r10 uw-110 ut-r">修改人:</div>
 							<input id="updateUserName" name="updateUserName" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 						</div>
+
+
+					</div>
+
+					<div class="ub upad-4 umar-l20">
 
 						<div class="ub ub-ac">
 							<div class="umar-r10 uw-80 ut-r">修改时间:</div>
@@ -216,20 +226,16 @@
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">
 						</div>
-
-					</div>
-
-					<div class="ub upad-4 umar-l20">
-
-						<div class="ub ub-ac uw-320">
-							<div class="umar-r10 uw-80 ut-r">建档人:</div>
+						
+						<div class="ub ub-ac">
+							<div class="umar-r10 uw-108 ut-r">建档人:</div>
 							<input id="createUserName" name="createUserName" type="text"
-								class="uinp uinp-no-more" maxlength="50"
+								class="uinp uinp-no-more uw-200" maxlength="50"
 								readonly="readonly">
 						</div>
 
-						<div class="ub ub-ac uw-320">
-							<div class="umar-r10 uw-80 ut-r">建档时间:</div>
+						<div class="ub ub-ac">
+							<div class="umar-r10 uw-108 ut-r">建档时间:</div>
 							<input id="createTimeStr" name="createTimeStr" type="text"
 								class="uinp uinp-no-more" maxlength="50"
 								readonly="readonly">

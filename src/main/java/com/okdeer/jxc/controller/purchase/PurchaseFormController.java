@@ -1315,6 +1315,10 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				case 1:
 					replaceMap.put("_审核状态", "审核通过");
 					replaceMap.put("status", "审核通过");
+					// 采购订单和采购收货单标记显示已审核的样式
+					if (FormType.PA.equals(form.getFormType()) || FormType.PI.equals(form.getFormType())) {
+						replaceMap.put("isViewStatus", Constant.STRING_ONE);
+					}
 					break;
 				case 2:
 					replaceMap.put("_审核状态", "审核不通过");
