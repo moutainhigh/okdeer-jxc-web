@@ -11,6 +11,7 @@
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="${form.status}">
+	<input type='hidden' id="taxRate" name="taxRate" value="${form.taxRate}">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
 	

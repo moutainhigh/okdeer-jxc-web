@@ -49,6 +49,7 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<input type="hidden" id="formJson" value="${form}">
+		<input type='hidden' id="taxRate" name="taxRate" value="${form.taxRate}">
 		<input type="hidden" id="formId" value="${form.id}"> <input
 			type="hidden" id="formNo" value="${form.formNo}">
 		<div class="ub umar-t8">

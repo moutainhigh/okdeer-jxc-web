@@ -861,7 +861,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 						skuIds.add(detailVo.getSkuId());
 					}
 				}
-				// RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				/** RespJson resp = saveValid(skuIds,formVo.getBranchId());*/
 				RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
 				if (!resp.isSuccess()) {
 					return resp;
@@ -1388,6 +1388,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			// 人民币总金额大写
 			replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(form.getAmount()));
 			replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(form.getAmount()));
+			// 人民币总金额大写
+			replaceMap.put("_人民币不含税总金额大写", NumberToCN.number2CNMontrayUnit(form.getUntaxedAmount()));
+			replaceMap.put("untaxedAmountCN", NumberToCN.number2CNMontrayUnit(form.getUntaxedAmount()));
+			// 总金额
+			replaceMap.put("_不含税总金额", BigDecimalUtils.formatTwoDecimal(form.getUntaxedAmount()).toString());
+			replaceMap.put("untaxedAmount", BigDecimalUtils.formatTwoDecimal(form.getUntaxedAmount()).toString());
 			// 总金额
 			replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
 			replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
@@ -1611,7 +1617,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@RequestMapping(value = "exportList")
 	public void exportList(HttpServletResponse response, String formId, String type) {
-		LOG.debug("PurchaseFormController.export:" + formId);
+		LOG.debug("PurchaseFormController.export:{}" , formId);
 		try {
 			List<PurchaseFormDetailPO> exportList = purchaseFormServiceApi.selectDetailById(formId);
 			String fileName = "";

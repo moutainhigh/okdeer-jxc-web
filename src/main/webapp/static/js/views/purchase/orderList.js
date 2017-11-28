@@ -78,6 +78,11 @@ function initDatagridOrders(){
             {field:'branchName',title:'收货机构',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'120px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
+            {field:'untaxedAmount',title:'不含税总金额',width:'140px',align:'right',
+            	formatter : function(value, row, index) {
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            },
             {field:'amount',title:'总金额',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -114,7 +119,7 @@ function initDatagridOrders(){
     });
     query();
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["amount"])
+        priceGrantUtil.grantPurchasePrice(gridName,["amount","untaxedAmount"])
     }
 }
 

@@ -175,6 +175,11 @@ function initDatagridOrders(){
             }},
             {field:'supplierCode',title:'供应商编号',width:'200px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
+            {field:'untaxedAmount',title:'不含税总金额',width:'140px',align:'right',
+            	formatter : function(value, row, index) {
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            },
             {field:'amount',title:'总金额',width:'120px',align:'right',
 				formatter : function(value, row, index) {
 					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -197,7 +202,7 @@ function initDatagridOrders(){
     });
    // query();
     if(hasPurchasePrice==false){
-       // priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+       // priceGrantUtil.grantPurchasePrice(tableIdName,["amount","untaxedAmount"])
 	}
 }
 
@@ -231,6 +236,11 @@ function initDatagridFormPA(){
 			}},
             {field:'branchName',title:'收货机构',width:200,align:'left'},
             {field:'supplierName',title:'供应商',width:200,align:'left'},
+            {field:'untaxedAmount',title:'不含税单据金额',width:'140px',align:'right',
+            	formatter : function(value, row, index) {
+            		return parseFloat(value||0).toFixed(4);
+            	},
+            },
             {field:'amount',title:'单据金额',width:200,align:'right',
             	formatter : function(value, row, index) {
             		return parseFloat(value||0).toFixed(4);
