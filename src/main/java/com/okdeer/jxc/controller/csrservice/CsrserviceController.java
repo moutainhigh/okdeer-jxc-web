@@ -9,24 +9,26 @@
 package com.okdeer.jxc.controller.csrservice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
 import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.okdeer.jxc.csrservice.vo.CsrserviceVo;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +95,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     
     @RequestMapping(value = "add/{branchId}/{pid}", method = RequestMethod.POST)
     public Map<String, String> add(@PathVariable("branchId") String branchId, @PathVariable("pid") String pid) {
+        Map<String, String> map = Maps.newHashMap();
         String uuid = UUIDHexGenerator.generate();
         CsrserviceTypeVo vo = new CsrserviceTypeVo();
         vo.setId(uuid);
@@ -103,9 +106,11 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         vo.setCreateUserId(getCurrUserId());
         vo.setCreateTime(new Date());
         vo.setDisabled(DisabledEnum.NO.getIndex());
-        vo.setTypeName("新增服务类型");
+        vo.setTypeName("新增服务类型" + RandomUtils.nextInt(1, 1000));
         csrserviceTypeService.save(vo);
-        return ImmutableMap.of("id", uuid);
+        map.put("id", uuid);
+        map.put("name", vo.getTypeName());
+        return map;
     }
 
     @RequestMapping(value = "update/{branchId}/{id}", method = RequestMethod.POST)
@@ -114,7 +119,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         vo.setId(id);
         vo.setTypeName(typeName);
         try {
-            if (csrserviceTypeService.uniqueTypeName(branchId, typeName)) {
+            if (csrserviceTypeService.uniqueTypeName(branchId, typeName, id)) {
                 csrserviceTypeService.update(vo);
                 return RespJson.success();
             } else {
@@ -141,10 +146,67 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         }
     }
     
-    
-    
 	@RequestMapping(value = "editService", method = RequestMethod.GET)
 	public ModelAndView editService() {
 		return new ModelAndView("/csrservice/editServiceDialog");
 	}
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public PageUtils<CsrserviceVo> getReportList(CsrserviceVo vo,
+                                                 @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                                                 @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        try {
+            PageUtils<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo, pageSize, pageNumber);
+            return list;
+        } catch (Exception e) {
+            LOG.error("查詢服務項目異常!", e);
+            return PageUtils.emptyPage();
+        }
+    }
+
+
+    @RequestMapping(value = "/del/csrservice", method = RequestMethod.POST)
+    public RespJson delete(String ids) {
+        try {
+            if (StringUtils.isNotBlank(ids)) {
+                csrserviceTypeService.delCsrservice(Splitter.on(",").splitToList(ids));
+            }
+            return RespJson.success();
+        } catch (Exception e) {
+            LOG.error("删除服务项目失败!", e);
+            return RespJson.error("删除服务项目失败！");
+        }
+    }
+
+    @RequestMapping(value = "/edit/csrservice", method = RequestMethod.GET)
+    public RespJson edit(CsrserviceVo csrserviceVo, HttpServletResponse response) {
+
+        try {
+            csrserviceVo.setUpdateTime(new Date());
+            csrserviceVo.setUpdateUserId(getCurrUserId());
+            csrserviceTypeService.updateCsrservice(csrserviceVo);
+            return RespJson.success();
+        } catch (Exception e) {
+            LOG.error("更新服务项目失败!", e);
+            return RespJson.error("更新服务项目失败！");
+        }
+    }
+
+    @RequestMapping(value = "/save/csrservice", method = RequestMethod.POST)
+    public RespJson save(CsrserviceVo csrserviceVo) {
+
+        try {
+            csrserviceVo.setId(UUIDHexGenerator.generate());
+            csrserviceVo.setCreateTime(new Date());
+            csrserviceVo.setCreateUserId(getCurrUserId());
+            csrserviceVo.setDisabled(DisabledEnum.NO.getIndex());
+            csrserviceVo.setCsrserviceCode(csrserviceTypeService.getCsrserviceCode());
+            csrserviceTypeService.saveCsrservice(csrserviceVo);
+            return RespJson.success();
+        } catch (Exception e) {
+            LOG.error("新增服务项目失败!");
+            return RespJson.error("新增服务项目失败!");
+        }
+    }
 }

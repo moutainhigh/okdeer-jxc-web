@@ -30,7 +30,7 @@
     <div class="ub ub-ver ub-f1 umar-l4">
         <div class="ub ub-ac">
             <div class="ubtns">
-                <div class="ubtns-item" onclick="query()">查询</div>
+                <div class="ubtns-item" onclick="queryService()">查询</div>
                 <shiro:hasPermission name="jxc_service_item:append">
                     <div class="ubtns-item" onclick="addServiceItem()">新增</div>
                 </shiro:hasPermission>
@@ -44,11 +44,11 @@
             </div>
         </div>
         <form action="" id="formList" method="post">
-            <input type="hidden" id="branchCompleCode" name="branchCompleCode">
+            <input type="hidden" id="typeId" name="typeId">
             <div class="ub umar-t12">
                 <div class="ub ub-ac umar-r10">
                     <div class="umar-r10 uw-80 ut-r">关键字:</div>
-                    <input class="uinp" type="text" name="branchKeyword" id="branchKeyword"
+                    <input class="uinp" type="text" name="keyWord" id="keyWord"
                            placeholder="输入编号、名称、备注进行查询">
                 </div>
             </div>
