@@ -22,7 +22,7 @@ function queryServiceList(branchId) {
         }
     },function(result){
         if(result && result.code == 0){
-
+            createPage(result.data);
         }else{
             $_jxc.alert(result.message);
         }
@@ -33,33 +33,39 @@ function createPage(serviceList){
     var content = $("#content");
     $.each(serviceList,function (index,item) {
         var temp_html = '';
-
-
-        var li_html = '<li class="ub"> <div class="ub level">' +
+        var li_html = $('<li class="ub"> <div class="ub level">' +
             ' <div class="ub ub-ac ub-pc uw-128 bor-rb bor-left"> <label> ' +
             '<input type="checkbox" class="parentNode oneNode"' +
             'id="'+item.id+'" ' +
-            'level="'+item.level+'" ' + temp_html
-                ' />'
-
-            '</label> </div> </div></li>';
+            'level="'+item.level+'" ' + temp_html +
+                ' /> </label> </div> </div></li>');
 
         if(item.checked == true){
             temp_html = ' checked=checked '
         }
 
-        var ul = ' <ul class="ub ub-ver levelContent two"></ul>';
+        var ul = $('<ul class="ub ub-ver levelContent two"></ul>');
 
-        var child_li = '<li class="ub "> <div class="ub level"> ' +
-            '<div class="ub ub-ac upad-l10 uw-128 bor-rb"> <label> ' +
-            '<input type="checkbox" id="${i2.id }" ' +
-            'parentId="${i2.parentId }" ' +
-            'level="${i2.level }"class="treeItem" />' +
-            ' </label> </div> </div> </li>'
+        $.each(item.childs,function (index,child) {
 
+            var child_li = $('<li class="ub "> <div class="ub level"> ' +
+                '<div class="ub ub-ac upad-l10 uw-128 bor-rb"> <label> ' +
+                '<input type="checkbox" ' +
+                'id="'+child.id+'" ' +
+                'parentId="'+child.parentId+'" ' +
+                'level="'+child.level+'" class="treeItem" />' +
+                ' </label> </div> </div> </li>');
+
+            child_li.appendTo(ul);
+        })
+
+        ul.appendTo(li_html);
+        li_html.appendTo(content);
     })
 
 }
+
+
 
 $(document).on('change','.parentNode,.treeItem',function(){
     var flag = $(this).prop('checked');
