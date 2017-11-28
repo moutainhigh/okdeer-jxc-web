@@ -71,7 +71,7 @@
         </div>
         <!--一级start-->
         <ul class="uw ub ub-ver" id="content">
-            <c:forEach var="i1" items="${authList }">
+            <c:forEach var="i1" items="${serviceList}">
                 <li class="ub">
                     <div class="ub level">
                         <div class="ub ub-ac ub-pc uw-128 bor-rb bor-left">
@@ -90,37 +90,11 @@
                                         <label>
                                             <input type="checkbox" id="${i2.id }" parentId="${i2.parentId }"
                                                    level="${i2.level }"
-                                                   class="parentNode twoNode" <c:if
+                                                   class="treeItem" <c:if
                                                     test="${i2.checked eq true }"> checked=checked </c:if> />${i2.name }
                                         </label>
                                     </div>
                                 </div>
-                                <ul class="ub ub-ver levelContent three">
-                                    <c:forEach var="i3" items="${i2.child }">
-                                        <li class="ub">
-                                            <div class="ub ub-ac uw-150 upad-l10 bor-rb level">
-                                                <label>
-                                                    <input type="checkbox" id="${i3.id }" parentId="${i3.parentId }"
-                                                           level="${i3.level }"
-                                                           class="parentNode threeNode" <c:if
-                                                            test="${i3.checked eq true }"> checked=checked </c:if> />${i3.name }
-                                                </label>
-                                            </div>
-                                            <div class="ub bor-rb uw-500 upad-l10 upad-t10 upad-r10 levelContent">
-                                                <div class="ub ub-ac">
-                                                    <c:forEach var="i4" items="${i3.child }">
-                                                        <label class="label-item umar-r10 umar-b10">
-                                                            <input type="checkbox" id="${i4.id }"
-                                                                   parentId="${i4.parentId }" level="${i4.level }"
-                                                                   class="treeItem" <c:if
-                                                                    test="${i4.checked eq true }"> checked=checked </c:if> />${i4.name }
-                                                        </label>
-                                                    </c:forEach>
-                                                </div><!--四级 end-->
-                                            </div>
-                                        </li>
-                                    </c:forEach>
-                                </ul><!--三级 end-->
                             </li>
                         </c:forEach>
                     </ul><!--二级 end-->
