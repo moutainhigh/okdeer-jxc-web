@@ -71,6 +71,27 @@ function initPurchaseGuideGoodsListDg(){
             {field:'skuUnit',title:'单位',width:60,align:'left'},
             {field:'skuSpec',title:'规格',width:60,align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:60,align:'left'},
+            {field:'untaxedPrice',title:'不含税进价',width:100,align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return;
+            		}
+            		
+            		if(!value){
+            			row["untaxedPrice"] = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:4,
+            			disabled:true,
+            		}
+            	},
+            },
             {field:'purchasePrice',title:'进价',width:100,align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -222,6 +243,27 @@ function initPurchaseGuideGoodsListDg(){
 			        }
 			    },
             },
+            {field:'untaxedAmount',title:'不含税金额',width:100,align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return;
+            		}
+            		
+            		if(!value){
+            			row["untaxedAmount"] = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:4,
+            			disabled:true,
+            		}
+            	},
+            },
             {field:'totalAmount',title:'金额',width:100,align:'right',
             	formatter : function(value, row, index) {
 			        if(row.isFooter){
@@ -242,6 +284,48 @@ function initPurchaseGuideGoodsListDg(){
 			            disabled:true,
 			        }
 			    },
+            },
+            {field:'inputTax',title:'税率',width:100,align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return;
+            		}
+            		
+            		if(!value){
+            			row["inputTax"] = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:4,
+            			disabled:true,
+            		}
+            	},
+            },
+            {field:'taxAmount',title:'税额',width:100,align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return;
+            		}
+            		
+            		if(!value){
+            			row["taxAmount"] = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:4,
+            			disabled:true,
+            		}
+            	},
             },
             
             {field:'lastWeekAvgSales',title:'上周日销量',width:100,align:'right',hidden:isType_two,
@@ -337,14 +421,18 @@ function initPurchaseGuideGoodsListDg(){
     });
 
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("dgGuideGoodsList",["purchasePrice","totalAmount"])
+        priceGrantUtil.grantPurchasePrice("dgGuideGoodsList",["purchasePrice","totalAmount","untaxedAmount","untaxedPrice","taxRate","taxAmount"])
     }
 }
 
-function actualStockChange(newVal,oldVal){
-	 var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
-		
-		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);
+function actualStockChange(newVal, oldVal) {
+	var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(), 'purchasePrice');
+	var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(), 'untaxedPrice');
+	var totalAmount = parseFloat(purchasePrice * newVal).toFixed(4);
+	var untaxedAmount = parseFloat(untaxedPrice * newVal).toFixed(4);
+	gridHandel.setFieldValue('totalAmount', totalAmount);
+	gridHandel.setFieldValue('untaxedAmount', untaxedAmount);
+	gridHandel.setFieldValue('taxAmount', totalAmount - untaxedAmount);
 }
 
 //删除一行
@@ -378,6 +466,8 @@ function nextStep (){
 					purchaseSpec:data.purchaseSpec,
 					salePrice:data.salePrice,
 					totalAmount:data.totalAmount,
+					untaxedPrice:data.untaxedPrice,
+					untaxedAmount:data.untaxedAmount,
 					inputTax:data.inputTax,
 					remark:data.remark,
 					deliverId:data.deliverId
