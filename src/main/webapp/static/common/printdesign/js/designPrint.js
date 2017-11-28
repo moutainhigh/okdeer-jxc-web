@@ -25,6 +25,7 @@
         }
 
         function createPage(jqPageTemp) {
+
             var jq = jqPageTemp.clone();
             if (!isPreview) {
                 jq = jq.find(".work");
@@ -35,7 +36,11 @@
             // var height = $(window).height()*(5/6);
             jq.css({ top: "0px", left: "0px"});
             currentPage = jq;
-            currentPageNo += 1;            
+            currentPageNo += 1;
+            if(jsonReplace.isViewStatus && jsonReplace.isViewStatus == "1"){
+                insertStatus(jq);
+            }
+
             return jq;
         }
 
@@ -45,7 +50,7 @@
 
             
             //处理首页
-            var page = createPage(jqPageTemp).appendTo(jqPrint);            
+            var page = createPage(jqPageTemp).appendTo(jqPrint);
             if (!insertHead(page, jqHead)) {
             	return null;	
             }
@@ -71,7 +76,7 @@
                         	insertFoot(page, jqFoot);
                         }
                         createPageBreak().appendTo(jqPrint);
-                        page = createPage(jqPageTemp).appendTo(jqPrint);                        
+                        page = createPage(jqPageTemp).appendTo(jqPrint);
                         if (!insertHead(page, jqHead)) {
                         	return null;	
                         }
@@ -86,7 +91,7 @@
                 if (printFoot) {
                     if (!insertFoot(page, jqFoot)) {
                         createPageBreak().appendTo(jqPrint);
-                        page = createPage(jqPageTemp).appendTo(jqPrint);                        
+                        page = createPage(jqPageTemp).appendTo(jqPrint);
                         insertFoot(page, jqFoot);
                     }
 
@@ -167,6 +172,29 @@
                 d.remove();
                 return false;
             }
+            return true;
+        }
+
+        function insertStatus(jqPage){
+            if (isPreview) jqPage = jqPage.find(".work");
+            var already_examine = $("<div  id='already-examine'><span>已审核</span></div>")
+            already_examine.css("color", "#e23d3d");
+            already_examine.css("font-size", "20px");
+            already_examine.css("font-weight", "bold ");
+            already_examine.css("line-height", "20px");
+            already_examine.css("border", "2px solid #e23d3d");
+            already_examine.css("box-shadow", "2px 2px 10px rgba(255, 0, 0, 0.3)");
+            already_examine.css("padding", "6px 2px ");
+            already_examine.css("position", "absolute");
+            already_examine.css("left", "60%");
+            already_examine.css("top", "20px");
+            already_examine.css("transform", "rotate(-20deg)");
+            already_examine.css("-ms-transform", "rotate(-20deg)");
+            already_examine.css("-moz-transform", "rotate(-20deg)");
+            already_examine.css("-o-transform", "rotate(-20deg)");
+            already_examine.css("webkit-transform", "rotate(-20deg)");
+            already_examine.appendTo(jqPage);
+
             return true;
         }
 
