@@ -51,6 +51,7 @@
 		<div class="ub umar-t8">
 			<div class="ub ub-ac">
 				<div class="umar-r10 uw-60 ut-r">采购订单:</div>
+				<input type='hidden' id="taxRate" name="taxRate" value="${form.taxRate}">
 				<input id="refFormNo" class="uinp" type="text"
 					value="${form.refFormNo}" readonly="readonly">
 				<!-- 				<div class="uinp-more" onclick="selectPurchaseForm()">...</div> -->
