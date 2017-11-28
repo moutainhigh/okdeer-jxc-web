@@ -939,4 +939,9 @@ public interface ExportExcelConstant {
      * @Fields PUR_STATE_TRACK : 采购订单状态跟踪
      */
     String PUR_STATE_TRACK = "PurStateTrack.xlsx";
+
+	/**
+	 * 服務類型導出模板
+	 */
+	String CSRSERVICE_TYPE_EXPORT_TEMPLATE = "csrserviceTypeTemplate.xlsx";
 }
