@@ -71,35 +71,7 @@
         </div>
         <!--一级start-->
         <ul class="uw ub ub-ver" id="content">
-            <c:forEach var="i1" items="${serviceList}">
-                <li class="ub">
-                    <div class="ub level">
-                        <div class="ub ub-ac ub-pc uw-128 bor-rb bor-left">
-                            <label>
-                                <input type="checkbox" id="${i1.id }" level="${i1.level }"
-                                       class="parentNode oneNode" <c:if
-                                        test="${i1.checked eq true }"> checked=checked </c:if> />${i1.name }
-                            </label>
-                        </div>
-                    </div>
-                    <ul class="ub ub-ver levelContent two">
-                        <c:forEach var="i2" items="${i1.child }">
-                            <li class="ub ">
-                                <div class="ub level">
-                                    <div class="ub ub-ac upad-l10 uw-128 bor-rb">
-                                        <label>
-                                            <input type="checkbox" id="${i2.id }" parentId="${i2.parentId }"
-                                                   level="${i2.level }"
-                                                   class="treeItem" <c:if
-                                                    test="${i2.checked eq true }"> checked=checked </c:if> />${i2.name }
-                                        </label>
-                                    </div>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul><!--二级 end-->
-                </li>
-            </c:forEach>
+
         </ul><!--一级 end-->
     </div>
 </div>
