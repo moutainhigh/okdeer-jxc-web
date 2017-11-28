@@ -175,11 +175,11 @@ function initDatagridOrders(){
 		          {field:'id',title:'商品id',hidden:true},  
 	              {field:'skuCode',title:'货号',width:'120px',align:'left'},
 		          {field:'skuName',title:'商品名称'}, 
-		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
+		          {field:"barCode",title:"条码",/*sortable:true,tooltip:true,*/width:100},
 		          /*{field:"barCodes",title:"附条码",sortable:true,tooltip:true,width:80},*/
-		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
-		          {field:"unit",title:"单位",sortable:true,tooltip:true,width:80},
-		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'left',
+		          {field:"spec",title:"规格",/*sortable:true,tooltip:true,*/width:80},
+		          {field:"unit",title:"单位",/*sortable:true,tooltip:true,*/width:80},
+		          {field:"purchaseSpec",title:"进货规格",/*sortable:true,tooltip:true,*/width:80,align:'left',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -187,7 +187,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"distributionSpec",title:"配送规格",sortable:true,tooltip:true,width:80,align:'left',
+		          {field:"distributionSpec",title:"配送规格",/*sortable:true,tooltip:true,*/width:80,align:'left',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -195,7 +195,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }  
 		          },
-		          {field:"purchasePrice",title:"进货价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"purchasePrice",title:"进货价",/*sortable:true,tooltip:true,*/width:80,align:'right',
 		        	  formatter : function(value,row,index){
 							if (row.skuId == null) {
 								return;
@@ -206,7 +206,7 @@ function initDatagridOrders(){
 		        		  return "0.00";
 		        	  }
 		          },
-				{field:"distributionPrice",title:"配送价",sortable:true,tooltip:true,width:80,align:'right',
+				{field:"distributionPrice",title:"配送价",/*sortable:true,tooltip:true,*/width:80,align:'right',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
 							return;
@@ -217,7 +217,7 @@ function initDatagridOrders(){
 						return "0.00";
 					}
 				},
-		        {field:"salePrice",title:"零售价",sortable:true,tooltip:true,width:80,align:'right',
+		        {field:"salePrice",title:"零售价",/*sortable:true,tooltip:true,*/width:80,align:'right',
 		        	  formatter : function(value,row,index){
 						  if (row.skuId == null) {
 							  return;
@@ -228,7 +228,7 @@ function initDatagridOrders(){
 		        		  return "0.00";
 		        	  }
 		          },
-				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:100,align:'right',
+				{field:"verageStoreSales",title:"平均单店销售量",/*sortable:true,tooltip:true,*/width:100,align:'right',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
 							return;
@@ -239,7 +239,7 @@ function initDatagridOrders(){
 						return "0.00";
 					}
 				},
-			{field:"shelfRatio",title:"上架率",sortable:true,tooltip:true,width:80,align:'right',
+			{field:"shelfRatio",title:"上架率",/*sortable:true,tooltip:true,*/width:80,align:'right',
 				formatter : function(value,row,index){
 					if (row.skuId == null) {
 						return;
@@ -250,7 +250,7 @@ function initDatagridOrders(){
 					return "0.00%";
 				}
 			},
-			{field:"turnoverRatio",title:"动销率",sortable:true,tooltip:true,width:80,align:'right',
+			{field:"turnoverRatio",title:"动销率",/*sortable:true,tooltip:true,*/width:80,align:'right',
 				formatter : function(value,row,index){
 					if (row.skuId == null) {
 						return;
@@ -261,7 +261,7 @@ function initDatagridOrders(){
 					return "0.00%";
 				}
 			},
-			{field:"sellingRatio",title:"畅销率",sortable:true,tooltip:true,width:80,align:'right',
+			{field:"sellingRatio",title:"畅销率",/*sortable:true,tooltip:true,*/width:80,align:'right',
 				formatter : function(value,row,index){
 					if (row.skuId == null) {
 						return;
@@ -271,7 +271,7 @@ function initDatagridOrders(){
 					}
 					return "0.00%";
 				}},
-			{field:"sumSaleNum",title:"销售量",sortable:true,tooltip:true,width:80,align:'right',
+			{field:"sumSaleNum",title:"销售量",/*sortable:true,tooltip:true,*/width:80,align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return parseFloat(value||0).toFixed(2);
@@ -279,20 +279,20 @@ function initDatagridOrders(){
 					return parseFloat(value||0).toFixed(2);
 				}
 			},
-			{field:"sumSaleAmount",title:"销售额",sortable:true,tooltip:true,width:80,align:'right',
+			{field:"sumSaleAmount",title:"销售额",/*sortable:true,tooltip:true,*/width:80,align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return parseFloat(value||0).toFixed(2);
 					}
 					return parseFloat(value||0).toFixed(2);
 				}},
-			{field:"supplierName",title:"供应商名称",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"supplierCode",title:"供应商代号",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"oneCategoryName",title:"大类",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"twoCategoryName",title:"中类",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"threeCategoryName",title:"小类",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"vaildity",title:"保质期",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"fastDeliver",title:"配送方式 ",sortable:true,tooltip:true,width:80,align:'left',
+			{field:"supplierName",title:"供应商名称",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"supplierCode",title:"供应商代号",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"oneCategoryName",title:"大类",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"twoCategoryName",title:"中类",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"threeCategoryName",title:"小类",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"vaildity",title:"保质期",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"fastDeliver",title:"配送方式 ",/*sortable:true,tooltip:true,*/width:80,align:'left',
 				formatter : function(value,row,index){
 					if (row.skuId == null) {
 						return;
@@ -304,8 +304,8 @@ function initDatagridOrders(){
 					}
 				}
 			},
-			{field:"brandName",title:"品牌",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"createDataTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
+			{field:"brandName",title:"品牌",/*sortable:true,tooltip:true,*/width:80,align:'left'},
+			{field:"createDataTime",title:"建档时间",/*sortable:true,tooltip:true,*/width:120,align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -313,7 +313,7 @@ function initDatagridOrders(){
 					return "";
 				}
 			},
-			{field:"remark",title:"备注",sortable:true,tooltip:true,width:80,align:'left'}
+			{field:"remark",title:"备注",/*sortable:true,tooltip:true,*/width:80,align:'left'}
 		     ]] ,
 		toolBar : "#tg_tb",
         enableHeaderClickMenu: false,

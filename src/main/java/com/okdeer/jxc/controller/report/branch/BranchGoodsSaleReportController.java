@@ -6,6 +6,24 @@
  */
 package com.okdeer.jxc.controller.report.branch;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Supplier;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -22,22 +40,6 @@ import com.okdeer.jxc.report.branch.service.BranchGoodsSaleReportApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.vo.BranchGoodsSaleReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Supplier;
 
 /**
  * ClassName: BranchGoodsSaleReportController 
@@ -108,7 +110,9 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 				LOG.error("店铺为空");
 				return PageUtils.emptyPage();
 			}
+			
 			PageUtils<BranchGoodsSaleReportVo> bgsReportPage = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
+			
 			List<BranchGoodsSaleReportVo> footer = new ArrayList<>();
 			footer.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
 			bgsReportPage.setFooter(footer);
