@@ -226,7 +226,6 @@
 			<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
 			<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
 			</div>
-			</div>
 
 			<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
 			<div class="umar-r10 uw-70 ut-r">任选数量:</div>
@@ -237,6 +236,10 @@
 			<div class="umar-r10 uw-110 ut-r">销售金额:</div>
 			<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
 			</div>
+
+			</div>
+
+
 
        	</form>
            

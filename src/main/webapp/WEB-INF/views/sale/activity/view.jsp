@@ -210,7 +210,7 @@
 				</div>
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
-				<div class="umar-r10 uw-110 ut-r">销售金额:</div>
+				<div class="umar-r10 uw-104 ut-r">销售金额:</div>
 				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
 				</div>
 
