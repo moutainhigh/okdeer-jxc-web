@@ -1,6 +1,5 @@
 ﻿(function ($) {
     $.fn.createPages = function(options,jsonReplace) {
-        debugger;
     	//明细列头
         function createThead(jqPage, columns) {
             if (isPreview) jqPage = jqPage.find(".work");
