@@ -56,18 +56,27 @@
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-200 ut-r">订货安全系数设置:</div>
 					<div class="ub ub-f1 ub-ver">
-						<div class="ub  ub-ac upad-b16">
+						<div class="ub ub-ac">
 							<label class="satetyLabel" onClick="changeType(0)"><input  type="radio" id="isAllowMinusStock1" name="safetyCoefficientType" value="0" />取商品档案安全系数</label>
 						</div>
-						<div class="ub  ub-ac upad-b16 upad-t16 ">
+					</div>
+				</div>
+				<div class="ub ub-ac umar-16">
+					<div class="ub uw-200 ut-r"></div>
+					<div class="ub ub-f1 ub-ver">
+						<div class="ub ub-ac">
 							<label class="satetyLabel" onClick="changeType(1)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="1" />取供应商送货周期，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍</label>
 						</div>
-						<div class="ub  ub-ac upad-b16 upad-t16 " >
+					</div>
+				</div>
+				<div class="ub ub-ac umar-16">
+					<div class="ub uw-200 ut-r"></div>
+					<div class="ub ub-f1 ub-ver">
+						<div class="ub ub-ac" >
 							<label class="satetyLabel" onClick="changeType(2)"><input  type="radio" id="isAllowMinusStock0" name="safetyCoefficientType" value="2" /></label>
 							仓库平均送货周期 <input class="uinp uw-30 easyui-numberbox" type="text"  data-options="min:0,disabled:true" name="safetyCoefficientValue" id="safetyCoefficientValue" >天，转换关系：1天0.5倍，2天1倍，3－4天1.5倍， 5天以上2倍
 						</div>
-						<%--<div class="ub  ub-ac upad-t16">订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量)－当前库存(结果取配送规格倍数)</div>--%>
-						<div class="ub  ub-ac upad-t16">每日销量*（订货周期+送货周期） + 每日销量*安全库存系数－（实际库存+未送达订货）</div>
+						<div class="ub  ub-ac upad-t16">每日销量 *（订货周期 + 送货周期） + 每日销量 * 安全库存系数－（实际库存 + 未送达订货）</div>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
@@ -82,7 +91,7 @@
 					<div class="ub uw-200 ut-r"></div>
 					<div class="ub ub-f1 ub-ver">
 						<div class="ub ub-ac">
-							<label class="satetyLabel" ><input  type="radio" id="isAllowMinusStock0" name="deliverSuggestType" value="1" />建议订货数量 = 订货周期 * 安全库存系数 * MAX(上周日均销量，前周日均销量) － 当前库存 【取配送规格整数倍】</label>
+							<label class="satetyLabel" ><input  type="radio" id="isAllowMinusStock0" name="deliverSuggestType" value="1" />建议订货数量 = 每日销量 *（订货周期+送货周期） + 每日销量 * 安全库存系数－（实际库存+未送达订货） 【取配送规格整数倍】</label>
 						</div>
 					</div>
 				</div>
