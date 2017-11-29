@@ -294,7 +294,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
-			LOG.debug("vo:{}", vo.toString());
+			LOG.debug("vo:{}", vo);
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.importDelverList(vo.getDeliverFormId());
 			return deliverFormLists;
 		} catch (Exception e) {

@@ -50,10 +50,26 @@ function initDatagridViewRequireOrder(){
 					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
 			},
+			{field:'untaxedPrice',title:'不含税单价',width:'100px',align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return ;
+					}
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+				},
+			},
             {field:'price',title:'单价',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return ;
+					}
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+				},
+			},
+			{field:'untaxedAmount',title:'不含税金额',width:'100px',align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
 					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				},
@@ -101,11 +117,10 @@ function initDatagridViewRequireOrder(){
 			},
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-					var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
-                    return  '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
+            		if(row.isFooter){
+            			return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            		}
+            		return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
                 }
             },
             {field: 'targetStock', title: '店铺库存', width: '80px', align: 'right',
@@ -152,14 +167,14 @@ function initDatagridViewRequireOrder(){
     });
 
     var param = {
-        distributionPrice:["price","amount","taxAmount"],
+        distributionPrice:["price","amount","taxAmount","untaxedPrice","untaxedAmount"],
     }
     priceGrantUtil.grantPrice(gridName,param);
 
 }
 //合计
 function updateFooter(){
-	var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
+	var fields = {largeNum:0,applyNum:0,amount:0,isGift:0,untaxedAmount:0 };
 	var argWhere = {name:'isGift',value:""}
 	gridHandel.updateFooter(fields,argWhere);
 }
