@@ -32,7 +32,7 @@ function createPage(serviceList){
     $.each(serviceList,function (index,item) {
         var temp_html = '';
         var li_html = $('<li class="ub"> <div class="ub level">' +
-            ' <div class="ub ub-ac ub-pc uw-128 bor-rb bor-left"> <label> ' +
+            ' <div class="ub ub-ac ub-pc uw-200 bor-rb bor-left"> <label> ' +
             '<input type="checkbox" class="parentNode oneNode"' +
             'id="'+item.id+'" ' +
             'level="'+item.level+'" ' + temp_html +
@@ -45,18 +45,25 @@ function createPage(serviceList){
 
         var ul = $('<ul class="ub ub-ver levelContent two"></ul>');
 
-        $.each(item.childs,function (index,child) {
 
-            var child_li = $('<li class="ub "> <div class="ub level"> ' +
-                '<div class="ub ub-ac upad-l10 uw-128 bor-rb"> <label> ' +
-                '<input type="checkbox" ' +
-                'id="'+child.id+'" ' +
-                'parentId="'+child.parentId+'" ' +
-                'level="'+child.level+'" class="treeItem" />'  + item.name  +
-                ' </label> </div> </div> </li>');
+        if(item.child && item.child.length > 0) {
+            var childs = item.child;
+            $.each(childs,function (index,child) {
 
-            child_li.appendTo(ul);
-        })
+                var child_li = $('<li class="ub uh-40"> <div class="ub level"> ' +
+                    '<div class="ub ub-ac upad-l10 uw-200 bor-rb"> <label> ' +
+                    '<input type="checkbox" ' +
+                    'id="'+child.id+'" ' +
+                    'parentId="'+child.parentId+'" ' +
+                    'level="'+child.level+'" class="parentNode twoNode" />'  + item.name  +
+                    ' </label> </div> </div> </li>');
+
+                child_li.appendTo(ul);
+            })
+        }
+
+
+
 
         ul.appendTo(li_html);
         li_html.appendTo(content);
@@ -72,7 +79,7 @@ $(document).on('change','.parentNode,.treeItem',function(){
         var opeInputLength = $(this).closest('.levelContent').find('label').length;
         var opeInputCheckedLength = $(this).closest('.levelContent').find('input[type="checkbox"]:checked').length;
         if(opeInputLength == opeInputCheckedLength){
-            $($(this).closest('li').find('input.threeNode')[0]).prop('checked',true);
+            $($(this).closest('li').find('input.twoNode')[0]).prop('checked',true);
         }
     }else{
         var checkebox = $(this).closest('.level').next('.levelContent').find('input[type="checkbox"]');
@@ -85,7 +92,7 @@ $(document).on('change','.parentNode,.treeItem',function(){
 
 function filterCheckDom(){
     $.each($('.levelContent.two').children('li'),function(index,obj){
-        var checkThreeItems = $(obj).find("input.threeNode:checked");
+        var checkThreeItems = $(obj).find("input.twoNode:checked");
         if(checkThreeItems.length > 0){
             $($(obj).find(".twoNode")[0]).prop('checked',true);
         }else{
@@ -107,25 +114,27 @@ function filterCheckDom(){
 //保存
 function saveService(){
     var menusIds = [];
-    var treeMenus = $(".three.levelContent");
+    var treeMenus = $(".two.levelContent");
     $.each(treeMenus, function (index,obj){
         var menuLiContent = $(obj).children('li');
         if(menuLiContent.length > 0 ){
             $.each(menuLiContent,function(inj,menDom){
                 var checkInputs =  $(menDom).find('.levelContent input[type="checkbox"]:checked');
-                var menuDom = $(menDom).find('.threeNode')[0];
+                var menuDom = $(menDom).find('.twoNode')[0];
                 var menuDomCheck = $(menuDom).prop('checked');
                 //菜单对象
                 var menuObj = {};
-                menuObj.menuId = $(menuDom).attr('id') ||'';
-                menuObj.operPermissions = [];
+                menuObj.id = $(menuDom).attr('id') ||'';
+                menuObj.parentId = $(menuDom).attr('parentId') ||'';
                 //子节点有勾选
-                if(checkInputs.length > 0){
-                    $.each(checkInputs, function (iny,elt) {
-                        menuObj.operPermissions.push($(elt).attr('id'));
-                    });
-                    menusIds.push(menuObj);
-                }else if(menuDomCheck){
+                // if(checkInputs.length > 0){
+                //     $.each(checkInputs, function (iny,elt) {
+                //         menuObj.operPermissions.push($(elt).attr('id'));
+                //     });
+                //     menusIds.push(menuObj);
+                // }else
+
+                if(menuDomCheck){
                     menusIds.push(menuObj);
                 }
             });
