@@ -57,13 +57,21 @@
         </div>
     </div>
     <div class="ub uline umar-t8"></div>
-    <div class="ub ub-ac umar-r40" id="branchSelects">
+
+    <div class="ub ub-ver upad-4">
+    <div class="ub upad-4">
+        <div class="ub ub-ac umar-r40" id="branchComponent">
         <div class="umar-r10 uw-70 ut-r">门店:</div>
         <input class="uinp" type="hidden" id="branchId" name="branchId">
         <input class="uinp" type="text" id="branchName" name="branchName">
         <input type="hidden" id="branchCompleCode" name="branchCompleCode" value="">
         <div class="uinp-more">...</div>
+        </div>
     </div>
+    </div>
+
+    <div class="ub ub-ver upad-4">
+    <div class="ub upad-4">
     <div class="ub ub-f1 ub-ver table-tree">
         <div class="ub ub-ac  uh-30 font-14">
             <span class="ub uh ub-ac ub-pc uw-128 bor-lt bor-rb">服务类型</span>
@@ -73,6 +81,8 @@
         <ul class="uw ub ub-ver" id="content">
 
         </ul><!--一级 end-->
+    </div>
+    </div>
     </div>
 </div>
 </body>

@@ -244,8 +244,8 @@ function selectOptionMj(param){
 function selectOptionN2N(param){
     $('#dvn2nCount').removeClass('unhide');
     $('#dvn2nSaleAmount').removeClass('unhide');
-    // $("#dvn2nCount").numberbox('setValue', param.maxDiscountNum);
-    // $("#dvn2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
     var radioVal = param.activityScopeN2N;
     if(radioVal == 1){
         initDatagridsortN2N();
