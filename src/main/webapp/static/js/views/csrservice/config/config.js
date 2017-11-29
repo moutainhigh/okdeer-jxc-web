@@ -147,7 +147,7 @@ function saveService(){
     var data = JSON.stringify(menusIds);
 
     $_jxc.ajax({
-        url:contextPath+"/system/role/produceRoleAuth",
+        url: contextPath + "/service/config/save/csrservice",
         data:{
             "branchId":branchId,
             "data":data
@@ -155,7 +155,7 @@ function saveService(){
     },function(result){
         if(result && result.code == 0){
             $_jxc.alert("保存成功！");
-            toClose();
+            //toClose();
         }else{
             $_jxc.alert(result.message);
         }

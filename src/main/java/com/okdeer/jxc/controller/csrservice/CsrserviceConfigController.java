@@ -9,16 +9,20 @@
 package com.okdeer.jxc.controller.csrservice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.csrservice.service.StoreCsrserviceService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,10 +57,24 @@ public class CsrserviceConfigController extends BaseController<CsrserviceConfigC
     public RespJson getCsrservice(String branchId) {
         try {
             Branches branches = branchesService.getParentById(branchId);
-            return RespJson.success(storeCsrserviceService.getStoreCsrservices(branches.getBranchId()));
+            return RespJson.success(storeCsrserviceService.getStoreCsrservices(branchId, branches.getBranchId()));
         } catch (Exception e) {
             LOG.error("加载便民服务失败!", e);
             return RespJson.error("加载便民服务失败!");
+        }
+    }
+
+    @RequestMapping(value = "/save/csrservice")
+    public RespJson saveStoreCsrservice(String branchId, String data) {
+        try {
+            TypeFactory typeFactory = JsonMapper.nonEmptyMapper().getMapper().getTypeFactory();
+            JavaType type = typeFactory.constructCollectionType(List.class, Map.class);
+            List<Map> datas = JsonMapper.nonEmptyMapper().fromJson(data, type);
+            storeCsrserviceService.saveStoreCsrservice(branchId, datas);
+            return RespJson.success("保存便民服务成功!");
+        } catch (Exception e) {
+            LOG.error("保存便民服务失败!", e);
+            return RespJson.error("保存便民服务失败!");
         }
     }
 }
