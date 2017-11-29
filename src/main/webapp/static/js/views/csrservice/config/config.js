@@ -1,12 +1,10 @@
 $(function () {
     $('#branchComponent').branchSelect({
-        // param: {
-        //     scope: 1,//数据显示 xxxx机构所有
-        //     selectType: 1,  //多选
-        //     branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
-        //     type:'NOTREE',
-        // },
-//数据过滤
+        param: {
+            branchTypesStr: $_jxc.branchTypeEnum.OWN_STORES + "," + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
+            type: 'NOTREE'
+        },
+        //数据过滤
         onAfterRender:function(data){
             var branchId = data.branchId;
            queryServiceList(branchId);
@@ -16,9 +14,9 @@ $(function () {
 
 function queryServiceList(branchId) {
     $_jxc.ajax({
-        url:contextPath+"/system/role/produceRoleAuth",
+        url: contextPath + "/service/config/csrservice",
         data:{
-            "branchId":branchId,
+            "branchId": branchId
         }
     },function(result){
         if(result && result.code == 0){
