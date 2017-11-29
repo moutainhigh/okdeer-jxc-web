@@ -38,7 +38,8 @@ function createPage(serviceList){
             '<input type="checkbox" class="parentNode oneNode"' +
             'id="'+item.id+'" ' +
             'level="'+item.level+'" ' + temp_html +
-                ' /> </label> </div> </div></li>');
+                ' /> ' + item.name +
+            '</label> </div> </div></li>');
 
         if(item.checked == true){
             temp_html = ' checked=checked '
@@ -53,7 +54,7 @@ function createPage(serviceList){
                 '<input type="checkbox" ' +
                 'id="'+child.id+'" ' +
                 'parentId="'+child.parentId+'" ' +
-                'level="'+child.level+'" class="treeItem" />' +
+                'level="'+child.level+'" class="treeItem" />'  + item.name  +
                 ' </label> </div> </div> </li>');
 
             child_li.appendTo(ul);
@@ -103,4 +104,52 @@ function filterCheckDom(){
         }
     });
 
+}
+
+//保存
+function saveService(){
+    var menusIds = [];
+    var treeMenus = $(".three.levelContent");
+    $.each(treeMenus, function (index,obj){
+        var menuLiContent = $(obj).children('li');
+        if(menuLiContent.length > 0 ){
+            $.each(menuLiContent,function(inj,menDom){
+                var checkInputs =  $(menDom).find('.levelContent input[type="checkbox"]:checked');
+                var menuDom = $(menDom).find('.threeNode')[0];
+                var menuDomCheck = $(menuDom).prop('checked');
+                //菜单对象
+                var menuObj = {};
+                menuObj.menuId = $(menuDom).attr('id') ||'';
+                menuObj.operPermissions = [];
+                //子节点有勾选
+                if(checkInputs.length > 0){
+                    $.each(checkInputs, function (iny,elt) {
+                        menuObj.operPermissions.push($(elt).attr('id'));
+                    });
+                    menusIds.push(menuObj);
+                }else if(menuDomCheck){
+                    menusIds.push(menuObj);
+                }
+            });
+        }
+
+    });
+
+    var branchId = $("#branchId").val();
+    var data = JSON.stringify(menusIds);
+
+    $_jxc.ajax({
+        url:contextPath+"/system/role/produceRoleAuth",
+        data:{
+            "branchId":branchId,
+            "data":data
+        }
+    },function(result){
+        if(result && result.code == 0){
+            $_jxc.alert("保存成功！");
+            toClose();
+        }else{
+            $_jxc.alert(result.message);
+        }
+    });
 }
