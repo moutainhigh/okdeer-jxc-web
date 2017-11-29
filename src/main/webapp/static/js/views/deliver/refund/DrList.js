@@ -87,6 +87,22 @@ function initDatagridSaleReturnList() {
 						{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
 						{field: 'sourceBranchName', title: '退货机构', width: '200px', align: 'left'},
 						{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
+						{field: 'untaxedAmount', title: '不含税单据金额', width: '120px', align: 'right',
+							formatter:function(value,row,index){
+								if(row.isFooter){
+									return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+								}
+								return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+							}
+						},
+						{field: 'amount', title: '单据金额', width: '80px', align: 'right',
+							formatter:function(value,row,index){
+			                    if(row.isFooter){
+			                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+			                    }
+			                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+			                }
+						},
 						{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
 						{field: 'createTime', title: '制单时间', width: '120px', align: 'center',
 							formatter: function (value, row, index) {
@@ -112,7 +128,10 @@ function initDatagridSaleReturnList() {
 					}
 
 			});
-
+    var param = {
+            distributionPrice:["amount","untaxedAmount"],
+        }
+    priceGrantUtil.grantPrice("deliverFormList",param);
 }
 
 // 查询退货单

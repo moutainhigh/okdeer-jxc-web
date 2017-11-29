@@ -210,24 +210,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		return "form/deliver/rebate";
 	}
 
-	// /**
-	// * @Description: 有效天数设置页面
-	// * @return
-	// * @return String
-	// * @throws
-	// * @author zhangchm
-	// * @date 2016年9月6日
-	// */
-	// @RequestMapping(value = "validityDays")
-	// public String validityDays(Model model) {
-	// // 在页面显示有效天数
-	// int validityDay = deliverConfigServiceApi.getValidityDay(UserUtil.getCurrBranchId());
-	// model.addAttribute("validityDay", validityDay);
-	// BranchSpec branchSpec = deliverConfigServiceApi.querySpecByBranchId(UserUtil.getCurrBranchId());
-	// model.addAttribute("branchSpec", branchSpec);
-	// return "form/deliver/validityDays";
-	// }
-
 	/**
 	 * @Description: 新增页面
 	 * @return   
@@ -238,17 +220,17 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "addDeliverForm")
 	public String addDeliverForm(QueryDeliverFormVo vo, Model model) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		SysUser user = getCurrentUser();
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user.getBranchId());
-		// branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
+		// branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount())
 		Integer type = branchesGrow.getTargetBranchType();
 		if (FormType.DA.toString().equals(deliverType)) {
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
 				// 如果是总店，则不让进行任何业务操作，只能查询
-				// return "form/deliver/deliverList";
+				// return "form/deliver/deliverList"
 			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
 				branchesGrow
@@ -294,7 +276,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		} else if (FormType.DY.toString().equals(deliverType)) { // 直送要货
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
 				// 如果是总店，则不让进行任何业务操作，只能查询
-				// return "form/deliver/deliverList";
+				// return "form/deliver/deliverList"
 			} else if (BranchTypeEnum.BRANCH_OFFICE.getCode().intValue() == type.intValue()) {
 				// 判断要货机构是否是分店，如果是分店，要货机构可以选择该分店下的所有机构，有效时间为该分店的，起订金额为目标机构的
 				branchesGrow
@@ -331,12 +313,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@RequestMapping(value = "deliverEdit")
 	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
-		LOG.debug(LogConstant.PAGE, form.toString());
+		LOG.debug(LogConstant.PAGE, form);
 		// 待审核，可修改
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
@@ -451,7 +433,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
 			// 过滤数据权限字段
 			cleanAccessData(deliverForms);
-			LOG.debug(LogConstant.PAGE, deliverForms.toString());
+			LOG.debug(LogConstant.PAGE, deliverForms);
 			return deliverForms;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
@@ -529,6 +511,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (deliverFormListVo.checkPirceBack()) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+                if (deliverFormListVo.checkUntaxedPirceBack()) {
+                    deliverFormListVo.setUntaxedPriceBack(deliverFormListVo.getUntaxedPrice());
+                }
 				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
 				deliverFormListVo.setZeroAmount(itemNum);
 			}
@@ -700,7 +685,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(QueryDeliverFormVo vo) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setUpdateUserId(user.getId());
@@ -820,7 +805,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	public RespJson stopped(QueryDeliverFormVo vo) {
 		SysUser user = UserUtil.getCurrentUser();
 		vo.setOperateUserId(user.getId());
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+		LOG.debug(LogConstant.OUT_PARAM, vo);
 		return deliverFormServiceApi.stoppedDeliverForm(vo);
 	}
 
