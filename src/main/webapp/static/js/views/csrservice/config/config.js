@@ -66,10 +66,6 @@ function createPage(serviceList){
                 child_li.appendTo(ul);
             })
         }
-
-
-
-
         ul.appendTo(li_html);
         li_html.appendTo(content);
     })
