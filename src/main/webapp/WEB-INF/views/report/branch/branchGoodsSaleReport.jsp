@@ -36,7 +36,7 @@
 					<!-- <div class="ubtns-item" onclick="printReport()">打印</div> -->
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
-					<div class="ubtns-item" onclick="resetFrom()">重置</div>
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 				</div>
 				<div class="ub ub-ac umar-l20">
 					<!-- 引入时间选择控件 -->
