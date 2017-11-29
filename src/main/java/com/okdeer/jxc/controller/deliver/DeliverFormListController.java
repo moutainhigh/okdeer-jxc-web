@@ -115,7 +115,6 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	@ResponseBody
 	public PageUtils<DeliverFormList> getDeliverFormListsById(QueryDeliverFormVo vo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
-		long start = System.currentTimeMillis();
 		try {
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
@@ -129,8 +128,6 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			long end = System.currentTimeMillis();
-			LOG.debug("配送查询明细所用时间:{}", (end - start));
 			return deliverFormLists;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常", e);
