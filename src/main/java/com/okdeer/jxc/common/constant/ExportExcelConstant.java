@@ -949,4 +949,9 @@ public interface ExportExcelConstant {
 	 * 便民服务销售流水
 	 */
 	String CSRSERVICE_SALE_FLOW = "CsrserviceSaleFlow.xlsx";
+
+    /**
+     * 便民服务收银流水
+     */
+    String CSRSERVICE_CASH_FLOW = "CsrserviceCashFlow.xlsx";
 }
