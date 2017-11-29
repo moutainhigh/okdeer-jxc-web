@@ -52,7 +52,7 @@
 <div class="ub ub-ver  ub-f1 umar-4 upad-4">
     <div class="ub ub-ac">
         <div class="ubtns">
-            <div class="ubtns-item" onclick="save()">保存</div>
+            <div class="ubtns-item" onclick="saveService()">保存</div>
             <div class="ubtns-item" onclick="toClose()">退出</div>
         </div>
     </div>
@@ -74,8 +74,8 @@
     <div class="ub upad-4">
     <div class="ub ub-f1 ub-ver table-tree">
         <div class="ub ub-ac  uh-30 font-14">
-            <span class="ub uh ub-ac ub-pc uw-128 bor-lt bor-rb">服务类型</span>
-            <span class="ub uh ub-ac ub-pc uw-128 bor-top bor-rb">服务名称</span>
+            <span class="ub uh ub-ac ub-pc uw-200 bor-lt bor-rb">服务类型</span>
+            <span class="ub uh ub-ac ub-pc uw-200 bor-top bor-rb">服务名称</span>
         </div>
         <!--一级start-->
         <ul class="uw ub ub-ver" id="content">
