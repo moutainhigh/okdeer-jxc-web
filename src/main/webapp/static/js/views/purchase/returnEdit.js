@@ -437,12 +437,12 @@ function onChangeLargeNum(newV,oldV){
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var amount = parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4);
     gridHandel.setFieldValue('amount',amount);
-    calcUntaxedPriceAndAmount(priceValue,newV,amount);// 计算不含税单价，金额   
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
     if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
         gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
     }
+    calcUntaxedPriceAndAmount(priceValue,realNumVal2,amount);// 计算不含税单价，金额   
 
     updateFooter();
 }
