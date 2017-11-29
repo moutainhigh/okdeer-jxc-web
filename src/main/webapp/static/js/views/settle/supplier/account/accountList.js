@@ -204,8 +204,10 @@ function getAccountColumns(){
 }
 
 var datagridObj;
+var gridHandel = new GridClass();
 //初始化表格
 function initAcountList(){
+    gridHandel.setGridName(datagirdID);
 	if(datagridObj){
 		$("#"+datagirdID).datagrid('options').url = '';
 	}

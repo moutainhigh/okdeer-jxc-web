@@ -7,6 +7,7 @@ $(function () {
         //数据过滤
         onAfterRender:function(data){
             var branchId = data.branchId;
+            $("#content").empty();
            queryServiceList(branchId);
         }
     });
@@ -20,8 +21,12 @@ function queryServiceList(branchId) {
         }
     },function(result){
         if(result && result.code == 0){
-            createPage(result.data);
+            if(result.data.length > 0){
+                createPage(result.data);
+            }
+
         }else{
+            $("#content").empty();
             $_jxc.alert(result.message);
         }
     });
@@ -55,7 +60,7 @@ function createPage(serviceList){
                     '<input type="checkbox" ' +
                     'id="'+child.id+'" ' +
                     'parentId="'+child.parentId+'" ' +
-                    'level="'+child.level+'" class="parentNode twoNode" />'  + item.name  +
+                    'level="'+child.level+'" class="parentNode twoNode" />'  + child.name  +
                     ' </label> </div> </div> </li>');
 
                 child_li.appendTo(ul);
