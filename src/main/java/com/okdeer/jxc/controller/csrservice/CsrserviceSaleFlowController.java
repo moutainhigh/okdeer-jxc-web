@@ -8,12 +8,26 @@
  */
 package com.okdeer.jxc.controller.csrservice;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.bill.service.TradeOrderCsrserviceService;
+import com.okdeer.jxc.bill.vo.TradeOrderCsrserviceVo;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,9 +45,53 @@ import java.util.Map;
 @RequestMapping("service/sale/flow")
 public class CsrserviceSaleFlowController extends BaseController<CsrserviceSaleFlowController> {
 
+    @Reference(version = "1.0.0", check = false)
+    private CsrserviceTypeService csrserviceTypeService;
+
+    @Reference(version = "1.0.0", check = false)
+    private TradeOrderCsrserviceService tradeOrderCsrserviceService;
+
+
     @RequestMapping(value = "")
     public ModelAndView config() {
-        Map<String, String> model = Maps.newHashMap();
+        Map<String, Object> model = Maps.newHashMap();
+        model.put("data", csrserviceTypeService.getCsrserviceTypeVos(StringUtils.equalsIgnoreCase(getCurrBranchId(), "0") ? "" : getCurrBranchId()));
         return new ModelAndView("csrservice/sale/flow", model);
+    }
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public PageUtils<TradeOrderCsrserviceVo> getReportList(TradeOrderCsrserviceVo vo,
+                                                           @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                                                           @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+
+        try {
+            if (StringUtils.isBlank(vo.getBranchCode())) {
+                vo.setBranchCode(getCurrBranchCompleCode());
+            }
+            vo.setPageNum(pageNumber);
+            vo.setPageSize(pageSize);
+            PageUtils<TradeOrderCsrserviceVo> list = tradeOrderCsrserviceService.getPageList(vo);
+            list.setFooter(Arrays.asList(tradeOrderCsrserviceService.sumList(vo)));
+            return list;
+        } catch (Exception e) {
+            LOG.error("便民服务销售流水查询异常!", e);
+            return PageUtils.emptyPage();
+        }
+    }
+
+
+    @RequestMapping(value = "/export/list", method = RequestMethod.POST)
+    public RespJson exportList(HttpServletResponse response, TradeOrderCsrserviceVo vo) {
+        RespJson resp = RespJson.success();
+        if (StringUtils.isBlank(vo.getBranchCode())) {
+            vo.setBranchCode(getCurrBranchCompleCode());
+        }
+        List<TradeOrderCsrserviceVo> exportList = tradeOrderCsrserviceService.getList(vo);
+
+        String fileName = "便民服务销售流水_" + DateUtils.getCurrSmallStr();
+        String templateName = ExportExcelConstant.CSRSERVICE_SALE_FLOW;
+        exportListForXLSX(response, exportList, fileName, templateName);
+        return resp;
     }
 }

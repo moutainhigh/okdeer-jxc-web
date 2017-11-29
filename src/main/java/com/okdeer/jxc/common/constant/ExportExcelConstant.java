@@ -944,4 +944,9 @@ public interface ExportExcelConstant {
 	 * 服務類型導出模板
 	 */
 	String CSRSERVICE_TYPE_EXPORT_TEMPLATE = "csrserviceTypeTemplate.xlsx";
+
+	/**
+	 * 便民服务销售流水
+	 */
+	String CSRSERVICE_SALE_FLOW = "CsrserviceSaleFlow.xlsx";
 }

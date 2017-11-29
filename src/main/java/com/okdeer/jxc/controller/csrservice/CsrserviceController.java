@@ -69,23 +69,17 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
             List<Branches> list = branchesServiceApi.getBranches();
             List<Tree> datas = Lists.newArrayList();
 
-            list.stream().forEach(branches -> {
-                Tree tree = new Tree();
-                tree.setId(branches.getBranchesId());
-                tree.setPid(branches.getParentId());
-                tree.setCode(branches.getBranchCode());
-                tree.setText(branches.getBranchName());
-                datas.add(tree);
-                List<CsrserviceTypeVo> csrserviceTypeVos = csrserviceTypeService.getlist(branches.getBranchesId());
-                csrserviceTypeVos.stream().forEach(vo -> {
-                    Tree tree1 = new Tree();
-                    tree1.setId(vo.getId());
-                    tree1.setPid(vo.getParentId());
-                    tree1.setCode(vo.getTypeCode());
-                    tree1.setText(vo.getTypeName());
-                    datas.add(tree1);
+            if (getCurrBranchId().equals("0")) {//总部
+                list.stream().forEach(branches -> {
+                    createTrees(datas, branches);
                 });
-            });
+            } else {//分公司
+                list.parallelStream().forEach(branches -> {
+                    if (getCurrBranchId().equals(branches.getBranchId())) {
+                        createTrees(datas, branches);
+                    }
+                });
+            }
             maps.put("datas", datas);
             //return branchesService.getBranchAndAreaToTree(super.getCurrBranchCompleCode());
         } catch (Exception e) {
@@ -94,7 +88,25 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
         }
         return maps;
     }
-    
+
+    private void createTrees(List<Tree> datas, Branches branches) {
+        Tree tree = new Tree();
+        tree.setId(branches.getBranchesId());
+        tree.setPid(branches.getParentId());
+        tree.setCode(branches.getBranchCode());
+        tree.setText(branches.getBranchName());
+        datas.add(tree);
+        List<CsrserviceTypeVo> csrserviceTypeVos = csrserviceTypeService.getlist(branches.getBranchesId());
+        csrserviceTypeVos.stream().forEach(vo -> {
+            Tree tree1 = new Tree();
+            tree1.setId(vo.getId());
+            tree1.setPid(vo.getParentId());
+            tree1.setCode(vo.getTypeCode());
+            tree1.setText(vo.getTypeName());
+            datas.add(tree1);
+        });
+    }
+
     @RequestMapping(value = "add/{branchId}/{pid}", method = RequestMethod.POST)
     public Map<String, String> add(@PathVariable("branchId") String branchId, @PathVariable("pid") String pid) {
         Map<String, String> map = Maps.newHashMap();
@@ -185,10 +197,14 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     public RespJson edit(CsrserviceVo csrserviceVo, HttpServletResponse response) {
 
         try {
-            csrserviceVo.setUpdateTime(new Date());
-            csrserviceVo.setUpdateUserId(getCurrUserId());
-            csrserviceTypeService.updateCsrservice(csrserviceVo);
-            return RespJson.success();
+            if (csrserviceTypeService.uniqueCsrserviceTypeName(csrserviceVo.getTypeId(), csrserviceVo.getCsrserviceName(), csrserviceVo.getId())) {
+                csrserviceVo.setUpdateTime(new Date());
+                csrserviceVo.setUpdateUserId(getCurrUserId());
+                csrserviceTypeService.updateCsrservice(csrserviceVo);
+                return RespJson.success();
+            } else {
+                return RespJson.error("服务类型名称不能重复!");
+            }
         } catch (Exception e) {
             LOG.error("更新服务项目失败!", e);
             return RespJson.error("更新服务项目失败！");
@@ -199,15 +215,19 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     public RespJson save(CsrserviceVo csrserviceVo) {
 
         try {
-            csrserviceVo.setId(UUIDHexGenerator.generate());
-            csrserviceVo.setCreateTime(new Date());
-            csrserviceVo.setCreateUserId(getCurrUserId());
-            csrserviceVo.setDisabled(DisabledEnum.NO.getIndex());
-            //if(StringUtils.isBlank(csrserviceVo.getCsrserviceCode())) {
-            csrserviceVo.setCsrserviceCode(csrserviceTypeService.getCsrserviceCode());
-            //}
-            csrserviceTypeService.saveCsrservice(csrserviceVo);
-            return RespJson.success();
+            if (csrserviceTypeService.uniqueCsrserviceTypeName(csrserviceVo.getTypeId(), csrserviceVo.getCsrserviceName(), null)) {
+                csrserviceVo.setId(UUIDHexGenerator.generate());
+                csrserviceVo.setCreateTime(new Date());
+                csrserviceVo.setCreateUserId(getCurrUserId());
+                csrserviceVo.setDisabled(DisabledEnum.NO.getIndex());
+                //if(StringUtils.isBlank(csrserviceVo.getCsrserviceCode())) {
+                csrserviceVo.setCsrserviceCode(csrserviceTypeService.getCsrserviceCode());
+                //}
+                csrserviceTypeService.saveCsrservice(csrserviceVo);
+                return RespJson.success();
+            } else {
+                return RespJson.error("服务类型名称不能重复!");
+            }
         } catch (Exception e) {
             LOG.error("新增服务项目失败!");
             return RespJson.error("新增服务项目失败!");
