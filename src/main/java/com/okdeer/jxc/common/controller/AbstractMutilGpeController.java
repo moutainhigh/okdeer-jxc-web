@@ -39,8 +39,8 @@ import com.okdeer.retail.framework.gpe.helper.SettingHelper;
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
-public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends BaseController<Object>
-		implements GpeMarkContrant {
+public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends BaseController<Object> implements
+		GpeMarkContrant {
 
 	/**
 	 * 
@@ -208,8 +208,11 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 			exportList.addAll(tempList);
 		}
 
-		// 添加到数据列表
-		exportList.add(total);
+		// 部分报表导出不需要合计栏
+		if (total != null) {
+			// 添加到数据列表
+			exportList.add(total);
+		}
 
 		// 选项卡索引
 		int index = getTabKeyIndex(qo.getTabKey());

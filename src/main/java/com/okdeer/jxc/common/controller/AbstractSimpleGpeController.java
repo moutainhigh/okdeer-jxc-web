@@ -206,10 +206,11 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 			List<V> tempList = queryList(qo);
 			exportList.addAll(tempList);
 		}
-
-		// 添加到数据列表
-		exportList.add(total);
-
+		//部分报表导出不需要合计栏
+		if(total!=null){
+			// 添加到数据列表
+			exportList.add(total);
+		}
 		// 获取没有权限访问的字段
 		Set<String> forbidSet = getForbidSet();
 
