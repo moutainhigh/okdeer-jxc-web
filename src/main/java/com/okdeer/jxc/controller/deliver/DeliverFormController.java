@@ -472,8 +472,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	@ResponseBody
 	public RespJson insertDeliverForm(@RequestBody String formVo) {
 		RespJson respJson = RespJson.success();
-		long start = System.currentTimeMillis();
-		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = JsonMapper.nonDefaultMapper().fromJson(formVo, DeliverFormVo.class);
 			// 配送出库，入库，如果引用订单，需要验证商品条目
@@ -543,8 +541,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("保存配送申请单出现异常", e);
 			respJson = RespJson.error("添加配送申请单失败！");
 		}
-		long end = System.currentTimeMillis();
-		LOG.debug("保存配送单据所用时间{}", (end - start));
 		return respJson;
 	}
 
