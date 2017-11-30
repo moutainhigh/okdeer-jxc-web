@@ -69,7 +69,7 @@ function initDatagridAddRequireOrder(){
             			return
             		}
             		if(!value){
-            			row["price"] = 0.0000;
+            			row["untaxedPrice"] = 0.0000;
             		}
             		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
