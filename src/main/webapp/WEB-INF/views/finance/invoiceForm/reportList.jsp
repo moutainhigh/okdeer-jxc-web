@@ -55,12 +55,12 @@
 
 				<div class="ub ub-ac uw-300 umar-l20" >
 				<div class="umar-r10 uw-70 ut-r">电子邮箱:</div>
-				<input class="uinp ub ub-f1" id="userEmail" name="userEmail" type="email"  >
+				<input class="uinp ub ub-f1" id="email" name="email" type="text"  >
 				</div>
 
 				<div class="ub ub-ac uw-300 umar-l20" >
 				<div class="umar-r10 uw-70 ut-r">联系人:</div>
-				<input class="uinp ub ub-f1" id="userName" name="userName" type="text">
+				<input class="uinp ub ub-f1" id="contact" name="contact" type="text"  >
 				</div>
 
 			</div>
