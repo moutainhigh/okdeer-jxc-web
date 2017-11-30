@@ -1433,6 +1433,16 @@ var $_jxc = {
 		with(Math){   
 	        return round(number*pow(10,arg))/pow(10,arg);   
 	    }  
+	},
+	
+	
+	/**
+	 * DataGrid添加复选框列
+	 * @param columns 列集合
+	 */
+	addColumnCheck:function(columns){
+		var columnCheckBox = {field:'check',checkbox:true};
+		columns[0].splice(0, 0, columnCheckBox);
 	}
 	
 }
