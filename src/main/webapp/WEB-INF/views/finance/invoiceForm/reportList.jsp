@@ -28,7 +28,7 @@
 						<div class="ubtns-item" onclick="processForm()">处理</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcInvoiceFormReport:print">
-						<div class="ubtns-item" onclick="printReport()">打印</div>
+						<div class="ubtns-item-disabled">打印</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcInvoiceFormReport:export">
 						<div class="ubtns-item" onclick="toGpeExport()">导出</div>

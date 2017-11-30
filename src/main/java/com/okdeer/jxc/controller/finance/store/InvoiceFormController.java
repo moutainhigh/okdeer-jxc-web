@@ -72,7 +72,7 @@ public class InvoiceFormController extends AbstractMutilGpeController<InvoiceFor
 		}
 		return RespJson.error();
 	}
-
+	
 	private void buildDefaultParams(InvoiceFormQo qo) {
 		// 默认当前机构
 		if (StringUtils.isBlank(qo.getBranchCompleCode())) {

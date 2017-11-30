@@ -137,7 +137,7 @@ function printReport(){
 	var endTime = $("#txtEndDate").val();
 	var branchNameOrCode= $("#branchNameOrCode").val();
 	var cashierId=$("#cashierId").val();
-	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/cashDaily/report/printReport?" +
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/finance/invoiceFormReport/print?" +
 			"queryType="+queryType+"&startTime="+startTime+"&endTime="+endTime+
 			"&branchNameOrCode="+branchNameOrCode+"&cashierId="+cashierId);
 }
