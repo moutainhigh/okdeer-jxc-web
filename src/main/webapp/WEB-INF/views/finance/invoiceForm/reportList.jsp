@@ -55,12 +55,12 @@
 
 				<div class="ub ub-ac uw-300 umar-l20" >
 				<div class="umar-r10 uw-70 ut-r">电子邮箱:</div>
-				<input class="uinp ub ub-f1" id="userEmail" name="userEmail" type="email"  >
+				<input class="uinp ub ub-f1" id="email" name="email" type="text"  >
 				</div>
 
 				<div class="ub ub-ac uw-300 umar-l20" >
 				<div class="umar-r10 uw-70 ut-r">联系人:</div>
-				<input class="uinp ub ub-f1" id="userName" name="userName" type="text"  >
+				<input class="uinp ub ub-f1" id="contact" name="contact" type="text"  >
 				</div>
 
 			</div>
@@ -82,9 +82,9 @@
 				<div class="ub ub-ac  uw-300  umar-l20">
 				<div class="umar-r10 uw-70 ut-r">抬头类型:</div>
 					<select class="easyui-combobox uselectws" style="width:220px;" name="titleType" id="titleType" data-options="editable:false">
-					<option value="1">全部</option>
-					<option value="2">企业抬头</option>
-					<option value="8">个人/非企业单位抬头</option>
+					<option value="">全部</option>
+					<option value="0">企业抬头</option>
+					<option value="1">个人/非企业单位抬头</option>
 					</select>
 				</div>
 
@@ -92,17 +92,17 @@
 					<div class="umar-r10 uw-70 ut-r">处理状态:</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="tabKey"  value="0" checked="checked" /><span>全部</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="" /><span>全部</span>
 					</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="tabKey"  value="1" /><span>未处理</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="0" checked="checked" /><span>未处理</span>
 					</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="tabKey"  value="2" /><span>已处理</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="1" /><span>已处理</span>
 					</label>
 					</div>
 					</div>
