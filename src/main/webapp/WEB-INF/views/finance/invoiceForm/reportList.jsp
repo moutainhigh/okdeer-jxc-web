@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/invoiceForm/reportList.js?V=${versionNo}1"></script>
+	src="${ctx}/static/js/views/finance/invoiceForm/reportList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -24,9 +24,15 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<div class="ubtns-item" onclick="processForm()">处理</div>
-					<div class="ubtns-item" onclick="printReport()">打印</div>
-					<div class="ubtns-item" onclick="toGpeExport()">导出</div>
+					<shiro:hasPermission name="JxcInvoiceFormReport:handler">
+						<div class="ubtns-item" onclick="processForm()">处理</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcInvoiceFormReport:print">
+						<div class="ubtns-item" onclick="printReport()">打印</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcInvoiceFormReport:export">
+						<div class="ubtns-item" onclick="toGpeExport()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -53,12 +59,12 @@
 					<div class="umar-r10 uw-70 ut-r">报表类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem tabKey" type="radio" name="tabKey" onclick="changeTabKey()" value="default" checked="checked" /><span>开票申请统计</span>
+						<input class="radioItem tabKey" type="radio" name="tabKey" value="default" checked="checked" /><span>开票申请统计</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem tabKey" type="radio" name="tabKey" onclick="changeTabKey()" value="refund" /><span>已开票退货统计</span>
+						<input class="radioItem tabKey" type="radio" name="tabKey" value="refund" /><span>已开票退货统计</span>
 						</label>
 					</div>
 				</div>
