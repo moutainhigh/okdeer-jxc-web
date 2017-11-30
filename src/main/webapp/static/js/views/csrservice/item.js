@@ -193,9 +193,9 @@ function initDatagridBranchList() {
                 field: 'referencePrice', title: '单价', width: 80, align: 'right',
                 formatter: function (value, row, index) {
                     if (row.isFooter) {
-                        return '<b>' + parseFloat(value || 0).toFixed(4) + '</b>';
+                        return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
                     }
-                    return '<b>' + parseFloat(value || 0).toFixed(4) + '</b>';
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
                 }
             },
             {
@@ -217,7 +217,7 @@ function initDatagridBranchList() {
 }
 
 var dialogHeight = 550;//$(window).height()*(4/5);
-var dialogWidth = 1000;//$(window).width()*(5/9);
+var dialogWidth = 450;//$(window).width()*(5/9);
 var dialogLeft = $(window).width() * (1 / 5);
 var editDialogTemp
 
