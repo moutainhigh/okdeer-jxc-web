@@ -1118,6 +1118,7 @@ var $_jxc = {
 			if ($btns){
     			$btns.forEach(function(btnObj,index){
     				$(btnObj).removeProp("disabled");
+                    $(btnObj).removeClass('uinp-no-more');
     			})
             }
 			if (typeof successCb == 'function') {
@@ -1130,6 +1131,7 @@ var $_jxc = {
 			if ($btns){
     			$btns.forEach(function(btnObj,index){
     				$(btnObj).removeProp("disabled");
+    				$(btnObj).removeClass('uinp-no-more');
     			})
             }
 			if (typeof errorCb == 'function') {
