@@ -80,6 +80,22 @@ function initDatagridEditRequireOrder(){
 		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 		          },
+		          {field:'untaxedPrice',title:'不含税旧价',width:'80px',align:'right',
+		        	  formatter:function(value,row,index){
+		        		  if(row.isFooter){
+		        			  return
+		        		  }
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+		        	  },
+		          },
+		          {field:'untaxedNewPrice',title:'不含税新价',width:'80px',align:'right',
+		        	  formatter:function(value,row,index){
+		        		  if(row.isFooter){
+		        			  return
+		        		  }
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+		        	  },
+		          },
 		          {field:'actual',title:'当前库存',width:'80px',align:'right',
 		        	  formatter:function(value,row){
 		        		  if(row.isFooter){
@@ -100,6 +116,15 @@ function initDatagridEditRequireOrder(){
 		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 
+		          },
+		          {field:'untaxedDiffMoney',title:'不含税调价差额',width:'120px',align:'right',
+		        	  formatter:function(value,row,index){
+		        		  if(row.isFooter){
+		        			  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+		        		  }
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+		        	  },
+		        	  
 		          },
 		          {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left'},
 		          {field:'remark',title:'备注',width:'200px',align:'left'}
@@ -126,13 +151,13 @@ function initDatagridEditRequireOrder(){
 	});
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["oldCostPrice","costPrice"])
+        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["oldCostPrice","costPrice","untaxedPrice","untaxedNewPrice"])
     }
 }
 
 //合计
 function updateFooter(){
-	var fields = {actual:0,diffMoney:0,isGift:0, };
+	var fields = {actual:0,diffMoney:0,isGift:0,untaxedDiffMoney:0 };
 	var argWhere = {name:'isGift',value:0}
 	gridHandel.updateFooter(fields,argWhere);
 }
@@ -164,6 +189,8 @@ function setDataValue(data) {
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
+    	rec.untaxedPrice = rec.untaxedCostPrice;
+    	rec.untaxedNewPrice = rec.untaxedCostPrice;
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
