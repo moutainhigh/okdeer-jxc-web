@@ -34,25 +34,12 @@
          <input type="hidden" id="status" name="id" value="${data.status}">
         <input type="hidden" id="adjustNo" value="${data.adjustNo}">
         <div class="ub umar-t10">
-                <div class="ub ub-ac uw-300">
+                <div class="ub ub-ac uw-280">
 	                <div class="umar-r10 uw-70 ut-r">机构名称:</div> 
                     <input type="hidden" name="branchId" id="branchId" value="${data.branchName}" class="uinp" />
 					<input type="text" name="branchName" id="branchName" value="${data.branchName }" class="uinp ub ub-f1" readonly="readonly"  />
 					<div class="uinp-more" >...</div>
 	           </div>
-	           <div class="ub ub-ac uselectw umar-l00">
-                    <div class="umar-r10 uw-70 ut-r">调整原因:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false" disabled="disabled">
-						<c:forEach items="${COST_ADJUST_REASON}" var="reason">
-						  <option value="${reason.value}"
-						<c:if test="${data.adjustReason==reason.value}">
-						    selected="selected"
-                         </c:if>
-                       >  ${reason.label}</option>
-                        </c:forEach>
-				        </select>
-                </div>
                <div class="ub ub-ac umar-l40">
                <input type="hidden" id="createUserId" value="${data.createUserId}">
                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
@@ -65,10 +52,19 @@
                </div>
            </div>
            <div class="ub umar-t8">
-               <div class="ub ub-ac " >
-                   <div class="umar-r10 uw-70 ut-r">备注:</div>
-                   <input class="uinp uninputs" type="text" id="remark" name="remark" readonly value="${data.remark}" >
-               </div>
+               <div class="ub ub-ac uselectw umar-l00">
+                    <div class="umar-r10 uw-70 ut-r">调整原因:</div>
+                       <!--select-->
+                        <select class="easyui-combobox uselect" name="adjustReason" id="adjustReason" data-options="editable:false" disabled="disabled">
+                        <c:forEach items="${COST_ADJUST_REASON}" var="reason">
+                          <option value="${reason.value}"
+                        <c:if test="${data.adjustReason==reason.value}">
+                            selected="selected"
+                         </c:if>
+                       >  ${reason.label}</option>
+                        </c:forEach>
+                        </select>
+                </div>
                <div class="ub ub-ac umar-l40">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt" id="validUserName">${data.validUserName}</div>
@@ -76,6 +72,17 @@
                <div class="ub ub-ac umar-l20">
                    <div class="umar-r10 uw-60 ut-r">审核时间:</div>
                    <div class="utxt"><fmt:formatDate value="${data.validTime}"  pattern="yyyy-MM-dd HH:mm"/></div>
+               </div>
+           </div>
+           <div class="ub umar-t8">
+               <div class="ub ub-ac " >
+                   <div class="umar-r10 uw-70 ut-r">备注:</div>
+                   <input class="uinp" type="text" id="remark" name="remark" readonly value="${data.remark}" >
+               </div>
+               <div class="ub ub-ac umar-l40 uw-300">
+                   <div class="umar-r10 uw-70 ut-r">调价设置:</div>
+                   <label><input class="priceItem" type="checkbox" name="isUpCostPrice" id="isUpCostPrice" /><span>成本价</span></label>
+                   <label><input class="priceItem" type="checkbox" name="isUpUntaxedPrice" id="isUpUntaxedPrice" /><span>不含税成本价</span></label>
                </div>
            </div>
         
