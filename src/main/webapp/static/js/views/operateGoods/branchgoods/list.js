@@ -173,12 +173,7 @@ function changeStatus() {
 
 //如果是机构未引入商品，则隐藏 机构名称、机构编码两列
 function changeGridColumn(a){
-//	var fieldArr = [ "branchCode", "branchName" ];
-//	if (a == 1) {
-//		datagridCommon.hideDataGridColumn(gridName, fieldArr);
-//	} else {
-//		datagridCommon.showDataGridColumn(gridName, fieldArr);
-//	}
+
 }
 
 var gridHandel = new GridClass();

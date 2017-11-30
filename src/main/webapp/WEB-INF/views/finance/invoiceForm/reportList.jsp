@@ -39,12 +39,22 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40" id="branchComponent">
-					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
+				<div class="ub ub-ac uw-300" id="branchComponent">
+					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 					<input name="branchCompleCode" id="branchCompleCode" type="hidden">
-					<input class="uinp" id="branchName" name="branchName" type="text"  >
+					<input class="uinp ub ub-f1" id="branchName" name="branchName" type="text"  >
 
 					<div class="uinp-more" >...</div>
+				</div>
+
+				<div class="ub ub-ac uw-300 umar-l20" >
+				<div class="umar-r10 uw-70 ut-r">电子邮箱:</div>
+				<input class="uinp ub ub-f1" id="userEmail" name="userEmail" type="email"  >
+				</div>
+
+				<div class="ub ub-ac uw-300 umar-l20" >
+				<div class="umar-r10 uw-70 ut-r">联系人:</div>
+				<input class="uinp ub ub-f1" id="userName" name="userName" type="text"  >
 				</div>
 
 			</div>
@@ -63,7 +73,41 @@
 					</div>
 				</div>
 
+				<div class="ub ub-ac  uw-300  umar-l20">
+				<div class="umar-r10 uw-70 ut-r">抬头类型:</div>
+					<select class="easyui-combobox uselectws" style="width:220px;" name="titleType" id="titleType" data-options="editable:false">
+					<option value="1">全部</option>
+					<option value="2">企业抬头</option>
+					<option value="8">个人/非企业单位抬头</option>
+					</select>
+				</div>
 
+				<div class="ub ub-ac uw-300 umar-l20">
+					<div class="umar-r10 uw-70 ut-r">处理状态:</div>
+					<div class="ub ub-ac umar-r10">
+					<label>
+					<input class="radioItem tabKey" type="radio" name="tabKey"  value="0" checked="checked" /><span>全部</span>
+					</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<label>
+					<input class="radioItem tabKey" type="radio" name="tabKey"  value="1" /><span>未处理</span>
+					</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<label>
+					<input class="radioItem tabKey" type="radio" name="tabKey"  value="2" /><span>已处理</span>
+					</label>
+					</div>
+					</div>
+
+			</div>
+
+			<div class="ub umar-t8">
+			<div class="ub ub-ac uw-620">
+			<div class="umar-r10 uw-70 ut-r">备注:</div>
+			<input class="uinp ub ub-f1" name="remark" id="remark" type="text" maxlength="100">
+			</div>
 			</div>
 
 		</form>

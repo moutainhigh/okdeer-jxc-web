@@ -5,7 +5,33 @@
 $(function(){
 	$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
     initDatagridAddRequireOrder();
+    initCheckbox();
 });
+
+//初始化复选框
+function initCheckbox(){
+
+    // 成本价
+    $("#isUpCostPrice").on("click", function() {
+        if($("#isUpCostPrice").is(":checked")){
+            $_jxc.showDataGridColumn(gridName,["oldCostPrice","costPrice","diffMoney"]);
+        }else{
+            $_jxc.hideDataGridColumn(gridName,["oldCostPrice","costPrice","diffMoney"]);
+        }
+
+    });
+    // 不含税成本价
+    $("#isUpUntaxedCostPrice").on("click", function() {
+        if($("#isUpUntaxedCostPrice").is(":checked")){
+            $_jxc.showDataGridColumn(gridName,["untaxedPrice","untaxedNewPrice","untaxedDiffMoney"]);
+        }else {
+            $_jxc.hideDataGridColumn(gridName,["untaxedPrice","untaxedNewPrice","untaxedDiffMoney"]);
+        }
+
+    });
+}
+
+
 var gridDefault = {
     //actual:0,
 	//costPrice:0,
@@ -365,6 +391,21 @@ function setDataValue(data) {
 
 //保存
 function addsaveOrder(){
+    var isNoChecked = true
+    $("#ckboxPric").find("input[type='checkbox']").each(function () {
+        if(this.checked == true){
+            isNoChecked  = false;
+            return false;
+        }else {
+            return false;
+        }
+    })
+
+    if(isNoChecked){
+        $_jxc.alert('没有勾选调价设置！');
+        return;
+    }
+
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
