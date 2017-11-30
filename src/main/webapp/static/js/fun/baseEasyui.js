@@ -1119,6 +1119,7 @@ var $_jxc = {
 			if ($btns){
     			$btns.forEach(function(btnObj,index){
     				$(btnObj).removeProp("disabled");
+                    $(btnObj).removeClass('uinp-no-more');
     			})
             }
 			if (typeof successCb == 'function') {
@@ -1131,6 +1132,7 @@ var $_jxc = {
 			if ($btns){
     			$btns.forEach(function(btnObj,index){
     				$(btnObj).removeProp("disabled");
+                    $(btnObj).removeClass('uinp-no-more');
     			})
             }
 			if (typeof errorCb == 'function') {
@@ -1443,9 +1445,56 @@ var $_jxc = {
 	addColumnCheck:function(columns){
 		var columnCheckBox = {field:'check',checkbox:true};
 		columns[0].splice(0, 0, columnCheckBox);
-	}
+	},
+
+    /**
+     * 显示列
+     *
+     * @param datagridId
+     *            datagrid的Id
+     * @param fieldLen
+     *            列的field个数
+     */
+    showDataGridColumn : function(datagridId, fieldArr) {
+        var gridObj = $("#" + datagridId);
+        if(!gridObj || gridObj.length===0){
+            return;
+        }
+        for (var i = 0; i < fieldArr.length; i++) {
+            gridObj.datagrid("showColumn", fieldArr[i]);
+        }
+    },
+    /**
+     * 隐藏列
+     *
+     * @param datagridId
+     *            datagrid的Id
+     * @param fieldLen
+     *            列的field个数
+     */
+    hideDataGridColumn : function(datagridId, fieldArr) {
+
+        var gridObj = $("#" + datagridId);
+        if(!gridObj || gridObj.length===0){
+            return;
+        }
+
+        //获取表格
+        var fields = gridObj.datagrid("getColumnFields");
+        for (var i = 0; i < fieldArr.length; i++) {
+            var fieldName = fieldArr[i];
+            var index = $.inArray(fieldName, fields);
+
+            //如果存在该列
+            if(index>=0){
+                gridObj.datagrid("hideColumn", fieldName);
+            }
+        }
+    },
+
 	
 }
+
 
 /*----------------extend easyui  js start  -------------------------*/
 //扩展jQuery easyui datagrid增加动态改变列编辑的类型
