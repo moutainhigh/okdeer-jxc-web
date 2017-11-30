@@ -12,15 +12,18 @@ $(function() {
 	initGridByGpeGridColumns();
 	
     //选择报表类型
-	changeType();
+	changeTabKey();
 	
 	$('#branchComponent').branchSelect();
+	
+	$("#branchName").val(sessionBranchCodeName);
+	$("#branchCompleCode").val(sessionBranchCompleCode);
 
 });
 
 var datagridId = "gridInvoiceFormList";
 
-function changeType(){
+function changeTabKey(){
 	$(".radioItem.tabKey").change(function(){
     	var type = $(this).val();
 
@@ -43,6 +46,10 @@ var gridHandel = new GridClass();
 // 按收银汇总
 
 function initCashDailyGrid(columns,frozenColumns) {
+	
+	// 添加复选框列
+	$_jxc.addColumnCheck(columns);
+
 	gridHandel.setGridName(datagridId);
 	$("#"+datagridId).datagrid({
         //title:'普通表单-用键盘操作',
@@ -80,10 +87,46 @@ function queryForm(){
 	$("#"+datagridId).datagrid("options").method = "post";
 	$("#"+datagridId).datagrid('options').url = contextPath + '/finance/invoiceFormReport/list';
 	$("#"+datagridId).datagrid('load', fromObjStr);
+}
+
+function processForm() {
+
+    var rows = $("#"+datagridId).datagrid("getChecked");
 	
-	// 清除url，避免自动查询
-	$("#"+datagridId).datagrid('options').url = null;
+	if(!rows || rows.length <= 0){
+		$_jxc.alert('请至少选择一行数据！');
+		return;
+	}
 	
+	var formIds = '';
+	$.each(rows, function(i, v) {
+		if (i > 0) {
+			formIds += ",";
+		}
+		formIds += v.formId;
+	});
+	
+	var param = {
+        url :contextPath+"/finance/invoiceFormReport/processForm",
+        type:"POST",
+        data:{
+        	formIds:formIds
+        }
+    }
+
+    $_jxc.confirm("是否处理选中的发票?",function (data) {
+        if(data){
+            $_jxc.ajax(param,function (result) {
+            	if(result['code'] == 0){
+	    			$_jxc.alert("操作成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+            	
+            	queryForm();
+            })
+        }
+    })
 }
 
 //打印
@@ -94,7 +137,7 @@ function printReport(){
 	var endTime = $("#txtEndDate").val();
 	var branchNameOrCode= $("#branchNameOrCode").val();
 	var cashierId=$("#cashierId").val();
-	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/cashDaily/report/printReport?" +
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/finance/invoiceFormReport/print?" +
 			"queryType="+queryType+"&startTime="+startTime+"&endTime="+endTime+
 			"&branchNameOrCode="+branchNameOrCode+"&cashierId="+cashierId);
 }
