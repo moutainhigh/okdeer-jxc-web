@@ -63,6 +63,8 @@ function  initKeygrid() {
         ]],
         onClickCell : function(rowIndex, field, value) {
             if(field === "sortNo"){
+               var rows =  keygridHandle.getRows();
+               if(rows[rowIndex].groupNo === "TC")return;
                 keygridHandle.setBeginRow(rowIndex);
                 keygridHandle.setSelectFieldName(field);
                 var target = keygridHandle.getFieldTarget(field);
