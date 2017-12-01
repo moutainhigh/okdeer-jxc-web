@@ -108,23 +108,23 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
- },
-             editor:{
-                type:'numberbox',
-                value:'0',
-                options:{
-                	disabled:true,
-                    precision:4,
-                }
+                },
+                editor:{
+	                type:'numberbox',
+	                value:'0',
+	                options:{
+	                	disabled:true,
+	                    precision:4,
+	                }
+	            },
             },
- },
             {field:'sellable',title:'当前可销售库存',width:'100px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
- },
+                },
               editor:{
                 type:'numberbox',
                 value:'0',
@@ -132,7 +132,7 @@ function initDatagridAddRequireOrder(){
                 	disabled:true,
                     precision:4,
                 }
- },
+              },
             },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -789,7 +789,6 @@ function updateListData(data){
         id:'skuId',
         disabled:'',
         io:'',
-        inputTax:'tax',
         nowStock:'sellable',
         actual:'stockNum',
         largeNum:'tmpLargeNum',
