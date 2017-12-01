@@ -2,7 +2,17 @@ $(function(){
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-	
+    
+    $(".radioItem").change(function () {
+    	var auditStatus = $(this).val(); //选中的值
+    	if(auditStatus === "1"){    		
+    		$("#isExpired").combobox("readonly", false);
+    	}else{
+    		$("#isExpired").combobox("setValue", "");
+    		$("#isExpired").combobox("readonly", true);
+    	}
+    })
+    
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
