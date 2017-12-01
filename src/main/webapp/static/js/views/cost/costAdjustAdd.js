@@ -395,9 +395,6 @@ function addsaveOrder(){
     $("#ckboxPric").find("input[type='checkbox']").each(function () {
         if(this.checked == true){
             isNoChecked  = false;
-            return false;
-        }else {
-            return false;
         }
     })
 
@@ -482,6 +479,8 @@ function saveDataHandel(rows){
             totlediffMoney:totlediffMoney,
             untaxedAmount:untaxedAmount,
             remark:remark,
+            isUpCostPrice:$("#isUpCostPrice").is(":checked")?"1":"0",
+            isUpUntaxedCostPrice:$("#isUpUntaxedCostPrice").is(":checked")?"1":"0",
 
         }
     };

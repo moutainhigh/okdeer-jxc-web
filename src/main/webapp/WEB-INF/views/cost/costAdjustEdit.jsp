@@ -85,7 +85,7 @@
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp" type="text" id="remark" name="remark" value="${data.remark}" >
                </div>
-               <div class="ub ub-ac umar-l40 uw-300">
+               <div class="ub ub-ac umar-l40 uw-300" id="ckboxPric">
                     <div class="umar-r10 uw-70 ut-r">调价设置:</div>
                    <label><input class="priceItem" type="checkbox" name="isUpCostPrice" id="isUpCostPrice" <c:if test="${empty goodsPriceForm.formNo ||  goodsPriceForm.isUpCostPrice == 1}"> checked="checked" </c:if>/><span>成本价</span></label>
                    <label><input class="priceItem" type="checkbox" name="isUpUntaxedCostPrice" id="isUpUntaxedCostPrice" <c:if test="${empty goodsPriceForm.formNo ||  goodsPriceForm.isUpUntaxedCostPrice == 1}"> checked="checked" </c:if>/><span>不含税成本价</span></label>
