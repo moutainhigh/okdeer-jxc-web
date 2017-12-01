@@ -412,13 +412,15 @@ function setDataValue(data) {
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
-		distributionPrice:'price',
-        id:'skuId',
-        disabled:'',
-        pricingType:'',
-        inputTax:'tax',
-        sourceStock:'sellable',
-        actual:'stockNum'
+    		costPrice:'price',
+    		untaxedCostPrice:'untaxedPrice',
+            id:'skuId',
+            disabled:'',
+            pricingType:'',
+            inputTax:'tax',
+            sourceStock:'sellable',
+            actual:'stockNum',
+            largeNum:'tmpLargeNum',
     };
     var rows = gFunUpdateKey(addDefaultData,keyNames);
     var argWhere ={skuCode:1};  //验证重复性

@@ -98,25 +98,25 @@ function initProfitSetList(){
     			{field: 'profitAmount', title: '毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
-                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                            return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                         }
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
     				}
     			},
     			{field: 'targetProfitAmount', title: '公司应得毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
-                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                            return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                         }
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
     				}
     			},
     			{field: 'franchiseProfitAmount', title: '加盟店应得毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
-                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                            return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                         }
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
     				}
     			},
     			{field: 'settleTimeStart', title: '结算日期起', width: '120', align: 'center',

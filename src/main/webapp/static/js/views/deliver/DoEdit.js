@@ -167,6 +167,26 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
+            {field:'untaxedPrice',title:'不含税单价',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return
+            		}
+            		
+            		if(!value){
+            			value = 0
+            		}
+            		return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	},
+            },
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -184,9 +204,24 @@ function initDatagridEditRequireOrder(){
                     	disabled:true,
                         min:0,
                         precision:4,
-//                        onChange: onChangePrice,
                     }
                 },
+            },
+            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            		}
+            		return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	}
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -201,7 +236,6 @@ function initDatagridEditRequireOrder(){
                     	disabled:true,
                         min:0,
                         precision:4,
-//                        onChange: onChangeAmount,
                     }
                 }
             },
@@ -258,26 +292,24 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return
                     }
-                    return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
+                    return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
                 },
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
-                formatter:function(value,row){
-                    if(row.isFooter){
-                        return;
-                    }
-                    var taxAmount = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
-                    row["taxAmount"] = taxAmount;
-                    return "<b>"+parseFloat(taxAmount||0).toFixed(4)+ "<b>";
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                },
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            		}
+            		return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	}
             },
             {field:'originPlace',title:'产地',width:'100px',align:'left'},
             {field:'sourceStock',title:'当前库存',width:'80px',align:'right',
@@ -339,6 +371,8 @@ function initDatagridEditRequireOrder(){
         			if(!obj.priceBack){
         				obj.price = obj.distributionPrice;
         				obj.priceBack = obj.distributionPrice;
+        				obj.untaxedPrice = obj.untaxedPrice;
+        				obj.untaxedPriceBack = obj.untaxedPrice;
         			}
         		})
         	}
@@ -361,7 +395,7 @@ function initDatagridEditRequireOrder(){
     });
 
     var param = {
-        distributionPrice:["price","amount","taxAmount"],
+        distributionPrice:["price","amount","taxAmount","untaxedAmount","untaxedPrice"],
         salePrice:["salePrice","saleAmount"]
     }
     priceGrantUtil.grantPrice(gridName,param);
@@ -404,18 +438,18 @@ function onChangeLargeNum(newV,oldV){
     
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
-    var _tempAmount = purchaseSpecValue*priceValue*newV;
-
-    gridHandel.setFieldValue('amount',(purchaseSpecValue*priceValue*newV).toFixed(4));             //金额=箱数*规格*单价
+    var _tempAmount = parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4);
+    gridHandel.setFieldValue('amount',_tempAmount);             //金额=箱数*规格*单价
     gridHandel.setFieldValue('saleAmount',(purchaseSpecValue*salePriceValue*newV).toFixed(4));      //零售金额=箱数*规格*零售价
 
-    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
-    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
-
+    //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    //var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
+    //gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
+    var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    calcUntaxedPriceAndAmount(realNumVal2,_tempAmount,untaxedPrice);// 计算不含税单价，金额  
     if(realNumVal&& oldV){
     	n=1;
         gridHandel.setFieldValue('dealNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
@@ -466,13 +500,15 @@ function onChangeRealNum(newV,oldV) {
 
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
-    gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
+    var _tempAmount = parseFloat(priceValue*newV).toFixed(4);
+    gridHandel.setFieldValue('amount',_tempAmount);             //金额=数量*单价
 
-    var _tempAmount = priceValue*newV;
-    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
-    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
-
+    //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    //var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
+    //gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
+    var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    calcUntaxedPriceAndAmount(newV,_tempAmount,untaxedPrice);// 计算不含税单价，金额  
+    
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
     if(largeNumVal&& oldV){
@@ -484,18 +520,18 @@ function onChangeRealNum(newV,oldV) {
     gridHandel.setFieldValue('saleAmount',(salePriceValue*newV).toFixed(4));      //零售金额=数量*零售价
     updateFooter();
 }
-//监听商品单价
-function onChangePrice(newV,oldV) {
-    var dealNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
-    gridHandel.setFieldValue('amount',dealNumVal*newV);                          //金额=数量*单价
-    updateFooter();
-}
-//监听商品金额
-function onChangeAmount(newV,oldV) {
-    //获取税率
-    var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(4));
-}
+// 监听商品单价
+//function onChangePrice(newV,oldV) {
+//    var dealNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
+//    gridHandel.setFieldValue('amount',dealNumVal*newV);                          //金额=数量*单价
+//    updateFooter();
+//}
+// 监听商品金额
+//function onChangeAmount(newV,oldV) {
+//    //获取税率
+//    var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+//    gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(4));
+//}
 //监听是否赠品
 function onSelectIsGift(data){
 	// 如果引用单据时，是否赠品不可修改
@@ -513,25 +549,32 @@ function onSelectIsGift(data){
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
+        var untaxedPrice = gridHandel.getFieldTarget('untaxedPrice');
         if(data.id=="1"){
             $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldsData({price:0});//单价
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
+            $(untaxedPrice).numberbox('setValue',0);;//不含税单价
+            gridHandel.setFieldValue('untaxedAmount',0);//不含税额
         }else{
            //$(targetPrice).numberbox('enable');
             var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
+            var oldUntaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPriceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
                 gridHandel.setFieldsData({price:oldPrice});//单价
+                $(untaxedPrice).numberbox('setValue',oldUntaxedPrice);
+                gridHandel.setFieldsData({untaxedPrice:oldUntaxedPrice});//单价
             }
         	var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
-            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
-            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            var oldAmount = parseFloat(priceVal*applNum).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
+            //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            //var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
-            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额 
+            //gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额 
+            calcUntaxedPriceAndAmount(applNum,oldAmount,oldUntaxedPrice);// 计算不含税单价，金额   
             
         }
         updateFooter();
@@ -541,9 +584,15 @@ function onSelectIsGift(data){
         $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
 }
+//计算不含税单价，金额
+function calcUntaxedPriceAndAmount(realNum,amount,untaxedPrice){
+	var untaxedAmount = parseFloat(untaxedPrice*realNum).toFixed(4);
+	gridHandel.setFieldValue('untaxedAmount',untaxedAmount);
+	gridHandel.setFieldValue('taxAmount',parseFloat(amount-untaxedAmount).toFixed(4));//=金额-不含税金额
+}
 //合计
 function updateFooter(){
-    var fields = {largeNum:0,dealNum:0,amount:0,isGift:0, };
+    var fields = {largeNum:0,dealNum:0,amount:0,isGift:0,untaxedAmount:0,taxAmount:0 };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -611,12 +660,15 @@ function setDataValue(data) {
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
+//		rec.untaxedAmount = 0;
+//		rec.taxAmount = 0;
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
         id:'skuId',
         disabled:'',
+        taxRate:'inputTax',
         pricingType:''
     };
     var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -664,6 +716,8 @@ function saveOrder(){
     var totalNum = 0;
     //总金额
     var amount=0;
+    //总金额
+    var untaxedAmount=0;
 	// 要活分店id
 	var targetBranchId = $("#targetBranchId").val();
 	//发货分店id
@@ -687,6 +741,7 @@ function saveOrder(){
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["dealNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+        untaxedAmount = parseFloat(footerRows[0]["untaxedAmount"]||0.0).toFixed(4);
     }
 
     var rows = gridHandel.getRowsWhere({skuName:'1'});
@@ -741,6 +796,7 @@ function saveOrder(){
         validityTime : validityTime,
         totalNum : totalNum,
         amount : amount,
+        untaxedAmount : untaxedAmount,
         remark : remark,
         formType : "DO",
         formNo : formNo,
@@ -764,6 +820,9 @@ function saveOrder(){
     		price : data.price,
     		priceBack : data.priceBack,
     		amount : data.amount,
+			untaxedPrice : data.untaxedPrice,
+			untaxedPriceBack : data.untaxedPriceBack,
+			untaxedAmount : data.untaxedAmount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
     		remark : data.remark,
@@ -974,6 +1033,7 @@ function getImportData(data){
         data[i]["price"] = data[i]["oldPurPrice"];
         data[i]["dealNum"]=data[i]["dealNum"]||0;
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["dealNum"]||0);
+        data[i]["untaxedAmount"]  = parseFloat(data[i]["untaxedPrice"]||0)*parseFloat(data[i]["dealNum"]||0);
         if(parseInt(data[i]["distributionSpec"])){
         	 data[i]["largeNum"]  = (parseFloat(data[i]["dealNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
         }else{
@@ -1052,6 +1112,7 @@ function updateListData(data){
          id:'skuId',
          disabled:'',
          pricingType:'',
+         taxRate:'inputTax',
          num : 'dealNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -1063,6 +1124,7 @@ function updateListData(data){
         	 rows[i]["price"] = 0;
          }
          rows[i]["amount"]  = parseFloat(rows[i]["distributionPrice"]||0)*parseFloat(rows[i]["dealNum"]||0);
+         rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["largeNum"]  = (parseFloat(rows[i]["dealNum"]||0)/parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{

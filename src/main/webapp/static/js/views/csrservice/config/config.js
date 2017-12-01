@@ -7,6 +7,7 @@ $(function () {
         //数据过滤
         onAfterRender:function(data){
             var branchId = data.branchId;
+            $("#content").empty();
            queryServiceList(branchId);
         }
     });
@@ -20,8 +21,12 @@ function queryServiceList(branchId) {
         }
     },function(result){
         if(result && result.code == 0){
-            createPage(result.data);
+            if(result.data.length > 0){
+                createPage(result.data);
+            }
+
         }else{
+            $("#content").empty();
             $_jxc.alert(result.message);
         }
     });
@@ -31,6 +36,9 @@ function createPage(serviceList){
     var content = $("#content");
     $.each(serviceList,function (index,item) {
         var temp_html = '';
+        if(item.checked == true){
+            temp_html = ' checked=checked '
+        }
         var li_html = $('<li class="ub"> <div class="ub level">' +
             ' <div class="ub ub-ac ub-pc uw-200 bor-rb bor-left"> <label> ' +
             '<input type="checkbox" class="parentNode oneNode"' +
@@ -39,10 +47,6 @@ function createPage(serviceList){
                 ' /> ' + item.name +
             '</label> </div> </div></li>');
 
-        if(item.checked == true){
-            temp_html = ' checked=checked '
-        }
-
         var ul = $('<ul class="ub ub-ver levelContent two"></ul>');
 
 
@@ -50,21 +54,22 @@ function createPage(serviceList){
             var childs = item.child;
             $.each(childs,function (index,child) {
 
+                var temp_html = '';
+                if(child.checked == true){
+                    temp_html = ' checked=checked '
+                }
+
                 var child_li = $('<li class="ub uh-40"> <div class="ub level"> ' +
                     '<div class="ub ub-ac upad-l10 uw-200 bor-rb"> <label> ' +
-                    '<input type="checkbox" ' +
+                    '<input type="checkbox" ' + temp_html +
                     'id="'+child.id+'" ' +
                     'parentId="'+child.parentId+'" ' +
-                    'level="'+child.level+'" class="parentNode twoNode" />'  + item.name  +
+                    'level="'+child.level+'" class="parentNode twoNode" />'  + child.name  +
                     ' </label> </div> </div> </li>');
 
                 child_li.appendTo(ul);
             })
         }
-
-
-
-
         ul.appendTo(li_html);
         li_html.appendTo(content);
     })
@@ -146,7 +151,7 @@ function saveService(){
     var data = JSON.stringify(menusIds);
 
     $_jxc.ajax({
-        url:contextPath+"/system/role/produceRoleAuth",
+        url: contextPath + "/service/config/save/csrservice",
         data:{
             "branchId":branchId,
             "data":data
@@ -154,7 +159,7 @@ function saveService(){
     },function(result){
         if(result && result.code == 0){
             $_jxc.alert("保存成功！");
-            toClose();
+            //toClose();
         }else{
             $_jxc.alert(result.message);
         }

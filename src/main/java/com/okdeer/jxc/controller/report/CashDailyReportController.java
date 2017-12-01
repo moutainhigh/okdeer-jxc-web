@@ -153,7 +153,7 @@ public class CashDailyReportController extends AbstractMutilGpeController<CashDa
 	@Override
 	protected MutilCustomMarkBean getMutilCustomMark() {
 		return new MutilCustomMarkBean(MOUDLE_REPORT, GpeMarkContrant.SECTION_CASH_DAILY_REPORT, GpeMarkContrant.KEY_BY_CASHIER,
-				GpeMarkContrant.KEY_BY_BRANCH, GpeMarkContrant.KEY_BY_CASHIER);
+				GpeMarkContrant.KEY_BY_BRANCH, GpeMarkContrant.KEY_BY_DATE);
 	}
 
 	@Override

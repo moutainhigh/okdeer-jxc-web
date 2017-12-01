@@ -1734,54 +1734,6 @@ function enumViewValue(enumObj){
 }
 
 
-var datagridCommon = {
-	/**
-	 * 显示列
-	 * 
-	 * @param datagridId
-	 *            datagrid的Id
-	 * @param fieldLen
-	 *            列的field个数
-	 */
-	showDataGridColumn : function(datagridId, fieldArr) {
-		var gridObj = $("#" + datagridId); 
-		if(!gridObj || gridObj.length===0){
-			return;
-		}
-		for (var i = 0; i < fieldArr.length; i++) {
-			gridObj.datagrid("showColumn", fieldArr[i]);
-		}
-	},
-	/**
-	 * 隐藏列
-	 * 
-	 * @param datagridId
-	 *            datagrid的Id
-	 * @param fieldLen
-	 *            列的field个数
-	 */
-	hideDataGridColumn : function(datagridId, fieldArr) {
-		
-		var gridObj = $("#" + datagridId); 
-		if(!gridObj || gridObj.length===0){
-			return;
-		}
-		
-		//获取表格
-		var fields = gridObj.datagrid("getColumnFields");
-		for (var i = 0; i < fieldArr.length; i++) {
-			var fieldName = fieldArr[i];
-			var index = $.inArray(fieldName, fields);
-			
-			//如果存在该列
-			if(index>=0){
-				gridObj.datagrid("hideColumn", fieldName);
-			}
-		}
-	},
-	
-
-};
 //禁止回车键提交
 $(window).keydown(function(event){
     if (event.keyCode  == 13) {

@@ -135,9 +135,9 @@ function getColumnList(){
 	        			{field: 'actualAmount', title: '单据金额', width: '80px', align: 'right',
 	        				formatter:function(value,row,index){
 	                            if(row.isFooter){
-	                                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 	                            }
-	                            return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                            return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 	                        }
 	        			},
 	                    {field: 'createUserName', title: '制单人', width: '80px', align: 'left'},

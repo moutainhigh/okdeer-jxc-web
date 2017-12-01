@@ -186,6 +186,25 @@ function initDatagridStoreYHOrder(){
                     }
                 }
             },
+            {field:'untaxedPrice',title:'不含税单价',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return
+            		}
+            		if(!row.untaxedPrice){
+            			row.untaxedPrice = parseFloat(value||0).toFixed(4);
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	}
+            },
             {field:'price',title:'单价',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -203,8 +222,28 @@ function initDatagridStoreYHOrder(){
             			min:0,
             			precision:4,
             		}
+            	}
+            },
+            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            		}
+            		
+            		if(!row.untaxedAmount){
+            			row.untaxedAmount = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
-            	
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	}
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -258,25 +297,23 @@ function initDatagridStoreYHOrder(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
 	                options:{
 	                    min:0,
 	                    disabled:true,
-	                    precision:2,
+	                    precision:4,
 	                }
                 }
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
                     if(row.isFooter){
-                        return;
+                    	return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
-                    row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -330,6 +367,8 @@ function initDatagridStoreYHOrder(){
         			if(!obj.priceBack){
         				obj.price = obj.distributionPrice;
         				obj.priceBack = obj.distributionPrice;
+        				obj.untaxedPrice = obj.untaxedPrice;
+        				obj.untaxedPriceBack = obj.untaxedPrice;
         			}
         		})
         	}
@@ -360,7 +399,7 @@ function initDatagridStoreYHOrder(){
     }
 
     if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount","untaxedAmount","untaxedPrice"])
     }
 }
 
@@ -407,11 +446,11 @@ function onChangeLargeNum(newV,oldV){
     var _tempAmount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
     gridHandel.setFieldValue('amount',_tempAmount);//金额=数量*单价
     
-    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
-    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
-
-
+    //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    //var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
+    //gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
+    var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    calcUntaxedPriceAndAmount(newRealNum,_tempAmount,untaxedPrice);// 计算不含税单价，金额  
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(), 'applyNum');
     if (realNumVal && oldV) {
         n = 1;
@@ -446,12 +485,14 @@ function onChangeRealNum(newV,oldV) {
 
     //赠品时 页面显示价格是0 但是getFieldData是非0的因此改成getFieldValue 2.7
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-    var _tempAmount = priceValue*newV;
+    var _tempAmount = parseFloat(priceValue*newV).toFixed(4);
     gridHandel.setFieldValue('amount',_tempAmount);                         //金额=数量*单价
-    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
-    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
-
+    //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    //var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);
+    //gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
+    var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPrice');
+    calcUntaxedPriceAndAmount(newV,_tempAmount,untaxedPrice);// 计算不含税单价，金额  
+    
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(), 'largeNum');
     if (largeNumVal && oldV) {
         m = 1;
@@ -476,22 +517,28 @@ function onSelectIsGift(data){
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
+        var untaxedPrice = gridHandel.getFieldTarget('untaxedPrice');
         if(data.id=="1"){
             $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
+            $(untaxedPrice).numberbox('setValue',0);;//不含税单价
+            gridHandel.setFieldValue('untaxedAmount',0);//不含税额
         }else{
             var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
+            var oldUntaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPriceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
+                $(untaxedPrice).numberbox('setValue',oldUntaxedPrice);
             }
             var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
-            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
-            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
-            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            var oldAmount = parseFloat(priceVal*applNum).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
+            //var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            //var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
-            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
+            //gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
+            calcUntaxedPriceAndAmount(applNum,oldAmount,oldUntaxedPrice);// 计算不含税单价，金额  
             
         }
         updateFooter();
@@ -501,9 +548,15 @@ function onSelectIsGift(data){
         $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
 }
+//计算不含税单价，金额
+function calcUntaxedPriceAndAmount(realNum,amount,untaxedPrice){
+	var untaxedAmount = parseFloat(untaxedPrice*realNum).toFixed(4);
+	gridHandel.setFieldValue('untaxedAmount',untaxedAmount);
+	gridHandel.setFieldValue('taxAmount',parseFloat(amount-untaxedAmount).toFixed(4));//=金额-不含税金额
+}
 //合计
 function updateFooter(){
-    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
+    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0,untaxedAmount:0,taxAmount:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -565,6 +618,7 @@ function setDataValue(data) {
         var keyNames = {
             id:'skuId',
             disabled:'',
+            taxRate:'inputTax',
             pricingType:''
         };
         /*if(pageStatus === 'add'){
@@ -670,8 +724,8 @@ function saveOrder(){
     var totalNum = 0;
     //总金额
     var amount=0;
-    //生效日期
-//    var validityTime = $("#validityTime").val();
+    //总金额
+    var untaxedAmount=0;
     // 备注
     var remark = $("#remark").val();
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
@@ -727,7 +781,7 @@ function saveOrder(){
     	formType:'DR',
     	sourceBranchId:sourceBranchId,
         targetBranchId:targetBranchId,
-//        validityTime:validqityTime,
+        untaxedAmount:untaxedAmount,
         totalNum:totalNum,
         amount:amount,
         remark:remark,
@@ -748,6 +802,9 @@ function saveOrder(){
     		price : data.price,
     		priceBack : data.priceBack,
     		amount : data.amount,
+			untaxedPrice : data.untaxedPrice,
+			untaxedPriceBack : data.untaxedPriceBack,
+			untaxedAmount : data.untaxedAmount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
     		remark : data.remark,
@@ -798,8 +855,8 @@ function updateOrder(){
     var targetBranchId = $("#targetBranchId").val();
 	//发货分店id
     var sourceBranchId = $("#sourceBranchId").val();
-    //生效日期
-//    var validityTime = $("#validityTime").val();
+    //总金额
+    var untaxedAmount=0;
     // 备注
     var remark = $("#remark").val();
     // 单号
@@ -811,6 +868,7 @@ function updateOrder(){
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+        untaxedAmount = parseFloat(footerRows[0]["untaxedAmount"]||0.0).toFixed(4);
     }
 
     var rows = gridHandel.getRowsWhere({skuName:'1'});
@@ -857,7 +915,7 @@ function updateOrder(){
     	sourceBranchId : sourceBranchId,
     	deliverFormId : $("#formId").val(),
         targetBranchId : targetBranchId,
-//        validityTime : validityTime,
+        untaxedAmount : untaxedAmount,
         totalNum : totalNum,
         amount : amount,
         remark : remark,
@@ -879,6 +937,9 @@ function updateOrder(){
     		price : data.price,
     		priceBack : data.priceBack,
     		amount : data.amount,
+			untaxedPrice : data.untaxedPrice,
+			untaxedPriceBack : data.untaxedPriceBack,
+			untaxedAmount : data.untaxedAmount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
     		remark : data.remark,
@@ -1050,6 +1111,7 @@ function updateListData(data){
          id:'skuId',
          disabled:'',
          pricingType:'',
+         taxRate:'inputTax',
          num : 'applyNum'
      };
      
@@ -1058,6 +1120,7 @@ function updateListData(data){
          rows[i].remark = "";
          rows[i].isGift = 0;
          rows[i]["amount"]  = parseFloat(rows[i]["distributionPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
+         rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
 
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);

@@ -976,6 +976,8 @@ function updateListData(data){
             data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
             var untaxedPrice = parseFloat((data[i]["purchasePrice"]||0)/(1+taxRate)).toFixed(4)
             data[i]["untaxedAmount"]  = untaxedPrice*parseFloat(data[i]["realNum"]||0);
+            data[i]["taxRate"] = taxRate;
+            data[i]["untaxedPrice"] = untaxedPrice;
         });
 	    var keyNames = {
 	        id:'skuId',

@@ -41,13 +41,13 @@ function initSupChainView(){
             {field:'saleCount',title:'销售数量',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleCount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'saleAmount',title:'销售金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'supplierRate',title:'联营扣率(%)',width:'100px',align:'right',
@@ -60,7 +60,7 @@ function initSupChainView(){
             {field:'divideAmount',title:'分成金额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.divideAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'outputTax',title:'销项税率(%)',width:'100px',align:'right',
@@ -73,7 +73,7 @@ function initSupChainView(){
             {field:'taxAmount',title:'税额',width:'100px',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.taxAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             }
         ]],

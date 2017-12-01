@@ -8,7 +8,7 @@ $(function () {
     $('#branchComponent').branchSelect();
 
     //开始和结束时间
-    toChangeDatetime(0);
+    toChangeDate(9);
     //初始化列表
     initCashWaterGrid();
 });

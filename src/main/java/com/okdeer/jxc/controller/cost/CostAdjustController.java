@@ -146,18 +146,18 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
-			LOG.debug("qo:" + vo.toString());
+			LOG.debug("查询列表集合qo:{}", vo);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			PageUtils<StockCostForm> page = stockCostFormServiceApi.queryLists(vo);
-			LOG.debug("page" + page.toString());
+			LOG.debug("page:{}", page);
 			return page;
 		} catch (RuntimeException e) {
-			LOG.error("删除成本调整单失败！:{}", e);
+			LOG.error("运行异常删除成本调整单失败！:{}", e);
 			return null;
 		} catch (Exception e) {
-			LOG.error("删除成本调整单失败！:{}", e);
+			LOG.error("异常删除成本调整单失败！:{}", e);
 			return null;
 		}
 	}
@@ -183,7 +183,7 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			StockCostFormAll stockCostFormAl = JSON.parseObject(jsonData, StockCostFormAll.class);
 			stockCostFormAl.getStockCostForm().setCreateUserId(UserUtil.getCurrUserId());
 			stockCostFormAl.setBranchCode(UserUtil.getCurrBranchCode());
-			LOG.debug("qo:" + stockCostFormAl);
+			LOG.debug("qo:{}" , stockCostFormAl);
 			return stockCostFormServiceApi.insertCostForm(stockCostFormAl);
 		} catch (RuntimeException e) {
 			LOG.error("新增成本调整单失败！:{}", e);
@@ -217,10 +217,10 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 				RespJson.error("机构ID不允许为空！");
 			}
 			stockCostFormAl.getStockCostForm().setUpdateUserId(UserUtil.getCurrUserId());
-			LOG.debug("qo:" + stockCostFormAl);
+			LOG.debug("qo:{}", stockCostFormAl);
 			return stockCostFormServiceApi.updateCostForm(stockCostFormAl);
 		} catch (RuntimeException e) {
-			LOG.error("删除成本调整单失败！:{}", e);
+			LOG.error("运行异常删除成本调整单失败！:{}", e);
 			return RespJson.error(e.getMessage());
 		} catch (Exception e) {
 			LOG.error("删除成本调整单失败！:{}", e);
@@ -358,13 +358,11 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 				exportListForXLSX(response, list, fileName, templateName);
 				return null;
 			} else {
-				RespJson json = RespJson.error("无数据可导");
-				return json;
+			    return RespJson.error("无数据可导");
 			}
 		} catch (Exception e) {
 			LOG.error("导出商品失败", e);
-			RespJson json = RespJson.error(e.toString());
-			return json;
+			return RespJson.error(e.toString());
 		}
 	}
 
@@ -500,18 +498,15 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response, Integer type) {
-		LOG.debug("CostAdjustController:" + type);
+		LOG.debug("CostAdjustController:{}", type);
 		try {
 			// 导出文件名称，不包括后缀名
-			String fileName = "成本调价单货号导入模板";
+			String fileName = "成本调价单条形码导入模板";
 			// 模板名称，包括后缀名
-			String templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
+			String templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
 			if (Constant.ZERO == type) {
 				templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE;
 				fileName = "成本调价单货号导入模板";
-			} else {
-				templateName = ExportExcelConstant.COST_GOODS_PRICE_ADJUST_FORM_TEMPLE_BARCODE;
-				fileName = "成本调价单条形码导入模板";
 			}
 			// 导出Excel
 			exportListForXLSX(response, null, fileName, templateName);

@@ -184,11 +184,14 @@ public class InputTaxAuthController extends BaseController<InputTaxAuthControlle
 			
 			Branches branch = branchService.getBranchInfoById(vo.getBranchId());
 			
+			if (branch == null) {
+				return RespJson.businessError("所选机构不存在！");
+			}
+			
 			// 只允许分公司
 			if(!BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branch.getType())){
 				return RespJson.businessError("机构只能选择分公司"); 
 			}
-			
 
 			vo.setChargeType(StoreChargeEnum.INPUT_TAX_AUTH.getCode());
 			return storeChargeService.addStoreCharge(vo);
@@ -278,7 +281,7 @@ public class InputTaxAuthController extends BaseController<InputTaxAuthControlle
 			return RespJson.success();
 
 		} catch (Exception e) {
-			LOG.error("导出门店运营费用单据失败：", e);
+			LOG.error("导出进项税额认证单据失败：", e);
 		}
 		return RespJson.error();
 	}

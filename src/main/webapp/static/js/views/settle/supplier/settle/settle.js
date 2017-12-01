@@ -192,13 +192,13 @@ function getColumns(){
 			 {field:'payableAmount',title:'应付金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.payableAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	}
 			 },
 			 {field:'payedAmount',title:'已付金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.payedAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	}
 			 }]
 	if(modeType == '1'){
@@ -207,7 +207,7 @@ function getColumns(){
 			{field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.discountAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	}
 			 }])
 	}else{
@@ -216,7 +216,7 @@ function getColumns(){
 			{field:'discountAmount',title:'优惠金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.discountAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	},
 			 	editor:{
 			 		type:'numberbox',
@@ -231,13 +231,13 @@ function getColumns(){
 			 {field:'unpayAmount',title:'未付金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.unpayAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	}
 			 },
 			 {field:'actualAmount',title:'实付金额',width:'100px',align:'right',
 			 	formatter:function(value,row,index){
 			 		if(!value)row.actualAmount = 0;
-			 		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+			 		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 			 	},
 			 	editor:{
 			 		type:'numberbox',

@@ -65,7 +65,7 @@ function getGridcolumns(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
         ]]
@@ -96,7 +96,7 @@ function getGridcolumns(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'remark',title:'备注',width:180,align:'left'},

@@ -71,6 +71,8 @@ public class CsrserviceSaleFlowController extends BaseController<CsrserviceSaleF
             }
             vo.setPageNum(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setStartTime(vo.getStartTime() + " 00:00:00");
+            vo.setEndTime(vo.getEndTime() + " 23:59:59");
             PageUtils<TradeOrderCsrserviceVo> list = tradeOrderCsrserviceService.getPageList(vo);
             list.setFooter(Arrays.asList(tradeOrderCsrserviceService.sumList(vo)));
             return list;
@@ -87,6 +89,8 @@ public class CsrserviceSaleFlowController extends BaseController<CsrserviceSaleF
         if (StringUtils.isBlank(vo.getBranchCode())) {
             vo.setBranchCode(getCurrBranchCompleCode());
         }
+        vo.setStartTime(vo.getStartTime() + " 00:00:00");
+        vo.setEndTime(vo.getEndTime() + " 23:59:59");
         List<TradeOrderCsrserviceVo> exportList = tradeOrderCsrserviceService.getList(vo);
 
         String fileName = "便民服务销售流水_" + DateUtils.getCurrSmallStr();

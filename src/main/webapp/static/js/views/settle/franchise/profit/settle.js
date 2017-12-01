@@ -171,25 +171,25 @@ function initSupChkAcoAdd(){
             {field:'saleCount',title:'销售数量',width:'100',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleCount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'saleAmount',title:'销售金额',width:'100',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.saleAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'costAmount',title:'成本金额',width:'100',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.costAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             },
             {field:'profitAmount',title:'毛利',width:'100',align:'right',
             	formatter:function(value,row,index){
             		if(!value)row.profitAmount = 0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             }
         ]],

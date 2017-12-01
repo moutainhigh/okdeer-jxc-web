@@ -35,6 +35,18 @@ function initDatagridStoreYHOrder(){
             },
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'untaxedPrice',title:'不含税单价',width:'100px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return
+            		}
+            		if(!row.untaxedPrice){
+            			row.untaxedPrice = parseFloat(value||0).toFixed(4);
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	}
+            
+            },
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -57,6 +69,19 @@ function initDatagridStoreYHOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 }
+            },
+            {field:'untaxedAmount',title:'不含税金额',width:'100px',align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            		}
+            		
+            		if(!row.untaxedAmount){
+            			row.untaxedAmount = parseFloat(value||0).toFixed(4);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+            	}
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -85,17 +110,19 @@ function initDatagridStoreYHOrder(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 }
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter:function(value,row){
                     if(row.isFooter){
-                        return;
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    var taxAmountVal = (row.inputTax*(row.amount/(1+parseFloat(row.inputTax)))||0.0000).toFixed(4);
-                    row["taxAmount"] = taxAmountVal;
-                    return '<b>'+parseFloat(taxAmountVal||0).toFixed(4)+'</b>';
+
+                    if(!row.taxAmount){
+                    	row.taxAmount = parseFloat(value||0).toFixed(4);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
@@ -107,13 +134,13 @@ function initDatagridStoreYHOrder(){
         },
     });
     if(hasDistributionPrice==false){
-        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount","untaxedPrice","untaxedAmount"])
     }
 }
 
 //合计
 function updateFooter(){
-    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
+    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0,untaxedAmount:0,taxAmount:0 };
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }

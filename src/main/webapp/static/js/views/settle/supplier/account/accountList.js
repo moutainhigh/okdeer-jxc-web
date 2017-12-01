@@ -83,7 +83,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 			{field: 'advanceAmount', title: '预付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			}])
 	}
@@ -91,7 +91,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
             {field: 'payableAmount', title: '预付金额', width: '80px', align: 'right',
             	formatter: function (value, row, index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             }])
 	}
@@ -100,12 +100,12 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
             {field: 'payedAmount', title: '已用金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			},
             {field: 'unpayAmount', title: '未用金额', width: '120px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			},
 			{field: 'payTime', title: '付款日期', width: '120px', align: 'left',
@@ -135,7 +135,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
             {field: 'payableAmount', title: '应付金额', width: '80px', align: 'right',
             	formatter: function (value, row, index) {
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
             }]);
 	}
@@ -144,12 +144,12 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 			{field: 'payedAmount', title: accountType == 6 ? '实付金额':'已付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			},
 			{field: 'discountAmount', title: '优惠金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			}]);
 	}
@@ -158,7 +158,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 			{field: 'unpayAmount', title: '未付金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			}]);
 	}
@@ -167,7 +167,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 			{field: 'surplusAmount', title: '实际结余金额', width: '80px', align: 'right',
 				formatter: function (value, row, index) {
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 				}
 			}]);
 	}
@@ -204,8 +204,10 @@ function getAccountColumns(){
 }
 
 var datagridObj;
+var gridHandel = new GridClass();
 //初始化表格
 function initAcountList(){
+    gridHandel.setGridName(datagirdID);
 	if(datagridObj){
 		$("#"+datagirdID).datagrid('options').url = '';
 	}

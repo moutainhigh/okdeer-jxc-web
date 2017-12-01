@@ -54,7 +54,7 @@
             <div class="ub upad-4 umar-t10">
                 <div class="ub ub-ac">
                     <div class="umar-r10 uw-70 ut-r">单价:</div>
-                    <input class="uinp  easyui-numberbox" type="text" data-options="min:0" name="referencePrice"
+                    <input class="uinp  easyui-numberbox" type="text" data-options="min:0.00,precision:2"  value="0" name="referencePrice"
                            id="referencePrice">
                 </div>
                 <i class="ub uc-red">*</i>
