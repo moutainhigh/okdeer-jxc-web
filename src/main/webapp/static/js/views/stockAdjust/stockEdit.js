@@ -80,7 +80,7 @@ function initDatagridEditRequireOrder(){
                 			  return
                 		  }
                 		  if(!value){
-                			  row["price"] = 0.00;
+                			  row["untaxedPrice"] = 0.00;
                 		  }
                 		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 	  },
@@ -523,6 +523,7 @@ function setDataValue(data) {
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		costPrice:'price',
+		untaxedCostPrice:'untaxedPrice',
         id:'skuId',
         disabled:'',
         pricingType:'',
