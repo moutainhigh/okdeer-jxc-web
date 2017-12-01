@@ -88,7 +88,7 @@ function getFiledList() {
                 }
             },
             {field: 'amount', title: '金额', width: 100, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
             {field: 'createTime', title: '时间', width: 180, align: 'left',formatter:function(value,row,index){
             	if(row.branchCode=="SUM"){
@@ -109,19 +109,19 @@ function getFiledList() {
 		    }},
             {field: 'branchName', title: '店铺编号', width: 180, align: 'left'},
             {field: 'sumSelling', title: '售卡合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
             {field: 'sumRecharge', title: '充值合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
             {field: 'sumConsume', title: '消费合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
             {field: 'sumRefund', title: '退货合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
             {field: 'sumData', title: '合计', width: 120, align: 'right',formatter : function(value, row, index) {
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			}},
         ]]
     }
