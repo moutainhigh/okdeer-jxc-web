@@ -343,7 +343,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
-								/*if (obj.get("realNum") != null) {
+								/**if (obj.get("realNum") != null) {
 									String realNum = obj.getString("realNum");
 									try {
 										Double.parseDouble(realNum);
