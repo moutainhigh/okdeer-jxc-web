@@ -25,7 +25,7 @@ function initContact(){
         columns:[[
             {field:'quotaStart',title:'毛利额度起',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	styler:function(value,row,index){
                 	return 'background-color:#f2f2f2;';
@@ -33,7 +33,7 @@ function initContact(){
             },
             {field:'quotaEnd',title:'毛利额度止',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	}
             },
             {field:'targetAllocation',title:'甲方分配（%）',width:'100',align:'right',

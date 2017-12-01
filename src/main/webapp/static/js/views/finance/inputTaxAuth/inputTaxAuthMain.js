@@ -116,18 +116,18 @@ function initGridStoreCharge() {
             {field:'amount',title:'费用金额',width:120,align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0.00,
-                        max:999999.99,
-                        precision:2,
+                        min:0.0000,
+                        max:999999.9999,
+                        precision:4,
                         disabled:isdisabled,
-                        prompt:"最大值999999.99",
+                        prompt:"最大值999999.9999",
                         onChange: onChangeAmount,
                     }
                 },

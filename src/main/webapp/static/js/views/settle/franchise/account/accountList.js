@@ -60,17 +60,17 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
 		           {field: 'payableAmount', title: '应收金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					},
 					{field: 'payedAmount', title: '已收金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					},
 					{field: 'unpayAmount', title: '未收金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					}])
 	}
@@ -80,7 +80,7 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
                     {field: 'payableAmount', title: '收款金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					}]);
 	}
@@ -90,17 +90,17 @@ function getAccountColumns(){
 		defaultColumns = defaultColumns.concat([
                     {field: 'payableAmount', title: '已付金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					},
 					{field: 'payedAmount', title: '已用金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					},
 					{field: 'unpayAmount', title: '未用金额', width: '80px', align: 'right',
 						formatter: function (value, row, index) {
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 						}
 					}]);
 	}
@@ -164,42 +164,42 @@ function getAccountColumns(){
 				},
 				{field: 'saleCount', title: '销售数量', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'saleAmount', title: '销售金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'costAmount', title: '成本金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'profitAmount', title: '毛利金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'targetProfitAmount', title: '公司所得毛利', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'franchiseProfitAmount', title: '加盟店所得毛利', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'otherAmount', title: '其他收款金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				},
 				{field: 'totalAmount', title: '本次收款金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
 					}
 				}]);
 	}

@@ -41,23 +41,23 @@ function initGridCardAccount() {
             {field: 'typeDesc', title: '店铺类型', width: 80, align: 'left'},
             {field: 'ecardRechargeAmount', title: '累计充值金额', width: 150, align: 'right',
 				formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				}},
             {field: 'ecardWithdrawalAmount', title: '提取金额', width: 100, align: 'right',
 					formatter:function(value,row,index){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}},
             {field: 'ecardUseAmount', title: '已用金额', width: 100, align: 'right',
 						formatter:function(value,row,index){
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						}},
             {field: 'ecardConsumeAmount', title: '消费金额', width: 100, align: 'right',
                 formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 }},
             {field: 'ecardBalance', title: '余额', width: 100, align: 'right',
 							formatter:function(value,row,index){
-								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+								return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 							}}
         ]]
     })

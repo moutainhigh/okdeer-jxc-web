@@ -81,7 +81,14 @@ function  initGridList() {
             }},
             {field:'branchName',title:'收货机构',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field: 'totalMoney', title: '调价金额', width: '80px', align: 'right'},
+            {field: 'totalMoney', title: '调价金额', width: '80px', align: 'right',
+                formatter:function(value,row,index){
+                    // if(row.isFooter){
+                    //     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    // }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                }
+            },
 
             {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
                 if(row.formNo==="SUM"){
