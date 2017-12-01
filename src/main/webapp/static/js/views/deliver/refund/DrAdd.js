@@ -196,6 +196,14 @@ function initDatagridStoreYHOrder(){
             		}
             		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	}
             },
             {field:'price',title:'单价',width:'80px',align:'right',
             	formatter:function(value,row,index){
@@ -214,8 +222,7 @@ function initDatagridStoreYHOrder(){
             			min:0,
             			precision:4,
             		}
-            	},
-            	
+            	}
             },
             {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
             	formatter : function(value, row, index) {
@@ -531,8 +538,7 @@ function onSelectIsGift(data){
             //var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(4);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
             //gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
-            var untaxedPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'untaxedPrice');
-            calcUntaxedPriceAndAmount(applNum,oldAmount,untaxedPrice);// 计算不含税单价，金额  
+            calcUntaxedPriceAndAmount(applNum,oldAmount,oldUntaxedPrice);// 计算不含税单价，金额  
             
         }
         updateFooter();
@@ -1105,6 +1111,7 @@ function updateListData(data){
          id:'skuId',
          disabled:'',
          pricingType:'',
+         taxRate:'inputTax',
          num : 'applyNum'
      };
      

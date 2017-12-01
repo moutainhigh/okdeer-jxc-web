@@ -808,6 +808,7 @@ function updateListData(data){
          id:'skuId',
          disabled:'',
          pricingType:'',
+         taxRate:'inputTax',
          num : 'applyNum'
      };
      var rows = gFunUpdateKey(data,keyNames);
