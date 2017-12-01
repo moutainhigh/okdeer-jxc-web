@@ -69,7 +69,14 @@ function createPage(serviceList){
 
                 child_li.appendTo(ul);
             })
+        }else{
+            var child_li = $('<li class="ub uh-40"> <div class="ub level"> ' +
+                '<div class="ub ub-ac upad-l10 uw-200 bor-rb"> <label> ' +
+                ' </label> </div> </div> </li>');
+
+            child_li.appendTo(ul);
         }
+
         ul.appendTo(li_html);
         li_html.appendTo(content);
     })

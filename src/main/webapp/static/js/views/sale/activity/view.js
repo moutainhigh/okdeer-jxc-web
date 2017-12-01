@@ -244,7 +244,7 @@ function selectOptionMj(param){
 function selectOptionN2N(param){
     $('#dvn2nCount').removeClass('unhide');
     $('#dvn2nSaleAmount').removeClass('unhide');
-    $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#dvn2nSaleAmount #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
     var radioVal = param.activityScopeN2N;
     if(radioVal == 1){
@@ -398,7 +398,7 @@ function initDatagridGoodsN2N() {
 
 function selectOptionSpecialPackage(param){
     $("#dvn2nSaleAmount2").removeClass("unhide");
-    $("#saleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }
