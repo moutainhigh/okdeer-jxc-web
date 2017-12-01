@@ -439,7 +439,7 @@ function selectGoods(searchKey){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
+        },500)
       
     });
 
