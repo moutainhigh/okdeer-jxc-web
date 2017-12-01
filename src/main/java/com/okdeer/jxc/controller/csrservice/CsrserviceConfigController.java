@@ -70,8 +70,7 @@ public class CsrserviceConfigController extends BaseController<CsrserviceConfigC
             TypeFactory typeFactory = JsonMapper.nonEmptyMapper().getMapper().getTypeFactory();
             JavaType type = typeFactory.constructCollectionType(List.class, Map.class);
             List<Map> datas = JsonMapper.nonEmptyMapper().fromJson(data, type);
-            storeCsrserviceService.saveStoreCsrservice(branchId, datas);
-            return RespJson.success("保存便民服务成功!");
+            return storeCsrserviceService.saveStoreCsrservice(branchId, datas);
         } catch (Exception e) {
             LOG.error("保存便民服务失败!", e);
             return RespJson.error("保存便民服务失败!");
