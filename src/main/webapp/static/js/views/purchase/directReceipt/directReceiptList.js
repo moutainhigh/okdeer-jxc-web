@@ -242,7 +242,7 @@ function initDirectDatagrid(){
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'supplierCode',title:'供应商编号',width:'80px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'untaxedAmount',title:'不含税总金额',width:100,align:'right',
+            {field:'untaxedAmount',title:'不含税总金额',width:'140px',align:'right',
             	formatter:function(value,row,index){
             		return '<b>'+parseFloat(value||0).toFixed(4)+'</b>'
             	}
