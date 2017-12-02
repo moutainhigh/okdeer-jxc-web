@@ -221,12 +221,14 @@ function selectOptionMj(param){
         initDatagridsortSet();
     }
     else if(radioVal=="1"){
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
         $("#consaleadd").removeClass('ub-f1');
         $("#consalesetmj").removeClass('unhide');
         initDatagridsortMj();
         initDatagridsortSet();
     }
     else {
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
         $("#consaleadd").removeClass('ub-f1');
         $("#consalesetmj").removeClass('unhide');
         initDatagridshopMj();
@@ -1406,7 +1408,7 @@ function initDatagridsortSet(){
         fitColumns:true,    // 每列占满
         // fit:true, //占满
         showFooter:true,
-		height:'300px',
+		height:'500px',
 //		pageSize:50,
 		width:'100%',
         columns:[[

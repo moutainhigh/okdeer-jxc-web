@@ -201,8 +201,9 @@ function  editstart(){
                         }
 
                         selectOptionMj(param);
-						//买满送
+
 					  }
+					  //买满送
 					  else if(activtype==10){
 
 						  var param = {

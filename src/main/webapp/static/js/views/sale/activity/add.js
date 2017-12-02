@@ -497,9 +497,9 @@ function selectOptionmms(){
 	$('#dvmms').removeClass('unhide');
 	
 	//先移除事件
-	$(document).off('mousedown','mmsTypechoose .mmradioLabel');
+	$(document).off('mousedown','.mmsTypechoose .mmradioLabel');
 	//买满送 --- 全场 类别 商品 选择事件
-	$(document).on('mousedown','mmsTypechoose .mmradioLabel',function(){
+	$(document).on('mousedown','.mmsTypechoose .mmradioLabel',function(){
 		var _this = $(this).find('input[type="radio"]');
 		var curVal = $("#activityScopemms").val();
 		

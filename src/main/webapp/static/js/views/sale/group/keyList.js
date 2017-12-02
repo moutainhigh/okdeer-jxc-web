@@ -63,8 +63,10 @@ function  initKeygrid() {
         ]],
         onClickCell : function(rowIndex, field, value) {
             if(field === "sortNo"){
+                //套餐排序不能修改
                var rows =  keygridHandle.getRows();
                if(rows[rowIndex].groupNo === "TC")return;
+
                 keygridHandle.setBeginRow(rowIndex);
                 keygridHandle.setSelectFieldName(field);
                 var target = keygridHandle.getFieldTarget(field);

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-审核</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/view.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/activity/view.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -218,11 +218,11 @@
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;height:50%">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
-      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide" style="min-height:45%;">
+      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide" style="min-height:300px;height:50%">
 			 <table id="salesetmj"></table>
 	  </div>
 	  
