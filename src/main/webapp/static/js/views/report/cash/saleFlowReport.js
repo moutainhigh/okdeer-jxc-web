@@ -5,7 +5,7 @@ var pageSize = 50;
 $(function(){
     //开始和结束时间
 	toChangeDatetime(0);
-
+	 $('#branchComponent').branchSelect();
     //初始化列表
    /* initMarketWaterGrid();*/
  // 初始化表格
