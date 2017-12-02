@@ -193,12 +193,12 @@ function initDatagridEditRequireOrder(){
                     if(row.isFooter){
                         return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 options:{
                     min:0,
                     disabled:true,
-                    precision:2,
+                    precision:4,
                 }
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',

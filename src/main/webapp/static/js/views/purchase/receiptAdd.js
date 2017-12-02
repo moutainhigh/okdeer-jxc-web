@@ -289,7 +289,7 @@ function initDatagridEditOrder(){
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
-                        return;
+                    	return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
