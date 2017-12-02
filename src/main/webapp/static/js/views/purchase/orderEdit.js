@@ -260,7 +260,7 @@ function initDatagridEditOrder(){
                         return;
                     }
                     row.tax = value?value:0;
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 options:{
                     min:0,
