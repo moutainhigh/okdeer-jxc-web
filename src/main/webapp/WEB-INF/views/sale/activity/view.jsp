@@ -79,7 +79,7 @@
                 <div class="ub ub-ac uselectw umar-r10 activityTypeDv">
                     <div class="umar-r10 uw-110 ut-r">活动类型:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="activityType" id="activityType"  data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="activityType" id="activityType"  data-options="editable:false,readonly:true">
 							    <option value="1">特价</option> 
 								<option value="2">折扣</option> 
 								<option value="3">偶数特价</option>
@@ -134,7 +134,7 @@
 				<div class="ub ub-ac uw-410 umar-l10 special unhide">
 				<div class="umar-r10 uw-100 ut-r">批量特价:</div>
 				<!-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value))execCommand('undo')" readonly="readonly" onafterpaste="if(isNaN(value))execCommand('undo')" id="special"> -->
-				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="special">
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,readonly:true" type="text"  id="special">
 				</div>
 
 				<div class="ub ub-ac uw-410 umar-l10 topMoney unhide">
@@ -145,7 +145,7 @@
 
 				<div class="ub ub-ac uw-410 umar-l10 oddprice unhide">
 				<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
-				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="batchcount">
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,readonly:true" type="text"  id="batchcount">
 				</div>
 
 				<div class="ub ub-ac uw-424 umar-l10 limitCount unhide">
@@ -155,7 +155,7 @@
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount2">
 				<div class="umar-r10 uw-70 ut-r">销售金额:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,readonly:true" type="text" id="n2nSaleAmount">
 				</div>
 
             </div>
@@ -170,7 +170,7 @@
 
 				<div class="ub ub-ac" id="dvOnlyVip">
 				<div class="umar-r10 uw-110 ut-r">会员独享:</div>
-				<select class="easyui-combobox" style="width:302px" name="vipType" id="vipType" data-options="editable:false,value:0">
+				<select class="easyui-combobox" style="width:302px" name="memberExclusive" id="memberExclusive" data-options="editable:false,readonly:true">
 				<option value="0">不独享</option>
 				<option value="1">会员独享</option>
 				<option value="2">会员独享一次</option>
@@ -201,28 +201,28 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-390 discount unhide">
 				<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="discount">
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,readonly:true" type="text" id="discount">
 				</div>
 
 				<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
 				<div class="umar-r10 uw-70 ut-r">任选数量:</div>
-				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,precision:0" type="text" id="n2nCount">
+				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,precision:0,readonly:true" type="text" id="n2nCount">
 				</div>
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
 				<div class="umar-r10 uw-104 ut-r">销售金额:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,readonly:true" type="text" id="n2nSaleAmount">
 				</div>
 
 			</div>
        	</form>
            
       
-      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:50%;">
+      <div id="consaleadd" class="ub uw ub-f1 umar-t20" style="min-height:300px;height:50%">
 			 <table id="saleMangeadd"></table>
 		</div>
 		 
-      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide" style="min-height:45%;">
+      <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide" style="min-height:300px;height:50%">
 			 <table id="salesetmj"></table>
 	  </div>
 	  

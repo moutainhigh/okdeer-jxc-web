@@ -19,6 +19,18 @@ $(function(){
 		costcheck(type);
 	}
     initCheckbox();
+
+    if($("#isUpCostPrice").is(":checked")){
+        $_jxc.showDataGridColumn(gridName,["oldCostPrice","costPrice","diffMoney"]);
+    }else{
+        $_jxc.hideDataGridColumn(gridName,["oldCostPrice","costPrice","diffMoney"]);
+    }
+
+    if($("#isUpUntaxedCostPrice").is(":checked")){
+        $_jxc.showDataGridColumn(gridName,["untaxedPrice","untaxedNewPrice","untaxedDiffMoney"]);
+    }else {
+        $_jxc.hideDataGridColumn(gridName,["untaxedPrice","untaxedNewPrice","untaxedDiffMoney"]);
+    }
 });
 
 

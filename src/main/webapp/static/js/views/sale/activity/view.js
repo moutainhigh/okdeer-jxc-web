@@ -84,11 +84,11 @@ function  editstart(){
 		    		 
                     // combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
-  		    		$("#activityType").combobox("disable");
+  		    		// $("#activityType").combobox("disable");
                   //combobox 会员独享
-                  // var onlyVip = listinfo.onlyVip;
-                  // $("#vipType").combobox('dvOnlyVip',onlyVip);
-                  // $("#vipType").combobox("disable");
+                  //combobox 会员独享 买满送不显示
+                  $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+                  // $("#memberExclusive").combobox('disabled');
   		    	    // checkbox 禁止所有选中状态
   		    		checkboxDisabled();
 		    		// 满减类型赋值
@@ -221,12 +221,14 @@ function selectOptionMj(param){
         initDatagridsortSet();
     }
     else if(radioVal=="1"){
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
         $("#consaleadd").removeClass('ub-f1');
         $("#consalesetmj").removeClass('unhide');
         initDatagridsortMj();
         initDatagridsortSet();
     }
     else {
+        $("#consaleadd").removeClass('ub uw ub-f1 umar-t20');
         $("#consaleadd").removeClass('ub-f1');
         $("#consalesetmj").removeClass('unhide');
         initDatagridshopMj();
@@ -244,7 +246,7 @@ function selectOptionMj(param){
 function selectOptionN2N(param){
     $('#dvn2nCount').removeClass('unhide');
     $('#dvn2nSaleAmount').removeClass('unhide');
-    $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#dvn2nSaleAmount #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
     var radioVal = param.activityScopeN2N;
     if(radioVal == 1){
@@ -398,7 +400,7 @@ function initDatagridGoodsN2N() {
 
 function selectOptionSpecialPackage(param){
     $("#dvn2nSaleAmount2").removeClass("unhide");
-    $("#saleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }
@@ -461,7 +463,7 @@ function  initDatagridGoodsSpecialPackage() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field: 'count', title: '数量', width: 100, align: 'right',
+            {field: 'limitCount', title: '数量', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -1406,7 +1408,7 @@ function initDatagridsortSet(){
         fitColumns:true,    // 每列占满
         // fit:true, //占满
         showFooter:true,
-		height:'300px',
+		height:'500px',
 //		pageSize:50,
 		width:'100%',
         columns:[[

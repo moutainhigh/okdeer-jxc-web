@@ -102,8 +102,28 @@ function initCombineSplieEditGrid() {
                 },
             },
             {field: 'unit', title: '单位', width:'90px', align: 'left'},
-            {field: 'salePrice', title: '单价', width:'90px', align: 'left'},
-            {field: 'amount', title: '金额', width:'90px', align: 'left'},
+            {field: 'salePrice', title: '单价', width:'90px', align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value||value==""){
+                        row["salePrice"] = parseFloat(value||0).toFixed(4);
+                    }
+                    return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+			},
+            {field: 'amount', title: '金额', width:'90px', align: 'left',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value||value==""){
+                        row["amount"] = parseFloat(value||0).toFixed(4);
+                    }
+                    return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+			},
             {field: 'remark', title: '备注', width: '250px', align: 'left',
                 editor:{
                     type:'textbox',
