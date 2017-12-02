@@ -83,7 +83,7 @@
                 <div class="ub ub-ac uselectw umar-r10 activityTypeDv">
                     <div class="umar-r10 uw-110 ut-r">活动类型:</div>
                        <!--select-->
-				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false">
+				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false,readonly:true">
 							    <option value="1">特价</option> 
 								<option value="2" >折扣</option> 
 								<option value="3">偶数特价</option>

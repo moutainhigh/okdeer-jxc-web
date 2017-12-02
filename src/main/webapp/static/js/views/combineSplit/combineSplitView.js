@@ -85,8 +85,28 @@ function getFiledsList(){
                      	  }
                    }
                  },
-                 {field:'salePrice',title:'单价',width:'80px',align:'right'},
-                 {field:'amount',title:'金额',width:'80px',align:'right'},
+                 {field:'salePrice',title:'单价',width:'80px',align:'right',
+                     formatter:function(value,row,index){
+                         if(row.isFooter){
+                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                         }
+                         if(!value||value==""){
+                             row["salePrice"] = parseFloat(value||0).toFixed(4);
+                         }
+                         return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                     },
+                 },
+                 {field:'amount',title:'金额',width:'80px',align:'right',
+                     formatter:function(value,row,index){
+                         if(row.isFooter){
+                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                         }
+                         if(!value||value==""){
+                             row["amount"] = parseFloat(value||0).toFixed(4);
+                         }
+                         return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                     },
+                 },
                  {field:'remark',title:'备注',width:'400px',align:'left',
                 	 editor:{
                 		 type:'textbox'
@@ -109,9 +129,39 @@ function getFiledsList(){
                      }},
                  {field:'skuName',title:'商品名称',width:'200px',align:'left'},
                  {field:'unit',title:'单位',width:'60px',align:'left'},
-                 {field:'realNum',title:'数量',width:'80px',align:'right'},
-                 {field:'salePrice',title:'单价',width:'80px',align:'right'},
-                 {field:'amount',title:'金额',width:'80px',align:'right'},
+                 {field:'realNum',title:'数量',width:'80px',align:'right',
+                     formatter:function(value,row,index){
+                         if(row.isFooter){
+                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                         }
+                         if(!value||value==""){
+                             row["realNum"] = parseFloat(value||0).toFixed(4);
+                         }
+                         return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                     },
+                 },
+                 {field:'salePrice',title:'单价',width:'80px',align:'right',
+                     formatter:function(value,row,index){
+                         if(row.isFooter){
+                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                         }
+                         if(!value||value==""){
+                             row["salePrice"] = parseFloat(value||0).toFixed(4);
+                         }
+                         return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                     },
+                 },
+                 {field:'amount',title:'金额',width:'80px',align:'right',
+                     formatter:function(value,row,index){
+                         if(row.isFooter){
+                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                         }
+                         if(!value||value==""){
+                             row["amount"] = parseFloat(value||0).toFixed(4);
+                         }
+                         return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                     },
+                 },
                  {field:'remark',title:'备注',width:'200px',align:'left'}
              ]]
 	}

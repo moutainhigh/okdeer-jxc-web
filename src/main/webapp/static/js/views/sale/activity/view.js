@@ -84,11 +84,11 @@ function  editstart(){
 		    		 
                     // combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
-  		    		$("#activityType").combobox("disable");
+  		    		// $("#activityType").combobox("disable");
                   //combobox 会员独享
-                  // var onlyVip = listinfo.onlyVip;
-                  // $("#vipType").combobox('dvOnlyVip',onlyVip);
-                  // $("#vipType").combobox("disable");
+                  //combobox 会员独享 买满送不显示
+                  $("#memberExclusive").combobox('select', data.obj.memberExclusive);
+                  // $("#memberExclusive").combobox('disabled');
   		    	    // checkbox 禁止所有选中状态
   		    		checkboxDisabled();
 		    		// 满减类型赋值
@@ -463,7 +463,7 @@ function  initDatagridGoodsSpecialPackage() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field: 'count', title: '数量', width: 100, align: 'right',
+            {field: 'limitCount', title: '数量', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
