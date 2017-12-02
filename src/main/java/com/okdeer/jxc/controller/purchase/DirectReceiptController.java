@@ -708,8 +708,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(form.getAmount()));
 			replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(form.getAmount()));
 			// 总金额
-			replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
-			replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(form.getAmount()).toString());
+			replaceMap.put("_总金额", BigDecimalUtils.formatFourDecimal(form.getAmount()).toString());
+			replaceMap.put("amount", BigDecimalUtils.formatFourDecimal(form.getAmount()).toString());
 			// 合计金额
 			replaceMap.put("_合计金额", NumberToCN.number2CNMontrayUnit(form.getAmount()));
 			// 打印人
