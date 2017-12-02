@@ -1513,6 +1513,17 @@ function GridClass(){
         $('.datagrid-header').find('div.datagrid-cell').css('font-weight','bold');
     }
     
+    /**
+     * 设置footer样式
+     */
+    this.setDatagridFooter = function(){
+        var rows = $('#'+gridName).datagrid('getFooterRows');
+        if(rows){
+        	$('.datagrid-footer').find('div.datagrid-cell-rownumber').css('visibility','visible').css('font-weight','bolder');
+        	$('.datagrid-footer').find('div.datagrid-cell-rownumber').html('合计');
+        }
+    }
+    
 	this.getColumnOption = function(fieldName){
 		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName);
 		if(opts){

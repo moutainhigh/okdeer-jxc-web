@@ -45,6 +45,9 @@ function initDaySumGrid(columns,frozenColumns) {
 		frozenColumns : frozenColumns,
 		onBeforeLoad : function(param) {
 			gridHandle.setDatagridHeader("center");
+		},
+		onLoadSuccess:function(){
+			gridHandle.setDatagridFooter();
 		}
 	});
 }
