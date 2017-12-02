@@ -209,17 +209,17 @@ function initDatagridRequireOrdersDI(){
 			{field: 'untaxedAmount', title: '不含税单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				}
 			},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				}
 			},
 			{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},

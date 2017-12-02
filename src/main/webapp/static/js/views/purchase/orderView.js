@@ -173,7 +173,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
