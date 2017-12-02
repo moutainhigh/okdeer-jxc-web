@@ -136,18 +136,18 @@
 
 				<div class="ub ub-ac uw-410 umar-l10 umar-r10 special">
 				<div class="umar-r10 uw-70 ut-r">批量特价:</div>
-				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,max:999999.99,precision:2,onChange:changeSpecNum" type="text"  id="special">
 				</div>
 
 				<div class="ub ub-ac uw-410 umar-l10 topMoney unhide">
 				<div class="umar-r10 uw-70 ut-r">最高优惠:</div>
-				<input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text"
+				<input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2,max:999999.99," type="text"
 				id="maxDiscountAmount" name="maxDiscountAmount">
 				</div>
 
 				<div class="ub ub-ac uw-410 umar-l10 oddprice unhide">
 				<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
-				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
+				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,max:999999.99,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
 				</div>
 
 				<div class="ub ub-ac uw-424 umar-l10 limitCount unhide">
@@ -158,7 +158,7 @@
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount2">
 				<div class="umar-r10 uw-70 ut-r">销售金额:</div>
-					<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text"
+					<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,max:999999.99" type="text"
 						   id="saleAmount" name="saleAmount">
 				</div>
 
@@ -230,12 +230,12 @@
 
 				<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
 				<div class="umar-r10 uw-70 ut-r">任选数量:</div>
-				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,precision:0" type="text" id="n2nCount">
+				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,max:999999,precision:0" type="text" id="n2nCount">
 				</div>
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
 				<div class="umar-r10 uw-110 ut-r">销售金额:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2" type="text" id="n2nSaleAmount">
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,max:999999.99,precision:2" type="text" id="n2nSaleAmount">
 				</div>
 
 			</div>
