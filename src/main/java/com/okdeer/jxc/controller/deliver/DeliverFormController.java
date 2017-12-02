@@ -903,17 +903,17 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_联系电话", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
 		replaceMap.put("mobile", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
 		// 返利
-		replaceMap.put("_返利", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()).toString());
-		replaceMap.put("addRebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()).toString());
+		replaceMap.put("_返利", BigDecimalUtils.formatFourDecimal(deliverForm.getAddRebateMoney()).toString());
+		replaceMap.put("addRebateMoney", BigDecimalUtils.formatFourDecimal(deliverForm.getAddRebateMoney()).toString());
 		// 折扣
-		replaceMap.put("_折扣", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()).toString());
-		replaceMap.put("rebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()).toString());
+		replaceMap.put("_折扣", BigDecimalUtils.formatFourDecimal(deliverForm.getRebateMoney()).toString());
+		replaceMap.put("rebateMoney", BigDecimalUtils.formatFourDecimal(deliverForm.getRebateMoney()).toString());
 		// 人民币总金额大写
 		replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		// 总金额
-		replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()).toString());
-		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()).toString());
+		replaceMap.put("_总金额", BigDecimalUtils.formatFourDecimal(deliverForm.getAmount()).toString());
+		replaceMap.put("amount", BigDecimalUtils.formatFourDecimal(deliverForm.getAmount()).toString());
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
 
