@@ -115,7 +115,7 @@ function initDatagridRequireOrdersDA(){
 			}},
 			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-			{field: 'untaxedAmount', title: '不含税单据金额', width: '120px', align: 'right',
+			{field: 'untaxedAmount', title: '不含税单据金额', width: '140px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -193,7 +193,7 @@ function initDatagridRequireOrdersDO(){
 					return value;
 				}
 			}},
-			{field: 'untaxedAmount', title: '不含税单据金额', width: '80px', align: 'right',
+			{field: 'untaxedAmount', title: '不含税单据金额', width: '140px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";

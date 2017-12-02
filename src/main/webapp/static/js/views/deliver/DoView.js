@@ -82,7 +82,7 @@ function initDatagridEditRequireOrder(){
                     return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
                 },
             },
-            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+            {field:'untaxedAmount',title:'不含税金额',width:'100px',align:'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
             			return "<b>"+parseFloat(value||0).toFixed(4)+ "<b>";
