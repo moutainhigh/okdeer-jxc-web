@@ -79,7 +79,7 @@
 				</div>
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-80 ut-r">是否过期:</div>
-					<select class="easyui-combobox" style="width: 204px;" name="isExpired" data-options="editable:false">
+					<select class="easyui-combobox" style="width: 204px;" id="isExpired" name="isExpired" data-options="editable:false">
 						<option value="">全部</option>
 						<option value="0">未过期</option>
 						<option value="1">已过期</option>

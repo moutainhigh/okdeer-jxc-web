@@ -3,6 +3,9 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 
+	$("#isExpired").combobox("setValue", "0");
+	$("#isExpired").combobox("setText", "未过期");
+	
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
