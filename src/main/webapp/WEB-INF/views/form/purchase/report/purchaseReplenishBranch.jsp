@@ -41,7 +41,7 @@
 				<div class="umar-r10 uw-80 ut-r">查询机构:</div>
 				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" />
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
-				<input name="branchName" id="branchName" type="hidden">
+				<input type="hidden" name="branchId" id="branchId" />
 				<div class="uinp-more">...</div>
 			</div>
 			
