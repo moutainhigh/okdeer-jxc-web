@@ -105,7 +105,7 @@ function initCombineSplieEditGrid() {
             {field: 'salePrice', title: '单价', width:'90px', align: 'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                        return ;
                     }
                     if(!value||value==""){
                         row["salePrice"] = parseFloat(value||0).toFixed(4);
@@ -171,7 +171,7 @@ function onChangeRealNum(newV,oldV) {
 }
 
 function updateFooter(){
-    var fields = {componentNum:0};
+    var fields = {componentNum:0,amount:0};
     var argWhere = {}
     gridHandel.updateFooter(fields,argWhere);
 }
