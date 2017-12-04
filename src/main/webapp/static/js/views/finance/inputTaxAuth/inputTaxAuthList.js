@@ -73,7 +73,7 @@ function initGridBranchCostList() {
             {field:'remark',title:'备注',width:200,align:'left'},
         ]]
     })
-    // queryStoreCharge();
+    queryStoreCharge();
 }
 
 /**

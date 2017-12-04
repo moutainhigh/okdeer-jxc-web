@@ -42,9 +42,9 @@ function initDatagridChargeSelect(){
         width:'100%',
         columns:[[
             {field:'cz',checkbox:true}, 
-            {field:'id',title:'id',width:100,align:'left',hidden:true},
-            {field:'value',title:'编号',width:100,align:'center'},
-            {field:'label',title:'名称',width:100,align:'center'},
+            {field:'id',title:'id', align:'left',hidden:true},
+            {field:'value',title:'编号',width:80,align:'left'},
+            {field:'label',title:'名称',width:100,align:'left'},
         ]],
         onLoadSuccess:function(data){
         	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
