@@ -207,8 +207,8 @@ public class ActivityController extends BaseController<ActivityController> {
 			detailList.stream().forEach(activityDetailVo -> {
 				if (activityVo.getActivityType() == 12) {
 					activityDetailVo.setGoodsPackageGroupId(main.getId());
-					datas.add(activityDetailVo);
 				}
+				datas.add(activityDetailVo);
 			});
 
 			// 保存活动
@@ -374,8 +374,8 @@ public class ActivityController extends BaseController<ActivityController> {
 			detailList.stream().forEach(activityDetailVo -> {
 				if (activityVo.getActivityType() == 12) {
 					activityDetailVo.setGoodsPackageGroupId(main.getId());
-					datas.add(activityDetailVo);
 				}
+				datas.add(activityDetailVo);
 			});
 			// 保存活动
 			return mainServiceApi.update(main, datas, branchList, goodsGiftList);
