@@ -18,10 +18,12 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.csrservice.service.StoreCsrserviceService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -67,10 +69,16 @@ public class CsrserviceConfigController extends BaseController<CsrserviceConfigC
     @RequestMapping(value = "/save/csrservice")
     public RespJson saveStoreCsrservice(String branchId, String data) {
         try {
-            TypeFactory typeFactory = JsonMapper.nonEmptyMapper().getMapper().getTypeFactory();
-            JavaType type = typeFactory.constructCollectionType(List.class, Map.class);
-            List<Map> datas = JsonMapper.nonEmptyMapper().fromJson(data, type);
-            return storeCsrserviceService.saveStoreCsrservice(branchId, datas);
+            if (StringUtils.isBlank(branchId)) {
+                return RespJson.error("请先选择门店,再进行保存!");
+            }
+            if (StringUtils.isNotBlank(data)) {
+                TypeFactory typeFactory = JsonMapper.nonEmptyMapper().getMapper().getTypeFactory();
+                JavaType type = typeFactory.constructCollectionType(List.class, Map.class);
+                List<Map> datas = JsonMapper.nonEmptyMapper().fromJson(data, type);
+                return storeCsrserviceService.saveStoreCsrservice(branchId, datas);
+            }
+            return storeCsrserviceService.saveStoreCsrservice(branchId, Collections.emptyList());
         } catch (Exception e) {
             LOG.error("保存便民服务失败!", e);
             return RespJson.error("保存便民服务失败!");

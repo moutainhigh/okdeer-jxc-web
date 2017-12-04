@@ -184,7 +184,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     public RespJson delete(String[] ids) {
         try {
             if (ids != null && ids.length > 0) {
-                csrserviceTypeService.delCsrservice(Arrays.asList(ids));
+                return csrserviceTypeService.delCsrservice(Arrays.asList(ids));
             }
             return RespJson.success();
         } catch (Exception e) {
