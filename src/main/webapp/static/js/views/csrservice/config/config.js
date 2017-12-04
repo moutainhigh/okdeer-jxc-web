@@ -132,12 +132,25 @@ function saveService(){
     }
 
     var menusIds = [];
+    var parentNodes = $(".parentNode.oneNode");
+    $.each(parentNodes,function (n,pnode) {
+        var pchecked =  $(pnode).is(":checked");
+        if(pchecked){
+            var menDomObj = {};
+            menDomObj.id = $(pnode).attr('id') ||'';
+            menDomObj.parentId = $(pnode).attr('parentId') ||'';
+            menusIds.push(menDomObj);
+        }
+
+    })
+
     var treeMenus = $(".two.levelContent");
     $.each(treeMenus, function (index,obj){
         var menuLiContent = $(obj).children('li');
+
         if(menuLiContent.length > 0 ){
             $.each(menuLiContent,function(inj,menDom){
-                var checkInputs =  $(menDom).find('.levelContent input[type="checkbox"]:checked');
+                // var checkInputs =  $(menDom).find('.levelContent input[type="checkbox"]:checked');
                 var menuDom = $(menDom).find('.twoNode')[0];
                 var menuDomCheck = $(menuDom).prop('checked');
                 //菜单对象

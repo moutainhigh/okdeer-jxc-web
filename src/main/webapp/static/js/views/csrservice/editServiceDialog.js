@@ -13,6 +13,7 @@ function initServiceDialogCallback(cb) {
 }
 
 function initServiceDialog(param) {
+    debugger;
     type = param.type;
 	if(param.type === "edit"){
 		$("#id").val(param.id);
@@ -20,7 +21,7 @@ function initServiceDialog(param) {
         $("#csrserviceType").val(param.csrserviceType);
         $("#csrserviceName").val(param.csrserviceName);
         $("#referencePrice").numberbox('setValue', param.referencePrice);
-        $("#isAllowAdjustPrice").combobox('setValue', param.isAllowAdjustPrice ? 1 : 0);
+        $("#isAllowAdjustPrice").combobox('select', param.isAllowAdjustPrice==="true" ? 1 : 0);
         $("#remark").val(param.remark);
         $("#csrserviceCode").val(param.csrserviceCode);
         $("#ckbSaveLabel").css("display","none");
