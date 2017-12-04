@@ -63,15 +63,17 @@ function initPurReportDetailGrid(queryType) {
         showFooter:true,
         height:'100%',
         columns: [[
-			{field: 'skuCode', title: '货号', width:85, align: 'left',
-            	formatter : function(value, row,index) {
+			{field: 'branchCode', title: '机构编号', width:80, align: 'left',
+				formatter : function(value, row,index) {
                     var str = value;
                     if($_jxc.isStringNull(str)){
                         str ='<div class="ub ub-pc ufw-b">合计</div> '
                     }
                     return str;
                 }
-            },
+			},
+			{field: 'branchName', title: '机构名称', width:150, align: 'left'},
+			{field: 'skuCode', title: '货号', width:85, align: 'left'},
             {field: 'skuName', title: '商品名称', width:185, align: 'left'},
             {field: 'barCode', title: '条码', width:130, align: 'left'},
             {field: 'spec', title: '规格', width:45, align: 'left'},
@@ -144,6 +146,14 @@ function purchaseDetailCx(){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
+	
+	var branchId = $("#branchId").val();
+	
+	if(!branchId){
+		$_jxc.alert('请选择机构！');
+		return ;
+	}
+	
 	var formData = $("#queryForm").serializeObject();
 	
 	$("#purReportDetail").datagrid("options").queryParams = formData;
