@@ -243,6 +243,7 @@ function selectGoods(searchKey) {
         isRadio:0,
         branchId: $('#branchId').val(),
         branchName: $('#branchName').val(),
+        branchCode: $('#branchCode').val(),
         flag:'0',
         supplierId: $("#supplierId").val()
     };

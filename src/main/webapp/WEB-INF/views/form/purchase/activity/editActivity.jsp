@@ -76,6 +76,7 @@
                 <div class="ub ub-ac umar-r80" id="targetBranch">
                     <div class="umar-r10 uw-60 ut-r">机构:</div>
                     <input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}">
+                    <input class="uinp" name="branchCode" id="branchCode" type="hidden" value="${form.branchCode}">
                     <input id="branchName" name="branchName" class="uinp uw-600" readonly="readonly" type="text"
                            value="${form.branchName}">
                     <div class="uinp-more">...</div>
