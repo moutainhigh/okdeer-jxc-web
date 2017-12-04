@@ -42,6 +42,7 @@
 				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" />
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 				<input type="hidden" name="branchId" id="branchId" />
+				<input type="hidden" name="branchName" id="branchName" />
 				<div class="uinp-more">...</div>
 			</div>
 			

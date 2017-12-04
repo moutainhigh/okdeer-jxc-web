@@ -53,7 +53,7 @@ public class PurchaseReplenishBranchController extends BaseController<PurchaseRe
 	private PurchaseReplenishAnalyService purchaseReplenishAnalyService;
 	
 	@RequestMapping("/toManager")
-    public ModelAndView dgStockAnalysis() {
+    public ModelAndView toManager() {
         return new ModelAndView("form/purchase/report/purchaseReplenishBranch");
     }
 	
