@@ -3420,10 +3420,15 @@ function saveActivity(){
           }
           saveDataHandel(rows);
 	  }else if(n2nType === "1"){
-      	if(rows.length <= 0){
-      		$_jxc.alert("请选择类别");
-      		return;
-		}
+          for(var i=0;i<rows.length;i++){
+              var v = rows[i];
+              if(!v["categoryCode"]){
+                  $_jxc.alert("第"+(i+1)+"行，类别编号不能为空");
+                  isCheckResult = false;
+                  return false;
+              }
+          }
+
           saveDataHandel(rows);
 	  }
   }
