@@ -13,7 +13,6 @@ function initServiceDialogCallback(cb) {
 }
 
 function initServiceDialog(param) {
-    debugger;
     type = param.type;
 	if(param.type === "edit"){
 		$("#id").val(param.id);

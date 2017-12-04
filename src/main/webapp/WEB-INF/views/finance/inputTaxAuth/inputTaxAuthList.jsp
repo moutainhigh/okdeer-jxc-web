@@ -40,26 +40,31 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">单据编号:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
-				</div>
 				<div class="ub ub-ac umar-r40" id="targetBranch">
-					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input name="branchCompleCode" id="branchCompleCode" type="hidden">
-					<input class="uinp" id="branchName" name="branchName" type="text" >
-					<div class="uinp-more">...</div>
+				<div class="umar-r10 uw-60 ut-r">机构名称:</div>
+				<input name="branchCompleCode" id="branchCompleCode" type="hidden">
+				<input class="uinp" id="branchName" name="branchName" type="text" >
+				<div class="uinp-more">...</div>
 				</div>
+
+				<div class="ub ub-ac umar-r40">
+				<div class="umar-r10 uw-60 ut-r">操作员:</div>
+				<input type="hidden" name="createUserId" id="createUserId" >
+				<input class="uinp" id="operateUserName" name="operateUserName" type="text"
+				readonly="readonly"  onclick="selectOperator()" />
+				<div class="uinp-more" onclick="selectOperator()">...</div>
+				</div>
+
+
 
 			</div>
 			<div class="ub umar-t8">
+
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">操作员:</div>
-					<input type="hidden" name="createUserId" id="createUserId" >
-					<input class="uinp" id="operateUserName" name="operateUserName" type="text"
-						readonly="readonly"  onclick="selectOperator()" />
-					<div class="uinp-more" onclick="selectOperator()">...</div>
+				<div class="umar-r10 uw-60 ut-r">单据编号:</div>
+				<input class="uinp" name="formNo" id="formNo" type="text">
 				</div>
+
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">审核状态:</div>
