@@ -132,12 +132,12 @@ function selectedAll() {
 function selectedTypeItem(){
 	var allsel = document.getElementsByName("activityType1");
 	var val =0;
-	for ( var i = 0; i < allsel.length; i++) { 
+	for ( var i = 0; i < allsel.length; i++) {
 		if(i>0){
-			val = allsel[i].checked?val+1:val-1;
+			val = allsel[i].checked?val+1:val;
 		}
-    }  
-	if(val==6){
+    }
+	if(val==allsel.length-1){
 		allsel[0].checked = true;
 	}else{
 		allsel[0].checked = false;

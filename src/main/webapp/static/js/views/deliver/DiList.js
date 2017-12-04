@@ -124,7 +124,7 @@ function initDatagridRequireOrdersDO(){
             //{field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-			{field: 'untaxedAmount', title: '不含税单据金额', width: '120px', align: 'right',
+			{field: 'untaxedAmount', title: '不含税单据金额', width: '140px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
 						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -206,20 +206,20 @@ function initDatagridRequireOrdersDI(){
 			{field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
-			{field: 'untaxedAmount', title: '不含税单据金额', width: '80px', align: 'right',
+			{field: 'untaxedAmount', title: '不含税单据金额', width: '140px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				}
 			},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 				}
 			},
 			{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},

@@ -123,7 +123,7 @@ function initGridStoreCharge() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0.0000,
+                        min:-999999.9999,
                         max:999999.9999,
                         precision:4,
                         disabled:isdisabled,
@@ -250,8 +250,8 @@ function saveStoreCharge() {
             isCheckResult = false;
             return false;
         };
-        if(v["amount"]<=0){
-            $_jxc.alert("第"+(i+1)+"行，金额必须大于0");
+        if(v["amount"]==0){
+            $_jxc.alert("第"+(i+1)+"行，金额不能为0");
             isCheckResult = false;
             return false;
         }

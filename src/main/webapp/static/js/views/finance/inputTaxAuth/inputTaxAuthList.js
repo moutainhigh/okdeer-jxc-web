@@ -9,7 +9,16 @@ $(function () {
     
     $(".radioItem").change(function () {
         queryStoreCharge();
-    })
+    });
+    
+    //机构选择初始化
+    $('#targetBranch').branchSelect({
+    	param:{
+    		// 只允许分公司
+			branchTypesStr: $_jxc.branchTypeEnum.BRANCH_COMPANY
+		}
+    });
+    
 })
 
 var gridName = "gridInputTaxAuthList";
@@ -65,16 +74,6 @@ function initGridBranchCostList() {
         ]]
     })
     // queryStoreCharge();
-}
-
-/**
- * 机构名称
- */
-function selectListBranches(){
-    new publicAgencyService(function(data){
-        $("#branchCompleCode").val(data.branchCompleCode);
-        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
-    },'BF','');
 }
 
 /**

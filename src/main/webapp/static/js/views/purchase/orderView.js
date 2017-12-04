@@ -118,7 +118,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
-            {field:'untaxedPrice',title:'不含税单价',width:'80px',align:'right',
+            {field:'untaxedPrice',title:'不含税单价',width:'100px',align:'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
             			return ;
@@ -134,7 +134,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
-            {field:'untaxedAmount',title:'不含税金额',width:'80px',align:'right',
+            {field:'untaxedAmount',title:'不含税金额',width:'100px',align:'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
             			return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -173,7 +173,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'taxAmount',title:'税额',width:'80px',align:'right',
