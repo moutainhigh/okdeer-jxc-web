@@ -116,15 +116,21 @@ function filterCheckDom(){
         var checkInputs = $(obj).children('.levelContent.two').find('input[type="checkbox"]:checked');
         if(checkInputs.length > 0){
             $($(obj).find('.oneNode')[0]).prop('checked',true);
-        }else{
-            $($(obj).find('.oneNode')[0]).prop('checked',false);
         }
+        // else{
+        //     $($(obj).find('.oneNode')[0]).prop('checked',false);
+        // }
     });
 
 }
 
 //保存
 function saveService(){
+    if($_jxc.isStringNull($("#branchId").val())){
+        $_jxc.alert("请先选择一个店铺");
+        return;
+    }
+
     var menusIds = [];
     var treeMenus = $(".two.levelContent");
     $.each(treeMenus, function (index,obj){
