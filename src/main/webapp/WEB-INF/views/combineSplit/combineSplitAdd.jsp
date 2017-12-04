@@ -8,7 +8,7 @@
     <title>组合拆分单-新增</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-    <script  src="${ctx}/static/js/views/combineSplit/combineSplitAdd.js?V=${versionNo}"></script>
+    <script  src="${ctx}/static/js/views/combineSplit/combineSplitAdd.js?V=${versionNo}1"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

@@ -88,7 +88,7 @@ function getFiledsList(){
                  {field:'salePrice',title:'单价',width:'80px',align:'right',
                      formatter:function(value,row,index){
                          if(row.isFooter){
-                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                             return  ;
                          }
                          if(!value||value==""){
                              row["salePrice"] = parseFloat(value||0).toFixed(4);
@@ -143,7 +143,7 @@ function getFiledsList(){
                  {field:'salePrice',title:'单价',width:'80px',align:'right',
                      formatter:function(value,row,index){
                          if(row.isFooter){
-                             return  '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                             return  ;
                          }
                          if(!value||value==""){
                              row["salePrice"] = parseFloat(value||0).toFixed(4);
@@ -231,7 +231,7 @@ function initDatacombineSplitView(){
 }
 
 function updateFooter(){
-    var fields = {realNum:0};
+    var fields = {realNum:0,amount:0};
     var argWhere = {}
     gridHandel.updateFooter(fields,argWhere);
 }
