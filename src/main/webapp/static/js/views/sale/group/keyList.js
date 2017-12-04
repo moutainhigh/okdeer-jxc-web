@@ -422,7 +422,7 @@ function delgroup() {
     $_jxc.confirm("是否删除选中数据",function (r) {
         if(!r)return;
 
-        if(row.groupNo == "01"){
+        if (row.groupNo == "01" || row.groupNo == "TC") {
             $_jxc.alert("该分组为系统固定分组，不能删除！");
             return;
         }

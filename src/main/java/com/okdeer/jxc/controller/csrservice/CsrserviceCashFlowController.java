@@ -11,12 +11,15 @@ package com.okdeer.jxc.controller.csrservice;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.bill.service.TradeOrderCsrserviceService;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
+import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
 import com.okdeer.jxc.report.qo.CashFlowReportQo;
 import com.okdeer.jxc.report.vo.CashFlowReportVo;
 import org.apache.commons.lang3.StringUtils;
@@ -52,10 +55,26 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
     @Reference(version = "1.0.0", check = false)
     private TradeOrderCsrserviceService tradeOrderCsrserviceService;
 
+    @Reference(version = "1.0.0", check = false)
+    private BranchesServiceApi branchesService;
+
+
     @RequestMapping(value = "")
     public ModelAndView config() {
         Map<String, Object> model = Maps.newHashMap();
-        model.put("data", csrserviceTypeService.getCsrserviceTypeVos(StringUtils.equalsIgnoreCase(getCurrBranchId(), "0") ? "" : getCurrBranchId()));
+        String branchId = "";
+        if (StringUtils.equalsIgnoreCase(getCurrBranchId(), "0")) {
+            branchId = "";
+        } else {
+            Branches branches = branchesService.getParentById(branchId);
+            if (branches.getType() == 1) {//分公司
+                branchId = getCurrBranchId();
+            } else {//店铺
+                branchId = branches.getParentId();
+            }
+        }
+        List<CsrserviceTypeVo> datas = csrserviceTypeService.getCsrserviceTypeVos(branchId);
+        model.put("data", datas);
         return new ModelAndView("csrservice/cash/flow", model);
     }
 
