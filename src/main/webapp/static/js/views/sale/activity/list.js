@@ -3,19 +3,6 @@ $(function(){
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 
-	$("#isExpired").combobox("setValue", "0");
-	$("#isExpired").combobox("setText", "未过期");
-    $(".radioItem").change(function () {
-    	var auditStatus = $(this).val(); //选中的值
-    	$("#isExpired").combobox("setValue", "0");
-    	$("#isExpired").combobox("setText", "未过期");
-    	if(auditStatus === "1"){
-    		$("#isExpired").combobox("readonly", false);
-    	}else{
-    		$("#isExpired").combobox("readonly", true);
-    	}
-    })
-    
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
