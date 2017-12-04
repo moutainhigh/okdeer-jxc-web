@@ -371,6 +371,9 @@ function selectOptionN2N(param){
     $('#dvn2nSaleAmount').removeClass('unhide');
     $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
+    //初始化
+    $("input[name='n2nstatus'][value='"+param.activityScopeN2N+"']").prop('checked',true);
+
     var radioVal = param.activityScopeN2N;
     if (radioVal === 1) {
         initDatagridsortN2N();
@@ -3421,9 +3424,13 @@ function saveActivity(){
           }
           saveDataHandel(rows);
       }else if(n2nType === "1"){
-          if(rows.length <= 0){
-              $_jxc.alert("请选择类别");
-              return;
+          for(var i=0;i<rows.length;i++){
+              var v = rows[i];
+              if(!v["categoryCode"]){
+                  $_jxc.alert("第"+(i+1)+"行，类别编号不能为空");
+                  isCheckResult = false;
+                  return false;
+              }
           }
           saveDataHandel(rows);
       }
@@ -3717,12 +3724,15 @@ function saveDataHandel(rows,setrows){
   }
 
   else if(activityType==="11"){
+      //类别(1)  商品(0)
+      var actScope = $("input[name='n2nstatus']:checked").val() || '';
       var reqObj = {
           branchIds:branchIds,
           branchsName:branchsName,
           branchsFullName:branchsFullName,
           activityName:activityName,
           activityType:activityType,
+          activityScope: actScope,
           startTime:startTime,
           endTime:endTime,
           dailyStartTime:dailyStartTime,

@@ -52,7 +52,7 @@
 <div class="ub ub-ver  ub-f1 umar-4 upad-4">
     <div class="ub ub-ac">
         <div class="ubtns">
-            <div class="ubtns-item" onclick="saveService()">保存</div>
+            <div id="btnSave" class="ubtns-item" onclick="saveService()">保存</div>
             <div class="ubtns-item" onclick="toClose()">退出</div>
         </div>
     </div>

@@ -22,7 +22,12 @@ function queryServiceList(branchId) {
     },function(result){
         if(result && result.code == 0){
             if(result.data.length > 0){
+                $("#btnSave").removeClass("uinp-no-more")
+                $('#btnSave').attr('onclick','saveService()');
                 createPage(result.data);
+            }else{
+                $("#btnSave").addClass("uinp-no-more")
+                $('#btnSave').removeAttr('onclick');
             }
 
         }else{
