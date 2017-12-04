@@ -111,7 +111,8 @@ function onChangeSelect(){
 	var rows = [];
 	var setrows = [];
 	//1特价 3偶数特价 4换购  6 组合特价
-	if(gVarLastActivityType == '1' || gVarLastActivityType == '3' || gVarLastActivityType == '4' || gVarLastActivityType == '6' ){
+	if(gVarLastActivityType == '1' || gVarLastActivityType == '3' || gVarLastActivityType == '4'
+		|| gVarLastActivityType == '6' || gVarLastActivityType == '11' || gVarLastActivityType == '12' ){
 		rows = gridHandel.getRowsWhere({skuName:'1'});
 	}
 	//折扣
@@ -182,7 +183,7 @@ function onChangeSelect(){
 			rows= [{}];
 		}
 	}
-	
+
 	if(rows.length==0 && setrows.length ==0){
 		changeType(priceVal);
 	}else{
