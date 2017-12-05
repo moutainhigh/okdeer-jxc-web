@@ -66,7 +66,7 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
         if (StringUtils.equalsIgnoreCase(getCurrBranchId(), "0")) {
             branchId = "";
         } else {
-            Branches branches = branchesService.getParentById(branchId);
+            Branches branches = branchesService.getBranchInfoById(branchId);
             if (branches.getType() == 1) {//分公司
                 branchId = getCurrBranchId();
             } else {//店铺
