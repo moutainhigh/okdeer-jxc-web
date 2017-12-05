@@ -191,7 +191,6 @@ function initBranchSkuTotalAnalysiGrid() {
 		showFooter:true,
 		pageSize : 50,
 		pageList : [20,50,100],//可以设置每页记录条数的列表
-		showFooter:true,
 		height:'100%',
 		columns: [[
 		           {field: 'branchCode', title: '店铺编号', width:85, align: 'left'},
@@ -271,7 +270,6 @@ function initGoodsTotalAnalysiGrid() {
         showFooter:true,
         pageSize : 50,
         pageList : [20,50,100],//可以设置每页记录条数的列表
-        showFooter:true,
         height:'100%',
         columns: [[
             {field: 'skuCode', title: '货号', width:55, align: 'left'},
@@ -352,7 +350,6 @@ function initCategoryGrid() {
         showFooter:true,
         pageList : [20,50,100],//可以设置每页记录条数的列表
         pageSize : 50,
-        showFooter:true,
         height:'100%',
         columns: [[
             {field: 'categoryCode', title: '类别编号', width: 56, align: 'left',
@@ -436,7 +433,6 @@ function initPurReportSupplierGrid() {
         showFooter:true,
         pageList : [20,50,100],//可以设置每页记录条数的列表
         pageSize : 50,
-        showFooter:true,
         height:'100%',
         columns: [[
             {field: 'branchCode', title: '店铺编号', width: 60, align: 'left',
