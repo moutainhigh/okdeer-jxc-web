@@ -64,7 +64,7 @@ public class CsrserviceSaleFlowController extends BaseController<CsrserviceSaleF
         if (StringUtils.equalsIgnoreCase(getCurrBranchId(), "0")) {
             branchId = "";
         } else {
-            Branches branches = branchesService.getBranchInfoById(branchId);
+            Branches branches = branchesService.getBranchInfoById(getCurrBranchId());
             if (branches.getType() == 1) {//分公司
                 branchId = getCurrBranchId();
             } else {//店铺
