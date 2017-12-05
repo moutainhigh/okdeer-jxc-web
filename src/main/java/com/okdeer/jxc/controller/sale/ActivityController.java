@@ -18,6 +18,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.result.ResultCodeEnum;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
@@ -212,7 +213,10 @@ public class ActivityController extends BaseController<ActivityController> {
 			});
 
 			// 保存活动
-			mainServiceApi.save(main, detailList, branchList, goodsGiftList);
+			RespJson respJson = mainServiceApi.save(main, detailList, branchList, goodsGiftList);
+			if (ResultCodeEnum.BUSINESS_FAILURE.getCode() == Integer.valueOf(respJson.get(RespJson.KEY_CODE) + "")) {
+				return respJson;
+			}
 			resp.put("activityId", main.getId());
 		} catch (Exception e) {
 			LOG.error("保存活动出现异常：", e);
