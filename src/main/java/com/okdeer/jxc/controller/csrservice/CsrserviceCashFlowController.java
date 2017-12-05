@@ -23,6 +23,7 @@ import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
 import com.okdeer.jxc.report.qo.CashFlowReportQo;
 import com.okdeer.jxc.report.vo.CashFlowReportVo;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,11 +90,12 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
             }
             vo.setPageNum(pageNumber);
             vo.setPageSize(pageSize);
+            vo.setEndTime(new DateTime(vo.getEndTime()).plusDays(1).toDate());
             PageUtils<CashFlowReportVo> list = tradeOrderCsrserviceService.getPageList(vo);
             list.setFooter(Arrays.asList(tradeOrderCsrserviceService.sumList(vo)));
             return list;
         } catch (Exception e) {
-            LOG.error("便民服务销售流水查询异常!", e);
+            LOG.error("便民服务收银流水查询异常!", e);
             return PageUtils.emptyPage();
         }
     }
@@ -105,6 +107,7 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
         if (StringUtils.isBlank(vo.getBranchCode())) {
             vo.setBranchCode(getCurrBranchCompleCode());
         }
+        vo.setEndTime(new DateTime(vo.getEndTime()).plusDays(1).toDate());
         List<CashFlowReportVo> exportList = tradeOrderCsrserviceService.getList(vo);
 
         String fileName = "便民服务收银流水_" + DateUtils.getCurrSmallStr();

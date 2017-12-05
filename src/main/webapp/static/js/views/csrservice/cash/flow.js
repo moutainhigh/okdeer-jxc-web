@@ -8,7 +8,7 @@ $(function () {
     $('#branchComponent').branchSelect();
 
     //开始和结束时间
-    toChangeDatetime(9);
+    toChangeDate(9);
     //初始化列表
     initCashWaterGrid();
 });
@@ -33,7 +33,7 @@ function initCashWaterGrid() {
             {field: 'branchName', title: '机构名称', width: 220, align: 'left'},
             {field: 'orderNo', title: '单据编号', width: 180, align: 'left'},
             {
-                field: 'saleTime', title: '销售时间', width: 150, align: 'left', formatter: function (saleTime) {
+                field: 'time', title: '销售时间', width: 150, align: 'left', formatter: function (saleTime) {
                 if (saleTime) {
                     var now = new Date(saleTime);
                     var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
