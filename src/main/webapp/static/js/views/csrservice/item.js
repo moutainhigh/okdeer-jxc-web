@@ -46,8 +46,9 @@ function initTreeArchives() {
             callback: {
                 onClick: zTreeOnClick,
                 beforeRemove: beforeRemove,
+                beforeRename: beforeRename,
                 // onRemove: onRemove,
-                onRename: onRename
+                // onRename: onRename
 
             }
         };
@@ -56,6 +57,8 @@ function initTreeArchives() {
         }
         $.fn.zTree.init($("#treeBranchList"), setting, data.datas);
         var treeObj = $.fn.zTree.getZTreeObj("treeBranchList");
+        treeObj.setting.edit.removeTitle = "删除";
+        treeObj.setting.edit.renameTitle = "编辑";
         var nodes = treeObj.getNodes();
         if (nodes.length > 0) {
             treeObj.expandNode(nodes[0], true, false, true);
@@ -71,7 +74,7 @@ function addHoverDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
     var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-        + "' title='add node' onfocus='this.blur();'></span>";
+        + "' title='新增' onfocus='this.blur();'></span>";
     sObj.after(addStr);
     var btn = $("#addBtn_"+treeNode.tId);
     if (btn) btn.bind("click", function(){
@@ -112,7 +115,6 @@ function beforeRemove(treeId, treeNode) {
     });
 
     return false;
-
 }
 
 function onRemove(treeId, treeNode) {
@@ -134,12 +136,42 @@ function onRemove(treeId, treeNode) {
     })
 }
 
+function beforeRename(treeId, treeNode, newName) {
+    var treeNode = treeNode;
+    var oldtxt = treeNode.text;
+    if($_jxc.isStringNull(newName)){
+        $_jxc.alert("服务类型不能为空");
+        return;
+    }
+    var param = {
+        typeName: newName
+    };
+
+    var parentNode = treeNode.getParentNode();
+
+    $_jxc.ajax({
+        url: contextPath + '/service/item/update/' + parentNode.id + '/' + treeNode.id,
+        data:param,
+    },function(result){
+        if(result.code == 0){
+            $_jxc.alert('修改成功');
+        }else{
+            var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+            treeNode.text = oldtxt;
+            zTree.updateNode(treeNode);
+            $_jxc.alert(result['message']);
+
+        }
+    })
+}
+
 function onRename(e, treeId, treeNode, isCancel) {
     var treeNode = treeNode;
     if($_jxc.isStringNull(treeNode.text)){
         $_jxc.alert("服务类型不能为空");
         return;
     }
+    var oldNodeTxt = treeNode.text
     var param = {
         typeName: treeNode.text
     };
@@ -153,7 +185,10 @@ function onRename(e, treeId, treeNode, isCancel) {
         if(result.code == 0){
             $_jxc.alert('修改成功');
         }else{
+            var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+            zTree.cancelEditName();
             $_jxc.alert(result['message']);
+
         }
     })
 }
@@ -286,7 +321,8 @@ function editHandel(id, csrserviceCode, referencePrice, remark, csrserviceName, 
 
 function addServiceItem() {
     if (selectNode == null) {
-        $_jxc.alert('请先选中服务项目，再新增!');
+        $_jxc.alert('请先选中节点，再新增.');
+        return;
     }
     if(selectNode.level == 0){
         var zTree = $.fn.zTree.getZTreeObj("treeBranchList");

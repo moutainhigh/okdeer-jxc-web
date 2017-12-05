@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script
-        src="${ctx}/static/js/views/csrservice/editServiceDialog.js?V=${versionNo}3"></script>
+        src="${ctx}/static/js/views/csrservice/editServiceDialog.js?V=${versionNo}"></script>
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
