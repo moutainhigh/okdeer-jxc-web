@@ -76,7 +76,7 @@
 				</div>
 				
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r">采购收货取采购订单价格：</div>
+					<div class="ub uw-220 ut-r">采购/直送收货取采购订单价格：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label><input type="radio" id="isAllowPiGetPaPrice0" name="isAllowPiGetPaPrice" value="0" /><span>不启用</span></label>
 					</div>

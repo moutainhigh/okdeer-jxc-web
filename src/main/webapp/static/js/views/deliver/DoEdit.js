@@ -1034,6 +1034,7 @@ function getImportData(data){
         data[i]["dealNum"]=data[i]["dealNum"]||0;
         data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["dealNum"]||0);
         data[i]["untaxedAmount"]  = parseFloat(data[i]["untaxedPrice"]||0)*parseFloat(data[i]["dealNum"]||0);
+        data[i]["taxAmount"] = data[i]["amount"]-data[i]["untaxedAmount"];
         if(parseInt(data[i]["distributionSpec"])){
         	 data[i]["largeNum"]  = (parseFloat(data[i]["dealNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
         }else{

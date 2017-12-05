@@ -116,7 +116,9 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecService;
-
+	
+    @Reference(version = "1.0.0", check = false)
+    private BranchesServiceApi branchesServiceApi;
 	/**
 	 * @Fields orderNoUtils : 订单号工具
 	 */
@@ -591,7 +593,27 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	@ResponseBody
 	public PageUtils<PurchaseFormDetailPO> getDetailList(String formId) {
 		try {
-			return purchaseFormServiceApi.selectDetail(formId);
+		    PurchaseForm form = purchaseFormServiceApi.get(formId);
+		    if (form == null ) {
+		        return PageUtils.emptyPage();
+		    }
+            String branchId = form.getBranchId();
+            Branches branch = branchesServiceApi.getBranchInfoById(branchId);
+
+            // 取分公司数据
+            if (branch.getType() > 1) {
+                branchId = branch.getParentId();
+            }
+            PageUtils<PurchaseFormDetailPO> pageDetail = PageUtils.emptyPage();
+            BranchSpecVo branchSpec = branchSpecService.queryByBranchId(branchId);
+            // 允许采购收货取采购订单价格：0.否，1.是
+            if (branchSpec.getIsAllowPiGetPaPrice().intValue() == 0) {
+                List<PurchaseFormDetailPO> list = purchaseFormServiceApi.getDetailAndPriceById(formId);
+                pageDetail = new PageUtils<>(list);
+            } else {
+                pageDetail = purchaseFormServiceApi.selectDetail(formId);
+            }
+			return pageDetail;
 		} catch (Exception e) {
 			LOG.error("获取订单详情列表异常:{}", e);
 		}
