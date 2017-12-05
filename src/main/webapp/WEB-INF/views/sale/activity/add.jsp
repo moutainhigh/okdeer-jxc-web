@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/add.js?V=${versionNo}3"></script>
+<script src="${ctx}/static/js/views/sale/activity/add.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -158,7 +158,7 @@
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount2">
 				<div class="umar-r10 uw-70 ut-r">销售金额:</div>
-					<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,max:999999.99" type="text"
+					<input class="uinp uw-300  easyui-numberbox" data-options="min:0.00,precision:2,max:999999.99" type="text"
 						   id="saleAmount" name="saleAmount">
 				</div>
 
@@ -230,13 +230,13 @@
 
 				<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
 				<div class="umar-r10 uw-70 ut-r">任选数量:</div>
-				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,max:999999,precision:0,onChange:changeN2NCount"
+				<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,max:999999,precision:0"
 				type="text" id="n2nCount">
 				</div>
 
 				<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
 				<div class="umar-r10 uw-110 ut-r">销售金额:</div>
-				<input class="uinp uw-300  easyui-numberbox" data-options="min:0.00,max:999999.99,precision:2,onChange:changeN2NSaleAmount"
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0.00,max:999999.99,precision:2"
 				type="text" id="n2nSaleAmount">
 				</div>
 

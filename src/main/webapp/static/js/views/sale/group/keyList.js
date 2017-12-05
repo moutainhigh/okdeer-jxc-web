@@ -52,6 +52,16 @@ function  initKeygrid() {
             },
             {field:'groupName',title:'分组名称',width:'85px',align:'left'},
             {field:'sortNo',title:'排序',width:'85px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return
+                    }
+                    if(value){
+                        row['sortNo'] = parseFloat(value||0);
+                    }
+
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
                 editor:{
                     type:'numberbox',
                     options:{
@@ -198,7 +208,7 @@ var cols = [
     {field:'sortNo',title:'排序',width:'100px',align:'right',
         formatter : function(value, row, index) {
             if(row.isFooter){
-                return '<b>'+parseFloat(value||0)+'</b>';
+                return ;
             }
             if(!value){
                 value = (index + 1);
@@ -286,6 +296,21 @@ function saveform() {
 
     if(!$("#branchId").val()){
         $_jxc.alert("请选择机构");
+        return;
+    }
+
+    var sortNoArr = [];
+    var  hasRepeat = false;
+    $.each(keygridHandle.getRows(),function (index,item) {
+        if($.inArray(item.sortNo, sortNoArr) == -1){
+            sortNoArr.push(item.sortNo);
+        }else{
+            hasRepeat = true;
+        }
+    })
+
+    if(hasRepeat){
+        $_jxc.alert("分组排序不能重复");
         return;
     }
 
