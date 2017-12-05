@@ -9,23 +9,6 @@
 
 package com.okdeer.jxc.controller.finance.iccard;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.branch.entity.BranchSpec;
@@ -40,6 +23,16 @@ import com.okdeer.jxc.finance.iccard.service.ICCardSettingService;
 import com.okdeer.jxc.finance.iccard.vo.ICCardAccountVo;
 import com.okdeer.jxc.finance.iccard.vo.ICCardDeviceVo;
 import com.okdeer.jxc.utils.UserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: ICcardSettingController
@@ -78,8 +71,10 @@ public class ICCardSettingController extends BaseController<Object>{
 	public RespJson save(Byte enabled, BigDecimal minAmount, String selRows){
 		List<ICCardSetting> icCardSettings =  com.alibaba.fastjson.JSON.parseArray(selRows, ICCardSetting.class);
 		boolean bool = icCardSettingService.updateBranchSpec(UserUtil.getCurrentUser().getBranchId(), enabled, minAmount,icCardSettings);
-		if(bool) return RespJson.success("一卡通设置成功!");
-		return RespJson.error("一卡通设置失败!");
+        if (bool) {
+            return RespJson.success("一卡通设置成功!");
+        }
+        return RespJson.error("一卡通设置失败!");
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -155,10 +150,16 @@ public class ICCardSettingController extends BaseController<Object>{
 	
 	@RequestMapping(value = "/save/shop", method = RequestMethod.POST)
 	public RespJson saveShop(String settingId,@RequestParam(value = "ids[]") String[] ids,@RequestParam(value = "enableds[]")byte[] enableds){
-		boolean bool = icCardSettingService.saveShop(settingId, ids, enableds,getCurrUserId());
-		if(bool) return RespJson.success("一卡通设置成功!");
-		return RespJson.error("一卡通设置失败!");
-	}
+        if (icCardSettingService.checkShopConfig(ids)) {
+            boolean bool = icCardSettingService.saveShop(settingId, ids, enableds, getCurrUserId());
+            if (bool) {
+                return RespJson.success("一卡通设置成功!");
+            }
+            return RespJson.error("一卡通设置失败!");
+        } else {
+            return RespJson.error("一个门店只能开通一种类型的一卡通!");
+        }
+    }
 	
 	@RequestMapping(value = "/get/device")
 	public PageUtils<ICCardDevice> iccardBranchDeviceList(String branchId,String settingId,
@@ -187,17 +188,19 @@ public class ICCardSettingController extends BaseController<Object>{
 		ICCardDeviceVo vo = FastJsonUtils.parseObject(jsonText, ICCardDeviceVo.class);
 		
 		boolean bool = icCardSettingService.savePos(vo.getBranchId(),vo.getSettingId(), vo.getPosList(), getCurrUserId());
-		if (bool)
-			return RespJson.success("设备设置成功!");
-		return RespJson.error("设备设置失败!");
+        if (bool) {
+            return RespJson.success("设备设置成功!");
+        }
+        return RespJson.error("设备设置失败!");
 	}
 	
 	@RequestMapping(value = "/judge/branch", method = RequestMethod.POST)
 	public RespJson judgeBranch(String branchId, String settingId) {
 		boolean bool = icCardSettingService.isExistICCardSettingBranch(branchId, settingId);
-		if (bool)
-			return RespJson.success();
-		return RespJson.error();
+        if (bool) {
+            return RespJson.success();
+        }
+        return RespJson.error();
 	}
 	
 	@RequestMapping(value = "addIcCardType", method = RequestMethod.GET)
