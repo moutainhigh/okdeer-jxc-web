@@ -3403,6 +3403,30 @@ function saveActivity(){
 	  saveDataHandel(tjRows,setRows);
   }
   else if(activityType==="11"){
+      var n2zCount = $("#dvn2nCount #n2nCount").numberbox("getValue").trim();
+      var n2nSaleAmount = $("#dvn2nSaleAmount #n2nSaleAmount").numberbox("getValue").trim();
+      if(!n2zCount){
+          $_jxc.alert("<任选数量>不能为空");
+          return;
+      }
+
+      if(parseFloat(n2zCount) <= 0){
+          $_jxc.alert("<任选数量>不能为0");
+          return;
+      }
+
+      if(!n2nSaleAmount){
+          $_jxc.alert("<销售金额>不能为空");
+          return;
+      }
+
+      if(parseFloat(n2nSaleAmount).toFixed(2) <= 0.00){
+          $_jxc.alert("<销售金额>不能为0");
+          return;
+      }
+
+
+
       //保存结束编辑
       $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
       var rows= gridHandel.getRows();
@@ -3437,6 +3461,17 @@ function saveActivity(){
 
   }
   else if(activityType==="12"){
+      var n2nSaleAmount = $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox("getValue").trim();
+      if(!n2nSaleAmount){
+          $_jxc.alert("<销售金额>不能为空");
+          return;
+      }
+
+      if(parseFloat(n2nSaleAmount).toFixed(2) <= 0.00){
+          $_jxc.alert("<销售金额>不能为0");
+          return;
+      }
+
       //保存结束编辑
       $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
       var rows= gridHandel.getRows();

@@ -97,19 +97,6 @@ function changeOddprice(newV,oldV){
 	}
 }
 
-function changeN2NCount(newV,oldV){
-    if(newV && newV>0){
-        specialRows('discount',newV);
-    }
-}
-
-function changeN2NSaleAmount(newV,oldV){
-    if(newV && newV>0){
-        specialRows('discount',newV);
-    }
-}
-
-
 // select 选择切换
 var gVarLastActivityType = "1";
 var gVarAutoSelect = false;
@@ -3422,16 +3409,27 @@ function saveActivity(){
   }
 
   else if(activityType=="11"){
-      if(!$("#dvn2nCount #n2nCount").numberbox("getValue").trim()){
+	  var n2zCount = $("#dvn2nCount #n2nCount").numberbox("getValue").trim();
+	  var n2nSaleAmount = $("#dvn2nSaleAmount #n2nSaleAmount").numberbox("getValue").trim();
+      if(!n2zCount){
           $_jxc.alert("<任选数量>不能为空");
           return;
       }
 
-      if(!$("#dvn2nSaleAmount #n2nSaleAmount").numberbox("getValue").trim()){
+      if(parseFloat(n2zCount) <= 0){
+          $_jxc.alert("<任选数量>不能为0");
+          return;
+      }
+
+      if(!n2nSaleAmount){
           $_jxc.alert("<销售金额>不能为空");
           return;
       }
 
+      if(parseFloat(n2nSaleAmount).toFixed(2) <= 0.00){
+          $_jxc.alert("<销售金额>不能为0");
+          return;
+      }
 
       //  类别(1)  商品(0)
       var n2nType = $("input[name='n2nstatus']:checked").val();
@@ -3460,6 +3458,18 @@ function saveActivity(){
   }
 
   else if(activityType=="12"){
+
+      var n2nSaleAmount = $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox("getValue").trim();
+      if(n2nSaleAmount){
+          $_jxc.alert("<销售金额>不能为空");
+          return;
+      }
+
+      if(parseFloat(n2nSaleAmount).toFixed(2) <= 0.00){
+          $_jxc.alert("<销售金额>不能为0");
+          return;
+      }
+
       for(var i=0;i<rows.length;i++){
           var v = rows[i];
           if(!v["skuCode"]){
