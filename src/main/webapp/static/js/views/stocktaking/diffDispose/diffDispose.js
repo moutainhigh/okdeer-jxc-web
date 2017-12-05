@@ -342,7 +342,7 @@ function initOperateDataGrid(url){
     }
 
     if(hasCostPrice==false){
-        priceGrantUtil.grantCostPrice(gridName,["snapshootCostPrice","costAmount","stocktakingCostAmount","profitLossCostAmount"])
+        priceGrantUtil.grantCostPrice(gridName,["snapshootCostPrice","costAmount","stocktakingCostAmount","profitLossCostAmount","untaxedCostAmount","untaxedStocktakingCostAmount","untaxedProfitLossCostAmount"])
     }
 }
 
@@ -382,7 +382,7 @@ function reasonChange(newVal,oldVal){
 function updateFooter(){
     var fields = {snapshootStockNum:0,stocktakingNum:0,profitLossNum:0,
         snapshootCostPrice:0,costAmount:0,
-        stocktakingCostAmount:0,profitLossCostAmount:0,profitLossSaleAmount:0,isGift:0, };
+        stocktakingCostAmount:0,profitLossCostAmount:0,profitLossSaleAmount:0,isGift:0,untaxedCostAmount:0,untaxedStocktakingCostAmount:0,untaxedProfitLossCostAmount:0};
     var argWhere = {name:'isGift',value:0}
     gridHandel.updateFooter(fields,argWhere);
 }
