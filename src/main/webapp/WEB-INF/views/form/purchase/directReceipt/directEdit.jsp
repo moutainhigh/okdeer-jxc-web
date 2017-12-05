@@ -60,6 +60,7 @@
 		<form id="addqueryForm" action="" method="post">
 			<input type="hidden" id="formId" value="${form.id}">
 			<input type="hidden" id="formNo" value="${form.formNo}">
+			<input type='hidden' id="taxRate" name="taxRate" value="${form.taxRate}">
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
