@@ -97,6 +97,19 @@ function changeOddprice(newV,oldV){
 	}
 }
 
+function changeN2NCount(newV,oldV){
+    if(newV && newV>0){
+        specialRows('discount',newV);
+    }
+}
+
+function changeN2NSaleAmount(newV,oldV){
+    if(newV && newV>0){
+        specialRows('discount',newV);
+    }
+}
+
+
 // select 选择切换
 var gVarLastActivityType = "1";
 var gVarAutoSelect = false;
@@ -633,6 +646,8 @@ function selectOptionN2N() {
     $('.n2nTypechoose').removeClass('unhide');
 
     $(".importGood").addClass('unhide');//不能进行商品选择
+	// 禁止按钮点击事件
+    disableGoods('SelectGoods','');
     initDatagridsortN2N();
     $('#sortN2N').prop('checked',true);
     $('#activityScopen2n').val('1');
@@ -3407,6 +3422,17 @@ function saveActivity(){
   }
 
   else if(activityType=="11"){
+      if(!$("#dvn2nCount #n2nCount").numberbox("getValue").trim()){
+          $_jxc.alert("<任选数量>不能为空");
+          return;
+      }
+
+      if(!$("#dvn2nSaleAmount #n2nSaleAmount").numberbox("getValue").trim()){
+          $_jxc.alert("<销售金额>不能为空");
+          return;
+      }
+
+
       //  类别(1)  商品(0)
       var n2nType = $("input[name='n2nstatus']:checked").val();
       if(n2nType === "0"){

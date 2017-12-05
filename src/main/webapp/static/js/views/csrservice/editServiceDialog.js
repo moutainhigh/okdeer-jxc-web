@@ -44,6 +44,11 @@ function saveServiceCode() {
         return;
     }
 
+    if(parseFloat($("#referencePrice").val()).toFixed(2) == 0.00){
+        $_jxc.alert("单价不能为0");
+        return;
+    }
+
     var addUrl = contextPath + '/service/item/save/csrservice';
     var updateUrl = contextPath + '/service/item/edit/csrservice';
 
