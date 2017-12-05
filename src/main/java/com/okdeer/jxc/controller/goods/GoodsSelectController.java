@@ -268,6 +268,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				}
             }
             vo.setBranchIds(new ArrayList<>(branchIdList));
+            //PL仅查询商品供应商关系商品
+            vo.setSupplier(false);
             sw.start("采购促销单-查询采购商品");
             suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
             sw.stop();
