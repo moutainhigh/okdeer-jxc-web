@@ -3990,8 +3990,8 @@ function toImportproduct(type){
     var activityType=$("#activityType").combobox('getValue');
     
     //只支持特价、折扣、偶数特价类型的活动
-    if(activityType!=='1' && activityType!=='2' && activityType!=='3'){
-    	 $_jxc.alert("只支持特价、折扣、偶数特价类型的活动");
+    if(activityType!=='1' && activityType!=='2' && activityType!=='3'&& activityType!=='12'){
+    	 $_jxc.alert("只支持特价，偶数特价，特价打包类型的活动");
          return;
     }
     
