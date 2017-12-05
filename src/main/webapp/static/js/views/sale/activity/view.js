@@ -402,7 +402,7 @@ function initDatagridGoodsN2N() {
 
 function selectOptionSpecialPackage(param){
     $("#dvn2nSaleAmount2").removeClass("unhide");
-    $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#dvn2nSaleAmount2 #saleAmount").numberbox('setValue', param.maxDiscountAmount);
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }

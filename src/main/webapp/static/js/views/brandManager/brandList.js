@@ -26,6 +26,7 @@ function initDataGrid() {
         showFooter:true,
         pageSize : pageSize,
         height:'100%',
+        fit:true,
         columns: [[
             {field:'check',checkbox:true},
             {field:'id',hidden:true},

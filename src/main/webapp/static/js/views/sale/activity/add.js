@@ -690,6 +690,7 @@ function selectOptionN2N() {
 //特价打包
 function selectOptionSpecialPackage () {
 	optionHide();
+    $(".importGood").removeClass('unhide');
 	$('#dvn2nSaleAmount2').removeClass('unhide');
     initDatagridGoodsSpecialPackage();
 }
@@ -3459,8 +3460,8 @@ function saveActivity(){
 
   else if(activityType=="12"){
 
-      var n2nSaleAmount = $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox("getValue").trim();
-      if(n2nSaleAmount){
+      var n2nSaleAmount = $("#dvn2nSaleAmount2 #saleAmount").numberbox("getValue").trim();
+      if(!n2nSaleAmount){
           $_jxc.alert("<销售金额>不能为空");
           return;
       }

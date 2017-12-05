@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
