@@ -541,6 +541,7 @@ function initDatagridGoodsN2N() {
 function selectOptionSpecialPackage(param){
     $("#dvn2nSaleAmount2").removeClass("unhide");
     $("#saleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $(".importGood").removeClass('unhide');
     initDatagridGoodsSpecialPackage();
     initmangeDatagrid(param.activityId);
 }
@@ -3461,7 +3462,7 @@ function saveActivity(){
 
   }
   else if(activityType==="12"){
-      var n2nSaleAmount = $("#dvn2nSaleAmount2 #n2nSaleAmount").numberbox("getValue").trim();
+      var n2nSaleAmount = $("#dvn2nSaleAmount2 #saleAmount").numberbox("getValue").trim();
       if(!n2nSaleAmount){
           $_jxc.alert("<销售金额>不能为空");
           return;

@@ -32,6 +32,7 @@ $(function () {
         $("#chargeMonth").val(month);
     }else if(chargeStatus === "check"){
         $('#already-examine').css('display','block');
+        $("#remark").prop("disabled","disabled");
         isdisabled = true;
         url = contextPath + "/finance/inputTaxAuth/getDetailList";
         var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
@@ -137,6 +138,7 @@ function initGridStoreCharge() {
                     type:'textbox',
                     options:{
                         validType:{maxLength:[20]},
+                        disabled:isdisabled,
                     }
                 }
             },
