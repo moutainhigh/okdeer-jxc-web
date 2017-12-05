@@ -750,14 +750,22 @@ function updateListData(data){
     //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     $.each(data,function(i,val){
     	data[i]["remark"] = "";
-        data[i]["realNum"]=data[i]["realNum"]||0;
-        data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
-        data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
-        var untaxedPrice = parseFloat((data[i]["purchasePrice"]||0)/(1+taxRate)).toFixed(4)
-        data[i]["untaxedAmount"]  = untaxedPrice*parseFloat(data[i]["realNum"]||0);
-        data[i]["taxRate"] = taxRate;
-        data[i]["untaxedPrice"] = untaxedPrice;
-        data[i]["taxAmount"] = data[i]["amount"]-data[i]["untaxedAmount"];
+    	data[i]["realNum"]=data[i]["realNum"]||0;
+    	data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
+    	data[i]["taxRate"] = taxRate;
+    	if(data[i]["isGift"] =="1"){
+    		data[i]["priceBack"] = data[i]["purchasePrice"];
+        	data[i]["amount"]  = 0;
+        	data[i]["purchasePrice"]  = 0;
+        	data[i]["untaxedAmount"]  = 0;
+        	data[i]["untaxedPrice"] = 0;
+        }else{
+        	data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
+        	var untaxedPrice = parseFloat((data[i]["purchasePrice"]||0)/(1+taxRate)).toFixed(4)
+        	data[i]["untaxedAmount"]  = untaxedPrice*parseFloat(data[i]["realNum"]||0);
+        	data[i]["untaxedPrice"] = untaxedPrice;
+        }
+    	data[i]["taxAmount"] = data[i]["amount"]-data[i]["untaxedAmount"];
     });
     var keyNames = {
         id:'skuId',
