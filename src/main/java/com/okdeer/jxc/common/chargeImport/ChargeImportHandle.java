@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.common.chargeImport;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import net.sf.json.JsonConfig;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.utils.StringUtils;
 
 /**
@@ -43,11 +45,13 @@ public class ChargeImportHandle {
 	List<String> excelSuccessChargeCode = null;
 
 	ChargeImportBusinessValid businessValid = null;
+	
+	String costTypeCode = null;
 
 	// 临时存储数据
 	List<JSONObject> tempExcelListSuccessData = new ArrayList<JSONObject>();
 
-	public ChargeImportHandle(List<JSONObject> excelList, String[] excelField, ChargeImportBusinessValid businessValid) {
+	public ChargeImportHandle(List<JSONObject> excelList, String[] excelField, ChargeImportBusinessValid businessValid, String code) {
 		// 不需要判断货号条码模板，直接去除第一行标题行
 		if (!CollectionUtils.isEmpty(excelList)) {
 			excelList.remove(0);
@@ -55,6 +59,7 @@ public class ChargeImportHandle {
 
 		this.excelListFullData = excelList;
 		this.businessValid = businessValid;
+		this.costTypeCode = code;
 
 		checkChargeCodeIsNullAndRepeat();
 
@@ -144,15 +149,16 @@ public class ChargeImportHandle {
 
 			// 费用金额
 			String amount = "";
+			String amountKey = "amount";
 
-			if (obj.containsKey("amount")) {
+			if (obj.containsKey(amountKey)) {
 
-				amount = obj.getString("amount");
+				amount = obj.getString(amountKey);
 				if (StringUtils.isBlank(amount)) {
 					obj.element("error", "费用金额为空");
 					continue;
 				} else {
-					obj.put("amount", amount.trim());
+					obj.put(amountKey, amount.trim());
 				}
 
 			} else {
@@ -170,7 +176,7 @@ public class ChargeImportHandle {
 				}
 			}
 
-			boolean amountFlg = checkRequiredCommonPrice(obj, "amount", "费用金额只能为数字", "费用金额为空", "费用金额需大于0,小于9999999999");
+			boolean amountFlg = checkRequiredCommonPrice(obj, amountKey);
 			if (!amountFlg) {
 				continue;
 			}
@@ -193,28 +199,50 @@ public class ChargeImportHandle {
 	 * @author zhongy
 	 * @date 2017年2月24日
 	 */
-	private boolean checkRequiredCommonPrice(JSONObject obj, String colkey, String msg1, String msg2, String msg3) {
+	private boolean checkRequiredCommonPrice(JSONObject obj, String colkey) {
 		boolean colFlag = obj.containsKey(colkey);
 		if (colFlag) {
-			String price = obj.getString(colkey);
-			if (StringUtils.isBlank(price)) {
-				obj.element("error", msg2);
+			String priceStr = obj.getString(colkey);
+			if (StringUtils.isBlank(priceStr)) {
+				obj.element("error", "金额不能为空");
 				return false;
 			} else {
 				try {
-					Double.parseDouble(price);
-					if (price.compareTo("0.00") == 0 || price.compareTo("0.00") < 0
-							|| price.compareTo("9999999999") > 0) {
-						obj.element("error", msg3);
+					Double.parseDouble(priceStr);
+					
+					BigDecimal price = new BigDecimal(priceStr);
+					
+					if(price.compareTo(BigDecimal.ZERO) == 0){
+						obj.element("error", "金额不能为0");
 						return false;
 					}
+					
+					// 进项税额可以为负数
+					if(!SysConstant.DICT_TYPE_INPUT_TAX_AUTH_CODE.equals(costTypeCode) && price.compareTo(BigDecimal.ZERO) < 0){
+						obj.element("error", "金额必须大于0");
+						return false;
+					}
+					
+					
+					// 最大值 999999
+					if(price.compareTo(BigDecimal.valueOf(999999)) > 0){
+						obj.element("error", "金额不能大于 999999");
+						return false;
+					}
+					
+					// 最小值 -999999
+					if(SysConstant.DICT_TYPE_INPUT_TAX_AUTH_CODE.equals(costTypeCode) && price.compareTo(BigDecimal.valueOf(-999999)) < 0){
+						obj.element("error", "金额不能小于 -999999");
+						return false;
+					}
+					
 				} catch (Exception e) {
-					obj.element("error", msg1);
+					obj.element("error", "金额只能为数字");
 					return false;
 				}
 			}
 		} else {
-			obj.element("error", msg2);
+			obj.element("error", "费用金额为空");
 			return false;
 		}
 		return true;

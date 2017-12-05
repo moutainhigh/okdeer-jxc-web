@@ -178,7 +178,7 @@ function initGoodsSaleSummaryAnalysisGrid(columns,frozenColumns) {
 		rownumbers : true,
 		pagination : true,
 		fitColumns : false,
-		showFooter : true,
+		showFooter : false,
 		pageSize : 50,
 		height : '100%',
 		width : '100%',
