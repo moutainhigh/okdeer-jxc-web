@@ -69,12 +69,12 @@
 					<div class="umar-r10 uw-70 ut-r">报表类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem tabKey" type="radio" name="reportType" value="default" checked="checked" /><span>开票申请统计</span>
+						<input class="radioItem tabKey" type="radio" name="tabKey" value="default" checked="checked" /><span>开票申请统计</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem tabKey" type="radio" name="reportType" value="refund" /><span>已开票退货统计</span>
+						<input class="radioItem tabKey" type="radio" name="tabKey" value="refund" /><span>已开票退货统计</span>
 						</label>
 					</div>
 				</div>
@@ -82,9 +82,9 @@
 				<div class="ub ub-ac  uw-300  umar-l20">
 				<div class="umar-r10 uw-70 ut-r">抬头类型:</div>
 					<select class="easyui-combobox uselectws" style="width:220px;" name="titleType" id="titleType" data-options="editable:false">
-					<option value="1">全部</option>
-					<option value="2">企业抬头</option>
-					<option value="8">个人/非企业单位抬头</option>
+					<option value="">全部</option>
+					<option value="0">企业抬头</option>
+					<option value="1">个人/非企业单位抬头</option>
 					</select>
 				</div>
 
@@ -92,17 +92,17 @@
 					<div class="umar-r10 uw-70 ut-r">处理状态:</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="disposeStatus"  value="0" checked="checked" /><span>全部</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="" /><span>全部</span>
 					</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="disposeStatus"  value="1" /><span>未处理</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="0" checked="checked" /><span>未处理</span>
 					</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<label>
-					<input class="radioItem tabKey" type="radio" name="disposeStatus"  value="2" /><span>已处理</span>
+					<input class="radioItem" type="radio" name="processStatus"  value="1" /><span>已处理</span>
 					</label>
 					</div>
 					</div>
