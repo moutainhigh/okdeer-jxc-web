@@ -757,6 +757,7 @@ function updateListData(data){
         data[i]["untaxedAmount"]  = untaxedPrice*parseFloat(data[i]["realNum"]||0);
         data[i]["taxRate"] = taxRate;
         data[i]["untaxedPrice"] = untaxedPrice;
+        data[i]["taxAmount"] = data[i]["amount"]-data[i]["untaxedAmount"];
     });
     var keyNames = {
         id:'skuId',
