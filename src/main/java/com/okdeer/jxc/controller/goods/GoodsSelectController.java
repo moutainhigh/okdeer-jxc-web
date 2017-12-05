@@ -41,6 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -167,7 +168,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					|| FormType.DR.name().equals(vo.getFormType()) || FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
-			LOG.info("商品查询参数:{}" + vo.toString());
+			LOG.info("商品查询参数:{}", vo);
+			StopWatch sw = new StopWatch();
 			// 要货单商品资料查询、价格查询
 			if (FormType.DA.name().equals(vo.getFormType()) || FormType.DD.name().equals(vo.getFormType())
 					|| FormType.DY.name().equals(vo.getFormType())) {
@@ -198,7 +200,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				}
 				if (StringUtils.isNotBlank(vo.getSupplierId())) {
 					// 根据机构id判断查询采购商品
+				    sw.start("查询采购商品");
 					suppliers = queryPurchaseGoods(vo);
+					sw.stop();
 				} else {
 					suppliers = goodsSelectServiceApi.queryLists(vo);
                     if (FormType.PA.name().equals(vo.getFormType())) {
@@ -232,7 +236,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				suppliers = goodsSelectServiceApi.queryLists(vo);
 			}
 			// 用查询条件的国际码替换主条码
+			sw.start("用查询条件的国际码替换主条码");
 			replaceBarCode(suppliers, vo);
+			sw.stop();
+			LOG.info("查询商品选择 times:{}", sw.prettyPrint());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
@@ -242,30 +249,30 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 	// 根据机构id判断查询采购商品
 	private PageUtils<GoodsSelect> queryPurchaseGoods(GoodsSelectVo vo) throws ServiceException {
+	    StopWatch sw = new StopWatch();
         PageUtils<GoodsSelect> suppliers;
         if (FormType.PL.name().equals(vo.getFormType())) {//采购促销单
             List<String> branchIds = vo.getBranchIds();
-            String[] branchNames = StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchName(), ",");
+            String[] branchCodes = StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchCode(), ",");
 
-            List<String> branchIdList = Lists.newArrayList();
-            List<String> branchList = Lists.newArrayList();
+            Set<String> branchIdList = new HashSet<>();
 
-            for (int i = 0, length = branchNames.length; i < length; ++i) {
-                if (StringUtils.isNotBlank(branchNames[i]) && branchNames[i].contains("所有")) {
+            for (int i = 0, length = branchCodes.length; i < length; ++i) {
+                branchIdList.add(branchIds.get(i));
+                if (StringUtils.isNotBlank(branchCodes[i]) && branchCodes[i].endsWith("-001")) {
+                    // 分公司所有
                     List<Branches> queryBranchIds = branchesService.queryChildById(branchIds.get(i));
 					for (Branches branches : queryBranchIds) {
 						branchIdList.add(branches.getBranchesId());
 					}
-				} else {
-					branchList.add(branchIds.get(i));
-                }
+				}
             }
-
-
-			vo.setBranchIdStrs(Joiner.on(",").join(branchList));
-            vo.setBranchIds(branchIdList);
+            vo.setBranchIds(new ArrayList<>(branchIdList));
+            //PL仅查询商品供应商关系商品
+            vo.setSupplier(false);
+            sw.start("采购促销单-查询采购商品");
             suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-
+            sw.stop();
         } else {
             // 1、查询选择机构
             String branchId = vo.getBranchId();
@@ -285,7 +292,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                 vo.setParentId(branchId);
             }
 			vo.setSupplier(StringUtils.isBlank(supplierId));
+			sw.start("其他-查询采购商品");
 			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+			sw.stop();
+			sw.start("其他-查询采购商品-数据处理");
             List<GoodsSelect> goodsSelects = suppliers.getList();
             List<String> skus = Lists.newArrayList();
 
@@ -310,10 +320,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                 }
             }
             suppliers.setList(goodsSelects);
+            sw.stop();
         }
 
 		// 用查询条件的国际码替换主条码
-		replaceBarCode(suppliers, vo);
+		/**replaceBarCode(suppliers, vo);*/
+        LOG.info("查询采购商品-times:{}", sw.prettyPrint());
 		return suppliers;
 	}
 
