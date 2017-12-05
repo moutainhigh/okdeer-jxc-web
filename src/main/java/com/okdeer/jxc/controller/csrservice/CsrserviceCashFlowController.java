@@ -20,8 +20,8 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.csrservice.service.CsrserviceTypeService;
 import com.okdeer.jxc.csrservice.vo.CsrserviceTypeVo;
-import com.okdeer.jxc.report.qo.CashFlowReportQo;
 import com.okdeer.jxc.report.vo.CashFlowReportVo;
+import com.okdeer.jxc.report.vo.CsrserviceCashFlowVo;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,7 +80,7 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public PageUtils<CashFlowReportVo> getReportList(CashFlowReportQo vo,
+    public PageUtils<CashFlowReportVo> getReportList(CsrserviceCashFlowVo vo,
                                                      @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                      @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 
@@ -102,7 +102,7 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
 
 
     @RequestMapping(value = "/export/list", method = RequestMethod.POST)
-    public RespJson exportList(HttpServletResponse response, CashFlowReportQo vo) {
+    public RespJson exportList(HttpServletResponse response, CsrserviceCashFlowVo vo) {
         RespJson resp = RespJson.success();
         if (StringUtils.isBlank(vo.getBranchCode())) {
             vo.setBranchCode(getCurrBranchCompleCode());
