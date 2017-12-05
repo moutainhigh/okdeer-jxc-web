@@ -448,8 +448,6 @@ function toImportStoreCharge(){
 
 function setChargeList(data){
 	
-	console.log(data);
-	
 	$("#"+gridName).datagrid("loadData",data);
 	  
 //	$.each(result.data,function(j,obj){

@@ -275,7 +275,7 @@ public class InputTaxAuthController extends BaseController<InputTaxAuthControlle
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "进项税额认证");
-			param.put("header", "支出");
+			param.put("header", "费用");
 			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();

@@ -62,7 +62,7 @@ public class ChargeImportComponent {
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 
 		// 2、校验导入数据
-		ChargeImportHandle chargeImportHandle = new ChargeImportHandle(excelList, fields, businessValid);
+		ChargeImportHandle chargeImportHandle = new ChargeImportHandle(excelList, fields, businessValid, code);
 
 		// 3 获取到excel导入成功数据
 		handelExcelSuccessData(chargeImportHandle,code);
