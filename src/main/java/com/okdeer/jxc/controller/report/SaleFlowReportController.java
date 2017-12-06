@@ -133,10 +133,10 @@ public class SaleFlowReportController extends AbstractSimpleGpeController<SaleFl
 	 * @return
 	 * @author dongh
 	 * @date 2016年8月25日
-	 */
+	 *//*
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, SaleFlowReportQo qo) {
+	public RespJson exportList2(HttpServletResponse response, SaleFlowReportQo qo) {
 
 		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
@@ -196,7 +196,7 @@ public class SaleFlowReportController extends AbstractSimpleGpeController<SaleFl
 			return json;
 		}
 		return null;
-	}
+	}*/
 	private SaleFlowReportQo getDefultParmas(SaleFlowReportQo qo) {
 		if (qo.getEndTime() != null) {
 			// qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
