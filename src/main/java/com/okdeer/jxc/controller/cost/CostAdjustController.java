@@ -33,6 +33,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -401,9 +402,9 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			String[] field = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "newCostPrice" };
+				field = new String[] { "skuCode", "newCostPrice", "untaxedNewPrice" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-				field = new String[] { "barCode", "newCostPrice" };
+				field = new String[] { "barCode", "newCostPrice", "untaxedNewPrice" };
 			}
 
 			Map<String,String> map = new HashMap<String,String>();
@@ -428,14 +429,24 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
 								BigDecimal newCostprice = obj.getNewCostPrice();
 								BigDecimal diffMoney = obj.getDiffMoney();
+								BigDecimal actual = StringUtils.isNotEmpty(obj.getActual()) ? new BigDecimal(obj.getActual()) : BigDecimal.ZERO;
 								if (newCostprice == null) {
 									obj.setNewCostPrice(obj.getCostPrice());
 								}
 								if(diffMoney == null){
-									BigDecimal costPrice = obj.getCostPrice() != null ? obj.getCostPrice() : new BigDecimal(0);
-									BigDecimal actual = StringUtils.isNotEmpty(obj.getActual()) ? new BigDecimal(obj.getActual()) : new BigDecimal(0);
+									BigDecimal costPrice = obj.getCostPrice() != null ? obj.getCostPrice() : BigDecimal.ZERO;
 									BigDecimal tempBig = newCostprice.subtract(costPrice).multiply(actual);
-									obj.setDiffMoney(tempBig);
+									obj.setDiffMoney(BigDecimalUtils.formatDecimal(tempBig, 4));
+								}
+								BigDecimal untaxedNewPrice = obj.getUntaxedNewPrice();
+								BigDecimal untaxedDiffMoney = obj.getUntaxedDiffMoney();
+								if (untaxedNewPrice == null) {
+								    obj.setUntaxedNewPrice(obj.getUntaxedCostPrice());
+								}
+								if(untaxedDiffMoney == null){
+								    BigDecimal untaxedCostPrice = obj.getUntaxedCostPrice() != null ? obj.getUntaxedCostPrice() : BigDecimal.ZERO;
+								    BigDecimal tempBig = untaxedNewPrice.subtract(untaxedCostPrice).multiply(actual);
+								    obj.setUntaxedDiffMoney(BigDecimalUtils.formatDecimal(tempBig, 4));
 								}
 							}
 						}
@@ -479,10 +490,10 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 		String[] columns = null;
 
 		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-			columns = new String[] { "skuCode", "newCostPrice" };
+			columns = new String[] { "skuCode", "newCostPrice" , "untaxedNewPrice" };
 			headers = new String[] { "货号", "新价" };
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-			columns = new String[] { "barCode", "newCostPrice" };
+			columns = new String[] { "barCode", "newCostPrice", "untaxedNewPrice"  };
 			headers = new String[] { "条码", "新价" };
 		}
 
