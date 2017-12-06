@@ -322,6 +322,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				formDetail.setUpdateTime(now);
 				formDetail.setUpdateUserId(user.getId());
 				formDetail.setDisabled(0);
+                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+                formDetail.setZeroAmount(formDetail.getRealNum());
 				list.add(formDetail);
 			}
 
@@ -567,6 +569,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				purchaseFormDetail.setUpdateTime(now);
 				purchaseFormDetail.setUpdateUserId(user.getId());
 				purchaseFormDetail.setDisabled(0);
+                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+                purchaseFormDetail.setZeroAmount(purchaseFormDetail.getRealNum());
 				list.add(purchaseFormDetail);
 			}
 
