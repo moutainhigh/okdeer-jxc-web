@@ -609,6 +609,7 @@ function onSelectIsGift(data){
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
             $(untaxedPrice).numberbox('setValue',0);;//不含税单价
+            gridHandel.setFieldsData({untaxedPrice:0});//单价
             gridHandel.setFieldValue('untaxedAmount',0);//不含税额
         }else{
         	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
