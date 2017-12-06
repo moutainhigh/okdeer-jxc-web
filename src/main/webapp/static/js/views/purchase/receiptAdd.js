@@ -886,6 +886,8 @@ function selectPurchaseForm(){
         //供应商
         $("#supplierId").val(data.form.supplierId);
         $("#supplierName").val(data.form.supplierName);
+        $("#taxRate").val(data.form.taxRate);
+        taxRate = data.form.taxRate;
         //经营方式
         $("#saleWay").val(data.form.saleWay);
         $("#saleWayName").val(data.form.saleWayName);

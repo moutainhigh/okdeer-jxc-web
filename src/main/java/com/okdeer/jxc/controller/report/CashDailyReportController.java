@@ -174,16 +174,19 @@ public class CashDailyReportController extends AbstractMutilGpeController<CashDa
 
 	@Override
 	protected EasyUIPageInfo<?> queryListPage(CashDailyReportQo qo) {
+		buildDefaultParams(qo);
 		return cashDailyReportService.queryPageList(qo);
 	}
 
 	@Override
 	protected Object queryTotal(CashDailyReportQo qo) {
+		buildDefaultParams(qo);
 		return cashDailyReportService.queryCashDailyReportSum(qo);
 	}
 
 	@Override
 	protected List<?> queryList(CashDailyReportQo qo) {
+		buildDefaultParams(qo);
 		return cashDailyReportService.queryList(qo);
 	}
 }

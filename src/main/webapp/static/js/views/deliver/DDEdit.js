@@ -816,6 +816,7 @@ function updateListData(data){
          rows[i].remark = "";
          rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
          rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
+         rows[i]["taxAmount"] = rows[i]["amount"]-rows[i]["untaxedAmount"];
          if(parseInt(rows[i]["distributionSpec"])){
              rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{
