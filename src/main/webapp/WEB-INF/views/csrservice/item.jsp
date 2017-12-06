@@ -9,7 +9,7 @@
 
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
     <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-    <script src="${ctx}/static/js/views/csrservice/item.js?V=${versionNo}1"></script>
+    <script src="${ctx}/static/js/views/csrservice/item.js?V=${versionNo}2"></script>
     <style type="text/css">
     .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
     </style>

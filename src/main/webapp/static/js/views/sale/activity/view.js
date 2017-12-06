@@ -246,7 +246,7 @@ function selectOptionMj(param){
 function selectOptionN2N(param){
     $('#dvn2nCount').removeClass('unhide');
     $('#dvn2nSaleAmount').removeClass('unhide');
-    $("#dvn2nSaleAmount #n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
+    $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
     //初始化
     // $("input[name='n2nstatus'][value='"+param.activityScopeN2N+"']").prop('checked',true);

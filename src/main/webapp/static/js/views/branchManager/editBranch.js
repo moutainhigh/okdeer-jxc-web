@@ -347,12 +347,12 @@ function delLineHandel(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     var gridName = $(event.target).attr('data-gridName');
-    if(index === "0"){
-        $("#"+gridName).datagrid("endEdit", index);
-        $("#"+gridName).datagrid("deleteRow",index);
-        $("#"+gridName).datagrid("loadData",[gridDefault]);
-        return;
-    }
+    // if(index === "0"){
+    //     $("#"+gridName).datagrid("endEdit", index);
+    //     $("#"+gridName).datagrid("deleteRow",index);
+    //     // $("#"+gridName).datagrid("loadData",[gridDefault]);
+    //     return;
+    // }
     if(gridName === "gridFitmentCost"){
         gridFitmentCostHandel.delRow(index);
     }else if(gridName === "gridEquipmentCost"){

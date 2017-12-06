@@ -297,6 +297,10 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 	public List<StockCostFormDetail> queryCostFormDetailList(String id) {
 		try {
 			List<StockCostFormDetail> list = stockCostFormServiceApi.queryCostFormDetailList(id);
+			for (StockCostFormDetail stockCostFormDetail : list) {
+			    stockCostFormDetail.setCostPriceBack(stockCostFormDetail.getCostPrice());
+			    stockCostFormDetail.setUntaxedNewPriceBack(stockCostFormDetail.getUntaxedNewPrice());
+            }
 			return list;
 		} catch (RuntimeException e) {
 			LOG.error("查看成本调整单明细！:{}", e);

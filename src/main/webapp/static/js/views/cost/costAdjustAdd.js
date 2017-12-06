@@ -109,6 +109,7 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
+            {field:'costPriceBack',title:'新价',hidden:true},
             {field:'costPrice',title:'新价',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -147,6 +148,7 @@ function initDatagridAddRequireOrder(){
             		}
             	},
             },
+            {field:'untaxedNewPriceBack',title:'不含税新价',hidden:true},
             {field:'untaxedNewPrice',title:'不含税新价',width:'80px',align:'right',
             	formatter:function(value,row,index){
             		if(row.isFooter){
@@ -430,6 +432,9 @@ function addsaveOrder(){
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
+        if(parseFloat(v["untaxedNewPrice"])<=0){
+        	isChcekPrice = true;
+        }
     });
 
     //验证备注的长度 20个字符
@@ -492,6 +497,8 @@ function saveDataHandel(rows){
             untaxedPrice:data.untaxedPrice,
             untaxedNewPrice:data.untaxedNewPrice,
             untaxedDiffMoney:data.untaxedDiffMoney,
+            costPriceBack:data.costPriceBack,
+            untaxedNewPriceBack:data.untaxedNewPriceBack,
             diffMoney:data.diffMoney,
             remark : data.remark,
             skuCode : data.skuCode,
