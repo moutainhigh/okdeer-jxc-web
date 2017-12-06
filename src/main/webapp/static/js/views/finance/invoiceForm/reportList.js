@@ -110,7 +110,8 @@ function processForm() {
         url :contextPath+"/finance/invoiceFormReport/processForm",
         type:"POST",
         data:{
-        	formIds:formIds
+            formIds: formIds,
+            tabKey: tabKey
         }
     }
 
