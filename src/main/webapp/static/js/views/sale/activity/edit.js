@@ -786,7 +786,7 @@ function selectOptionmms(param){
     $('#dvOnlyVip').addClass('unhide');
 	$('#consolemms').addClass('ub-f1');
 	$('#consolemms').removeClass('unhide');
-
+    $('#dvmms').removeClass('unhide');
 	//初始化为全场折扣
 	$("input[name='mmsstatus'][value='"+param.activityScope+"']").prop('checked',true);
 	//初始化 倍数送 促销商品参与
@@ -797,17 +797,7 @@ function selectOptionmms(param){
 	
 	//初始化活动条件
     $("#activityPattern").combobox('setValue', param.activityPattern);
-	
-	//先移除事件
-	//买满送 --- 全场 类别 商品 选择事件 禁用
-	$(document).on('click','input[name="mmsstatus"]',function(){
-		return false;
-	})
-	//买满送 --- 倍数送 促销活动 禁用
-//	$(document).on('click','input[name="mmsofactType"]',function(){
-//		return false;
-//	})
-	
+
 	choosemmsTab(param.activityScope);
 	//类别
 	if(param.activityScope == 1){
