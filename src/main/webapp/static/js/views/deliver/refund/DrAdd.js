@@ -736,6 +736,7 @@ function saveOrder(){
     if(footerRows){
         totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+        untaxedAmount = parseFloat(footerRows[0]["untaxedAmount"]||0.0).toFixed(4);
     }
 
     var rows = gridHandel.getRowsWhere({skuName:'1'});
