@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-审核</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/view.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/activity/view.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -189,10 +189,10 @@
 
 			<div class="ub ub-ac umar-l30 unhide" id="dvmms">
 			<div class="ub ub-ac umar-r10">
-			<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" />
+			<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" disabled/>
 			<label for="mmsofactType1">促销商品参与</label> </div>
 			<div class="ub ub-ac umar-r10">
-			<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
+			<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" disabled/><label for="mmsofactType2">倍数送</label>
 			</div>
 			</div>
 
