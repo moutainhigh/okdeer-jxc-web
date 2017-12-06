@@ -38,6 +38,7 @@ var gridDefault = {
 		isGift:0,
 }
 var oldData = {};
+var gridName = "gridEditRequireOrder";
 var gridHandel = new GridClass();
 function initDatagridEditRequireOrder(){
 	gridHandel.setGridName("gridEditRequireOrder");
