@@ -48,7 +48,7 @@ function initTreeArchives() {
                 beforeRemove: beforeRemove,
                 beforeRename: beforeRename,
                 // onRemove: onRemove,
-                // onRename: onRename
+                onRename: onRename
 
             }
         };
@@ -136,48 +136,27 @@ function onRemove(treeId, treeNode) {
     })
 }
 
+var oldName = "";
 function beforeRename(treeId, treeNode, newName) {
     var treeNode = treeNode;
-    var oldtxt = treeNode.text;
+    var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
+    oldName = treeNode.text;
     if($_jxc.isStringNull(newName)){
-        $_jxc.alert("服务类型不能为空");
-        return;
+        setTimeout(function() {
+            zTree.cancelEditName();
+            $_jxc.alert("服务类型不能为空");
+        }, 0);
+        return false;
     }
-    var param = {
-        typeName: newName
-    };
-
-    var parentNode = treeNode.getParentNode();
-
-    $_jxc.ajax({
-        url: contextPath + '/service/item/update/' + parentNode.id + '/' + treeNode.id,
-        data:param,
-    },function(result){
-        if(result.code == 0){
-            $_jxc.alert('修改成功');
-        }else{
-            var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
-            treeNode.text = oldtxt;
-            zTree.updateNode(treeNode);
-            $_jxc.alert(result['message']);
-
-        }
-    })
+    return true;
 }
 
-function onRename(e, treeId, treeNode, isCancel) {
-    var treeNode = treeNode;
-    if($_jxc.isStringNull(treeNode.text)){
-        $_jxc.alert("服务类型不能为空");
-        return;
-    }
-    var oldNodeTxt = treeNode.text
-    var param = {
-        typeName: treeNode.text
-    };
-
+function onRename(e,treeId,treeNode,isCancel) {
+    if(isCancel)return;
     var parentNode = treeNode.getParentNode();
-
+    var param = {
+        typeName: treeNode.text,
+    };
     $_jxc.ajax({
         url: contextPath + '/service/item/update/' + parentNode.id + '/' + treeNode.id,
         data:param,
@@ -186,7 +165,8 @@ function onRename(e, treeId, treeNode, isCancel) {
             $_jxc.alert('修改成功');
         }else{
             var zTree = $.fn.zTree.getZTreeObj("treeBranchList");
-            zTree.cancelEditName();
+            treeNode.text = oldName;
+            zTree.updateNode(treeNode);
             $_jxc.alert(result['message']);
 
         }
