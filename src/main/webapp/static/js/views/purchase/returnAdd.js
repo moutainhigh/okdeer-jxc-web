@@ -365,6 +365,32 @@ function initDatagridEditOrder(){
         loadFilter:function(data){
         	//显示现实数据转换 后台不返回 rows 节点结构啦 2.7
         	data = $_jxc.gridLoadFilter(data);
+    		var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
+    		// 如果是直调入库单，则置0不含税字段，以选择的供应商采购税率重新计算
+        	if(refFormNoType == 'DI' && data){
+        		if(typeof data.rows != 'undefined'){
+        			if(taxRate > 0){
+        				$.each(data.rows,function(index,item){
+        					item.tax = taxRate;
+        			    	// 计算不含税单价，税额
+        			    	var realNum = parseFloat(item.receiveNum||0).toFixed(4);
+        			    	var amount = parseFloat(item.amount||0).toFixed(4);
+        			    	var untaxedPrice = parseFloat(item.price/(1+taxRate)).toFixed(4);// 不含税单价=单价/（1+税率）
+        			    	var untaxedAmount = parseFloat(untaxedPrice*realNum).toFixed(4);
+        			    	var taxAmount = parseFloat(amount-untaxedAmount).toFixed(4);
+        			    	item.untaxedPrice = untaxedPrice;
+        			    	item.untaxedAmount = untaxedAmount;
+        			    	item.taxAmount = taxAmount;
+        				})
+        			}else{
+        				$.each(data.rows,function(index,item){
+        					item.untaxedPrice = 0;
+        					item.untaxedAmount = 0;
+        					item.taxAmount = 0;
+        				})
+        			}
+        		}
+        	}
         	
         	if(loadFilterFlag && data && data.length > 0 ){
         		loadFilterFlag = false;
@@ -882,6 +908,8 @@ function selectSupplier(){
 			taxRate=data.inputTaxRate;
             $("#saleWay").val(data.saleWay);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+            // 重新计算税率，税额
+            setTaxRateValue();
 			return;
 		}
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
@@ -1074,6 +1102,8 @@ function loadLists(referenceId){
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid('options').url = contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DI";
     $("#"+gridName).datagrid('load');
+    // 重新计算税率，税额
+    setTaxRateValue();
 }
 
 //返回列表页面
@@ -1092,4 +1122,26 @@ function exportTemp(){
 	}else if(type==1){
 		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
 	}
+}
+//重新计算税率，税额
+function setTaxRateValue(){
+	var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    if(rows.length==0 || taxRate == 0 || refFormNoType !='DI'){
+        return;
+    }
+    $.each(rows,function(i,v){
+    	v.tax = taxRate;
+    	// 计算不含税单价，税额
+    	var realNum = parseFloat(v.realNum||0).toFixed(4);
+    	var amount = parseFloat(v.amount||0).toFixed(4);
+    	var untaxedPrice = parseFloat(v.price/(1+taxRate)).toFixed(4);// 不含税单价=单价/（1+税率）
+    	var untaxedAmount = parseFloat(untaxedPrice*realNum).toFixed(4);
+    	var taxAmount = parseFloat(amount-untaxedAmount).toFixed(4);
+    	v.untaxedPrice = untaxedPrice;
+    	v.untaxedAmount = untaxedAmount;
+    	v.taxAmount = taxAmount;
+    });
+    gridHandel.setLoadData(rows);
 }

@@ -1418,7 +1418,7 @@ var $_jxc = {
 		//判断 data 非数组下执行
 		if(!(data instanceof Array)) {
 			//后台没有返回的rows节点情况下执行
-			if(typeof data.rows == 'undefined'){
+			if(typeof data.rows === 'undefined'){
 				data.rows = data.list||[];
 			}
 		}
