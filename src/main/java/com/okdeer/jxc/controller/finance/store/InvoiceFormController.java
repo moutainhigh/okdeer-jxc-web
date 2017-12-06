@@ -7,16 +7,6 @@
 
 package com.okdeer.jxc.controller.finance.store;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.controller.AbstractMutilGpeController;
@@ -30,6 +20,15 @@ import com.okdeer.jxc.settle.finance.qo.InvoiceFormQo;
 import com.okdeer.jxc.settle.finance.service.InvoiceFormService;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.framework.gpe.bean.MutilCustomMarkBean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * ClassName: InvoiceFormController 
@@ -51,8 +50,8 @@ public class InvoiceFormController extends AbstractMutilGpeController<InvoiceFor
 	
 	@RequestMapping(value = "processForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson processForm(String formIds) {
-		LOG.debug("处理用户发票信息, formIds：{}", formIds);
+    public RespJson processForm(String formIds, String tabKey) {
+        LOG.debug("处理用户发票信息, formIds：{}", formIds);
 		try {
 			
 			if(StringUtils.isBlank(formIds)){
@@ -65,7 +64,11 @@ public class InvoiceFormController extends AbstractMutilGpeController<InvoiceFor
 			vo.setIdList(idList);
 			vo.setUpdateUserId(super.getCurrUserId());
 
-			return invoiceFormService.processInvoiceForm(vo);
+            if (InvoiceFormService.REPORT_TYPE_REFUND.equals(tabKey)) {
+                return invoiceFormService.refundProcessInvoiceForm(vo);
+            } else {
+                return invoiceFormService.processInvoiceForm(vo);
+            }
 
 		} catch (Exception e) {
 			LOG.error("处理用户发票信息失败：", e);

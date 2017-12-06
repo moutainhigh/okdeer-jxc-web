@@ -76,7 +76,7 @@ function initCashWaterGrid() {
                 field: 'saleAmount', title: '销售金额', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(2);
+                    return saleAmount.toFixed(4);
                 }
                 return '0.00';
             }
