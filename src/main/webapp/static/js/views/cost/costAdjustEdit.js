@@ -137,6 +137,7 @@ function initDatagridEditRequireOrder(){
 		        		  }
 		        	  },
 		          },
+		          {field:'costPriceBack',title:'新价',hidden:true},
 		          {field:'costPrice',title:'新价',width:'80px',align:'right',
 		        	  formatter:function(value,row,index){
 		        		  if(row.isFooter){
@@ -175,6 +176,7 @@ function initDatagridEditRequireOrder(){
 		            		}
 		            	},
 		            },
+		            {field:'untaxedNewPriceBack',title:'不含税新价',hidden:true},
 		            {field:'untaxedNewPrice',title:'不含税新价',width:'80px',align:'right',
 		            	formatter:function(value,row,index){
 		            		if(row.isFooter){
@@ -458,6 +460,9 @@ function editsaveOrder(){
         if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
         }
+        if(parseFloat(v["untaxedNewPrice"])<=0){
+        	isChcekPrice = true;
+        }
     });
 
     //验证备注的长度 20个字符
@@ -537,6 +542,8 @@ function saveDataHandel(rows){
 				untaxedPrice:data.untaxedPrice,
 	            untaxedNewPrice:data.untaxedNewPrice,
 	            untaxedDiffMoney:data.untaxedDiffMoney,
+	            costPriceBack:data.costPriceBack,
+	            untaxedNewPriceBack:data.untaxedNewPriceBack,
 				remark : data.remark,
 				skuCode : data.skuCode,
 				skuId:data.skuId,
@@ -557,7 +564,7 @@ function saveDataHandel(rows){
 				return $.extend(true,{},obj);//返回对象的深拷贝
 			});
 			$_jxc.alert("操作成功！",function(){
-				costcheck("add");
+				location.href = contextPath +"/cost/costAdjust/edit?id="+result.id+"&type=add"
 			});
 			//location.reload()
 		}else{
