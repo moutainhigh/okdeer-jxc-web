@@ -17,7 +17,7 @@ function initTreeChargeCategory() {
         var setting = {
             data: {
                 key:{
-                    name:'text',
+                    name:'codeText',
                 },
                 simpleData: {
                     enable: true,

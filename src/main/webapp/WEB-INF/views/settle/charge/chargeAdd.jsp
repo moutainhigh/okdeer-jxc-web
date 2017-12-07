@@ -11,17 +11,19 @@
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="save()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="saveChargeRecord()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="closeDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
-	<form id="financeAdd">
+	<input type="hidden" id="chargeRecordId" name="chargeRecordId">
+	<form id="formchargeRecord">
+
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="chargeCode"
+					<input class="uinp ub ub-f1" type="text" id="chargeCode" disabled="disabled"
 						name="chargeCode" value="${chargeFormVo.chargeCode}"
 						maxlength="50" />
 				</div>
@@ -38,11 +40,14 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
+					<input class="uinp ub ub-f1" type="hidden"  id="categoryId"
+					name="categoryId" value="${financeFormVo.financeCode}"
+					maxlength="50" />
 					<input class="uinp ub ub-f1" type="hidden"  id="categoryCode"
 						name="categoryCode" value="${financeFormVo.financeCode}"
 						maxlength="50" />
 					<input class="uinp ub ub-f1" type="text" id="categoryName"
-					name="categoryName" value="${financeFormVo.financeCode}"
+					name="categoryName" value="${financeFormVo.financeCode}" onclick="openChargeCodeDialog()" readonly="readonly"
 					maxlength="50" />
 				<div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
 				</div>
@@ -88,7 +93,7 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">采购价:</div>
-					<input class="uinp ub ub-f1" type="text" id="purPrice"
+					<input class="uinp easyui-numberbox" data-options="min:0,precision:2" type="text" id="purPrice"
 						name="purPrice" value="${financeFormVo.financeName}"
 						maxlength="50" />
 				</div>
@@ -97,17 +102,15 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">拆旧期限:</div>
-					<input class="uinp ub ub-f1" type="text" id="purPrice"
-						name="purPrice" value="${financeFormVo.financeCode}"
-						maxlength="50" />
+					<input class="uinp easyui-numberbox" type="text"  data-options="min:0,precision:0" id="depreciate"
+						name="depreciate" value="${financeFormVo.financeCode}"/>
 				<div class="uinp-more" >月</div>
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">保修期限:</div>
-					<input class="uinp ub ub-f1" type="text" id="validity"
-						name="validity" value="${financeFormVo.financeName}"
-						maxlength="50" />
+					<input class="uinp easyui-numberbox" data-options="min:0,precision:0" type="text" id="validity"
+						name="validity" value="${financeFormVo.financeName}"/>
 					<div class="uinp-more" >天</div>
 				</div>
 			</div>
@@ -117,7 +120,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">财务分类:</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd2" name="financeType"  value="2" /><span>固定资产与设备</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd2" name="financeType"  value="2" checked="checked" /><span>固定资产与设备</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd1" name="financeType" value="1" /><span>长期待摊费用</span></label>
@@ -132,8 +135,8 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" type="text" id="description"
-						name="description" value="${financeFormVo.description}"
+					<input class="uinp ub ub-f1" type="text" id="remark"
+						name="remark" value="${financeFormVo.description}"
 						maxlength="50" />
 				</div>
 			</div>

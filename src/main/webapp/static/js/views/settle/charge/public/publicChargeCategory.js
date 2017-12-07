@@ -27,7 +27,7 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
         var setting = {
             data: {
                 key:{
-                    name:'text',
+                    name:'codeText',
                 },
                 simpleData: {
                     enable: true,
