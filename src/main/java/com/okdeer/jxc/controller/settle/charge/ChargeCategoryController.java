@@ -1,15 +1,26 @@
 package com.okdeer.jxc.controller.settle.charge;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
+import net.sf.json.JSONArray;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
+import com.okdeer.jxc.settle.charge.qo.ChargeCategoryQo;
+import com.okdeer.jxc.settle.charge.service.ChargeCategoryService;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.TreeUtils;
+import com.okdeer.jxc.common.utils.entity.Tree;
+
 
 /**
  * ClassName: ChargeCategoryController 
@@ -22,9 +33,12 @@ import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
-@RestController
+@Controller
 @RequestMapping("/settle/charge/chargeCategory")
 public class ChargeCategoryController extends BaseController<ChargeCategoryController> {
+
+	@Reference(version = "1.0.0", check = false)
+	ChargeCategoryService chargeCategoryService;
 
 	/**
 	 * @Description: 机构开店费用类别页面
@@ -80,13 +94,38 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addCategory(@Valid ChargeCategory goodsCategory) {
-		return RespJson.error();
+	public RespJson addCategory(@Valid ChargeCategory chargeCategory) {
+		// 校验基本数据
+		return chargeCategoryService.addCharge(chargeCategory);
 	}
 
 	@RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateCategory(@Valid ChargeCategory goodsCategory) {
-		return RespJson.error();
+	public RespJson updateCategory(@Valid ChargeCategory chargeCategory) {
+		// 校验基本数据
+		return chargeCategoryService.updateCharge(chargeCategory);
+	}
+
+	@RequestMapping(value = "/deleteCategoryCode", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson deleteCategoryCode(List<String> ids) {
+		// 校验基本数据
+		return chargeCategoryService.deleteCharge(ids);
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<ChargeCategory> list( ChargeCategoryQo qo) {
+		return chargeCategoryService.queryLists(qo);
+	}
+
+	@RequestMapping(value = "getCategoryToTree")
+	@ResponseBody
+	public String getCategoryToTree(ChargeCategoryQo qo) {
+		
+//		List<Tree> trees = chargeCategoryService.queryGoodsCategoryToTree(qo);
+//		trees = TreeUtils.getTree(trees);
+//		return JSONArray.fromObject(trees).toString();
+		return null;
 	}
 }

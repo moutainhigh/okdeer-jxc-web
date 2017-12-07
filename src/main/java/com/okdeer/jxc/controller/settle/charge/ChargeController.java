@@ -2,14 +2,15 @@ package com.okdeer.jxc.controller.settle.charge;
 
 import javax.validation.Valid;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
+import com.okdeer.jxc.settle.charge.entity.Charge;
+import com.okdeer.retail.common.page.PageUtils;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -22,7 +23,7 @@ import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
-@RestController
+@Controller
 @RequestMapping("/settle/charge/charge")
 public class ChargeController extends BaseController<ChargeController> {
 
@@ -64,6 +65,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	public String updateView() {
 		return "settle/charge/chargeUpdate";
 	}
+
 	@RequestMapping(value = "publicView", method = RequestMethod.POST)
 	public String publicView() {
 		return "settle/charge/public/publicCharge";
@@ -71,13 +73,18 @@ public class ChargeController extends BaseController<ChargeController> {
 
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addCategory(@Valid ChargeCategory goodsCategory) {
+	public RespJson addCategory(@Valid Charge charge) {
 		return RespJson.error();
 	}
-
+	
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<Charge> list(@Valid Charge charge) {
+		return null;
+	}
 	@RequestMapping(value = "/updateCharge", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateCategory(@Valid ChargeCategory goodsCategory) {
+	public RespJson updateCategory(@Valid Charge charge) {
 		return RespJson.error();
 	}
 }
