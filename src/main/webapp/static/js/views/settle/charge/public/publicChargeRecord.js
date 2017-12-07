@@ -2,8 +2,7 @@
  * Created by zhaoly on 2017/12/7.
  */
 $(function () {
-    chRecordClass.treeChargeCategory();
-    chRecordClass.gridChargeCategoryList();
+
 })
 
 function ChargeRecordDialogClass() {
