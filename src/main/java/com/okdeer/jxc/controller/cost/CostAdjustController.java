@@ -431,25 +431,23 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 								List<JSONObject> excelListErrorData) {
 							for (GoodsSelect objGoods : list) {
 								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
-								BigDecimal newCostprice = obj.getNewCostPrice();
 								BigDecimal diffMoney = obj.getDiffMoney();
 								BigDecimal actual = StringUtils.isNotEmpty(obj.getActual()) ? new BigDecimal(obj.getActual()) : BigDecimal.ZERO;
-								if (newCostprice == null) {
+								if (obj.getNewCostPrice() == null) {
 									obj.setNewCostPrice(obj.getCostPrice());
 								}
 								if(diffMoney == null){
 									BigDecimal costPrice = obj.getCostPrice() != null ? obj.getCostPrice() : BigDecimal.ZERO;
-									BigDecimal tempBig = newCostprice.subtract(costPrice).multiply(actual);
+									BigDecimal tempBig = obj.getNewCostPrice().subtract(costPrice).multiply(actual);
 									obj.setDiffMoney(BigDecimalUtils.formatDecimal(tempBig, 4));
 								}
-								BigDecimal untaxedNewPrice = obj.getUntaxedNewPrice();
 								BigDecimal untaxedDiffMoney = obj.getUntaxedDiffMoney();
-								if (untaxedNewPrice == null) {
+								if (obj.getUntaxedNewPrice() == null) {
 								    obj.setUntaxedNewPrice(obj.getUntaxedCostPrice());
 								}
 								if(untaxedDiffMoney == null){
 								    BigDecimal untaxedCostPrice = obj.getUntaxedCostPrice() != null ? obj.getUntaxedCostPrice() : BigDecimal.ZERO;
-								    BigDecimal tempBig = untaxedNewPrice.subtract(untaxedCostPrice).multiply(actual);
+								    BigDecimal tempBig = obj.getUntaxedNewPrice().subtract(untaxedCostPrice).multiply(actual);
 								    obj.setUntaxedDiffMoney(BigDecimalUtils.formatDecimal(tempBig, 4));
 								}
 							}

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>促销活动设置-编辑</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/sale/activity/edit.js?V=${versionNo}4"></script>
+<script src="${ctx}/static/js/views/sale/activity/edit.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -127,13 +127,13 @@
 	            <!--买满送-->
 	            <div class="ub ub-ac umar-l20  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
-						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
+						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" disabled checked="checked"/><span>全场</span></label>
 					</div>
                     <div class="ub ub-ac umar-r10"> 
-                        <label><input class="radioItem mmradio" type="radio" name="mmsstatus" value="1" /><span>类别</span></label>
+                        <label><input class="radioItem mmradio" type="radio" name="mmsstatus" value="1" disabled /><span>类别</span></label>
                     </div>
 					<div class="ub ub-ac umar-r10">
-						<label><input class="radioItem mmradio" type="radio" name="mmsstatus" value="0" /><span>商品</span></label>
+						<label><input class="radioItem mmradio" type="radio" name="mmsstatus" value="0" disabled /><span>商品</span></label>
 					</div>
                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
@@ -215,7 +215,7 @@
 				<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" />
 				<label for="mmsofactType1">促销商品参与</label> </div>
 				<div class="ub ub-ac umar-r10">
-				<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
+				<input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType"  value="1" /><label for="mmsofactType2">倍数送</label>
 				</div>
 				</div>
 
