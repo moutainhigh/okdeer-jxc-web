@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.settle.charge;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -114,9 +115,9 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 
 	@RequestMapping(value = "/deleteCategoryCode", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson deleteCategoryCode(List<String> ids) {
+	public RespJson deleteCategoryCode(String[] ids) {
 		// 校验基本数据
-		return chargeCategoryService.deleteCharge(ids);
+		return chargeCategoryService.deleteCharge(Arrays.asList(ids));
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
