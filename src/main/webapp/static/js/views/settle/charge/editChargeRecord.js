@@ -26,19 +26,19 @@ function initCategoryRecordCallback(cb) {
 }
 
 function saveChargeRecord() {
-
-    if($_jxc.isStringNull($("#categoryName").val())){
+    debugger;
+    if($_jxc.isStringNull($("#chargeName").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
 
     if($_jxc.isStringNull($("#categoryId").val())){
-        $_jxc.alert("名称不能为空");
+        $_jxc.alert("类别不能为空");
         return;
     }
 
     if($_jxc.isStringNull($("#brandId").val())){
-        $_jxc.alert("名称不能为空");
+        $_jxc.alert("品牌不能为空");
         return;
     }
 
@@ -52,7 +52,7 @@ function saveChargeRecord() {
     }
     var param = {
         url:type === "add"?addUrl:updateUrl,
-        data:data
+        data:formObj
     }
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
@@ -106,6 +106,7 @@ function openChargeCodeDialog() {
 }
 
 function categroyDialogCb(data) {
+    $("#categoryId").val(data.id);
     $("#categoryCode").val(data.categoryCode);
    $("#categoryName").val(data.categoryName);
 }
@@ -117,6 +118,7 @@ function closeCategroyCodeDialog() {
 
 //清空表单
 function cleanForm(){
+    $("#categoryId").val('');
     $("#categoryCode").val('');
     $("#categoryName").val('');
     $("#remark").val('');

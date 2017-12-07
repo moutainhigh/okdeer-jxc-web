@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/settle/charge/editChargeRecord.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/settle/charge/editChargeRecord.js?V=${versionNo}3"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -24,14 +24,14 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
 					<input class="uinp ub ub-f1" type="text" id="chargeCode" disabled="disabled"
-						name="chargeCode" value="${chargeFormVo.chargeCode}"
+						name="chargeCode"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
 					<input class="uinp ub ub-f1" type="text" id="chargeName"
-						name="financeName" value="${chargeFormVo.chargeName}"
+						name="financeName"
 						maxlength="50" />
 				</div>
 
@@ -41,13 +41,13 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
 					<input class="uinp ub ub-f1" type="hidden"  id="categoryId"
-					name="categoryId" value="${financeFormVo.financeCode}"
+					name="categoryId"
 					maxlength="50" />
 					<input class="uinp ub ub-f1" type="hidden"  id="categoryCode"
-						name="categoryCode" value="${financeFormVo.financeCode}"
+						name="categoryCode"
 						maxlength="50" />
 					<input class="uinp ub ub-f1" type="text" id="categoryName"
-					name="categoryName" value="${financeFormVo.financeCode}" onclick="openChargeCodeDialog()" readonly="readonly"
+					name="categoryName"  onclick="openChargeCodeDialog()" readonly="readonly"
 					maxlength="50" />
 				<div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
 				</div>
@@ -71,14 +71,14 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">单位:</div>
 					<input class="uinp ub ub-f1" type="text" id="unit"
-						name="unit" value="${financeFormVo.financeCode}"
+						name="unit"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">规格:</div>
 					<input class="uinp ub ub-f1" type="text" id="spec"
-						name="spec" value="${financeFormVo.financeName}"
+						name="spec"
 						maxlength="50" />
 				</div>
 			</div>
@@ -87,14 +87,14 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">产地:</div>
 					<input class="uinp ub ub-f1" type="text" id="originPlace"
-						name="originPlace" value="${financeFormVo.financeCode}"
+						name="originPlace"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">采购价:</div>
 					<input class="uinp easyui-numberbox" data-options="min:0,precision:2" type="text" id="purPrice"
-						name="purPrice" value="${financeFormVo.financeName}"
+						name="purPrice"
 						maxlength="50" />
 				</div>
 			</div>
@@ -103,14 +103,14 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">拆旧期限:</div>
 					<input class="uinp easyui-numberbox" type="text"  data-options="min:0,precision:0" id="depreciate"
-						name="depreciate" value="${financeFormVo.financeCode}"/>
+						name="depreciate" />
 				<div class="uinp-more" >月</div>
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">保修期限:</div>
 					<input class="uinp easyui-numberbox" data-options="min:0,precision:0" type="text" id="validity"
-						name="validity" value="${financeFormVo.financeName}"/>
+						name="validity" />
 					<div class="uinp-more" >天</div>
 				</div>
 			</div>
@@ -136,7 +136,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">备注:</div>
 					<input class="uinp ub ub-f1" type="text" id="remark"
-						name="remark" value="${financeFormVo.description}"
+						name="remark"
 						maxlength="50" />
 				</div>
 			</div>
