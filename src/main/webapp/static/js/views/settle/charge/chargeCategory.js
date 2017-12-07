@@ -39,30 +39,17 @@ function initTreeChargeCategory() {
         var childrens = treeObj.getNodes()[0].children;
         treeObj.selectNode(childrens[0]);
         selectNode = childrens[0];
+        $("#categoryCode").val(selectNode.code);
+        queryChargeCategory();
         // initDictList();
     });
-}
-
-function initDictList() {
-    var param = {
-        url:contextPath+'/settle/charge/chargeCategory/view',
-        data:{
-            dictKeyword:"",
-            typeCode:selectNode.code,
-            page:1,
-            rows:50,
-        }
-    }
-    $_jxc.ajax(param,function (result) {
-        $("#"+gridName).datagrid('loadData',result.list);
-    })
 }
 
 //选择树节点
 var selectNode = null;
 function categoryTreeOnClick(event, treeId, treeNode) {
     selectNode = treeNode;
-    $("#typeCode").val(selectNode.code);
+    $("#categoryCode").val(selectNode.code);
     queryChargeCategory();
 }
 
@@ -99,6 +86,11 @@ function initGridChargeCategoryList() {
 function addCategoryCode() {
         if(null ==selectNode){
             $_jxc.alert("请选择具体的分类!");
+            return;
+        }
+
+        if(selectNode.level == 3){
+            $_jxc.alert("不能再添加子分类!");
             return;
         }
         var param = {
@@ -152,7 +144,7 @@ function categroyCodeCb(data) {
         queryChargeCategory();
     }
 }
-function closeCategroyDialog() {
+function closeCategoryCodeDialog() {
     $(editDialogTemp).panel('destroy');
     editDialogTemp = null;
 }
@@ -163,10 +155,10 @@ function closeCategroyDialog() {
  * 搜索
  */
 function queryChargeCategory(){
-    var formData = $('#formCagegoryList').serializeObject();
+    var formData = $('#formCategoryList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/view',
+    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/list',
         $("#"+gridName).datagrid('load');
 }
 

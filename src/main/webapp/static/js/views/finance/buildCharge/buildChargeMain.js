@@ -19,8 +19,14 @@ $(function () {
         }
     });
 
+    $('#branchComponent').branchSelect();
 
-
+    $('#cashierSelect').operatorSelect({
+        onAfterRender:function(data){
+            $("#cashierId").val(data.id);
+            $("#cashierName").val(data.userName);
+        }
+    });
 
     chargeStatus = $('#chargeStatus').val();
     
@@ -32,7 +38,7 @@ $(function () {
     		$("#branchName").val(sessionBranchCodeName);
 	        $("#branchId").val(sessionBranchId);
     	}
-        $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
+        $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     }else if(chargeStatus === "edit"){
         oldData = {
             remark:$("#remark").val()                  // 备注
@@ -50,16 +56,7 @@ $(function () {
         $("#chargeMonth").val(month);
     }
     initGridStoreCharge();
-    
 
-    
-
-	/*$('#cashierSelect').operatorSelect({
-		onAfterRender : function(data) {
-			$("#cashierId").val(data.id);
-			$("#cashierName").val(data.userName);
-		}
-	});*/
 })
 
 var gridName = "gridBuldCharge";
@@ -72,15 +69,15 @@ var editRowData = null;
 function initGridStoreCharge() {
     gridHandel.setGridName(gridName);
     gridHandel.initKey({
-        firstName:'costTypeCode',
-        enterName:'costTypeCode',
+        firstName:'chargeCode',
+        enterName:'chargeCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("costTypeCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('costTypeCode'));
+                    gridHandel.setSelectFieldName("chargeCode");
+                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeCode'));
                 },100)
             }else{
                 selectCharge(arg);
@@ -113,7 +110,7 @@ function initGridStoreCharge() {
                 },
             },
             // {field:'costTypeId',hidden:'true'},
-            {field:'costTypeCode',title:'支出代码',width:120,align:'left',
+            {field:'chargeCode',title:'费用编码',width:120,align:'left',
                 editor:{
                     type:'textbox',
                     options:{
@@ -121,33 +118,85 @@ function initGridStoreCharge() {
                     }
                 },
             },
-            {field:'costTypeLabel',title:'支出名称',width:180,align:'left'},
-            {field:'amount',title:'支出金额',width:120,align:'right',
-                formatter : function(value, row, index) {
+            {field:'chargeName',title:'名称',width:180,align:'left'},
+            {field:'unit',title:'单位',width:180,align:'left'},
+            {field:'sepc',title:'规格',width:180,align:'left'},
+
+            {field:'num',title:'数量',width:120,align:'right',
+                formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if(!value){
+                        row["num"] = 0.00;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0.00,
-                        max:999999.99,
-                        precision:2,
                         disabled:isdisabled,
-                        prompt:"最大值999999.99",
-                        onChange: onChangeAmount,
+                        min:0,
+                        precision:4,
+                        onchange:changeChargeNum()
                     }
                 },
             },
-            {field:'remark',title:'备注',width:250,align:'left',
-                editor:{
-                    type:'textbox',
-                    options:{
-                        validType:{maxLength:[20]},
+            {field:'price',title:'采购价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
                     }
-                }
+                    if(!value){
+                        row["price"] = 0.00;
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:4
+                    }
+                },
+            },
+
+            {field:'amount',title:'金额',width:120,align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        precision:4,
+                        disabled:isdisabled,
+                    }
+                },
+            },
+
+            {field:'validity',title:'保修期限/天',width:120,align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(!value){
+                        row["validity"] = 0.00;
+                    }
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        precision:0,
+                        disabled:isdisabled,
+                    }
+                },
+            },
+            {field:'remark',title:'备注',width:250,align:'left', editor:'textbox'
             },
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -157,7 +206,7 @@ function initGridStoreCharge() {
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("costTypeCode");
+                gridHandel.setSelectFieldName("chargeCode");
             }
         },
         onBeforeEdit:function (rowIndex, rowData) {
@@ -169,7 +218,7 @@ function initGridStoreCharge() {
             }else{
                 if(editRowData.costTypeCode != changes.costTypeCode){
                     rowData.costTypeCode = editRowData.costTypeCode;
-                    gridHandel.setFieldTextValue('costTypeCode',editRowData.costTypeCode);
+                    gridHandel.setFieldTextValue('chargeCode',editRowData.costTypeCode);
                 }
             }
         },
@@ -190,14 +239,6 @@ function initGridStoreCharge() {
     }
 }
 
-function onChangeAmount(newVal,oldVal) {
-    // if(parseInt(newVal) > 999999.99){
-    //     $_jxc.alert('费用金额最大值为999999.99')
-    // }
-    updateFooter();
-}
-
-
 //合计
 function updateFooter(){
     var fields = {amount:0};
@@ -215,6 +256,11 @@ function delLineHandel(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     gridHandel.delRow(index);
+}
+
+function changeChargeNum(newVal,oldVal) {
+
+
 }
 
 
@@ -275,12 +321,6 @@ function saveStoreCharge() {
         return;
     }
 
-    //验证备注的长度 20个字符
-    var isValid = $("#gridFrom").form('validate');
-    if (!isValid) {
-        return;
-    }
-
     var totalchargeAmount = 0;
     //费用月份
     var chargeMonth = $("#chargeMonth").val().replace("-", "");
@@ -331,7 +371,6 @@ function saveStoreCharge() {
 function selectCharge(searchKey) {
     var param = {
         key:searchKey,
-        type:'101008'
     };
     publicCostService(param,function(data){
         if(data.length==0){
@@ -360,6 +399,11 @@ function selectCharge(searchKey) {
             gridHandel.setFieldFocus(gridHandel.getFieldTarget('amount'));
         },100)
     });
+}
+
+var chargeRecordTemp = null;
+function publicChargeRecord(param) {
+
 }
 
 function chargeDelete() {

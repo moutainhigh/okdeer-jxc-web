@@ -23,15 +23,15 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp ub ub-f1" type="text" id="chargeCode"
+						name="chargeCode" value="${chargeFormVo.chargeCode}"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
+					<input class="uinp ub ub-f1" type="text" id="chargeName"
+						name="financeName" value="${chargeFormVo.chargeName}"
 						maxlength="50" />
 				</div>
 
@@ -40,31 +40,41 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">类别:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp ub ub-f1" type="hidden"  id="categoryCode"
+						name="categoryCode" value="${financeFormVo.financeCode}"
 						maxlength="50" />
+					<input class="uinp ub ub-f1" type="text" id="categoryName"
+					name="categoryName" value="${financeFormVo.financeCode}"
+					maxlength="50" />
 				</div>
 
-				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">品牌:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
-						maxlength="50" />
-				</div>
+
+			<div class="ub ub-ac uw-300">
+			<div class="umar-r10 uw-60 ut-r">品牌:</div>
+			<input id="brandId" name="brandId" class="uinp" type="hidden" value="">
+			<input id="brandCode" name="brandCode" class="uinp" type="hidden" value="">
+			<div class="ub">
+
+			<input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
+			<div class="uinp-more" onclick="getGoodsBrand()">...</div>
+			</div>
+			</div>
+
+
 			</div>
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">单位:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp ub ub-f1" type="text" id="unit"
+						name="unit" value="${financeFormVo.financeCode}"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">规格:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
+					<input class="uinp ub ub-f1" type="text" id="spec"
+						name="spec" value="${financeFormVo.financeName}"
 						maxlength="50" />
 				</div>
 			</div>
@@ -72,15 +82,15 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">产地:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp ub ub-f1" type="text" id="originPlace"
+						name="originPlace" value="${financeFormVo.financeCode}"
 						maxlength="50" />
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">采购价:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
+					<input class="uinp ub ub-f1" type="text" id="purPrice"
+						name="purPrice" value="${financeFormVo.financeName}"
 						maxlength="50" />
 				</div>
 			</div>
@@ -88,16 +98,18 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">拆旧期限:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeCode"
-						name="financeCode" value="${financeFormVo.financeCode}"
+					<input class="uinp ub ub-f1" type="text" id="purPrice"
+						name="purPrice" value="${financeFormVo.financeCode}"
 						maxlength="50" />
+				<div class="uinp-more" >月</div>
 				</div>
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">保修期限:</div>
-					<input class="uinp ub ub-f1" type="text" id="financeName"
-						name="financeName" value="${financeFormVo.financeName}"
+					<input class="uinp ub ub-f1" type="text" id="validity"
+						name="validity" value="${financeFormVo.financeName}"
 						maxlength="50" />
+					<div class="uinp-more" >天</div>
 				</div>
 			</div>
 
@@ -105,9 +117,15 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">财务分类:</div>
-					<input class="uinp ub ub-f1" type="text" id="description"
-						name="description" value="${financeFormVo.description}"
-						maxlength="50" />
+					<div class="ub ub-ac umar-r10">
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span></label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span></label>
+					</div>
 				</div>
 			</div>
 

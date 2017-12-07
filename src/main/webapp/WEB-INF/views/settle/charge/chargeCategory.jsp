@@ -42,13 +42,13 @@
 
 				</div>
 			</div>
-			<form action="" id="formCagegoryList" method="post">
+			<form action="" id="formCategoryList" method="post">
 				<div class="ub umar-t4">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 ut-r">关键字:</div>
-						<input class="uinp uw-400" type="text" name="categoryKeyword"
-							id="categoryKeyword" placeholder="输入编号、名称进行查询"> <input
-							type="hidden" name="typeCode" id="typeCode" />
+						<input class="uinp uw-400" type="text" name="categoryCodeName"
+							id="categoryCodeName" placeholder="输入编号、名称进行查询"> <input
+							type="hidden" name="categoryCode" id="categoryCode" />
 					</div>
 				</div>
 			</form>

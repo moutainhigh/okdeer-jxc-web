@@ -84,6 +84,16 @@ function saveCategroyCode() {
 
     })
 }
+
+//品牌
+function getGoodsBrand(){
+    new publicBrandService(function(data){
+        $("#brandId").val(data.id);
+        $("#brandCode").val(data.brandCode);
+        $("#brandName").val(data.brandName);
+    });
+}
+
 /*
 * 费用类别选择
 * */
