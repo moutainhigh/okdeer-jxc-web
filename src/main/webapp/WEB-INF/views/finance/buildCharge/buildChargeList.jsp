@@ -53,8 +53,7 @@
 				<div class="ub ub-ac umar-r80" id="supplierComponent">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" readonly="readonly" id="supplierName"
-						type="text">
+					<input class="uinp" id="supplierName" type="text">
 					<div class="uinp-more">...</div>
 				</div>
 
@@ -70,8 +69,7 @@
 				<div class="ub ub-ac umar-r40" id="createUserComponent">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
 					<input type="hidden" name="operateUserId" id="operateUserId">
-					<input class="uinp" id="operateUserName" name="operateUserName"
-						type="text" />
+					<input class="uinp" id="operateUserName" name="operateUserName" type="text" />
 					<div class="uinp-more">...</div>
 				</div>
 

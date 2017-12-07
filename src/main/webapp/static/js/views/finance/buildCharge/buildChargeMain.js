@@ -11,34 +11,37 @@ var oldData = {};
 
 $(function () {
 
-    $('#branchComponent').branchSelect({
-        param:{
-            branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES +
-            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
-            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
-        }
-    });
-
-    $('#branchComponent').branchSelect();
-
-    $('#cashierSelect').operatorSelect({
-        onAfterRender:function(data){
-            $("#cashierId").val(data.id);
-            $("#cashierName").val(data.userName);
-        }
-    });
-
     chargeStatus = $('#chargeStatus').val();
     
     formId = $("#formId").val();
     
     if(chargeStatus === "add"){
         $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
-    	if(selbranchType>=3){
-    		$("#branchName").val(sessionBranchCodeName);
-	        $("#branchId").val(sessionBranchId);
-    	}
-        $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+        $("#purTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#purUserName").val(sessionUserName);
+        $("#purUserId").val(sessionUserId);
+        
+        $('#branchComponent').branchSelect({
+            param:{
+                branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES +
+                ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
+                ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+            }
+        });
+
+        $('#cashierSelect').operatorSelect({
+            onAfterRender:function(data){
+                $("#purUserId").val(data.id);
+                $("#purUserName").val(data.userName);
+            }
+        });
+        
+        $('#supplierComponent').supplierSelect({
+            onAfterRender:function(data){
+                $("#supplierId").val(data.id);
+            }
+        });
+        
     }else if(chargeStatus === "edit"){
         oldData = {
             remark:$("#remark").val()                  // 备注
@@ -46,14 +49,10 @@ $(function () {
 
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/buildCharge/getDetailList";
-        var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
-        $("#chargeMonth").val(month);
     }else if(chargeStatus === "check"){
         $('#already-examine').css('display','block');
         isdisabled = true;
         url = contextPath + "/finance/buildCharge/getDetailList";
-        var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
-        $("#chargeMonth").val(month);
     }
     initGridStoreCharge();
 
@@ -110,7 +109,7 @@ function initGridStoreCharge() {
                 },
             },
             // {field:'costTypeId',hidden:'true'},
-            {field:'chargeCode',title:'费用编码',width:120,align:'left',
+            {field:'chargeCode',title:'费用编码',width:80,align:'left',
                 editor:{
                     type:'textbox',
                     options:{
@@ -119,9 +118,8 @@ function initGridStoreCharge() {
                 },
             },
             {field:'chargeName',title:'名称',width:180,align:'left'},
-            {field:'unit',title:'单位',width:180,align:'left'},
-            {field:'sepc',title:'规格',width:180,align:'left'},
-
+            {field:'unit',title:'单位',width:60,align:'left'},
+            {field:'spec',title:'规格',width:80,align:'left'},
             {field:'num',title:'数量',width:120,align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -142,7 +140,7 @@ function initGridStoreCharge() {
                     }
                 },
             },
-            {field:'price',title:'采购价',width:'80px',align:'right',
+            {field:'price',title:'采购价',width:120, align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
@@ -279,19 +277,34 @@ function saveStoreCharge() {
         $_jxc.alert("机构不能为空!");
         return;
     }
+    
+    // 供应商
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	$_jxc.alert("供应商不能为空!");
+    	return;
+    }
+    
+    // 负责人
+    var purUserId = $("#purUserId").val();
+    if(!purUserId){
+    	$_jxc.alert("负责人不能为空!");
+    	return;
+    }
+    
+    // 验收时间
+    var purTime = $("#purTime").val();
+    if(!purTime){
+    	$_jxc.alert("验收时间不能为空!");
+    	return;
+    }
 
     if(selbranchType<3 && chargeStatus === "add"){
     	$_jxc.alert("机构只能选择店铺类型！");
     	return;
     }
 
-    var chargeMonth = $("#chargeMonth").val();
-    if(!chargeMonth){
-        $_jxc.alert("月份不能为空!");
-        return;
-    }
-    
-    var rows = gridHandel.getRowsWhere({costTypeLabel:1});
+    var rows = gridHandel.getRowsWhere({chargeName:1});
     if(rows.length==0){
         $_jxc.alert("表格数据不完整或者为空");
         return;
@@ -300,7 +313,7 @@ function saveStoreCharge() {
     var isCheckResult = true;
     var detailList = [];
     $.each(rows,function(i,v){
-        if(!v["costTypeCode"]){
+        if(!v["chargeCode"]){
             $_jxc.alert("第"+(i+1)+"行，支出代码不能为空");
             isCheckResult = false;
             return false;
@@ -311,8 +324,12 @@ function saveStoreCharge() {
             return false;
         }
         var detailItem = {};
-        detailItem.costTypeId = v.costTypeId;
+        detailItem.chargeId = v.chargeId;
+        detailItem.chargeCode = v.chargeCode;
+        detailItem.price = v.price;
+        detailItem.num = v.num;
         detailItem.amount = v.amount;
+        detailItem.validity = v.validity;
         detailItem.remark = v.remark;
         detailList[i] = detailItem;
     });
@@ -322,8 +339,7 @@ function saveStoreCharge() {
     }
 
     var totalchargeAmount = 0;
-    //费用月份
-    var chargeMonth = $("#chargeMonth").val().replace("-", "");
+    
     //备注
     var remark = $("#remark").val();
 
@@ -335,7 +351,9 @@ function saveStoreCharge() {
     var reqObj = {
         branchId:branchId,
         branchCode:branchCode,
-        month:chargeMonth,
+        supplierId:supplierId,
+        purUserId:purUserId,
+        purTime:purTime,
         remark:remark,
         sumAmount:totalchargeAmount,
         detailList:detailList
@@ -487,7 +505,7 @@ function toImportStoreCharge(){
     var param = {
         url : contextPath+"/finance/buildCharge/importList",
         tempUrl : contextPath+"/finance/buildCharge/exportTemp",
-        title : "支出导入",
+        title : "费用导入",
         type : -1
     }
     
