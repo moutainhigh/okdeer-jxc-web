@@ -86,7 +86,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	 * @author yangyq02
 	 * @date 2017年12月7日
 	 */
-	@RequestMapping(value = "publicView", method = RequestMethod.POST)
+	@RequestMapping(value = "/publicView",method = RequestMethod.GET)
 	public String publicView() {
 		return "settle/charge/public/publicChargeCategory";
 	}

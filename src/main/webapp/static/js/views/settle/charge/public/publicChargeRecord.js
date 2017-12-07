@@ -5,22 +5,22 @@ $(function () {
 
 })
 
-function ChargeCategoryDialogClass() {
+function ChargeRecordDialogClass() {
 
 }
 
-var chCateClass = new ChargeCategoryDialogClass();
+var chRecordClass = new ChargeRecordDialogClass();
 
-var gridName = "gridChargeCategoryDialogList";
+var gridName = "gridChargeRecordDialogList";
 var gridHandel = new GridClass();
 
-var pubChargeCategoryCallback = null;
+var pubChargeRecordCallback = null;
 
-ChargeCategoryDialogClass.prototype.initPubChCategoryCallback = function (cb) {
-    pubChargeCategoryCallback = cb;
+ChargeRecordDialogClass.prototype.initPubChCategoryCallback = function (cb) {
+    pubChargeRecordCallback = cb;
 }
 
-ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
+ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
     var args = {};
     var httpUrl = contextPath+"/settle/charge/chargeCategory/getCategoryToTree";
     $.get(httpUrl, args,function(data){
@@ -58,14 +58,14 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
 
 //选择树节点
 var selectNode = null;
-ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
+ChargeRecordDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
     selectNode = treeNode;
     $("#typeCode").val(selectNode.code);
     categoryCodeSearch();
 }
 
 
-ChargeCategoryDialogClass.prototype.gridChargeCategoryList = function() {
+ChargeRecordDialogClass.prototype.gridChargeCategoryList = function() {
     gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
         method:'post',
@@ -77,30 +77,39 @@ ChargeCategoryDialogClass.prototype.gridChargeCategoryList = function() {
         fit:true,
         columns:[[
             {field:'id',hidden:true},
-            {field:'categoryCode',title:'编号',width:100,align:'left'},
-            {field:'categoryName',title:'名称',width:200,align:'left'},
-            {field:'remark',title:'备注',width:200,align:'left'}
+            {field:'chargeCode',title:'编号',width:100,align:'left',},
+            {field:'chargeName',title:'名称',width:200,align:'left'},
+            {field:'unit',title:'单位',width:60,align:'left'},
+            {field:'spec',title:'规格',width:60,align:'left'},
+            {field:'purPrice',title:'单价',width:80,align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+            },
         ]],
-        onClickRow:categoryClickRow,
+        onClickRow:chargeRecordClickRow,
         onBeforeLoad:function (param) {
             gridHandel.setDatagridHeader("center");
         }
     })
 }
 
-function categoryClickRow(rowIndex, rowData) {
-    closeCategroyCodeDialog();
-    if(pubChargeCategoryCallback){
-        pubChargeCategoryCallback(rowData);
+function chargeRecordClickRow(rowIndex, rowData) {
+    closeChargeRecordDialog();
+    if(pubChargeRecordCallback){
+        pubChargeRecordCallback(rowData);
 
     }
 }
 
 
-function categoryCodeSearch() {
-    var formData = $('#formCategoryList').serializeObject();
+function chargeRecordSearch() {
+    var formData = $('#formRecordList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/list',
+    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/charge/list',
         $("#"+gridName).datagrid('load');
 }

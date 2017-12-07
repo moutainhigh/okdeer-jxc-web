@@ -33,7 +33,7 @@
 					<div class="ubtns-item uinp-no-more">审核</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" style="width: 100px;"
-					onclick="selectCharge()">开店费用选择</div>
+					onclick="selectChargeRecord()">开店费用选择</div>
 				<shiro:hasPermission name="JxcBuildCharge:delete">
 					<div class="ubtns-item uinp-no-more">删除</div>
 				</shiro:hasPermission>
