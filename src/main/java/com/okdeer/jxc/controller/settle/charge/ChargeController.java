@@ -1,7 +1,5 @@
 package com.okdeer.jxc.controller.settle.charge;
 
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.Charge;
 import com.okdeer.jxc.settle.charge.qo.ChargeQo;
 import com.okdeer.jxc.settle.charge.service.ChargeService;
-import com.okdeer.jxc.common.utils.PageUtils;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -82,11 +81,15 @@ public class ChargeController extends BaseController<ChargeController> {
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addCategory( Charge charge) {
+		
+		String chargeStr="{\"chargeName\":\"费用名称1\",\"financeType\":1,\"categoryId\":\"8a94e76f603060320160306032630000\",\"purPrice\":12,\"spec\":\"斤\",\"unit\":\"斤\",\"originPlace\":\"深圳\",\"depreciate\":\"100\",\"validity\":99,\"remark\":\"测试\",\"brandId\":\"4028aec15dea5023015dea5452c30001\"}";
+//		4028aec15dea5023015dea5452c30001 
+		charge=JSON.parseObject(chargeStr, Charge.class);
 		RespJson json = validateParm(charge);
 		if (!json.isSuccess()) {
 			return json;
 		}
-		charge.setCategoryId(this.getCurrUserId());
+		charge.setCreateUserId(this.getCurrUserId());
 		return chargeService.addCharge(charge);
 	}
 
