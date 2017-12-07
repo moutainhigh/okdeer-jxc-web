@@ -33,7 +33,7 @@ import com.okdeer.jxc.settle.charge.service.ChargeCategoryService;
  *
  */
 @Controller
-@RequestMapping("/settle/charge/chargeCategory")
+@RequestMapping("/settle/charge/chargeCategory/")
 public class ChargeCategoryController extends BaseController<ChargeCategoryController> {
 
 	@Reference(version = "1.0.0", check = false)
@@ -86,7 +86,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	 * @author yangyq02
 	 * @date 2017年12月7日
 	 */
-	@RequestMapping(value = "publicView")
+	@RequestMapping(value = "publicView",method = RequestMethod.GET)
 	public String publicView() {
 		return "settle/charge/public/publicChargeCategory";
 	}
