@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -120,7 +121,11 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<ChargeCategory> list(ChargeCategoryQo qo) {
+	public PageUtils<ChargeCategory> list(ChargeCategoryQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		qo.setPageNumber(pageNumber);
+		qo.setPageSize(pageSize);
 		return chargeCategoryService.queryLists(qo);
 	}
 

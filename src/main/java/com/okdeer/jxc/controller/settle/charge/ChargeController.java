@@ -6,14 +6,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.Charge;
+import com.okdeer.jxc.settle.charge.qo.ChargeQo;
 import com.okdeer.jxc.settle.charge.service.ChargeService;
-import com.okdeer.retail.common.page.PageUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -79,7 +81,7 @@ public class ChargeController extends BaseController<ChargeController> {
 
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addCategory(@Valid Charge charge) {
+	public RespJson addCategory( Charge charge) {
 		RespJson json = validateParm(charge);
 		if (!json.isSuccess()) {
 			return json;
@@ -90,8 +92,12 @@ public class ChargeController extends BaseController<ChargeController> {
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<Charge> list(Charge charge) {
-		return null;
+	public PageUtils<Charge> list(ChargeQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		qo.setPageNumber(pageNumber);
+		qo.setPageSize(pageSize);
+		return chargeService.queryLists(qo);
 	}
 
 	@RequestMapping(value = "/updateCharge", method = RequestMethod.POST)
