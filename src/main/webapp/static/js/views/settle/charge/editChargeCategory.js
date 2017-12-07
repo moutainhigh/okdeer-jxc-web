@@ -27,25 +27,13 @@ function initCategoryCodeCallback(cb) {
 }
 
 function saveCategroyCode() {
-    //校验表单
-    if($_jxc.isStringNull($("#categoryCode").val())){
-        $_jxc.alert("编号不能为空");
-        return;
-    }
-
-    if($("#categoryCode").val().trim().length < 4){
-        $_jxc.alert("编号为4位数字");
-        return;
-    }
-
-
     if($_jxc.isStringNull($("#categoryName").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
 
-	var addUrl = contextPath+'/settle/charge/chargeCategory/addView';
-	var updateUrl = contextPath+'/settle/charge/chargeCategory/updateView';
+	var addUrl = contextPath+'/settle/charge/chargeCategory/save';
+	var updateUrl = contextPath+'/settle/charge/chargeCategory/edit';
 	
 	var data = {
         dictTypeId:$("#dictTypeId").val(),

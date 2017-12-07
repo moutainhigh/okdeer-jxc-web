@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
@@ -8,12 +7,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}3"></script>
+	src="${ctx}/static/js/views/settle/charge/editChargeCategory.js?V=${versionNo}3"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="saveCategoryCode()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="saveCategroyCode()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="closeCategoryCodeDialog()">关闭</button>
 		</div>
 	</div>
@@ -24,9 +23,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp  ub ub-f1" type="text" id="categoryCode"
-						onkeyup="this.value=this.value.replace(/\D/g,'')"
-						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+					<input class="uinp  ub ub-f1" type="text" id="categoryCode" disabled="disabled"
 						placeholder="编号为4位数字" name="categoryCode" maxlength="4" /> <input
 						type="hidden" name="id" id="id" />
 				</div>
@@ -36,7 +33,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">名称:</div>
-					<input class="uinp ub ub-f1 easyui-validatebox" type="text"
+					<input class="uinp ub ub-f1" type="text"
 						id="categoryName" name="categoryName" maxlength="20" />
 				</div>
 				<i class="ub uc-red">*</i>

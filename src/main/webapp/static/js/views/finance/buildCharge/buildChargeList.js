@@ -20,6 +20,12 @@ $(function () {
 			$("#operateUserId").val(data.id);
 		}
     });
+
+    $('#supplierComponent').supplierSelect({
+        onAfterRender:function(data){
+            $("#supplierId").val(data.id);
+        }
+    })
     
 })
 
@@ -39,6 +45,7 @@ function initGridBranchCostList() {
         width:'100%',
         fitColumns:true,    //每列占满
         columns:[[
+            {field:'check',checkbox:true},
             {field:'formNo',title:'单号',width:100,align:'left',
                 formatter: function(value,row,index){
                     if (updatePermission) {
@@ -81,4 +88,39 @@ function storeChargeAdd() {
 
 function editHandel(formId) {
     toAddTab("建店费用详情",contextPath + "/finance/buildCharge/toEdit?formId="+formId);
+}
+
+function delChargeOrder() {
+    var rows = $("#"+gridName).datagrid("getChecked");
+    if(rows.length <= 0){
+        $_jxc.alert('请勾选数据！');
+        return;
+    }
+
+    var ids='';
+    $.each(rows,function(i,v){
+        ids+=v.id+",";
+    });
+
+    $_jxc.confirm('是否要删除选中数据?',function(data){
+        if(data) {
+            var param = {
+                url: contextPath + "/finance/buildCharge/todel",
+                data: {
+                    ids: ids
+                }
+            }
+
+            $_jxc.ajax(param, function (result) {
+                queryStoreCharge();
+                if (result['code'] == 0) {
+                    $_jxc.alert("删除成功");
+                } else {
+                    $_jxc.alert(result['message']);
+
+                }
+            });
+        }
+
+    })
 }

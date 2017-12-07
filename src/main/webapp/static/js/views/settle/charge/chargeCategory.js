@@ -27,7 +27,7 @@ function initTreeChargeCategory() {
                 }
             },
             callback: {
-                onClick: zTreeOnClick
+                onClick: categoryTreeOnClick
             }
         };
         $.fn.zTree.init($("#treeChargeCategory"), setting, JSON.parse(data));
@@ -61,7 +61,7 @@ function initDictList() {
 
 //选择树节点
 var selectNode = null;
-function zTreeOnClick(event, treeId, treeNode) {
+function categoryTreeOnClick(event, treeId, treeNode) {
     selectNode = treeNode;
     $("#typeCode").val(selectNode.code);
     queryChargeCategory();
@@ -98,15 +98,16 @@ function initGridChargeCategoryList() {
 }
 
 function addCategoryCode() {
-    var _code = selectNode.code;
-        if(null ==selectNode || selectNode.isParent){
+        if(null ==selectNode){
             $_jxc.alert("请选择具体的分类!");
             return;
         }
         var param = {
             type:"add",
             categoryId: selectNode.id,
-            nodeCode:selectNode.code
+            categoryCode:selectNode.code,
+            categoryLevel:selectNode.level,
+
         }
         openChargeCategoryDialog(param);
 
@@ -128,7 +129,7 @@ function updateCategoryCode(id,categoryCode,categoryName,remark) {
 var editDialogTemp = null;
 function openChargeCategoryDialog(param) {
     editDialogTemp = $('<div/>').dialog({
-        href: contextPath+"/settle/charge/chargeCategory/view",
+        href: contextPath+"/settle/charge/chargeCategory/addView",
         width: 400,
         height: 400,
         title: param.type==="add"?"新增费用类别":"编辑费用类别",
