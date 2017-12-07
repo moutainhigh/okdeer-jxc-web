@@ -8,6 +8,7 @@ package com.okdeer.jxc.common.goodselect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
@@ -229,6 +230,8 @@ public class GoodsSelectImportComponent {
         GoodsSelectImportHandle goodsSelectImportHandle = null;
         List<GoodsSelect> dbList = null;
         List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>();
+        String activityType = map_branchid.get("activityType");
+
         if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)
                 || type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {// 货号
             //构建数据过滤对象
@@ -241,6 +244,10 @@ public class GoodsSelectImportComponent {
                 dbList1 = new ArrayList<GoodsSelect>();
             } else {
                 //根据货号查询商品
+                if (StringUtils.isNotBlank(activityType)) {
+                    map_branchid = Maps.newHashMap();
+                    map_branchid.put("activityType", "12");
+                }
                 dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock, map_branchid, statusList);
                 //-----------------------------新增一校验成功数据为准--------------------------//
                 List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
@@ -296,6 +303,10 @@ public class GoodsSelectImportComponent {
                     }
                 } else {
 
+                    if (StringUtils.isNotBlank(activityType)) {
+                        map_branchid = Maps.newHashMap();
+                        map_branchid.put("activityType", "activityType");
+                    }
                     //根据条码查询商品，过滤掉条码重复的商品
                     dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock, map_branchid, statusList);
 

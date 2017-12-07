@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.sale;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -686,6 +687,13 @@ public class ActivityController extends BaseController<ActivityController> {
 								} catch (Exception e) {
 									obj.element("discount", 0);
 								}
+
+								try {
+									String discount = obj.getString("limitCount");
+									Double.parseDouble(discount);
+								} catch (Exception e) {
+									obj.element("limitCount", 0);
+								}
 							}
 						}
 
@@ -703,6 +711,12 @@ public class ActivityController extends BaseController<ActivityController> {
 								if (price == null) {
 									obj.setPrice(obj.getSalePrice());
 								}
+
+								excelListSuccessData.parallelStream().forEach(jsonObject -> {
+									if (StringUtils.equals(jsonObject.get("skuCode") + "", obj.getSkuCode()) || StringUtils.equals(jsonObject.get("barCode") + "", obj.getBarCode())) {
+										obj.setLimitCount(jsonObject.get("limitCount") == null ? BigDecimal.ZERO : BigDecimal.valueOf(Double.valueOf(jsonObject.get("limitCount") + "")));
+									}
+								});
 							}
 						}
 
@@ -714,7 +728,7 @@ public class ActivityController extends BaseController<ActivityController> {
 						public void errorDataFormatter(List<JSONObject> list) { 
 							
 						}
-					}, null);
+					}, activityType == 12 || activityType == 11 ? ImmutableMap.of("activityType", "activityType") : null);
 			vo.setErrorFileUrl(vo.getErrorFileUrl() + "&activityType=" + activityType);
 			respJson.put("importInfo", vo);
         } catch (BusinessException e) {
@@ -747,7 +761,9 @@ public class ActivityController extends BaseController<ActivityController> {
 				field = new String[] { "skuCode", "discount"};
 			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				field = new String[] { "skuCode", "saleAmount"};
-			}else{
+			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
+				field = new String[]{"skuCode", "limitCount"};
+			} else {
 				return null;
 			}
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
@@ -757,6 +773,8 @@ public class ActivityController extends BaseController<ActivityController> {
 				field = new String[] { "barCode", "discount"};
 			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				field = new String[] { "barCode", "saleAmount"};
+			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
+				field = new String[]{"barCode", "limitCount"};
 			}else{
 				return null;
 			}
@@ -790,7 +808,10 @@ public class ActivityController extends BaseController<ActivityController> {
 			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				columns = new String[] { "skuCode", "saleAmount"};
 				headers = new String[] { "货号", "偶数特价"};
-			}else{
+			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
+				columns = new String[]{"skuCode", "limitCount"};
+				headers = new String[]{"货号", "特价打包数量"};
+			} else {
 				LOG.warn("活动类型不正确");
 				return;
 			}
@@ -804,6 +825,9 @@ public class ActivityController extends BaseController<ActivityController> {
 			}else if(ActivityType.EVEN_SALE.getValue().equals(activityType)){ //偶数特价
 				columns = new String[] { "barCode", "saleAmount"};
 				headers = new String[] { "条码", "偶数特价"};
+			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
+				columns = new String[]{"barCode", "limitCount"};
+				headers = new String[]{"条码", "特价打包数量"};
 			}else{
 				LOG.warn("活动类型不正确");
 				return;

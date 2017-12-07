@@ -2938,8 +2938,9 @@ function selectGoods(searchKey){
 			targetBranchId:'',
 			branchId:$("#branchIds").val(),
 			supplierId:'',
-			flag:'0'
-	}
+        flag: '0',
+        activityType: activityT == 11 || activityT == 12 ? activityT : ''
+    };
 	
     new publicGoodsServiceTem(param,function(data){
         if(searchKey){
