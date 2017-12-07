@@ -74,6 +74,7 @@ function saveCategroyCode() {
     })
 }
 
+
 //清空表单
 function cleanForm(){
     $("#categoryCode").val('');

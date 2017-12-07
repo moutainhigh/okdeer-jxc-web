@@ -45,9 +45,9 @@
 				<div class="ub umar-t4">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 ut-r">关键字:</div>
-						<input class="uinp uw-400" type="text" name="dictKeyword"
-							id="dictKeyword" placeholder="输入编号、名称进行查询"> <input
-							type="hidden" name="typeCode" id="typeCode" />
+						<input class="uinp uw-400" type="text" name="chargeCodeName"
+							id="chargeCodeName" placeholder="输入编号、名称进行查询"> <input
+							type="hidden" name="chargeCode" id="chargeCode" />
 					</div>
                         <input type="button" class="ubtn  umar-r10" value="查询" onclick="queryChargeRecord()">
 				</div>

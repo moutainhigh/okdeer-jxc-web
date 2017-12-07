@@ -29,14 +29,11 @@
 					<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
-				<shiro:hasPermission name="JxcBuildCharge:export">
-					<div class="ubtns-item uinp-no-more" >导出明细</div>
-				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcBuildCharge:audit">
 					<div class="ubtns-item uinp-no-more">审核</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectCharge()">支出选择</div>
-				<!-- <div class="ubtns-item" onclick="toImportStoreCharge()">支出导入</div> -->
+				<div class="ubtns-item" style="width: 100px;"
+					onclick="selectCharge()">开店费用选择</div>
 				<shiro:hasPermission name="JxcBuildCharge:delete">
 					<div class="ubtns-item uinp-no-more">删除</div>
 				</shiro:hasPermission>
@@ -50,23 +47,24 @@
 		<form id="formAdd">
 			<div class="ub ub-ver upad-8">
 				<div class="ub umar-t8">
-					<div class="ub ub-ac umar-r80" id="branchComponent">
-						<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-						<input name="branchId" id="branchId" type="hidden">
-						<input name="branchCode" id="branchCode" type="hidden">
+					<div class="ub ub-ac umar-r40" id="supplierComponent">
+						<div class="umar-r10 uw-60 ut-r">供应商:</div>
+						<input class="uinp" name="supplierId" id="supplierId"
+							type="hidden"> <input class="uinp" readonly="readonly"
+							id="supplierName" type="text">
+						<div class="uinp-more">...</div>
+						<i class="ub ub-ac uc-red">*</i>
+					</div>
 
-						<input class="uinp" id="branchName" name="branchName" type="text"
-							 onclick="selectListBranches()" readonly="readonly">
-						<div class="uinp-more" onclick="selectListBranches()">...</div>
+
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-60 ut-r">验收时间:</div>
+						<input class="Wdate uw-300 uinp-no-more" name="chargeMonth"
+							id="chargeMonth"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
 					</div>
-					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">月份:</div>
-						<input class="Wdate uw-300 uinp-no-more"
-							name="chargeMonth" id="chargeMonth"
-							onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" />
-					</div>
-					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">制单人员:</div>
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-80 ut-r">制单人员:</div>
 						<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
 					</div>
 					<div class="ub ub-ac">
@@ -74,8 +72,41 @@
 						<div class="utxt" id="createTime"></div>
 					</div>
 				</div>
+
+
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-624 umar-r80">
+					<div class="ub  ub-ac umar-r40" id="branchComponent">
+						<div class="umar-r10 uw-60 ut-r">机构:</div>
+						<input class="uinp ub ub-f1" type="hidden" id="branchIds"
+							name="branchIds" value=""> <input class="uinp ub ub-f1"
+							type="text" id="branchName" readonly="readonly" value=""
+							name="branchName">
+						<div class="uinp-more" id="selectBranchMore">...</div>
+						<i class="ub ub-ac uc-red">*</i>
+					</div>
+
+
+					<div class="ub ub-ac umar-r40" id="cashierSelect">
+						<div class="umar-r10 uw-60 ut-r">负责人:</div>
+						<input name="purUserId" id="purUserId" type="hidden"> <input
+							class="uinp" id="purUserName" name="purUserName" type="text"
+							maxlength="50" />
+						<div class="uinp-more">...</div>
+					</div>
+
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+						<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
+					</div>
+					<div class="ub ub-ac">
+						<div class="umar-r10 uw-60 ut-r">修改时间:</div>
+						<div class="utxt" id="createTime"></div>
+					</div>
+				</div>
+
+
+				<div class="ub umar-t8">
+					<div class="ub ub-ac uw-590 umar-r40">
 						<div class="umar-r10 uw-60 ut-r">备注:</div>
 						<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
 							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
@@ -84,8 +115,8 @@
 							maxlength="20">
 					</div>
 
-					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">审核人员:</div>
+					<div class="ub ub-ac umar-r40">
+						<div class="umar-r10 uw-80 ut-r">审核人员:</div>
 						<div class="utxt"></div>
 					</div>
 					<div class="ub ub-ac">
@@ -98,7 +129,7 @@
 		</form>
 
 		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
-		<table id="gridBuldCharge" ></table>
+		<table id="gridBuldCharge"></table>
 		</from>
 
 	</div>
