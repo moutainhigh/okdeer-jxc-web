@@ -64,6 +64,10 @@ public class ChargeController extends BaseController<ChargeController> {
 	public String updateView() {
 		return "settle/charge/chargeUpdate";
 	}
+	@RequestMapping(value = "publicView", method = RequestMethod.POST)
+	public String publicView() {
+		return "settle/charge/public/publicCharge";
+	}
 
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody

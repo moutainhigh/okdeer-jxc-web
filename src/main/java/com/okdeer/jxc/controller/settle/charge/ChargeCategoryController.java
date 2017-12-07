@@ -65,6 +65,19 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 		return "settle/charge/chargeCategoryUpdate";
 	}
 
+	/**
+	 * @Description: 类别选择公共组件
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年12月7日
+	 */
+	@RequestMapping(value = "publicView", method = RequestMethod.POST)
+	public String publicView() {
+		return "settle/charge/public/publicChargeCategory";
+	}
+
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addCategory(@Valid ChargeCategory goodsCategory) {
