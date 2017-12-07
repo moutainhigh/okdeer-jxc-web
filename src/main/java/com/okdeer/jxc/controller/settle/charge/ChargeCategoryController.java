@@ -93,8 +93,11 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addCategory(ChargeCategory chargeCategory) {
-
 		// 校验基本数据
+		RespJson json = validateParm(chargeCategory);
+		if (!json.isSuccess()) {
+			return json;
+		}
 		return chargeCategoryService.addCharge(chargeCategory);
 	}
 
@@ -126,7 +129,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	@ResponseBody
 	public String getCategoryToTree(ChargeCategoryQo qo) {
 		List<Tree> trees = chargeCategoryService.queryCategoryToTree(qo);
-		Tree tree=new Tree();
+		Tree tree = new Tree();
 		tree.setId("0");
 		tree.setCode("0");
 		tree.setCodeText("所有[0]");
