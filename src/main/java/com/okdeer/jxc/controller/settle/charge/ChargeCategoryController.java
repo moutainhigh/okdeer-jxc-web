@@ -123,9 +123,8 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	@ResponseBody
 	public String getCategoryToTree(ChargeCategoryQo qo) {
 		
-//		List<Tree> trees = chargeCategoryService.queryGoodsCategoryToTree(qo);
-//		trees = TreeUtils.getTree(trees);
-//		return JSONArray.fromObject(trees).toString();
-		return null;
+		List<Tree> trees = chargeCategoryService.queryCategoryToTree(qo);
+		trees = TreeUtils.getTree(trees);
+		return JSONArray.fromObject(trees).toString();
 	}
 }
