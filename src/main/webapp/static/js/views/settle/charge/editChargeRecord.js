@@ -113,7 +113,10 @@ function openChargeCodeDialog() {
         modal: true,
         onLoad: function () {
             var categoryDialogClass = new ChargeCategoryDialogClass();
+            categoryDialogClass.treeChargeCategory();
+            categoryDialogClass.gridChargeCategoryList();
             categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
+
         }
     })
 }

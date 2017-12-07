@@ -8,7 +8,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
 	src="${ctx}/static/js/views/settle/charge/public/publicChargeCategory.js?V=${versionNo}11"></script>
-
+<div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 <div class="ub ub-f1 umar-4 upad-4">
 	<!--left-->
 	<div class="ub ub-ver ubor uw-240">
@@ -19,7 +19,6 @@
 		</div>
 	</div>
 	<!--left end-->
-
 	<div class="ub ub-ver ub-f1 upad-4">
 		<div class="ub umar-t4">
 			<form id="formCategoryList" action="">
@@ -39,5 +38,5 @@
 		</div>
 	</div>
 
-
+</div>
 </div>
