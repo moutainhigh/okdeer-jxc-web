@@ -42,7 +42,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "view")
+	@RequestMapping(value = "/view")
 	public String views() {
 		return "settle/charge/charge";
 	}
@@ -55,7 +55,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "addView")
+	@RequestMapping(value = "/addView")
 	public String addView() {
 		return "settle/charge/chargeAdd";
 	}
@@ -68,7 +68,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "updateView")
+	@RequestMapping(value = "/updateView")
 	public String updateView() {
 		return "settle/charge/chargeUpdate";
 	}
@@ -81,10 +81,6 @@ public class ChargeController extends BaseController<ChargeController> {
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson addCategory( Charge charge) {
-		
-		String chargeStr="{\"chargeName\":\"费用名称1\",\"financeType\":1,\"categoryId\":\"8a94e76f603060320160306032630000\",\"purPrice\":12,\"spec\":\"斤\",\"unit\":\"斤\",\"originPlace\":\"深圳\",\"depreciate\":\"100\",\"validity\":99,\"remark\":\"测试\",\"brandId\":\"4028aec15dea5023015dea5452c30001\"}";
-//		4028aec15dea5023015dea5452c30001 
-		charge=JSON.parseObject(chargeStr, Charge.class);
 		RespJson json = validateParm(charge);
 		if (!json.isSuccess()) {
 			return json;
