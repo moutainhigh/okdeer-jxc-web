@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>加盟店往来账款</title>
+    <title>建店费用类别</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/settle/franchise/account/accountList.js?V=${versionNo}"></script>

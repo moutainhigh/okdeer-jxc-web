@@ -1,100 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>加盟店往来账款</title>
-    <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/settle/franchise/account/accountList.js?V=${versionNo}"></script>
-    <style>
-    .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
-    </style>
-</head>
-<body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4 upad-4">
-        <form id="queryForm" action="" method="post">
-            <div class="ub ub-ac">
-                <div class="ubtns">
-                    <div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcFranchiseAc:export">
-				        <input type="hidden" id="startCount" name="startCount"/>
-				        <input type="hidden" id="endCount" name="endCount"/>
-                    	<div class="ubtns-item" onclick="exportAccountList()">导出</div>
-                    </shiro:hasPermission>
-					<shiro:hasPermission name="JxcFranchiseAc:print">
-                    	<div class="ubtns-item-disabled">打印</div>
-                    </shiro:hasPermission>
-                    <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
-                    <div class="ubtns-item-disabled" >设置</div>
-                    <div class="ubtns-item" onclick="toClose()">关闭</div>
-                </div>
-                <div class="ub ub-ac umar-l20">
-                 <!-- 引入时间选择控件 -->
-                <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-                </div>
-            </div>
-                <div class="ub umar-t8">
-                    <div class="ub ub-ac" id="branchComponent">
-                        <div class="umar-r10 uw-70 ut-r">机构:</div>
-                        <input type="hidden" id="branchId" name="branchId"/>
-                        <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
-                        <div class="uinp-more" >...</div>
-                    </div>
-                    <div class="ub ub-ac umar-l64">
-                        <div class="umar-r10 uw-70 ut-r">单号:</div>
-                        <input class="uinp" type="text" id="targetformNo" name="targetFormNo">
-                    </div>
-                </div>
-                <div class="ub umar-t8">
-                    <div class="ub ub-ac">
-                        <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input type="radio" name="type" value="1" checked="checked" onclick="initfraAcountList()"/><span>到期账款</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input type="radio" name="type" value="2" onclick="initfraAcountList()"/><span>历史往来账款</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input  type="radio" name="type" value="3"  onclick="initfraAcountList()"/><span>未收款账款汇总</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input  type="radio" name="type" value="4"  onclick="initfraAcountList()"/><span>未收款账款明细</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input  type="radio" name="type" value="5"  onclick="initfraAcountList()"/><span>已收账款明细</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input  type="radio" name="type" value="6"  onclick="initfraAcountList()"/><span>预收账款明细</span>
-                            </label>
-                        </div>
-                        <div class="ub ub-ac umar-r10">
-                            <label>
-                                <input  type="radio" name="type" value="7"  onclick="initfraAcountList()"/><span>加盟店毛利明细</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            
-        </form>
-        <div class="ub ub-f1  umar-t8 umar-b8">
-            <table id="fraAccountList"></table>
-        </div>
-    </div>
 
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-</html>
+<title>建店费用类别</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<script
+	src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}3"></script>
+
+<div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
+	<div class="ub ub-ac upad-4">
+		<div class="ubtns">
+			<button class="ubtns-item" onclick="saveCategoryCode()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="closeCategoryCodeDialog()">关闭</button>
+		</div>
+	</div>
+	<div class="ub uline"></div>
+	<form id="financeAdd">
+		<input type="hidden" name="categoryTypeId" id="categoryTypeId" />
+		<div class="ub ub-ver upad-4">
+			<div class="ub upad-4 umar-t10">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">编号:</div>
+					<input class="uinp  ub ub-f1" type="text" id="categoryCode"
+						onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+						placeholder="编号为4位数字" name="categoryCode" maxlength="4" /> <input
+						type="hidden" name="id" id="id" />
+				</div>
+				<i class="ub uc-red">*</i>
+			</div>
+
+			<div class="ub upad-4 umar-t10">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">名称:</div>
+					<input class="uinp ub ub-f1 easyui-validatebox" type="text"
+						id="categoryName" name="categoryName" maxlength="20" />
+				</div>
+				<i class="ub uc-red">*</i>
+			</div>
+
+			<div class="ub upad-4 umar-t10">
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-70 ut-r">备注:</div>
+					<input class="uinp ub ub-f1" type="text" id="remark" name="remark"
+						maxlength="20" />
+				</div>
+			</div>
+
+			<div class="ub upad-4 umar-t10">
+
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-30 ut-r"></div>
+					<div id="cbDiv">
+						<label for="ckbSave" id="ckbSaveLabel"><input id="ckbSave"
+							type="checkbox" checked="checked">保存后自动更新</label>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>
+
