@@ -10,6 +10,18 @@ var selbranchType = sessionBranchType;
 var oldData = {};
 
 $(function () {
+
+    $('#branchComponent').branchSelect({
+        param:{
+            branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES +
+            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
+            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+        }
+    });
+
+
+
+
     chargeStatus = $('#chargeStatus').val();
     
     formId = $("#formId").val();
@@ -39,13 +51,7 @@ $(function () {
     }
     initGridStoreCharge();
     
-    $('#branchComponent').branchSelect({
-    	param:{
-    		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + 
-			',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
-			',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
-    	}
-    });
+
     
 
 	/*$('#cashierSelect').operatorSelect({

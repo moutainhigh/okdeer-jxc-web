@@ -18,7 +18,8 @@ function initCategoryCodeDialog(param) {
         $("#remark").val(param.remark);
         $("#ckbSaveLabel").css("display","none");
 	}
-    $("#categoryTypeId").val(param.categoryTypeId);
+	$("#pCategoryId").val(param.categoryId);
+    $("#categoryLevel").val(param.categoryLevel);
 
 }
 
@@ -27,30 +28,19 @@ function initCategoryCodeCallback(cb) {
 }
 
 function saveCategroyCode() {
-    //校验表单
-    if($_jxc.isStringNull($("#categoryCode").val())){
-        $_jxc.alert("编号不能为空");
-        return;
-    }
-
-    if($("#categoryCode").val().trim().length < 4){
-        $_jxc.alert("编号为4位数字");
-        return;
-    }
-
-
     if($_jxc.isStringNull($("#categoryName").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
 
-	var addUrl = contextPath+'/settle/charge/chargeCategory/addView';
-	var updateUrl = contextPath+'/settle/charge/chargeCategory/updateView';
+	var addUrl = contextPath+'/settle/charge/chargeCategory/addCategory';
+	var updateUrl = contextPath+'/settle/charge/chargeCategory/updateCategory';
 	
 	var data = {
-        dictTypeId:$("#dictTypeId").val(),
-        value:$("#categoryCode").val(),
-        label:$("#categoryName").val().trim(),
+        parentId:$("#pCategoryId").val(),
+        categoryCode:$("#categoryCode").val(),
+        categoryName:$("#categoryName").val().trim(),
+        categoryLevel:$("#categoryLevel").val(),
         remark:$("#remark").val(),
     }
     if(type === "edit"){
