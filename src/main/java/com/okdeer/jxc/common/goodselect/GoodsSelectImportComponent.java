@@ -230,7 +230,7 @@ public class GoodsSelectImportComponent {
         GoodsSelectImportHandle goodsSelectImportHandle = null;
         List<GoodsSelect> dbList = null;
         List<GoodsSelect> dbList1 = new ArrayList<GoodsSelect>();
-        String activityType = map_branchid.get("activityType");
+        String activityType = map_branchid == null ? "" : map_branchid.get("activityType");
 
         if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)
                 || type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {// 货号
