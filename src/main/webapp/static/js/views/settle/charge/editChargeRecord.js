@@ -97,18 +97,18 @@ function getGoodsBrand(){
 /*
 * 费用类别选择
 * */
-var categroyDialogTemp = null;
-function openChargeRecordDialog(param) {
-    categroyDialogTemp = $('<div/>').dialog({
-        href: contextPath+"/settle/charge/charge/addView",
-        width: 400,
-        height: 400,
+var categroyCodeDialogTemp = null;
+function openChargeCodeDialog() {
+    categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
+        href: contextPath+"/settle/charge/chargeCategory/publicView",
+        width: 600,
+        height: 600,
         title: "费用类别选择",
         closable: true,
         resizable: true,
         onClose: function () {
-            $(categroyDialogTemp).panel('destroy');
-            categroyDialogTemp = null;
+            $(categroyCodeDialogTemp).panel('destroy');
+            categroyCodeDialogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -123,9 +123,9 @@ function categroyDialogCb(data) {
    $("#categoryName").val(data.categoryName);
 }
 
-function closeCategroyDialog() {
-    $(categroyDialogTemp).panel('destroy');
-    categroyDialogTemp = null;
+function closeCategroyCodeDialog() {
+    $(categroyCodeDialogTemp).panel('destroy');
+    categroyCodeDialogTemp = null;
 }
 
 //清空表单
