@@ -34,7 +34,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "views")
+	@RequestMapping(value = "view")
 	public String views() {
 		return "settle/charge/charge";
 	}
