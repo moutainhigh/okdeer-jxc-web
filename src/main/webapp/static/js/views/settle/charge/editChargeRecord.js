@@ -7,8 +7,8 @@ $(function () {
 var type = "add";
 
 var nodeCode = "" ;
-var categoryCodeCallback = null;
-function initCategoryCodeDialog(param) {
+var categoryRecordCallback = null;
+function initCategoryRecordDialog(param) {
     type = param.type;
     if(param.type === "edit"){
         $("#id").val(param.id);
@@ -23,8 +23,8 @@ function initCategoryCodeDialog(param) {
 
 }
 
-function initCategoryCodeCallback(cb) {
-    categoryCodeCallback = cb;
+function initCategoryRecordCallback(cb) {
+    categoryRecordCallback = cb;
 }
 
 function saveCategroyCode() {
@@ -73,8 +73,8 @@ function saveCategroyCode() {
             }else{
                 closeCategroyDialog();
             }
-            if(categoryCodeCallback){
-                categoryCodeCallback({code:"0"});
+            if(categoryRecordCallback){
+                categoryRecordCallback({code:"0"});
             }
 
         }else{

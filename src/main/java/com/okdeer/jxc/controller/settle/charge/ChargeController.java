@@ -56,7 +56,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "addView", method = RequestMethod.POST)
+	@RequestMapping(value = "addView")
 	public String addView() {
 		return "settle/charge/chargeAdd";
 	}
