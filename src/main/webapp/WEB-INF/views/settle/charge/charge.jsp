@@ -47,7 +47,7 @@
 						<div class="umar-r10 ut-r">关键字:</div>
 						<input class="uinp uw-400" type="text" name="chargeCodeName"
 							id="chargeCodeName" placeholder="输入编号、名称进行查询"> <input
-							type="hidden" name="chargeCode" id="chargeCode" />
+							type="hidden" name="categoryCode" id="categoryCode" />
 					</div>
                         <input type="button" class="ubtn  umar-r10" value="查询" onclick="queryChargeRecord()">
 				</div>
