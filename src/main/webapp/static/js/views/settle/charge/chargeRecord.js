@@ -12,7 +12,7 @@ var gridHandel = new GridClass();
 
 function initTreeChargeRecord() {
     var args = {};
-    var httpUrl = contextPath+"/settle/charge/charge/getChargeRecordToTree";
+    var httpUrl = contextPath+"/settle/charge/chargeCategory/getCategoryToTree";
     $.get(httpUrl, args,function(data){
         var setting = {
             data: {
@@ -39,31 +39,18 @@ function initTreeChargeRecord() {
         var childrens = treeObj.getNodes()[0].children;
         treeObj.selectNode(childrens[0]);
         selectNode = childrens[0];
-        $("#typeCode").val(selectNode.code);
-        // initDictList();
+        $("#categoryCode").val(selectNode.code);
+        queryChargeRecord();
     });
 }
 
-function initDictList() {
-    var param = {
-        url:contextPath+'/settle/charge/charge/view',
-        data:{
-            dictKeyword:"",
-            typeCode:selectNode.code,
-            page:1,
-            rows:50,
-        }
-    }
-    $_jxc.ajax(param,function (result) {
-        $("#"+gridName).datagrid('loadData',result.list);
-    })
-}
+
 
 //选择树节点
 var selectNode = null;
 function zTreeOnClick(event, treeId, treeNode) {
     selectNode = treeNode;
-    $("#typeCode").val(selectNode.code);
+    $("#categoryCode").val(selectNode.code);
     queryChargeRecord();
 }
 
@@ -110,11 +97,15 @@ function initGridChargeRecordList() {
 }
 
 function addChargeRecord() {
-    var _code = selectNode.code;
     if(null ==selectNode || selectNode.isParent){
         $_jxc.alert("请选择具体的分类!");
         return;
     }
+    if(selectNode.level != 3){
+        $_jxc.alert("请选择第三极分类添加费用档案!");
+        return;
+    }
+
     var param = {
         type:"add",
         categoryId: selectNode.id,
@@ -148,8 +139,8 @@ function openChargeRecordDialog(param) {
         },
         modal: true,
         onLoad: function () {
-            initCategoryCodeDialog(param);
-            initCategoryCodeCallback(categroyCodeCb);
+            initCategoryRecordDialog(param);
+            initCategoryRecordCallback(categroyCodeCb);
         }
     })
 }
@@ -174,7 +165,7 @@ function queryChargeRecord(){
     var formData = $('#formChargeRecordList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/charge/view',
+    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/charge/list',
         $("#"+gridName).datagrid('load');
 }
 

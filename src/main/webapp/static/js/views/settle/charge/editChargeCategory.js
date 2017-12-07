@@ -57,10 +57,8 @@ function saveCategroyCode() {
                 if($("#ckbSave").is(":checked")){
                     cleanForm();
                 }else {
-                    closeCategroyDialog();
+                    closeCategoryCodeDialog();
                 }
-            }else{
-                closeCategroyDialog();
             }
             if(categoryCodeCallback){
                 categoryCodeCallback({code:"0"});

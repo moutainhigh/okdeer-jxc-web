@@ -3,7 +3,7 @@
              pageEncoding="UTF-8"%>
         <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-        <title>新增编辑财务代码</title>
+        <title>费用类别选择</title>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
         <c:set var="ctx" value="${pageContext.request.contextPath}" />
