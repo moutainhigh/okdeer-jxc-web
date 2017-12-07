@@ -39,7 +39,6 @@ function initTreeChargeCategory() {
         var childrens = treeObj.getNodes()[0].children;
         treeObj.selectNode(childrens[0]);
         selectNode = childrens[0];
-        $("#typeCode").val(selectNode.code);
         // initDictList();
     });
 }
@@ -120,7 +119,8 @@ function updateCategoryCode(id,categoryCode,categoryName,remark) {
         categoryCode:categoryCode,
         categoryName:categoryName,
         remark:remark,
-        nodeCode:selectNode.code
+        categoryId: selectNode.id,
+        categoryLevel:selectNode.level,
     }
     openChargeCategoryDialog(param);
 }

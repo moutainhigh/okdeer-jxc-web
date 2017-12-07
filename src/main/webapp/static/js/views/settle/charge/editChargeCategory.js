@@ -18,7 +18,8 @@ function initCategoryCodeDialog(param) {
         $("#remark").val(param.remark);
         $("#ckbSaveLabel").css("display","none");
 	}
-    $("#categoryTypeId").val(param.categoryTypeId);
+	$("#pCategoryId").val(param.categoryId);
+    $("#categoryLevel").val(param.categoryLevel);
 
 }
 
@@ -32,13 +33,14 @@ function saveCategroyCode() {
         return;
     }
 
-	var addUrl = contextPath+'/settle/charge/chargeCategory/save';
-	var updateUrl = contextPath+'/settle/charge/chargeCategory/edit';
+	var addUrl = contextPath+'/settle/charge/chargeCategory/addCategory';
+	var updateUrl = contextPath+'/settle/charge/chargeCategory/updateCategory';
 	
 	var data = {
-        dictTypeId:$("#dictTypeId").val(),
-        value:$("#categoryCode").val(),
-        label:$("#categoryName").val().trim(),
+        parentId:$("#pCategoryId").val(),
+        categoryCode:$("#categoryCode").val(),
+        categoryName:$("#categoryName").val().trim(),
+        categoryLevel:$("#categoryLevel").val(),
         remark:$("#remark").val(),
     }
     if(type === "edit"){

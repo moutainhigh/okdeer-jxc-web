@@ -18,7 +18,8 @@
 	</div>
 	<div class="ub uline"></div>
 	<form id="financeAdd">
-		<input type="hidden" name="categoryTypeId" id="categoryTypeId" />
+		<input type="hidden" name="pCategoryId" id="pCategoryId" />
+		<input type="hidden" name="categoryLevel" id="categoryLevel" />
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
