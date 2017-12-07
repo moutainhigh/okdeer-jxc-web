@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="/static/js/views/purchase/orderAdd.js?V="></script>
+<script src="${ctx}/static/js/views/settle/charge/editChargeRecord.js?V=${versionNo}"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -46,6 +46,7 @@
 					<input class="uinp ub ub-f1" type="text" id="categoryName"
 					name="categoryName" value="${financeFormVo.financeCode}"
 					maxlength="50" />
+				<div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
 				</div>
 
 
@@ -118,13 +119,13 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">财务分类:</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd2" name="financeType"  value="2" /><span>固定资产与设备</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="sortMj" name="mjstatus" value="1" /><span>类别</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd1" name="financeType" value="1" /><span>长期待摊费用</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="goodsMj" name="mjstatus" value="0" /><span>商品</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd3" name="financeType" value="3" /><span>累计待摊费用</span></label>
 					</div>
 				</div>
 			</div>

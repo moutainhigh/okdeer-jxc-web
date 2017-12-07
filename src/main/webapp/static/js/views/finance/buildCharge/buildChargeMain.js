@@ -80,7 +80,7 @@ function initGridStoreCharge() {
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeCode'));
                 },100)
             }else{
-                selectCharge(arg);
+                selectChargeRecord(arg);
             }
         },
     })
@@ -368,7 +368,7 @@ function saveStoreCharge() {
     
 }
 
-function selectCharge(searchKey) {
+function selectChargeRecord(searchKey) {
     var param = {
         key:searchKey,
     };
@@ -404,6 +404,11 @@ function selectCharge(searchKey) {
 var chargeRecordTemp = null;
 function publicChargeRecord(param) {
 
+}
+
+function closeChargeRecordDialog(){
+    chargeRecordTemp = null;
+    $(chargeRecordTemp).destroy();
 }
 
 function chargeDelete() {
@@ -496,18 +501,4 @@ function toImportStoreCharge(){
     		setChargeList(data);
     	}
     },param);
-}
-
-
-function setChargeList(data){
-	
-	console.log(data);
-	
-	$("#"+gridName).datagrid("loadData",data);
-	  
-//	$.each(result.data,function(j,obj){
-//        if(val.skuId==obj.skuId){
-//            data[i].alreadyNum = obj.alreadyNum;
-//        }
-//    })
 }

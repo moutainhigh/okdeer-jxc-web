@@ -128,8 +128,8 @@ var editDialogTemp = null;
 function openChargeRecordDialog(param) {
     editDialogTemp = $('<div/>').dialog({
         href: contextPath+"/settle/charge/charge/addView",
-        width: 400,
-        height: 400,
+        width: 700,
+        height: 600,
         title: param.type==="add"?"新增费用档案":"编辑费用档案",
         closable: true,
         resizable: true,
