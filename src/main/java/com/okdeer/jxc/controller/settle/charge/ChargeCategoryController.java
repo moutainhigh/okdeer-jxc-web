@@ -59,7 +59,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "addView", method = RequestMethod.POST)
+	@RequestMapping(value = "addView")
 	public String addView() {
 		return "settle/charge/chargeCategoryAdd";
 	}
@@ -72,7 +72,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	 * @author yangyq02
 	 * @date 2017年12月6日
 	 */
-	@RequestMapping(value = "updateView", method = RequestMethod.POST)
+	@RequestMapping(value = "updateView")
 	public String updateView() {
 		return "settle/charge/chargeCategoryUpdate";
 	}
@@ -135,8 +135,9 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 		tree.setCodeText("所有[0]");
 		tree.setLevel(0);
 		tree.setText("所有");
-		trees.add(0, tree);
+		
 		trees = TreeUtils.getTree(trees);
+		trees.add(0, tree);
 		return JSONArray.fromObject(trees).toString();
 	}
 
