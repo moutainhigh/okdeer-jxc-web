@@ -63,7 +63,7 @@ function initGridBranchCostList() {
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
-            {field:'supplierCode',title:'供应商编码',width:80,align:'left'},
+            {field:'supplierCode',title:'供应商编码',width:60,align:'left'},
             {field:'supplierName',title:'供应商名称',width:80,align:'left'},
             {field:'createUserName',title:'制单人',width:120,align:'left'},
             {field:'createTimeStr',title:'制单时间',width:120,align:'left'},

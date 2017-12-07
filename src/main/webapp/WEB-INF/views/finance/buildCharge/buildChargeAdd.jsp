@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/buildCharge/buildChargeMain.js?V=${versionNo}"></script>
+	src="${ctx}/static/js/views/finance/buildCharge/buildChargeMain.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -49,9 +49,8 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r40" id="supplierComponent">
 						<div class="umar-r10 uw-60 ut-r">供应商:</div>
-						<input class="uinp" name="supplierId" id="supplierId"
-							type="hidden"> <input class="uinp" readonly="readonly"
-							id="supplierName" type="text">
+						<input name="supplierId" id="supplierId" type="hidden">
+						<input class="uinp" readonly="readonly" id="supplierName" type="text">
 						<div class="uinp-more">...</div>
 						<i class="ub ub-ac uc-red">*</i>
 					</div>
@@ -59,8 +58,8 @@
 
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-60 ut-r">验收时间:</div>
-						<input class="Wdate uw-300 uinp-no-more" name="chargeMonth"
-							id="chargeMonth"
+						<input class="Wdate uw-300 uinp-no-more" name="purTime"
+							id="purTime"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
 					</div>
 					<div class="ub ub-ac umar-r40">
@@ -77,10 +76,8 @@
 				<div class="ub umar-t8">
 					<div class="ub  ub-ac umar-r40" id="branchComponent">
 						<div class="umar-r10 uw-60 ut-r">机构:</div>
-						<input class="uinp ub ub-f1" type="hidden" id="branchIds"
-							name="branchIds" value=""> <input class="uinp ub ub-f1"
-							type="text" id="branchName" readonly="readonly" value=""
-							name="branchName">
+						<input type="hidden" id="branchId" name="branchId" value="">
+						<input class="uinp ub ub-f1" type="text" id="branchCodeName" readonly="readonly" name="branchCodeName">
 						<div class="uinp-more" id="selectBranchMore">...</div>
 						<i class="ub ub-ac uc-red">*</i>
 					</div>
@@ -88,19 +85,18 @@
 
 					<div class="ub ub-ac umar-r40" id="cashierSelect">
 						<div class="umar-r10 uw-60 ut-r">负责人:</div>
-						<input name="purUserId" id="purUserId" type="hidden"> <input
-							class="uinp" id="purUserName" name="purUserName" type="text"
-							maxlength="50" />
+						<input name="purUserId" id="purUserId" type="hidden"> 
+						<input class="uinp" id="purUserName" name="purUserName" type="text" readonly="readonly" />
 						<div class="uinp-more">...</div>
 					</div>
 
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
-						<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
+						<div class="utxt"></div>
 					</div>
 					<div class="ub ub-ac">
 						<div class="umar-r10 uw-60 ut-r">修改时间:</div>
-						<div class="utxt" id="createTime"></div>
+						<div class="utxt" id="updateTime"></div>
 					</div>
 				</div>
 
@@ -128,9 +124,9 @@
 			</div>
 		</form>
 
-		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<form id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
 		<table id="gridBuldCharge"></table>
-		</from>
+		</form>
 
 	</div>
 
