@@ -2,8 +2,6 @@ package com.okdeer.jxc.controller.settle.charge;
 
 import java.util.List;
 
-import net.sf.json.JSONArray;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.TreeUtils;
@@ -129,16 +128,20 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 	@ResponseBody
 	public String getCategoryToTree(ChargeCategoryQo qo) {
 		List<Tree> trees = chargeCategoryService.queryCategoryToTree(qo);
-		Tree tree = new Tree();
-		tree.setId("0");
-		tree.setCode("0");
-		tree.setCodeText("所有[0]");
-		tree.setLevel(0);
-		tree.setText("所有");
-		
+		Tree tree=null;
+		if (trees.size() == 0) {
+			tree = new Tree();
+			tree.setId("0");
+			tree.setCode("0");
+			tree.setCodeText("所有[0]");
+			tree.setLevel(0);
+			tree.setText("所有");
+		}
 		trees = TreeUtils.getTree(trees);
-		trees.add(0, tree);
-		return JSONArray.fromObject(trees).toString();
+		if (trees.size() == 0) {
+			trees.add(0, tree);
+		}
+		return JSON.toJSONString(trees);
 	}
 
 	/**

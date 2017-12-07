@@ -29,8 +29,10 @@ import com.okdeer.retail.common.page.PageUtils;
 @Controller
 @RequestMapping("/settle/charge/charge")
 public class ChargeController extends BaseController<ChargeController> {
+
 	@Reference(version = "1.0.0", check = false)
 	ChargeService chargeService;
+
 	/**
 	 * @Description: 机构开店费用类别页面
 	 * @return   
@@ -82,7 +84,8 @@ public class ChargeController extends BaseController<ChargeController> {
 		if (!json.isSuccess()) {
 			return json;
 		}
-		return RespJson.error();
+		charge.setCategoryId(this.getCurrUserId());
+		return chargeService.addCharge(charge);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -94,7 +97,12 @@ public class ChargeController extends BaseController<ChargeController> {
 	@RequestMapping(value = "/updateCharge", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson updateCategory(Charge charge) {
-		return RespJson.error();
+		RespJson json = validateParm(charge);
+		if (!json.isSuccess()) {
+			return json;
+		}
+		charge.setUpdateUserId(this.getCurrUserId());
+		return chargeService.updateCharge(charge);
 	}
 
 	/**
