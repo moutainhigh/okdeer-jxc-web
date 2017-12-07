@@ -2,10 +2,9 @@ package com.okdeer.jxc.controller.settle.charge;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,14 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.TreeUtils;
+import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
 import com.okdeer.jxc.settle.charge.qo.ChargeCategoryQo;
 import com.okdeer.jxc.settle.charge.service.ChargeCategoryService;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.TreeUtils;
-import com.okdeer.jxc.common.utils.entity.Tree;
-
 
 /**
  * ClassName: ChargeCategoryController 
@@ -94,15 +92,20 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addCategory(@Valid ChargeCategory chargeCategory) {
+	public RespJson addCategory(ChargeCategory chargeCategory) {
+
 		// 校验基本数据
 		return chargeCategoryService.addCharge(chargeCategory);
 	}
 
 	@RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateCategory(@Valid ChargeCategory chargeCategory) {
+	public RespJson updateCategory(ChargeCategory chargeCategory) {
 		// 校验基本数据
+		RespJson json = validateParm(chargeCategory);
+		if (!json.isSuccess()) {
+			return json;
+		}
 		return chargeCategoryService.updateCharge(chargeCategory);
 	}
 
@@ -115,16 +118,45 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<ChargeCategory> list( ChargeCategoryQo qo) {
+	public PageUtils<ChargeCategory> list(ChargeCategoryQo qo) {
 		return chargeCategoryService.queryLists(qo);
 	}
 
 	@RequestMapping(value = "getCategoryToTree")
 	@ResponseBody
 	public String getCategoryToTree(ChargeCategoryQo qo) {
-		
 		List<Tree> trees = chargeCategoryService.queryCategoryToTree(qo);
+		Tree tree=new Tree();
+		tree.setId("0");
+		tree.setCode("0");
+		tree.setCodeText("所有[0]");
+		tree.setLevel(0);
+		tree.setText("所有");
+		trees.add(0, tree);
 		trees = TreeUtils.getTree(trees);
 		return JSONArray.fromObject(trees).toString();
+	}
+
+	/**
+	 * @Description: 验证基本参数
+	 * @param chargeCategory
+	 * @return   
+	 * @return RespJson  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年12月7日
+	 */
+	private RespJson validateParm(ChargeCategory chargeCategory) {
+		if (chargeCategory == null) {
+			return RespJson.error("参数不允许为null");
+		}
+		if (StringUtils.isEmpty(chargeCategory.getParentId())) {
+			return RespJson.error("父类ID不允许为null");
+		}
+		if (StringUtils.isEmpty(chargeCategory.getCategoryName())) {
+			return RespJson.error("类别名称不允许为空");
+		}
+		chargeCategory.setCreateUserId(this.getCurrUserId());
+		return RespJson.success();
 	}
 }
