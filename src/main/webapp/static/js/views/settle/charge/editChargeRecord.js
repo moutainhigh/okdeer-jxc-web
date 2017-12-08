@@ -9,7 +9,6 @@ var type = "add";
 var nodeCode = "" ;
 var categoryRecordCallback = null;
 function initCategoryRecordDialog(param) {
-    debugger;
     type = param.type;
         $.each(param,function (index,item) {
             if(index === "financeType"){
@@ -36,7 +35,6 @@ function initCategoryRecordCallback(cb) {
 }
 
 function saveChargeRecord() {
-    debugger;
     if($_jxc.isStringNull($("#chargeName").val())){
         $_jxc.alert("名称不能为空");
         return;
