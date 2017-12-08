@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
-import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.common.vo.UpdateStatusVo;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.enums.FormStatus;
@@ -146,7 +146,7 @@ public class BuildChargeController extends BaseController<BuildChargeController>
 		LOG.debug("新增建店费用参数：{}", jsonText);
 		try {
 
-			BuildChargeVo vo = GsonUtils.fromJson(jsonText, BuildChargeVo.class);
+			BuildChargeVo vo = JSON.parseObject(jsonText, BuildChargeVo.class);
 			vo.setCreateUserId(super.getCurrUserId());
 
 			return buildChargeService.addBuildCharge(vo);
@@ -162,7 +162,7 @@ public class BuildChargeController extends BaseController<BuildChargeController>
 		LOG.debug("修改建店费用参数：{}", jsonText);
 		try {
 
-			BuildChargeVo vo = GsonUtils.fromJson(jsonText, BuildChargeVo.class);
+			BuildChargeVo vo = JSON.parseObject(jsonText, BuildChargeVo.class);
 			vo.setUpdateUserId(super.getCurrUserId());
 
 			return buildChargeService.updateBuildCharge(vo);
