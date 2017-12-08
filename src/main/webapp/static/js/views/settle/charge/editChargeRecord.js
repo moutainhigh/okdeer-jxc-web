@@ -9,7 +9,6 @@ var type = "add";
 var nodeCode = "" ;
 var categoryRecordCallback = null;
 function initCategoryRecordDialog(param) {
-    debugger;
     type = param.type;
         $.each(param,function (index,item) {
             if(index === "financeType"){
@@ -55,7 +54,7 @@ function saveChargeRecord() {
     var addUrl = contextPath+'/settle/charge/charge/addCharge';
     var updateUrl = contextPath+'/settle/charge/charge/updateCharge';
 
-    var formObj = $("#formchargeRecord").serializeObject();
+    var formObj = $("#formChargeRecord").serializeObject();
 
     if(type === "edit"){
         formObj.id = $("#chargeRecordId").val();
