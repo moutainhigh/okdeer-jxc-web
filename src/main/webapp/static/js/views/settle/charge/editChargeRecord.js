@@ -52,7 +52,8 @@ function saveChargeRecord() {
     }
     var param = {
         url:type === "add"?addUrl:updateUrl,
-        data:formObj
+        data:JSON.stringify(formObj),
+        contentType:'application/json',
     }
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){

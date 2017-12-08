@@ -2,6 +2,7 @@ package com.okdeer.jxc.controller.settle.charge;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,10 +12,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.Charge;
 import com.okdeer.jxc.settle.charge.qo.ChargeQo;
 import com.okdeer.jxc.settle.charge.service.ChargeService;
+import com.okdeer.jxc.settle.charge.vo.BuildChargeVo;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -80,19 +83,25 @@ public class ChargeController extends BaseController<ChargeController> {
 
 	@RequestMapping(value = "/addCharge", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson addCategory( Charge charge) {
-		RespJson json = validateParm(charge);
-		if (!json.isSuccess()) {
-			return json;
+	public RespJson addCharge(@RequestBody String jsonText) {
+		LOG.debug("新增建店费档案费用参数：{}", jsonText);
+		try {
+			Charge charge = GsonUtils.fromJson(jsonText, Charge.class);
+			RespJson json = validateParm(charge);
+			if (!json.isSuccess()) {
+				return json;
+			}
+			charge.setCreateUserId(this.getCurrUserId());
+			return chargeService.addCharge(charge);
+		} catch (Exception e) {
+			LOG.error("新增建店费档案费用异常{}", e);
+			return RespJson.error("新增建店费档案费用异常");
 		}
-		charge.setCreateUserId(this.getCurrUserId());
-		return chargeService.addCharge(charge);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<Charge> list(ChargeQo qo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+	public PageUtils<Charge> list(ChargeQo qo, @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
@@ -101,13 +110,19 @@ public class ChargeController extends BaseController<ChargeController> {
 
 	@RequestMapping(value = "/updateCharge", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson updateCategory(Charge charge) {
-		RespJson json = validateParm(charge);
-		if (!json.isSuccess()) {
-			return json;
+	public RespJson updateCategory(@RequestBody String jsonText) {
+		try {
+			Charge charge = GsonUtils.fromJson(jsonText, Charge.class);
+			RespJson json = validateParm(charge);
+			if (!json.isSuccess()) {
+				return json;
+			}
+			charge.setUpdateUserId(this.getCurrUserId());
+			return chargeService.updateCharge(charge);
+		} catch (Exception e) {
+			LOG.error("修改建店费档案费用异常{}", e);
+			return RespJson.error("修改建店费档案费用异常");
 		}
-		charge.setUpdateUserId(this.getCurrUserId());
-		return chargeService.updateCharge(charge);
 	}
 
 	/**
