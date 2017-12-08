@@ -1,8 +1,13 @@
 package com.okdeer.jxc.controller.settle.charge;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.TreeUtils;
 import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.report.qo.GoodsReportQo;
+import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
 import com.okdeer.jxc.settle.charge.qo.ChargeCategoryQo;
 import com.okdeer.jxc.settle.charge.service.ChargeCategoryService;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -151,6 +162,32 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 			trees.add(0, tree);
 		}
 		return JSON.toJSONString(trees);
+	}
+	
+	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, ChargeCategoryQo qo) {
+
+		LOG.debug("商品查询导出execl：vo" + qo);
+		try {
+			// 机构条件只根据id查询
+
+			List<ChargeCategory> exportList = chargeCategoryService.queryList(qo);
+			if (CollectionUtils.isNotEmpty(exportList)) {
+				String templateName = ExportExcelConstant.CHARGE_CATEGORY;
+				cleanAccessData(exportList);
+				Map<String, Object> param = new HashMap<>();
+				exportParamListForXLSX(response, exportList, param, "建店费用类别", templateName);
+			} else {
+				RespJson json = RespJson.error("无数据可导");
+				return json;
+			}
+		} catch (Exception e) {
+			LOG.error("商品查询导出execl出现错误{}", e);
+			RespJson json = RespJson.error("导出失败");
+			return json;
+		}
+		return null;
 	}
 
 	/**
