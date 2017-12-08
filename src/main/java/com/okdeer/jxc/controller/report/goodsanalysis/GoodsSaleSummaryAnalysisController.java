@@ -105,13 +105,21 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 	@Override
 	protected Object queryTotal(GoodsSaleSummaryAnalysisQo qo) {
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListTotalByGoods(qo);
+			GoodsSaleSummaryAnalysisByGoodsVo	vo= goodsSaleSummaryAnalysisFacade.queryListTotalByGoods(qo);
+			vo.setSkuCode("合计:");
+			return vo;
 		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListTotalByBigCategory(qo);
+			GoodsSaleSummaryAnalysisByBigCategoryVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByBigCategory(qo);
+			vo.setBigCategoryCode("合计:");
+			return vo;
 		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListTotalByStore(qo);
+			GoodsSaleSummaryAnalysisByStoreVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByStore(qo);
+			vo.setStoreCode("合计:");
+			return vo;
 		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListTotalByStoreGoods(qo);
+			GoodsSaleSummaryAnalysisByStoreGoodsVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByStoreGoods(qo);
+			vo.setStoreCode("合计:");
+			return vo;
 		}
 		return null;
 	}

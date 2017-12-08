@@ -96,7 +96,9 @@ public class MonthSumReportController extends AbstractSimpleGpeController<MonthS
 		if (StringUtils.isEmpty(qo.getSumDate())) {
 			qo.setSumDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 		}
-		return monthSumReportFacade.queryListTotal(qo);
+		MonthSumReportVo vo= monthSumReportFacade.queryListTotal(qo);
+		vo.setSumDate("合计:");
+		return vo;
 	}
 
 	@Override
