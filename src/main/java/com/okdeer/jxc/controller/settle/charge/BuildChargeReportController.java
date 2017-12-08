@@ -317,8 +317,11 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 
 			// 从第一列开始合并列头
 			int firstColIndex = 3;
+			
+			List<String> mergeColumn = new ArrayList<>();
+			mergeColumn.add(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
 
-			ExcelExportUtil.exportMergeHeaderExcel(reportFileName, headers, columns, dataList, response, firstColIndex,
+			ExcelExportUtil.exportMergeHeaderEndRowExcel(reportFileName, headers, columns, mergeColumn, dataList, response, firstColIndex,
 					mergeHeaders);
 
 		} catch (Exception e) {
