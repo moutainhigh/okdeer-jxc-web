@@ -72,6 +72,8 @@ function specialRows(val){
         	item.applyNum = 0;
         	item.largeNum = 0;
         	item.amount = 0;
+        	item.untaxedAmount = 0;
+        	item.taxAmount = 0;
         }
         //建议订货数量 只对建议数量大于o的商品设置
         if(val == '0' && parseFloat(item.suggestNum) > 0){ 
@@ -79,6 +81,8 @@ function specialRows(val){
         	item.tmpLargeNum = parseFloat(item.applyNum)/parseFloat(item.distributionSpec);
         	item.largeNum = (item.tmpLargeNum).toFixed(4); 
         	item.amount = (parseFloat(item.applyNum)*parseFloat(item.price)).toFixed(4); //金额： 数量*价格
+        	item.untaxedAmount = parseFloat(item.applyNum*item.untaxedPrice).toFixed(4); //金额： 数量*价格
+        	item.taxAmount = parseFloat(item.amount - item.untaxedAmount).toFixed(4);
         }
 	}
 	gridHandel.setLoadData(newData);
