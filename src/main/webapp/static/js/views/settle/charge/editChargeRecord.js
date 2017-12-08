@@ -9,7 +9,6 @@ var type = "add";
 var nodeCode = "" ;
 var categoryRecordCallback = null;
 function initCategoryRecordDialog(param) {
-    debugger;
     type = param.type;
         $.each(param,function (index,item) {
             if(index === "financeType"){
@@ -36,7 +35,6 @@ function initCategoryRecordCallback(cb) {
 }
 
 function saveChargeRecord() {
-    debugger;
     if($_jxc.isStringNull($("#chargeName").val())){
         $_jxc.alert("名称不能为空");
         return;
@@ -55,7 +53,7 @@ function saveChargeRecord() {
     var addUrl = contextPath+'/settle/charge/charge/addCharge';
     var updateUrl = contextPath+'/settle/charge/charge/updateCharge';
 
-    var formObj = $("#formchargeRecord").serializeObject();
+    var formObj = $("#formChargeRecord").serializeObject();
 
     if(type === "edit"){
         formObj.id = $("#chargeRecordId").val();
@@ -125,13 +123,5 @@ function categroyDialogCb(data) {
 function closeCategroyCodeDialog() {
     $(categroyCodeDialogTemp).panel('destroy');
     categroyCodeDialogTemp = null;
-}
-
-//清空表单
-function cleanForm(){
-    $("#categoryId").val('');
-    $("#categoryCode").val('');
-    $("#categoryName").val('');
-    $("#remark").val('');
 }
 

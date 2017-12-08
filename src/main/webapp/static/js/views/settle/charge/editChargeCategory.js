@@ -8,16 +8,12 @@ var type = "add";
 var nodeCode = "" ;
 var categoryCodeCallback = null;
 function initCategoryCodeDialog(param) {
-    debugger;
     type = param.type;
 	if(param.type === "edit"){
-		$("#id").val(param.id);
-        $("#categoryCode").val(param.categoryCode);
-        $("#categoryCode").addClass("uinp-no-more")
-        $("#categoryCode").prop("readOnly","readOnly");
-        $("#categoryName").val(param.categoryName);
-        $("#remark").val(param.remark);
-        $("#ckbSaveLabel").css("display","none");
+		$("#formCategoryAdd #id").val(param.id);
+        $("#formCategoryAdd #categoryCode").val(param.categoryCode);
+        $("#formCategoryAdd #categoryName").val(param.categoryName);
+        $("#formCategoryAdd #remark").val(param.remark);
 	}
 	$("#pCategoryId").val(param.categoryId);
     $("#categoryLevel").val(param.categoryLevel);
@@ -54,13 +50,7 @@ function saveCategroyCode() {
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             $_jxc.alert("保存成功");
-            if(type === "add"){
-                if($("#ckbSave").is(":checked")){
-                    cleanForm();
-                }else {
-                    closeCategoryCodeDialog();
-                }
-            }
+            closeCategoryCodeDialog();
             if(categoryCodeCallback){
                 categoryCodeCallback({code:"0"});
             }
@@ -72,12 +62,3 @@ function saveCategroyCode() {
 
     })
 }
-
-
-//清空表单
-function cleanForm(){
-    $("#categoryCode").val('');
-    $("#categoryName").val('');
-    $("#remark").val('');
-}
-

@@ -17,15 +17,15 @@
 		</div>
 	</div>
 	<div class="ub uline"></div>
-	<form id="financeAdd">
+	<form id="formCategoryAdd">
 		<input type="hidden" name="pCategoryId" id="pCategoryId" />
 		<input type="hidden" name="categoryLevel" id="categoryLevel" />
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp  ub ub-f1" type="text" id="categoryCode"
-						 name="categoryCode" maxlength="4" /> <input
+					<input class="uinp  ub ub-f1" type="text" id="categoryCode" disabled="disabled"
+						  name="categoryCode"  maxlength="20" /> <input
 						type="hidden" name="id" id="id" />
 				</div>
 				<i class="ub uc-red">*</i>
@@ -49,17 +49,6 @@
 				</div>
 			</div>
 
-			<div class="ub upad-4 umar-t10">
-
-				<div class="ub ub-ac">
-					<div class="umar-r10 uw-30 ut-r"></div>
-					<div id="cbDiv">
-						<label for="ckbSave" id="ckbSaveLabel"><input id="ckbSave"
-							type="checkbox" checked="checked">保存后自动更新</label>
-					</div>
-
-				</div>
-			</div>
 
 		</div>
 	</form>
