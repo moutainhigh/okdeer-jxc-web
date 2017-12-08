@@ -16,9 +16,9 @@
 		</div>
 	</div>
 	<div class="ub uline"></div>
-	<input type="hidden" id="chargeRecordId" name="chargeRecordId">
-	<form id="formChargeRecord">
 
+	<form id="formChargeRecord">
+	<input type="hidden" id="chargeRecordId" name="chargeRecordId">
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">

@@ -141,7 +141,7 @@ function openChargeCategoryDialog(param) {
 
 function categroyCodeCb(data) {
     if(data.code === "0"){
-        queryChargeCategory();
+       gFunRefresh();
     }
 }
 function closeCategoryCodeDialog() {

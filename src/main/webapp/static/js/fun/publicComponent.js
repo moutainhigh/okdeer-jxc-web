@@ -2998,7 +2998,7 @@ function initCombotree(id,dataItems,defValue){
 function publicChargeRecordService(param,callback) {
     var dialogObj = {
         href: contextPath + "/settle/charge/charge/publicView",
-        width:750,
+        width:780,
         height:600,
         title:"开店费用选择",
         closable:true,
@@ -3037,5 +3037,42 @@ function publicChargeRecordService(param,callback) {
         pubChargeRecord = null;
     }
 }
+
+/*--------------------------------------------------------------------*/
+
+/*------------------------------开店费用类型选择--------------------------------------*/
+/*
+ * 费用类别选择
+ * */
+var categroyCodeDialogTemp = null;
+function publicChargeCodeService(callback) {
+    categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
+        href: contextPath+"/settle/charge/chargeCategory/publicView",
+        width: 750,
+        height: 600,
+        title: "费用类别选择",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(categroyCodeDialogTemp).panel('destroy');
+            categroyCodeDialogTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            var categoryDialogClass = new ChargeCategoryDialogClass();
+            categoryDialogClass.gridChargeCategoryList();
+            categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
+            categoryDialogClass.treeChargeCategory();
+        }
+    })
+
+    function categroyDialogCb(data) {
+        callback(data);
+        $(categroyCodeDialogTemp).panel('destroy');
+        categroyCodeDialogTemp = null;
+    }
+}
+
+
 
 /*--------------------------------------------------------------------*/

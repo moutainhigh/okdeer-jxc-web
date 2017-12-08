@@ -11,8 +11,8 @@ function ChargeCategoryDialogClass() {
 
 var chCateClass = new ChargeCategoryDialogClass();
 
-var gridName = "gridChargeCategoryDialogList";
-var gridHandel = new GridClass();
+ChargeCategoryDialogClass.prototype.gridName = "gridChargeCategoryDialogList";
+ChargeCategoryDialogClass.prototype.gridHandel = new GridClass();
 
 var pubChargeCategoryCallback = null;
 
@@ -55,7 +55,6 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
 }
 
 
-
 //选择树节点
 var selectNode = null;
 ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
@@ -66,8 +65,8 @@ ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, tree
 
 
 ChargeCategoryDialogClass.prototype.gridChargeCategoryList = function() {
-    gridHandel.setGridName(gridName);
-    $("#"+gridName).datagrid({
+    chCateClass.gridHandel.setGridName(chCateClass.gridName);
+    $("#"+chCateClass.gridName).datagrid({
         method:'post',
         align:'center',
         singleSelect:true,  //单选  false多选
@@ -78,29 +77,26 @@ ChargeCategoryDialogClass.prototype.gridChargeCategoryList = function() {
         columns:[[
             {field:'id',hidden:true},
             {field:'categoryCode',title:'编号',width:100,align:'left'},
-            {field:'categoryName',title:'名称',width:200,align:'left'},
+            {field:'categoryName',title:'名称',width:150,align:'left'},
             {field:'remark',title:'备注',width:200,align:'left'}
         ]],
         onClickRow:categoryClickRow,
         onBeforeLoad:function (param) {
-            gridHandel.setDatagridHeader("center");
+            chCateClass.gridHandel.setDatagridHeader("center");
         }
     })
 }
 
 function categoryClickRow(rowIndex, rowData) {
-    closeCategroyCodeDialog();
     if(pubChargeCategoryCallback){
         pubChargeCategoryCallback(rowData);
-
     }
 }
 
-
 function categoryCodeSearch() {
     var formData = $('#formCategoryList').serializeObject();
-    $("#"+gridName).datagrid("options").queryParams = formData;
-    $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/list',
-        $("#"+gridName).datagrid('load');
+    $("#"+chCateClass.gridName).datagrid("options").queryParams = formData;
+    $("#"+chCateClass.gridName).datagrid("options").method = "post";
+    $("#"+chCateClass.gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/list',
+        $("#"+chCateClass.gridName).datagrid('load');
 }

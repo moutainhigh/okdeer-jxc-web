@@ -12,7 +12,7 @@
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 <div class="ub ub-f1 umar-4 upad-4">
 <!--left-->
-<div class="ub ub-ver ubor uw-240">
+<div class="ub ub-ver ubor uw-200">
 	<div class="ub upad-4 ub-f1 uscroll">
 		<div class="zTreeDemoBackground left">
 			<ul id="treeChargeCategory" class="ztree"></ul>
@@ -26,12 +26,13 @@
 <form id="formRecordList" action="">
 		<div class="ub ub-ac umar-r10">
 			<div class="umar-r10 ut-r">关键字:</div>
-			<input class="uinp uw-400" type="text" name="chargeCodeName"
+			<input class="uinp uw-380" type="text" name="chargeCodeName"
 				id="categoryKeyword" placeholder="输入编号、名称进行查询"> <input
 				type="hidden" name="categoryCode" id="categoryCode" />
+				<input type="button" class="ubtn  umar-r10" value="查询"
+				onclick="chargeRecordSearch()">
 		</div>
-		<input type="button" class="ubtn  umar-r10" value="查询"
-			onclick="chargeRecordSearch()">
+
 </form>
 	</div>
 	<div class="ub umar-t10 ub-f1">

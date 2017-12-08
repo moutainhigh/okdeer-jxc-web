@@ -96,22 +96,20 @@ function initGridChargeRecordList() {
 }
 
 function addChargeRecord() {
-    if(null ==selectNode || selectNode.isParent){
-        $_jxc.alert("请选择具体的分类!");
-        return;
-    }
-    if(selectNode.level != 3){
-        $_jxc.alert("请选择第三极分类添加费用档案!");
-        return;
-    }
 
     var param = {
         type:"add",
-        categoryId: selectNode.id,
-        categoryCode:selectNode.code,
-        categoryName:selectNode.codeText,
-        categoryLevel:selectNode.level,
+        categoryId: "",
+        categoryCode:"",
+        categoryName:"",
     }
+
+    if(selectNode && selectNode.level == 3){
+        param.categoryId = selectNode.id;
+            param.categoryCode = selectNode.code;
+            param.categoryName = selectNode.codeText;
+    }
+
     openChargeRecordDialog(param);
 
 }
@@ -120,6 +118,8 @@ function updateChargeRecord(index) {
     var rows = gridHandel.getRows();
     var param = rows[index] ;
         param.type = "edit";
+    // var code = "["+param.categoryCode+"]";
+    // param.categoryName = code+param.categoryNam;
     openChargeRecordDialog(param);
 }
 
@@ -131,6 +131,8 @@ function copyChargeRecord() {
     }
     var param = row ;
     param.type = "copy";
+    // var code = "["+param.categoryCode+"]";
+    // param.categoryName = code+param.categoryNam;
     openChargeRecordDialog(param);
 }
 
@@ -157,18 +159,12 @@ function openChargeRecordDialog(param) {
 }
 
 function categroyCodeCb(data) {
+    $(editDialogTemp).panel('destroy');
+    editDialogTemp = null;
     if(data.code === "0"){
-        closeCategroyDialog();
         queryChargeRecord();
     }
 }
-
-function closeCategroyDialog() {
-    $(editDialogTemp).panel('destroy');
-    editDialogTemp = null;
-}
-
-
 
 /**
  * 搜索

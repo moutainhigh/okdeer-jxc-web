@@ -6,27 +6,26 @@ $(function () {
 })
 var type = "add";
 
-var nodeCode = "" ;
 var categoryRecordCallback = null;
 function initCategoryRecordDialog(param) {
     type = param.type;
         $.each(param,function (index,item) {
             if(index === "financeType"){
-                $('#financeType'+item).prop('checked',true);
+                $('#formChargeRecord #financeType'+item).prop('checked',true);
             }else if(index === "purPrice" || index === "depreciate" || index === "validity"){
-                $("#"+index).numberbox("setValue",item);
+                $("#formChargeRecord #"+index).numberbox("setValue",item);
             }else{
-                    $("#"+index).val(item);
+                    $("#formChargeRecord #"+index).val(item);
                 }
         })
 
     if(type === "edit"){
-        $("#chargeRecordId").val(param.id);
+        $("#formChargeRecord #chargeRecordId").val(param.id);
     }
 
     if(type === "copy"){
-        $("#chargeRecordId").val("");
-        $("#chargeCode").val("");
+        $("#formChargeRecord #chargeRecordId").val("");
+        $("#formChargeRecord #chargeCode").val("");
     }
 }
 
@@ -35,17 +34,17 @@ function initCategoryRecordCallback(cb) {
 }
 
 function saveChargeRecord() {
-    if($_jxc.isStringNull($("#chargeName").val())){
+    if($_jxc.isStringNull($("#formChargeRecord #chargeName").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
 
-    if($_jxc.isStringNull($("#categoryId").val())){
+    if($_jxc.isStringNull($("#formChargeRecord #categoryId").val())){
         $_jxc.alert("类别不能为空");
         return;
     }
 
-    if($_jxc.isStringNull($("#brandId").val())){
+    if($_jxc.isStringNull($("#formChargeRecord #brandId").val())){
         $_jxc.alert("品牌不能为空");
         return;
     }
@@ -56,7 +55,7 @@ function saveChargeRecord() {
     var formObj = $("#formChargeRecord").serializeObject();
 
     if(type === "edit"){
-        formObj.id = $("#chargeRecordId").val();
+        formObj.id = $("#formChargeRecord #chargeRecordId").val();
     }
     var param = {
         url:type === "add"|| type === "copy"?addUrl:updateUrl,
@@ -92,36 +91,13 @@ function getGoodsBrand(){
 * */
 var categroyCodeDialogTemp = null;
 function openChargeCodeDialog() {
-    categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
-        href: contextPath+"/settle/charge/chargeCategory/publicView",
-        width: 600,
-        height: 600,
-        title: "费用类别选择",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(categroyCodeDialogTemp).panel('destroy');
-            categroyCodeDialogTemp = null;
-        },
-        modal: true,
-        onLoad: function () {
-            var categoryDialogClass = new ChargeCategoryDialogClass();
-            categoryDialogClass.treeChargeCategory();
-            categoryDialogClass.gridChargeCategoryList();
-            categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
 
-        }
+    new publicChargeCodeService(function (data) {
+        $("#formChargeRecord #categoryId").val(data.id);
+        $("#formChargeRecord #categoryCode").val(data.categoryCode);
+        // var code = "["+data.categoryCode+"]"
+        $("#formChargeRecord #categoryName").val(data.categoryName);
     })
 }
 
-function categroyDialogCb(data) {
-    $("#categoryId").val(data.id);
-    $("#categoryCode").val(data.categoryCode);
-   $("#categoryName").val(data.categoryName);
-}
-
-function closeCategroyCodeDialog() {
-    $(categroyCodeDialogTemp).panel('destroy');
-    categroyCodeDialogTemp = null;
-}
 
