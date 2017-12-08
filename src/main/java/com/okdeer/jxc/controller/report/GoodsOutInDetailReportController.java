@@ -85,7 +85,9 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected GoodsOutInDetailVo queryTotal(GoodsOutInDetailVo qo) {
-		return goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(qo);
+		GoodsOutInDetailVo vo= goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(qo);
+		vo.setBranchName("合计:");
+		return vo;
 	}
 
 	@Override
