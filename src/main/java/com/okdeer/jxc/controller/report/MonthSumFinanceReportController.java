@@ -119,13 +119,21 @@ public class MonthSumFinanceReportController extends AbstractMutilGpeController<
 		// 根据不同的tabkey查询
 		switch (qo.getTabKey()) {
 			case KEY_BY_BRANCH:
-				return monthSumFinanceReportFacade.queryListTotalByBranch(qo);
+				MonthSumFinanceByBranchVo vo= monthSumFinanceReportFacade.queryListTotalByBranch(qo);
+				vo.setBranchName("合计：");
+				return vo;
 			case KEY_BY_GOODS:
-				return monthSumFinanceReportFacade.queryListTotalByGoods(qo);
+				MonthSumFinanceByGoodsVo vo2=monthSumFinanceReportFacade.queryListTotalByGoods(qo);
+				vo2.setBranchName("合计：");
+				return vo2;
 			case KEY_BY_BRANCH_DETAIL:
-				return monthSumFinanceReportFacade.queryListTotalByBranchDetail(qo);
+				MonthSumFinanceByBranchDetailVo vo3= monthSumFinanceReportFacade.queryListTotalByBranchDetail(qo);
+				vo3.setBranchName("合计：");
+				return vo3;
 			case KEY_BY_GOODS_DETAIL:
-				return monthSumFinanceReportFacade.queryListTotalByGoodsDetail(qo);
+				MonthSumFinanceByGoodsDetailVo vo4= monthSumFinanceReportFacade.queryListTotalByGoodsDetail(qo);
+				vo4.setBranchName("合计：");
+				return vo4;
 			default:
 				break;
 		}

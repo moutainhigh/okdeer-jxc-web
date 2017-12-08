@@ -80,7 +80,7 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 	 * PageUtils.emptyPage(); }
 	 */
 
-	@RequestMapping(value = "/export/list", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/export/list", method = RequestMethod.POST)
 	public RespJson exportList(HttpServletResponse response, StoreSellQo vo) {
 		RespJson resp = RespJson.success();
 		// Optional<StoreSellQo> optional = Optional.ofNullable(vo);
@@ -102,7 +102,7 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 			resp = RespJson.error();
 		}
 		return resp;
-	}
+	}*/
 
 	@RequestMapping(value = "/print", method = RequestMethod.GET)
 	public String printReport(StoreSellQo vo, HttpServletResponse response, HttpServletRequest request) {
@@ -161,7 +161,9 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 
 	@Override
 	protected StoreSell queryTotal(StoreSellQo qo) {
-		return storeSellFacade.sumStoreSells(qo);
+		StoreSell sell= storeSellFacade.sumStoreSells(qo);
+		sell.setBranchCode("合计：");
+		return sell;
 	}
 
 	@Override
