@@ -23,6 +23,7 @@ $(function () {
     });
 
     $('#supplierComponent').supplierSelect({
+    	param:{  queryType:'ALL'},
         onAfterRender:function(data){
             $("#supplierId").val(data.id);
         }
@@ -38,6 +39,7 @@ function initGridBranchCostList() {
     gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
         align:'center',
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
