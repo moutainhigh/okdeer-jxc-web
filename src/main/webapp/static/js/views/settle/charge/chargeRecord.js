@@ -66,11 +66,10 @@ function initGridChargeRecordList() {
         pageSize:50,
         fit:true,
         columns:[[
-            {field:'check',checkbox:true},
             {field:'id',hidden:true},
             {field:'chargeCode',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
-                    return "<a href='#' onclick=\"updateChargeRecord('"+row+"')\" class='ualine'>"+value+"</a>";
+                    return "<a href='#' onclick=\"updateChargeRecord('"+index+"')\" class='ualine'>"+value+"</a>";
 
                 }
             },
@@ -109,17 +108,29 @@ function addChargeRecord() {
     var param = {
         type:"add",
         categoryId: selectNode.id,
-        nodeCode:selectNode.code
+        categoryCode:selectNode.code,
+        categoryName:selectNode.codeText,
+        categoryLevel:selectNode.level,
     }
     openChargeRecordDialog(param);
 
 }
 
-function updateChargeRecord(row) {
-    var param = {
-        type:"edit",
+function updateChargeRecord(index) {
+    var rows = gridHandel.getRows();
+    var param = rows[index] ;
+        param.type = "edit";
+    openChargeRecordDialog(param);
+}
 
+function copyChargeRecord() {
+    var row = $("#"+gridName).datagrid("getSelected");
+    if(!row){
+        $_jxc.alert("请选择一条数据!");
+        return;
     }
+    var param = row ;
+    param.type = "copy";
     openChargeRecordDialog(param);
 }
 
@@ -147,6 +158,7 @@ function openChargeRecordDialog(param) {
 
 function categroyCodeCb(data) {
     if(data.code === "0"){
+        closeCategroyDialog();
         queryChargeRecord();
     }
 }

@@ -23,7 +23,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp ub ub-f1" type="text" id="chargeCode" disabled="disabled"
+					<input class="uinp ub ub-f1 uinp-no-more" type="text" id="chargeCode" disabled="disabled"
 						name="chargeCode"
 						maxlength="50" />
 				</div>
@@ -54,12 +54,12 @@
 
 
 			<div class="ub ub-ac uw-300">
-			<div class="umar-r10 uw-60 ut-r">品牌:</div>
+			<div class="umar-r10 uw-70 ut-r">品牌:</div>
 			<input id="brandId" name="brandId" class="uinp" type="hidden" value="">
 			<input id="brandCode" name="brandCode" class="uinp" type="hidden" value="">
 			<div class="ub">
 
-			<input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
+			<input id="brandName" name="brandName" class="uinp" type="text" onclick="getGoodsBrand()" readonly="readonly">
 			<div class="uinp-more" onclick="getGoodsBrand()">...</div>
 			</div>
 			</div>
@@ -120,13 +120,13 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">财务分类:</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd2" name="financeType"  value="2" checked="checked" /><span>固定资产与设备</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="financeType2" name="financeType"  value="2" checked="checked" /><span>固定资产与设备</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd1" name="financeType" value="1" /><span>长期待摊费用</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="financeType1" name="financeType" value="1" /><span>长期待摊费用</span></label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="rd3" name="financeType" value="3" /><span>累计待摊费用</span></label>
+					<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="financeType3" name="financeType" value="3" /><span>累计待摊费用</span></label>
 					</div>
 				</div>
 			</div>

@@ -9,16 +9,26 @@ var type = "add";
 var nodeCode = "" ;
 var categoryRecordCallback = null;
 function initCategoryRecordDialog(param) {
+    debugger;
     type = param.type;
-    if(param.type === "edit"){
+        $.each(param,function (index,item) {
+            if(index === "financeType"){
+                $('#financeType'+item).prop('checked',true);
+            }else if(index === "purPrice" || index === "depreciate" || index === "validity"){
+                $("#"+index).numberbox("setValue",item);
+            }else{
+                    $("#"+index).val(item);
+                }
+        })
+
+    if(type === "edit"){
         $("#chargeRecordId").val(param.id);
-        $("#categoryCode").val(param.categoryCode);
-        $("#categoryCode").addClass("uinp-no-more")
-        $("#categoryCode").prop("readOnly","readOnly");
-        $("#categoryName").val(param.categoryName);
-        $("#remark").val(param.remark);
     }
 
+    if(type === "copy"){
+        $("#chargeRecordId").val("");
+        $("#chargeCode").val("");
+    }
 }
 
 function initCategoryRecordCallback(cb) {
@@ -51,7 +61,7 @@ function saveChargeRecord() {
         formObj.id = $("#chargeRecordId").val();
     }
     var param = {
-        url:type === "add"?addUrl:updateUrl,
+        url:type === "add"|| type === "copy"?addUrl:updateUrl,
         data:JSON.stringify(formObj),
         contentType:'application/json',
     }
