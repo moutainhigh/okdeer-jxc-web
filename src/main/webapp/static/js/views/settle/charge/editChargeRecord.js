@@ -35,7 +35,6 @@ function initCategoryRecordCallback(cb) {
 }
 
 function saveChargeRecord() {
-    debugger;
     if($_jxc.isStringNull($("#chargeName").val())){
         $_jxc.alert("名称不能为空");
         return;
@@ -124,13 +123,5 @@ function categroyDialogCb(data) {
 function closeCategroyCodeDialog() {
     $(categroyCodeDialogTemp).panel('destroy');
     categroyCodeDialogTemp = null;
-}
-
-//清空表单
-function cleanForm(){
-    $("#categoryId").val('');
-    $("#categoryCode").val('');
-    $("#categoryName").val('');
-    $("#remark").val('');
 }
 

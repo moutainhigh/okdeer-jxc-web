@@ -324,7 +324,7 @@ function saveStoreCharge() {
     var detailList = [];
     $.each(rows,function(i,v){
         if(!v["num"]){
-            $_jxc.alert("第"+(i+1)+"行，数量不能为空");
+            $_jxc.alert("第"+(i+1)+"行，数量不能为空或0");
             isCheckResult = false;
             return false;
         };
