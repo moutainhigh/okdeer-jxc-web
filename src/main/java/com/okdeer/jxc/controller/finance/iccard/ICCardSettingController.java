@@ -150,8 +150,8 @@ public class ICCardSettingController extends BaseController<Object>{
 	
 	@RequestMapping(value = "/save/shop", method = RequestMethod.POST)
 	public RespJson saveShop(String settingId,@RequestParam(value = "ids[]") String[] ids,@RequestParam(value = "enableds[]")byte[] enableds){
-        if (icCardSettingService.checkShopConfig(ids)) {
-            boolean bool = icCardSettingService.saveShop(settingId, ids, enableds, getCurrUserId());
+		if (icCardSettingService.checkShopConfig(settingId, ids)) {
+			boolean bool = icCardSettingService.saveShop(settingId, ids, enableds, getCurrUserId());
             if (bool) {
                 return RespJson.success("一卡通设置成功!");
             }
