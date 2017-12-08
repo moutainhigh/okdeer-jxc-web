@@ -936,4 +936,6 @@ public interface ExportExcelConstant {
      * @Fields PUR_STATE_TRACK : 采购订单状态跟踪
      */
     String PUR_STATE_TRACK = "PurStateTrack.xlsx";
+    
+    String CHARGE_CATEGORY="chargeCategory.xlsx";
 }

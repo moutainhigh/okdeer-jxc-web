@@ -18,6 +18,7 @@ $(function () {
     $('#createUserComponent').operatorSelect({
     	onAfterRender : function(data) {
 			$("#operateUserId").val(data.id);
+			$("#operateUserName").val(data.userName);
 		}
     });
 

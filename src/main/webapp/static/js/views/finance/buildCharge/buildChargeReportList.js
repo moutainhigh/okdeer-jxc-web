@@ -3,6 +3,9 @@ $(function(){
     
     $('#branchSelect').branchSelect();
     
+    $("#branchCodeName").val(sessionBranchCodeName);
+    $("#branchCompleCode").val(sessionBranchCompleCode);
+    
     initDataGridReport();
 });
 
@@ -32,11 +35,76 @@ function initDataGridReport(){
         	}
         	gridHandel.setDatagridHeader("center");
         	//updateFooter();
+        	
+        	mergeRows(data);
         }       
     });
 	inited = true;
    // queryForm();
 	
+}
+
+var threeLevelCgName = 'threeLevelCgName';
+
+function mergeRows(data){
+	
+	var merges = getMergesData(data.rows);
+	for(var i=0; i<merges.length; i++){
+		$("#"+datagridKey).datagrid('mergeCells',{
+			index: merges[i].index,
+			field: threeLevelCgName,
+			rowspan: merges[i].rowspan,
+		});
+	}
+}
+
+//合并表格操作
+function getMergesData(sc_data){
+    var ne_data = []; //目标数组
+    var no_Num = 0;  //游标
+    var _currentObj; //当前统计小项 用于小小项合计
+    if(sc_data.length > 0){
+        sc_data.forEach(function(obj,ind){
+            operateInData(obj);
+        })
+    }
+    function operateInData(arg){
+        var ne_item = {};
+        if(ne_data.length <= 0){
+            //跨行
+            ne_item = {
+                index:0,
+                threeLevelCgName:arg.threeLevelCgName,
+                rowspan:1
+            };
+            ne_data.push(ne_item);
+            _currentObj = ne_item;
+            return ;
+        }
+
+        //统计项
+        
+        var _flag = false; //标识符
+        ne_data.forEach(function(obc,inc){
+            if(obc.threeLevelCgName === arg.threeLevelCgName){
+                _flag = true;
+                obc.rowspan++; //跨行累计
+                no_Num++;      //游标累计
+            }
+        });
+
+        if(!_flag){
+            //下一个统计项
+            var nne_item = {
+                index:++no_Num,
+                threeLevelCgName:arg.threeLevelCgName,
+                rowspan:1
+            };
+            _currentObj = nne_item;
+            ne_data.push(nne_item);
+        }
+    }
+    return ne_data;
 }
 
 function queryForm(){
