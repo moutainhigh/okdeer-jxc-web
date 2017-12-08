@@ -23,6 +23,7 @@ $(function () {
     });
 
     $('#supplierComponent').supplierSelect({
+    	param:{  queryType:'ALL'},
         onAfterRender:function(data){
             $("#supplierId").val(data.id);
         }
