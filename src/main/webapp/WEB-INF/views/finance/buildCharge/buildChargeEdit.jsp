@@ -81,7 +81,7 @@
 
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-60 ut-r">验收时间:</div>
-						<input class="Wdate uw-300 uinp-no-more" name="purTime" id="purTime" value="${form.purTimeStr }"
+						<input class="Wdate uw-300" name="purTime" id="purTime" value="${form.purTimeStr }"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 					</div>
 					<div class="ub ub-ac umar-r40">

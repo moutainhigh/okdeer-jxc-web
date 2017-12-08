@@ -40,6 +40,8 @@ $(function () {
         });
         
         $('#supplierComponent').supplierSelect({
+
+            param:{  queryType:'ALL'},
             onAfterRender:function(data){
                 $("#supplierId").val(data.id);
             }
@@ -58,14 +60,15 @@ $(function () {
         $('#already-examine').css('display','block');
         isdisabled = true;
         url = contextPath + "/finance/buildCharge/getDetailList";
+        $("#remark").prop("disabled","disabled");
     }
     initGridStoreCharge();
 
 })
 
 function disablePageElement() {
-    $("#supplierName").addClass("uinp-no-more")
-    $("#supplierName").prop("disabled","disabled");
+    $("#supplierCodeName").addClass("uinp-no-more")
+    $("#supplierCodeName").prop("disabled","disabled");
     $("#purTime").addClass("uinp-no-more")
     $("#purTime").prop("disabled","disabled");
     $("#branchCodeName").addClass("uinp-no-more")
@@ -202,7 +205,13 @@ function initGridStoreCharge() {
                     }
                 },
             },
-            {field:'remark',title:'备注',width:250,align:'left', editor:'textbox'
+            {field:'remark',title:'备注',width:250,align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:isdisabled,
+                    }
+                },
             },
         ]],
         onClickCell:function(rowIndex,field,value){
