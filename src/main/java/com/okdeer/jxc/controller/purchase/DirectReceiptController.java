@@ -307,6 +307,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 
 			List<PurchaseFormDetail> list = new ArrayList<PurchaseFormDetail>();
 			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+			BigDecimal totalAmount = BigDecimal.ZERO;
+			BigDecimal untaxedTotalAmount = BigDecimal.ZERO;
 			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 				PurchaseFormDetail formDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
@@ -324,9 +326,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				formDetail.setDisabled(0);
                 // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
                 formDetail.setZeroAmount(formDetail.getRealNum());
+                totalAmount = totalAmount.add(formDetail.getAmount());
+                untaxedTotalAmount = untaxedTotalAmount.add(formDetail.getUntaxedAmount());
 				list.add(formDetail);
 			}
-
+			// 重设单据金额
+			form.setAmount(BigDecimalUtils.formatDecimal(totalAmount, 4));
+			form.setUntaxedAmount(BigDecimalUtils.formatDecimal(untaxedTotalAmount, 4));
 			// 保存订单
 			resp = purchaseFormServiceApi.save(form, list);
 			if (resp.isSuccess()) {
@@ -554,6 +560,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			SysUser user = UserUtil.getCurrentUser();
 			Date now = new Date();
 			List<PurchaseFormDetailVo> listVo = formVo.getDetailList();
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal untaxedTotalAmount = BigDecimal.ZERO;
 			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 				PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
@@ -571,8 +579,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 				purchaseFormDetail.setDisabled(0);
                 // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
                 purchaseFormDetail.setZeroAmount(purchaseFormDetail.getRealNum());
+                totalAmount = totalAmount.add(purchaseFormDetail.getAmount());
+                untaxedTotalAmount = untaxedTotalAmount.add(purchaseFormDetail.getUntaxedAmount());
 				list.add(purchaseFormDetail);
 			}
+			// 重设单据金额
+			form.setAmount(BigDecimalUtils.formatDecimal(totalAmount, 4));
+			form.setUntaxedAmount(BigDecimalUtils.formatDecimal(untaxedTotalAmount, 4));
 
 			form.setUpdateUserId(user.getId());
 			form.setUpdateTime(now);

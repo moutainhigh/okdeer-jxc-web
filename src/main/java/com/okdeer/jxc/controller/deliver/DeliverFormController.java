@@ -492,6 +492,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setCreaterBranchId(UserUtil.getCurrBranchId());
 			vo.setValue(user.getId(), user.getId(), null, null);
 			vo.setFormSources(FormSourcesEnum.SYSTEM.getKey());
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal untaxedTotalAmount = BigDecimal.ZERO;
 			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormNo(formNo);
@@ -516,7 +518,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                 }
 				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
 				deliverFormListVo.setZeroAmount(itemNum);
+				totalAmount = totalAmount.add(deliverFormListVo.getAmount());
+				untaxedTotalAmount = untaxedTotalAmount.add(deliverFormListVo.getUntaxedAmount());
 			}
+			// 重算单据金额
+			vo.setAmount(BigDecimalUtils.formatDecimal(totalAmount, 4));
+			vo.setUntaxedAmount(BigDecimalUtils.formatDecimal(untaxedTotalAmount, 4));
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
 				return respJson;
@@ -599,6 +606,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setDealStatus(DeliverStatusEnum.PENDING.getIndex());
 			vo.setStatus(DeliverAuditStatusEnum.WAIT_CHECK.getIndex());
 			vo.setDisabled(DisabledEnum.NO.getIndex());
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal untaxedTotalAmount = BigDecimal.ZERO;
 			for (DeliverFormListVo deliverFormListVo : vo.getDeliverFormListVo()) {
 				deliverFormListVo.setDeliverFormListId(UuidUtils.getUuid());
 				deliverFormListVo.setFormId(vo.getDeliverFormId());
@@ -621,8 +630,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				
                 // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
 				deliverFormListVo.setZeroAmount(itemNum);
+                totalAmount = totalAmount.add(deliverFormListVo.getAmount());
+                untaxedTotalAmount = untaxedTotalAmount.add(deliverFormListVo.getUntaxedAmount());
 			}
-
+            // 重设单据金额
+            vo.setAmount(BigDecimalUtils.formatDecimal(totalAmount, 4));
+            vo.setUntaxedAmount(BigDecimalUtils.formatDecimal(untaxedTotalAmount, 4));
 			respJson = deliverFormServiceApi.updateForm(vo);
 			if (respJson.getStatus() != 0) {
 				return respJson;
