@@ -177,7 +177,7 @@ public class ActivityController extends BaseController<ActivityController> {
 
 				// 构建买满送数据
 				buildFullGiveData(activityVo, main, detailList, goodsGiftList, listVo);
-
+				main.setMemberExclusive(0);
 			} else {
 				for (ActivityDetailVo activityDetailVo : listVo) {
 
