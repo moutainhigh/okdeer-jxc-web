@@ -63,7 +63,7 @@ function goodsArchives(){
 }
 var goodsClass = new goodsArchives();
 
-var branchId;
+var branchIds;
 
 $(function(){
 	initView();
@@ -71,7 +71,7 @@ $(function(){
 	initDatagridOrders();
 	//清楚缓存
 	localStorageUtil.clearStorageItem();
-	branchId = $("#branchId").val();
+	branchIds = $("#branchIds").val();
 	//开始和结束时间
 	//toChangeDate(10);
 	var startTime = dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd");
@@ -82,6 +82,19 @@ $(function(){
 });
 
 function initView(){
+    $('#branchComponent').branchSelect({
+        param:{
+            selectType:1, //多选receiveBranchIds
+            formType:'DV'
+        },
+        loadFilter:function(data){
+            data.forEach(function(obj,index){
+                obj.branchIds = obj.branchesId;
+            })
+            return data;
+        }
+    });
+    
     $('#goodsType').combobox({
         valueField:'id',
         textField:'text',
@@ -134,8 +147,6 @@ function zTreeOnClick(event, treeId, treeNode) {
         $("#categoryCode").val(treeNode.code);
         $("#brandId").val('');
         $("#supplierId").val('');
-        $("#startCount").val('');
-    	$("#endCount").val('');
     }
     gridReload("goodsTab",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -351,17 +362,6 @@ function searchBind(){
 }
 
 /**
- * 机构列表下拉选
- */
-function searchBranch(){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		//$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'DV',branchId);
-}
-
-/**
  * 商品类别
  */
 function searchCategory(){
@@ -396,24 +396,6 @@ function selectSkuCode(){
  * 导出
  */
 function exportData(){
-	var length = $('#goodsTab').datagrid('getData').rows.length;
-	if(length == 0){
-		successTip("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
 	//获取左侧缓存查询数据
 	var obj = localStorageUtil.getLocalStorageItem("storge");
 	$("#categoryCode").val(obj.categoryCode);
@@ -422,11 +404,14 @@ function exportExcel(){
 	
 	formData.startTime = formData.startTime + " 00:00";
 	formData.endTime = formData.endTime + " 00:00";
-	//导出记录上一次查询条件
-	$("#exportForm").attr("action",contextPath+"/report/branchGoodsSaleReport/exportList?" + $.param(formData));
-	$("#exportForm").submit(); 
+	
+    var param = {
+        datagridId:"goodsTab",
+        formObj:formData,
+        url:contextPath+"/report/branchGoodsSaleReport/exportList"
+    }
+    publicExprotService(param);
 }
-
 
 //搜索导出清除左侧条件
 function cleanLeftParam(){
@@ -447,20 +432,18 @@ function query(){
 		$_jxc.alert("请选择机构");
 		return;
 	}
-	if($("#branchId").val() == null || $("#branchId").val() == ''){
+	if($("#branchIds").val() == null || $("#branchIds").val() == ''){
 		$_jxc.alert("请选择机构");
 		return;
 	}
 
-	if ($("#branchId").val() == '0') {
+	if ($("#branchIds").val() == '0') {
 		$_jxc.alert("请选择分公司机构");
 		return;
 	}
 
 	//搜索导出清除左侧条件
 	cleanLeftParam();
-	$("#startCount").val('');
-	$("#endCount").val('');
 	
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
@@ -571,7 +554,7 @@ function supplierAutoComple(){
 		return;
 	}
 	var supplierNameOrsupplierCode = $("#supplierName").val();
-	var branchId=$("#branchId").val();
+	var branchIds=$("#branchIds").val();
 	//未输入值时，直接返回，无需查询
 	if("" == supplierNameOrsupplierCode){
 		$("#supplierId").val("");
@@ -587,7 +570,7 @@ function supplierAutoComple(){
 	}
 	//请求数据
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
-	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
+	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchIds};
 	$.post(httpUrl, args,function(data){
 		if(null != data && data.list.length == 1){
 			var supplierId = data.list[0].id;

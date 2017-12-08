@@ -119,6 +119,11 @@ function getCashDailyColumns(queryType) {
                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
               },
           },
+          {field: 'offDjq', title: '线下代金券', width:120, align: 'right',rowspan:2,
+        	  formatter : function(value, row,index) {
+        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	  },
+          },
           {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
               formatter : function(value, row,index) {
                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -211,6 +216,11 @@ function getCashDailyColumns(queryType) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field: 'offDjq', title: '线下代金券', width:120, align: 'right',rowspan:2,
+          	  formatter : function(value, row,index) {
+          		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+          	  },
+            },
             {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
                 formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -302,6 +312,11 @@ function getCashDailyColumns(queryType) {
                 formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+            },
+            {field: 'offDjq', title: '线下代金券', width:120, align: 'right',rowspan:2,
+          	  formatter : function(value, row,index) {
+          		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+          	  },
             },
             {field: 'pdf', title: '平台垫付', width:120, align: 'right',rowspan:2,
                 formatter : function(value, row,index) {
