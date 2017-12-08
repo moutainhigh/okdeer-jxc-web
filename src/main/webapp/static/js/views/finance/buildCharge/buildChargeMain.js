@@ -193,7 +193,7 @@ function initGridStoreCharge() {
                         return;
                     }
                     if(!value){
-                        row["validity"] = 0.00;
+                        row["validity"] = 0;
                     }
                     return '<b>'+parseFloat(value||0)+'</b>';
                 },
@@ -337,8 +337,8 @@ function saveStoreCharge() {
             isCheckResult = false;
             return false;
         };
-        if(v["amount"]<=0){
-            $_jxc.alert("第"+(i+1)+"行，金额必须大于0");
+        if(v["validity"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，保修期限必须大于0");
             isCheckResult = false;
             return false;
         }

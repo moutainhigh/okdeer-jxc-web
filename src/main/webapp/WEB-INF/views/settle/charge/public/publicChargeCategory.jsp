@@ -11,7 +11,7 @@
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 <div class="ub ub-f1 umar-4 upad-4">
 	<!--left-->
-	<div class="ub ub-ver ubor uw-240">
+	<div class="ub ub-ver ubor uw-200">
 		<div class="ub upad-4 ub-f1 uscroll">
 			<div class="zTreeDemoBackground left">
 				<ul id="treeChargeCategory" class="ztree"></ul>
@@ -25,14 +25,15 @@
 
 				<div class="ub ub-ac umar-r10">
 					<div class="umar-r10 ut-r">关键字:</div>
-					<input class="uinp uw-400" type="text" name="categoryCodeName"
+					<input class="uinp uw-380" type="text" name="categoryCodeName"
 						id="categoryCodeName" placeholder="输入编号、名称进行查询"> <input
 						type="hidden" name="categoryCode" id="categoryCode" />
 					<input
 					type="hidden" name="levels" id="levels" value="3"/>
-				</div>
-				<input type="button" class="ubtn  umar-r10" value="查询"
+					<input type="button" class="ubtn  umar-r10" value="查询"
 					onclick="categoryCodeSearch()">
+				</div>
+
 			</form>
 		</div>
 		<div class="ub umar-t10 ub-f1">

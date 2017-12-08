@@ -15,8 +15,8 @@ function initCategoryCodeDialog(param) {
         $("#formCategoryAdd #categoryName").val(param.categoryName);
         $("#formCategoryAdd #remark").val(param.remark);
 	}
-	$("#pCategoryId").val(param.categoryId);
-    $("#categoryLevel").val(param.categoryLevel);
+	$("#formCategoryAdd #pCategoryId").val(param.categoryId);
+    $("#formCategoryAdd #categoryLevel").val(param.categoryLevel);
 
 }
 
@@ -25,7 +25,7 @@ function initCategoryCodeCallback(cb) {
 }
 
 function saveCategroyCode() {
-    if($_jxc.isStringNull($("#categoryName").val())){
+    if($_jxc.isStringNull($("#formCategoryAdd #categoryName").val())){
         $_jxc.alert("名称不能为空");
         return;
     }
@@ -41,7 +41,7 @@ function saveCategroyCode() {
         remark:$("#remark").val(),
     }
     if(type === "edit"){
-        data.id = $("#id").val();
+        data.id = $("#formCategoryAdd #id").val();
     }
 	var param = {
 		url:type === "add"?addUrl:updateUrl,

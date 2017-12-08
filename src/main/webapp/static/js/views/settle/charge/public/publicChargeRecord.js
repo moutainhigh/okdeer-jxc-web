@@ -9,11 +9,11 @@ function ChargeRecordDialogClass() {
 
 }
 
-var gridName = "gridChargeRecordDialogList";
-var gridHandel = new GridClass();
-
+ChargeRecordDialogClass.prototype.gridName = "gridChargeRecordDialogList";
+ChargeRecordDialogClass.prototype.gridHandel = new GridClass();
+var chRecordClass = new ChargeRecordDialogClass();
 ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
-    var chRecordClass = new ChargeRecordDialogClass();
+
     var args = {};
     var httpUrl = contextPath+"/settle/charge/chargeCategory/getCategoryToTree";
     $.get(httpUrl, args,function(data){
@@ -59,8 +59,8 @@ ChargeRecordDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNo
 
 
 ChargeRecordDialogClass.prototype.gridChargeRecordList = function() {
-    gridHandel.setGridName(gridName);
-    $("#"+gridName).datagrid({
+    chRecordClass.gridHandel.setGridName(chRecordClass.gridName);
+    $("#"+chRecordClass.gridName).datagrid({
         method:'post',
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -86,15 +86,13 @@ ChargeRecordDialogClass.prototype.gridChargeRecordList = function() {
         ]],
         // onClickRow:chargeRecordClickRow,
         onBeforeLoad:function (param) {
-            gridHandel.setDatagridHeader("center");
+            chRecordClass.gridHandel.setDatagridHeader("center");
         }
     })
 }
 
-
-
 ChargeRecordDialogClass.prototype.publicChargeRecordGetCheck = function(recordCb){
-    var rows =  $("#"+gridName).datagrid("getChecked");
+    var rows =  $("#"+chRecordClass.gridName).datagrid("getChecked");
     if(rows.length<=0){
         $_jxc.alert("请选择数据");
         return;
@@ -109,8 +107,8 @@ ChargeRecordDialogClass.prototype.publicChargeRecordGetCheck = function(recordCb
 
 function chargeRecordSearch() {
     var formData = $('#formRecordList').serializeObject();
-    $("#"+gridName).datagrid("options").queryParams = formData;
-    $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/charge/list',
-        $("#"+gridName).datagrid('load');
+    $("#"+chRecordClass.gridName).datagrid("options").queryParams = formData;
+    $("#"+chRecordClass.gridName).datagrid("options").method = "post";
+    $("#"+chRecordClass.gridName).datagrid("options").url = contextPath+'/settle/charge/charge/list',
+        $("#"+chRecordClass.gridName).datagrid('load');
 }
