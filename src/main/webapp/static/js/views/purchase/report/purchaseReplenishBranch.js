@@ -156,6 +156,9 @@ function purchaseDetailCx(){
 	
 	var formData = $("#queryForm").serializeObject();
 	
+	$("#startCount").val('');
+	$("#endCount").val('');
+	
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";
 	$("#purReportDetail").datagrid("options").url =  contextPath+"/purchase/report/replenishAnaly/reportList";
@@ -195,5 +198,5 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	location.href=contextPath+"/report/purchase/getDgStockAnalysisList";
+	location.href=contextPath+"/purchase/report/replenishAnaly/toManager";
 };

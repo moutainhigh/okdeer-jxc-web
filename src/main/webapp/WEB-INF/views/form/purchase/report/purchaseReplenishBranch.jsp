@@ -27,6 +27,9 @@
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	            
+	            <input type="hidden" id="startCount" name="startCount" />
+				<input type="hidden" id="endCount" name="endCount" />
+	            
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
 <!-- 	            	<div class="umar-r10 uw-70 ut-r">日期:</div> -->
