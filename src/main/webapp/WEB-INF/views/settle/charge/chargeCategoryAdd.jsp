@@ -25,7 +25,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
 					<input class="uinp  ub ub-f1" type="text" id="categoryCode" disabled="disabled"
-						placeholder="编号为4位数字" name="categoryCode" maxlength="4" /> <input
+						 name="categoryCode" maxlength="4" /> <input
 						type="hidden" name="id" id="id" />
 				</div>
 				<i class="ub uc-red">*</i>
