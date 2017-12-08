@@ -64,12 +64,14 @@ $(function () {
 })
 
 function disablePageElement() {
-    // $("#supplierName").addClass("un")
+    $("#supplierName").addClass("uinp-no-more")
     $("#supplierName").prop("disabled","disabled");
+    $("#purTime").addClass("uinp-no-more")
     $("#purTime").prop("disabled","disabled");
+    $("#branchCodeName").addClass("uinp-no-more")
     $("#branchCodeName").prop("disabled","disabled");
+    $("#purUserName").addClass("uinp-no-more")
     $("#purUserName").prop("disabled","disabled");
-    $("#remark").prop("disabled","disabled");
 }
 
 var gridRecordName = "gridBuldCharge";
