@@ -2998,7 +2998,7 @@ function initCombotree(id,dataItems,defValue){
 function publicChargeRecordService(param,callback) {
     var dialogObj = {
         href: contextPath + "/settle/charge/charge/publicView",
-        width:650,
+        width:750,
         height:600,
         title:"开店费用选择",
         closable:true,
@@ -3009,15 +3009,17 @@ function publicChargeRecordService(param,callback) {
         },
         modal: true,
     };
-    var recordClass = new  ChargeRecordDialogClass();
+    var recordClass = null;
     dialogObj["onLoad"] =function(){
+        recordClass = new  ChargeRecordDialogClass();
         recordClass.gridChargeRecordList();
         recordClass.treeChargeCategory();
     };
     dialogObj["buttons"] =[{
         text:'确定',
         handler:function(){
-            recordClass.publicChargeRecordGetCheck(callback);
+            getCheckedChargeRecord();
+
         }
     },{
         text:'取消',
@@ -3029,6 +3031,11 @@ function publicChargeRecordService(param,callback) {
 
     var pubChargeRecord = $('<div id="publicChargeRecord"/>').dialog(dialogObj);
 
+    function getCheckedChargeRecord() {
+        recordClass.publicChargeRecordGetCheck(callback);
+        $(pubChargeRecord).dialog('destroy');
+        pubChargeRecord = null;
+    }
 }
 
 /*--------------------------------------------------------------------*/

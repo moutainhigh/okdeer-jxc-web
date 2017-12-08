@@ -8,6 +8,7 @@ var type = "add";
 var nodeCode = "" ;
 var categoryCodeCallback = null;
 function initCategoryCodeDialog(param) {
+    debugger;
     type = param.type;
 	if(param.type === "edit"){
 		$("#id").val(param.id);

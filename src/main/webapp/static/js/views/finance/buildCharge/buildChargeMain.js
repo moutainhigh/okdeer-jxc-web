@@ -26,6 +26,9 @@ $(function () {
                 branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES +
                 ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
                 ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+            },
+            onAfterRender:function (data) {
+                selbranchType = data.type;
             }
         });
 
@@ -43,6 +46,7 @@ $(function () {
         });
         
     }else if(chargeStatus === "edit"){
+        disablePageElement();
         oldData = {
             remark:$("#remark").val()                  // 备注
         }
@@ -50,6 +54,7 @@ $(function () {
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/buildCharge/getDetailList";
     }else if(chargeStatus === "check"){
+        disablePageElement();
         $('#already-examine').css('display','block');
         isdisabled = true;
         url = contextPath + "/finance/buildCharge/getDetailList";
@@ -58,25 +63,36 @@ $(function () {
 
 })
 
-var gridName = "gridBuldCharge";
-var gridHandel = new GridClass();
+function disablePageElement() {
+    $("#supplierName").addClass("uinp-no-more")
+    $("#supplierName").prop("disabled","disabled");
+    $("#purTime").addClass("uinp-no-more")
+    $("#purTime").prop("disabled","disabled");
+    $("#branchCodeName").addClass("uinp-no-more")
+    $("#branchCodeName").prop("disabled","disabled");
+    $("#purUserName").addClass("uinp-no-more")
+    $("#purUserName").prop("disabled","disabled");
+}
+
+var gridRecordName = "gridBuldCharge";
+var gridRecordHandel = new GridClass();
 var gridDefault = {
     amount:0
 }
 var editRowData = null;
 
 function initGridStoreCharge() {
-    gridHandel.setGridName(gridName);
-    gridHandel.initKey({
+    gridRecordHandel.setGridName(gridRecordName);
+    gridRecordHandel.initKey({
         firstName:'chargeCode',
         enterName:'chargeCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
-                gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
+                gridRecordHandel.addRow(parseInt(gridRecordHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
-                    gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
-                    gridHandel.setSelectFieldName("chargeCode");
-                    gridHandel.setFieldFocus(gridHandel.getFieldTarget('chargeCode'));
+                    gridRecordHandel.setBeginRow(gridRecordHandel.getSelectRowIndex()+1);
+                    gridRecordHandel.setSelectFieldName("chargeCode");
+                    gridHandel.setFieldFocus(gridRecordHandel.getFieldTarget('chargeCode'));
                 },100)
             }else{
                 selectChargeRecord(arg);
@@ -85,7 +101,7 @@ function initGridStoreCharge() {
     })
 
 
-    $("#"+gridName).datagrid({
+    $("#"+gridRecordName).datagrid({
         align:'center',
         url:url,
         queryParams:{
@@ -108,7 +124,7 @@ function initGridStoreCharge() {
                     return str;
                 },
             },
-            // {field:'costTypeId',hidden:'true'},
+            {field:'chargeId',hidden:'true'},
             {field:'chargeCode',title:'费用编码',width:80,align:'left',
                 editor:{
                     type:'textbox',
@@ -136,7 +152,7 @@ function initGridStoreCharge() {
                         disabled:isdisabled,
                         min:0,
                         precision:4,
-                        onchange:changeChargeNum()
+                        onChange:changeChargeNum
                     }
                 },
             },
@@ -146,18 +162,10 @@ function initGridStoreCharge() {
                         return
                     }
                     if(!value){
-                        row["price"] = 0.00;
+                        row["price"] = 0.0000;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4
-                    }
-                },
+                }
             },
 
             {field:'amount',title:'金额',width:120,align:'right',
@@ -171,7 +179,7 @@ function initGridStoreCharge() {
                     type:'numberbox',
                     options:{
                         precision:4,
-                        disabled:isdisabled,
+                        disabled:true,
                     }
                 },
             },
@@ -198,13 +206,13 @@ function initGridStoreCharge() {
             },
         ]],
         onClickCell:function(rowIndex,field,value){
-            gridHandel.setBeginRow(rowIndex);
-            gridHandel.setSelectFieldName(field);
-            var target = gridHandel.getFieldTarget(field);
+            gridRecordHandel.setBeginRow(rowIndex);
+            gridRecordHandel.setSelectFieldName(field);
+            var target = gridRecordHandel.getFieldTarget(field);
             if(target){
-                gridHandel.setFieldFocus(target);
+                gridRecordHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("chargeCode");
+                gridRecordHandel.setSelectFieldName("chargeCode");
             }
         },
         onBeforeEdit:function (rowIndex, rowData) {
@@ -212,53 +220,55 @@ function initGridStoreCharge() {
         },
         onAfterEdit:function(rowIndex, rowData, changes){
             if(typeof(rowData.id) === 'undefined'){
-                // $("#"+gridName).datagrid('acceptChanges');
+                // $("#"+gridRecordName).datagrid('acceptChanges');
             }else{
                 if(editRowData.costTypeCode != changes.costTypeCode){
                     rowData.costTypeCode = editRowData.costTypeCode;
-                    gridHandel.setFieldTextValue('chargeCode',editRowData.costTypeCode);
+                    gridRecordHandel.setFieldTextValue('chargeCode',editRowData.costTypeCode);
                 }
             }
         },
         onLoadSuccess : function(data) {
 
             if(chargeStatus === "edit" && !oldData["grid"]){
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                oldData["grid"] = $.map(gridRecordHandel.getRows(), function(obj){
                     return $.extend(true,{},obj);//返回对象的深拷贝
                 });
             }
-            gridHandel.setDatagridHeader("center");
+            gridRecordHandel.setDatagridHeader("center");
             updateFooter();
         }
     })
 
     if(chargeStatus === "add"){
-        gridHandel.setLoadData([$.extend({},gridDefault)]);
+        gridRecordHandel.setLoadData([$.extend({},gridDefault)]);
     }
 }
 
 //合计
 function updateFooter(){
     var fields = {amount:0};
-    var argWhere = {name:'isGift',value:""}//
-    gridHandel.updateFooter(fields,argWhere);
+    var argWhere = {name:'isGift',value:0}
+    gridRecordHandel.updateFooter(fields,argWhere);
 }
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
-    gridHandel.addRow(index,gridDefault);
+    gridRecordHandel.addRow(index,gridDefault);
 }
 //删除一行
 function delLineHandel(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
-    gridHandel.delRow(index);
+    gridRecordHandel.delRow(index);
 }
 
 function changeChargeNum(newVal,oldVal) {
-
-
+    var price = gridRecordHandel.getFieldData(gridRecordHandel.getSelectRowIndex(),"price");
+    var amount = (newVal*price).toFixed(4);
+    gridRecordHandel.setFieldValue("amount",amount);
+    updateFooter();
 }
 
 
@@ -268,7 +278,7 @@ function storeChargeAdd() {
 
 
 function saveStoreCharge() {
-    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    $("#"+gridRecordName).datagrid("endEdit", gridRecordHandel.getSelectRowIndex());
 
     //收货机构
     var branchId = $("#branchId").val();
@@ -304,7 +314,7 @@ function saveStoreCharge() {
     	return;
     }
 
-    var rows = gridHandel.getRowsWhere({chargeName:1});
+    var rows = gridRecordHandel.getRowsWhere({chargeName:1});
     if(rows.length==0){
         $_jxc.alert("表格数据不完整或者为空");
         return;
@@ -313,8 +323,8 @@ function saveStoreCharge() {
     var isCheckResult = true;
     var detailList = [];
     $.each(rows,function(i,v){
-        if(!v["chargeCode"]){
-            $_jxc.alert("第"+(i+1)+"行，支出代码不能为空");
+        if(!v["num"]){
+            $_jxc.alert("第"+(i+1)+"行，数量不能为空");
             isCheckResult = false;
             return false;
         };
@@ -343,7 +353,7 @@ function saveStoreCharge() {
     //备注
     var remark = $("#remark").val();
 
-    var footerRows = $("#"+gridName).datagrid("getFooterRows");
+    var footerRows = $("#"+gridRecordName).datagrid("getFooterRows");
     if(footerRows){
         totalchargeAmount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
@@ -390,19 +400,25 @@ function selectChargeRecord(searchKey) {
     var param = {
         key:searchKey,
     };
-    publicChargeRecordService(param,function (data) {
-        
+   new publicChargeRecordService(param,function (data) {
+       if(searchKey){
+           $("#"+gridRecordName).datagrid("deleteRow", gridRecordHandel.getSelectRowIndex());
+           $("#"+gridRecordName).datagrid("acceptChanges");
+       }
+       var nowRows = gridRecordHandel.getRowsWhere({chargeName:'1'});
+       var keyNames = {
+           purPrice:'price',
+           id:'chargeId'
+       };
+       var updateRows = gFunUpdateKey(data,keyNames);
+       var argWhere ={chargeCode:1};  // 验证重复性
+       var newRows = gridRecordHandel.checkDatagrid(nowRows,updateRows,argWhere);
+       $("#"+gridRecordName).datagrid("loadData",newRows);
     })
 }
 
-var chargeRecordTemp = null;
-function publicChargeRecord(param) {
+function setData(searchKey,data) {
 
-}
-
-function closeChargeRecordDialog(){
-    chargeRecordTemp = null;
-    $(chargeRecordTemp).destroy();
 }
 
 function chargeDelete() {
@@ -434,7 +450,7 @@ function  chargeCheck() {
 
     var newData = {
         remark:$("#remark").val(),                  // 备注
-        grid:gridHandel.getRows(),
+        grid:gridRecordHandel.getRows(),
     }
 
     if(!gFunComparisonArray(oldData,newData)){
@@ -466,7 +482,7 @@ function  chargeCheck() {
 }
 
 function exportList(){
-	var length = $("#" + gridName).datagrid('getData').total;
+	var length = $("#" + gridRecordName).datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert('提示',"列表数据为空");
 		return;

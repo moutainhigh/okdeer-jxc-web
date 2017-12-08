@@ -35,7 +35,7 @@
 					<shiro:hasPermission name="JxcBuildCharge:audit">
 						<div class="ubtns-item" onclick="chargeCheck()">审核</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="selectCharge()">费用选择</div>
+					<div class="ubtns-item" onclick="selectChargeRecord()">费用选择</div>
 					<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>
 					<shiro:hasPermission name="JxcBuildCharge:delete">
 						<div class="ubtns-item" onclick="chargeDelete()">删除</div>
@@ -82,7 +82,7 @@
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-60 ut-r">验收时间:</div>
 						<input class="Wdate uw-300 uinp-no-more" name="purTime" id="purTime" value="${form.purTimeStr }"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 					</div>
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-80 ut-r">制单人员:</div>

@@ -9,12 +9,11 @@ function ChargeRecordDialogClass() {
 
 }
 
-var chRecordClass = new ChargeRecordDialogClass();
-
 var gridName = "gridChargeRecordDialogList";
 var gridHandel = new GridClass();
 
 ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
+    var chRecordClass = new ChargeRecordDialogClass();
     var args = {};
     var httpUrl = contextPath+"/settle/charge/chargeCategory/getCategoryToTree";
     $.get(httpUrl, args,function(data){
@@ -31,7 +30,7 @@ ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
                 }
             },
             callback: {
-                onClick: chCateClass.zTreeOnClick
+                onClick: chRecordClass.zTreeOnClick
             }
         };
         $.fn.zTree.init($("#treeChargeCategory"), setting, JSON.parse(data));
@@ -44,7 +43,7 @@ ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
         treeObj.selectNode(childrens[0]);
         selectNode = childrens[0];
         $("#categoryCode").val(selectNode.code);
-        categoryCodeSearch();
+        chargeRecordSearch();
     });
 }
 
@@ -55,7 +54,7 @@ var selectNode = null;
 ChargeRecordDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
     selectNode = treeNode;
     $("#categoryCode").val(selectNode.code);
-    categoryCodeSearch();
+    chargeRecordSearch();
 }
 
 
@@ -64,17 +63,18 @@ ChargeRecordDialogClass.prototype.gridChargeRecordList = function() {
     $("#"+gridName).datagrid({
         method:'post',
         align:'center',
-        singleSelect:true,  //单选  false多选
+        singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         pageSize:50,
         fit:true,
         columns:[[
+            {field:'check',checkbox:true},
             {field:'id',hidden:true},
             {field:'chargeCode',title:'编号',width:100,align:'left',},
-            {field:'chargeName',title:'名称',width:200,align:'left'},
+            {field:'chargeName',title:'名称',width:150,align:'left'},
             {field:'unit',title:'单位',width:60,align:'left'},
-            {field:'spec',title:'规格',width:60,align:'left'},
+            {field:'spec',title:'规格',width:80,align:'left'},
             {field:'purPrice',title:'单价',width:80,align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -92,12 +92,18 @@ ChargeRecordDialogClass.prototype.gridChargeRecordList = function() {
 }
 
 
-ChargeRecordDialogClass.prototype.publicChargeRecordGetCheck = function(cb){
-    var rows =  $("#"+gridName).datagrid("getChecked");
-    if(cb){
-        cb(rows);
 
+ChargeRecordDialogClass.prototype.publicChargeRecordGetCheck = function(recordCb){
+    var rows =  $("#"+gridName).datagrid("getChecked");
+    if(rows.length<=0){
+        $_jxc.alert("请选择数据");
+        return;
+    }else{
+        if(recordCb){
+            recordCb(rows);
+        }
     }
+
 }
 
 
