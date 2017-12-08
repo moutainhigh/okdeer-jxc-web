@@ -390,33 +390,9 @@ function selectChargeRecord(searchKey) {
     var param = {
         key:searchKey,
     };
-    publicCostService(param,function(data){
-        if(data.length==0){
-            return;
-        }
-        if(searchKey){
-            $("#"+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
-            $("#"+gridName).datagrid("acceptChanges");
-        }
-
-        var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
-        var addDefaultData = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-        	id:"costTypeId",
-            value:"costTypeCode",
-            label:"costTypeLabel"
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={costTypeCode:1};  //验证重复性
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,{});
-        $("#"+gridName).datagrid("loadData",newRows);
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("amount");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('amount'));
-        },100)
-    });
+    publicChargeRecordService(param,function (data) {
+        
+    })
 }
 
 var chargeRecordTemp = null;

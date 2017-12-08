@@ -2992,3 +2992,43 @@ function initCombotree(id,dataItems,defValue){
         }
     })
 }
+
+/*------------------------------开店费用档案选择--------------------------------------*/
+
+function publicChargeRecordService(param,callback) {
+    var dialogObj = {
+        href: contextPath + "/settle/charge/charge/publicView",
+        width:650,
+        height:600,
+        title:"开店费用选择",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            pubChargeRecord = null;
+        },
+        modal: true,
+    };
+    var recordClass = new  ChargeRecordDialogClass();
+    dialogObj["onLoad"] =function(){
+        recordClass.gridChargeRecordList();
+        recordClass.treeChargeCategory();
+    };
+    dialogObj["buttons"] =[{
+        text:'确定',
+        handler:function(){
+            recordClass.publicChargeRecordGetCheck(callback);
+        }
+    },{
+        text:'取消',
+        handler:function(){
+            $(pubChargeRecord).dialog('destroy');
+            pubChargeRecord = null;
+        }
+    }];
+
+    var pubChargeRecord = $('<div id="publicChargeRecord"/>').dialog(dialogObj);
+
+}
+
+/*--------------------------------------------------------------------*/

@@ -14,12 +14,6 @@ var chRecordClass = new ChargeRecordDialogClass();
 var gridName = "gridChargeRecordDialogList";
 var gridHandel = new GridClass();
 
-var pubChargeRecordCallback = null;
-
-ChargeRecordDialogClass.prototype.initPubChCategoryCallback = function (cb) {
-    pubChargeRecordCallback = cb;
-}
-
 ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
     var args = {};
     var httpUrl = contextPath+"/settle/charge/chargeCategory/getCategoryToTree";
@@ -60,12 +54,12 @@ ChargeRecordDialogClass.prototype.treeChargeCategory = function() {
 var selectNode = null;
 ChargeRecordDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
     selectNode = treeNode;
-    $("#typeCode").val(selectNode.code);
+    $("#categoryCode").val(selectNode.code);
     categoryCodeSearch();
 }
 
 
-ChargeRecordDialogClass.prototype.gridChargeCategoryList = function() {
+ChargeRecordDialogClass.prototype.gridChargeRecordList = function() {
     gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
         method:'post',
@@ -90,17 +84,18 @@ ChargeRecordDialogClass.prototype.gridChargeCategoryList = function() {
                 },
             },
         ]],
-        onClickRow:chargeRecordClickRow,
+        // onClickRow:chargeRecordClickRow,
         onBeforeLoad:function (param) {
             gridHandel.setDatagridHeader("center");
         }
     })
 }
 
-function chargeRecordClickRow(rowIndex, rowData) {
-    closeChargeRecordDialog();
-    if(pubChargeRecordCallback){
-        pubChargeRecordCallback(rowData);
+
+ChargeRecordDialogClass.prototype.publicChargeRecordGetCheck = function(cb){
+    var rows =  $("#"+gridName).datagrid("getChecked");
+    if(cb){
+        cb(rows);
 
     }
 }
