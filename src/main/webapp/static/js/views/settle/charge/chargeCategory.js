@@ -158,7 +158,7 @@ function queryChargeCategory(){
     var formData = $('#formCategoryList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/charge/list',
+    $("#"+gridName).datagrid("options").url = contextPath+'/settle/charge/chargeCategory/list',
         $("#"+gridName).datagrid('load');
 }
 
