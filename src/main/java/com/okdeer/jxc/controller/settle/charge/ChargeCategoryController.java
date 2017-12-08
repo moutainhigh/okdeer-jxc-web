@@ -99,7 +99,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 		if (!json.isSuccess()) {
 			return json;
 		}
-		return chargeCategoryService.addCharge(chargeCategory);
+		return chargeCategoryService.addChargeCategory(chargeCategory);
 	}
 
 	@RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
@@ -110,7 +110,7 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 		if (!json.isSuccess()) {
 			return json;
 		}
-		return chargeCategoryService.updateCharge(chargeCategory);
+		return chargeCategoryService.updateChargeCategory(chargeCategory);
 	}
 
 	@RequestMapping(value = "/deleteCategoryCode", method = RequestMethod.POST)
@@ -127,6 +127,9 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
+		/*List<String> list=new ArrayList<>();
+		list.add("3");
+		qo.setLevels(list);*/
 		return chargeCategoryService.queryLists(qo);
 	}
 

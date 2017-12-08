@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
@@ -17,7 +16,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.charge.entity.Charge;
 import com.okdeer.jxc.settle.charge.qo.ChargeQo;
 import com.okdeer.jxc.settle.charge.service.ChargeService;
-import com.okdeer.jxc.settle.charge.vo.BuildChargeVo;
 
 /**
  * ClassName: ChargeCategoryController 
@@ -114,6 +112,9 @@ public class ChargeController extends BaseController<ChargeController> {
 		try {
 			Charge charge = GsonUtils.fromJson(jsonText, Charge.class);
 			RespJson json = validateParm(charge);
+			if (StringUtils.isEmpty(charge.getId())) {
+				return RespJson.error("id不允许为空");
+			}
 			if (!json.isSuccess()) {
 				return json;
 			}
@@ -138,6 +139,9 @@ public class ChargeController extends BaseController<ChargeController> {
 		if (charge == null) {
 			return RespJson.error("参数不允许为null");
 		}
+		/*if (StringUtils.isEmpty(charge.getId())) {
+			return RespJson.error("id不允许为空");
+		}*/
 		if (StringUtils.isEmpty(charge.getCategoryId())) {
 			return RespJson.error("父类ID不允许为null");
 		}
