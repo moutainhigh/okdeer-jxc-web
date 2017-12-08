@@ -164,7 +164,6 @@ function exportData(){
 
 function openChargeCodeDialog() {
     new publicChargeCodeService(function (data) {
-        debugger;
         $("#categoryId").val(data.id);
         $("#categoryCode").val(data.categoryCode);
         $("#categoryName").val(data.categoryName);
