@@ -164,9 +164,9 @@ public class ChargeCategoryController extends BaseController<ChargeCategoryContr
 		return JSON.toJSONString(trees);
 	}
 	
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@RequestMapping(value = "/exportHandel", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, ChargeCategoryQo qo) {
+	public RespJson exportHandel(HttpServletResponse response, ChargeCategoryQo qo) {
 
 		LOG.debug("商品查询导出execl：vo" + qo);
 		try {

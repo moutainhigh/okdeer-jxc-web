@@ -937,5 +937,5 @@ public interface ExportExcelConstant {
      */
     String PUR_STATE_TRACK = "PurStateTrack.xlsx";
     
-    String CHARGE_CATEGORY="chargeCategory";
+    String CHARGE_CATEGORY="chargeCategory.xlsx";
 }
