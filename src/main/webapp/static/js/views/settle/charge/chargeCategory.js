@@ -3,9 +3,13 @@
  */
 
 $(function () {
+    initPageData();
+})
+
+function initPageData() {
     initTreeChargeCategory();
     initGridChargeCategoryList();
-})
+}
 
 var gridName = "gridChargeCategoryList";
 var gridHandel = new GridClass();
@@ -184,7 +188,7 @@ function delCategoryCode() {
             }
 
             $_jxc.ajax(param, function (result) {
-                queryChargeCategory();
+                initPageData();
                 if (result['code'] == 0) {
                     $_jxc.alert("删除成功");
                 } else {
