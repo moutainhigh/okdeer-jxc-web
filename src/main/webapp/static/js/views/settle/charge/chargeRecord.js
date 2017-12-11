@@ -107,7 +107,7 @@ function addChargeRecord() {
     if(selectNode && selectNode.level == 3){
         param.categoryId = selectNode.id;
             param.categoryCode = selectNode.code;
-            param.categoryName = selectNode.codeText;
+            param.categoryName = selectNode.text;
     }
 
     openChargeRecordDialog(param);
