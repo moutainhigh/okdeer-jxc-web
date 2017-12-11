@@ -22,7 +22,6 @@ GpeExportClass.prototype.initGpeParams = function(data){
 }
 
 toGpeExportOk = function(){
-    debugger;
 	// 是否选择导出项
     var choose = $('#gpeExportDataForm input[name="chose"]:checked').val();
     if(choose == null){
