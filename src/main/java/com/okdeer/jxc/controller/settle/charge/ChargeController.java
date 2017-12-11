@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
@@ -84,7 +85,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	public RespJson addCharge(@RequestBody String jsonText) {
 		LOG.debug("新增建店费档案费用参数：{}", jsonText);
 		try {
-			Charge charge = GsonUtils.fromJson(jsonText, Charge.class);
+			Charge charge = JSON.parseObject(jsonText, Charge.class);
 			RespJson json = validateParm(charge);
 			if (!json.isSuccess()) {
 				return json;
@@ -110,7 +111,7 @@ public class ChargeController extends BaseController<ChargeController> {
 	@ResponseBody
 	public RespJson updateCategory(@RequestBody String jsonText) {
 		try {
-			Charge charge = GsonUtils.fromJson(jsonText, Charge.class);
+			Charge charge = JSON.parseObject(jsonText, Charge.class);
 			RespJson json = validateParm(charge);
 			if (StringUtils.isEmpty(charge.getId())) {
 				return RespJson.error("id不允许为空");
