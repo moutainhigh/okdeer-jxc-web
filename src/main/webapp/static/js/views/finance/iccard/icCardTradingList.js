@@ -71,21 +71,8 @@ function getFiledList() {
             {field: 'branchName', title: '店铺名称', width: 180, align: 'left'},
             {field: 'orderNo', title: '业务单号', width: 180, align: 'left'},
             {field: 'icCardNo', title: '卡号', width: 180, align: 'left'},
-            {field: 'saleType', title: '业务类型', width: 80, align: 'left',
-                formatter:function(value,row,index){
-                	if(row.branchCode=="SUM"){
-                		return;
-                	}
-                    if(value == 'D'){
-                        return '充值';
-                    }else if(value == 'A'){
-                        return '消费';
-                    }else if(value == 'E'){
-                        return '售卡';
-                    }else{
-                        return '退货';
-                    }
-                }
+            {field: 'saleTypeDesc', title: '业务类型', width: 80, align: 'left',
+               
             },
             {field: 'amount', title: '金额', width: 100, align: 'right',formatter : function(value, row, index) {
 				return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
