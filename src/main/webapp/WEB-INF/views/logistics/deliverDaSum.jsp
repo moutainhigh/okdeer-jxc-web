@@ -17,8 +17,11 @@
 	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<div class="ub ub-f1 umar-4 upad-4">
+	
+	<div class="ub ub-ver ub-f1 umar-4 upad-4">
+	<form action="" id="formList" method="post">
 		<div class="ub ub-ver ub-f1 umar-l4">
+		
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryBranch()">查询</div>
@@ -32,8 +35,6 @@
 				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 			</div>
 			
-			<form action="" id="formList" method="post">
-				
 				<input type="hidden" name="startCount" id="startCount" class="uinp" />
 				<input type="hidden" name="endCount" id="endCount" class="uinp" />
 				
@@ -62,14 +63,14 @@
 						<input class="uinp" type="text" name="barCode" id="barCode">
 					</div>
 				</div>
-				
-			</form>
-			<div class="ub umar-t10 ub-f1">
-				<table id="deliverDaSumList"></table>
-			</div>
 		</div>
-
+	</form>
+		
+	<div class="ub ub-f1 umar-t10">
+		<table id="deliverDaSumList"></table>
+	</div>
 
 	</div>
+
 </body>
 </html>
