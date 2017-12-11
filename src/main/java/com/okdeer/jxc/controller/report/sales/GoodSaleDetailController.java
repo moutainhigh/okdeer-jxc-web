@@ -122,9 +122,7 @@ public class GoodSaleDetailController extends ReportController {
         footer.add(vo);
 
         List<DataRecord> vos = listFuture.get();
-        PageUtils<DataRecord> list = new PageUtils<>(vos, footer, countFuture.get());
-        list.setPageNum(page);
-        list.setPageSize(rows);
+        PageUtils<DataRecord> list = new PageUtils<>(vos, footer, countFuture.get(),page,rows);
         for (DataRecord dataRecord : list.getList()) {
 			formatter(dataRecord);
 		}

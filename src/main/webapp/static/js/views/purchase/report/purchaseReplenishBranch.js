@@ -156,9 +156,6 @@ function purchaseDetailCx(){
 	
 	var formData = $("#queryForm").serializeObject();
 	
-	$("#startCount").val('');
-	$("#endCount").val('');
-	
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";
 	$("#purReportDetail").datagrid("options").url =  contextPath+"/purchase/report/replenishAnaly/reportList";
@@ -178,7 +175,7 @@ function exportDetails(){
 	}
 
     var param = {
-        datagridId:"purReportDetail",
+        datagridId:gridName,
         formObj:$("#queryForm").serializeObject(),
         url:contextPath+"/purchase/report/replenishAnaly/exportList"
     }

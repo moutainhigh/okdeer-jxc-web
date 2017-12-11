@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>机构补货分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/report/purchaseReplenishBranch.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/purchase/report/purchaseReplenishBranch.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -26,9 +26,6 @@
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
-	            
-	            <input type="hidden" id="startCount" name="startCount" />
-				<input type="hidden" id="endCount" name="endCount" />
 	            
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
