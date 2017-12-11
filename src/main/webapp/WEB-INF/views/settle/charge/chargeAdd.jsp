@@ -26,6 +26,7 @@
 					<input class="uinp ub ub-f1" type="text" id="chargeCode" disabled="disabled"
 						name="chargeCode"
 						maxlength="20" />
+	<i class="ub ub-ac umar-l4"></i>
 				</div>
 
 				<div class="ub ub-ac">
@@ -33,6 +34,7 @@
 					<input class="uinp ub ub-f1" type="text" id="chargeName"
 						name="chargeName"
 						maxlength="50" />
+					<i class="ub ub-ac uc-red">*</i>
 				</div>
 
 			</div>
@@ -50,6 +52,7 @@
 					name="categoryName"  onclick="openChargeCodeDialog()" readonly="readonly"
 					maxlength="50" />
 				<div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
+				<i class="ub ub-ac uc-red">*</i>
 				</div>
 
 
@@ -61,6 +64,7 @@
 
 			<input id="brandName" name="brandName" class="uinp" type="text" onclick="getGoodsBrand()" readonly="readonly">
 			<div class="uinp-more" onclick="getGoodsBrand()">...</div>
+			<i class="ub ub-ac uc-red">*</i>
 			</div>
 			</div>
 
@@ -73,6 +77,7 @@
 					<input class="uinp ub ub-f1" type="text" id="unit"
 						name="unit"
 						maxlength="50" />
+	<i class="ub ub-ac umar-l4"></i>
 				</div>
 
 				<div class="ub ub-ac">
@@ -89,6 +94,7 @@
 					<input class="uinp ub ub-f1" type="text" id="originPlace"
 						name="originPlace"
 						maxlength="50" />
+					<i class="ub ub-ac umar-l4"></i>
 				</div>
 
 				<div class="ub ub-ac">
@@ -105,6 +111,7 @@
 					<input class="uinp uw-180 easyui-numberbox" type="text"  data-options="min:0,precision:0" id="depreciate"
 						name="depreciate" />
 					<div class="umar-l8">月</div>
+				<i class="ub ub-ac umar-l4"></i>
 				</div>
 
 				<div class="ub ub-ac">
