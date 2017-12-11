@@ -142,6 +142,13 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				if (!list.isEmpty() && list.size() > 0) {
 					String fileName = "一卡通交易明细" + "_" + DateUtils.getCurrSmallStr();
 					String templateName = ExportExcelConstant.ICC_CARD_TRADING_DETAIL;
+					
+					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingList(vo);
+					tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+					tradeOrderPayVo.setBranchCode("合计:");
+					//添加合计
+					list.add(tradeOrderPayVo);
+					
 					exportListForXLSX(response, list, fileName, templateName);
 				} else {
 					return RespJson.error("无数据可导");
@@ -152,6 +159,11 @@ public class ICCardTradingController extends BasePrintController<TradeOrderPayVo
 				if (!list.isEmpty() && list.size() > 0) {
 					String fileName = "一卡通交易汇总" + "_" + DateUtils.getCurrSmallStr();
 					String templateName = ExportExcelConstant.ICC_CARD_SUM_TRADING_DETAIL;
+					TradeOrderPayVo tradeOrderPayVo = icCardTradingService.sumTradingSumList(vo);
+					tradeOrderPayVo = tradeOrderPayVo == null ? new TradeOrderPayVo() : tradeOrderPayVo;
+					tradeOrderPayVo.setBranchCode("合计：");
+					//添加到合计
+					list.add(tradeOrderPayVo);
 					exportListForXLSX(response, list, fileName, templateName);
 				} else {
 					return RespJson.error("无数据可导");
