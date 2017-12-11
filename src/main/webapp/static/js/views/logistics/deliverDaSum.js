@@ -35,6 +35,8 @@ function initDataDeliverDaSumList() {
         showFooter:true,
         pageList : [20,50,100],//可以设置每页记录条数的列表
         pageSize:50,
+        width:"100%",
+        height:"100%",
         fit:true,
         columns:[[
             {field:'branchCode',title:'配送点代号',width:120,align:'left'},
@@ -48,6 +50,7 @@ function initDataDeliverDaSumList() {
             gridHandel.setDatagridHeader("center");
         }
     });
+    
 }
 
 /**
