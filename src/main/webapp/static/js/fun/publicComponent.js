@@ -2890,9 +2890,9 @@ function publicGpeExport(data){
 	if(!data.onBeforeExport || data.onBeforeExport()){
 		var gpeExportDiv = {
 			href : contextPath + "/component/dialog/gpeExportDialog",
-			width : 500,
+			width : 400,
 			height : 350,
-			title : "导出选项-当前搜索共" + total + "条结果",
+			title : "导出选项",
 			closable : true,
 			resizable : true,
 			onClose : function() {
@@ -2904,23 +2904,7 @@ function publicGpeExport(data){
 				gpeExportClass.initGpeParams(data);
 			},
 		};
-		
-		// 按钮
-		gpeExportDiv["buttons"] = [ {
-			text : '导出',
-			height: 45,
-			handler : function() {
-				var gpeExportClass = new GpeExportClass();
-				gpeExportClass.toGpeExportOk();
-			}
-		},{
-			text : '取消',
-			height: 45,
-			handler : function() {
-				$(gpeExportDialog).panel('destroy');
-				gpeExportDialog = null;
-			}
-		}];
+
 		var gpeExportDialog = $('<div id="gpeExportDialog"/>').dialog(gpeExportDiv);
 	}
 }

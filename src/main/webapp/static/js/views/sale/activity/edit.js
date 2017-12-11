@@ -371,13 +371,20 @@ function selectOptionN2N(param){
     $('#dvn2nSaleAmount').removeClass('unhide');
     $("#n2nSaleAmount").numberbox('setValue', param.maxDiscountAmount);
     $("#n2nCount").numberbox('setValue', param.maxDiscountNum);
+    $(".importGood").addClass('unhide');//不能进行商品选择
     //初始化
     $("input[name='n2nstatus'][value='"+param.activityScopeN2N+"']").prop('checked',true);
 
     var radioVal = param.activityScopeN2N;
     if (radioVal === 1) {
+        $(".importGood").addClass('unhide');
+        // 禁止按钮点击事件
+        disableGoods('SelectGoods','');
         initDatagridsortN2N();
     } else if (radioVal === 0) {
+        $(".importGood").removeClass('unhide');
+        // 禁止按钮点击事件
+        disableGoods('','GoodsType');
         initDatagridGoodsN2N();
 	}
     initmangeDatagrid(param.activityId);
