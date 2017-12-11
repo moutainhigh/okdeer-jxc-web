@@ -2996,6 +2996,25 @@ function initCombotree(id,dataItems,defValue){
 /*------------------------------开店费用档案选择--------------------------------------*/
 
 function publicChargeRecordService(param,callback) {
+    if(!param || typeof (param.key) === 'undefined'){
+        publicChargeRecordHandle(param,callback)
+    }else{
+        $_jxc.ajax({
+            url :contextPath+'/settle/charge/charge/list',
+            data:{chargeCodeName:param.key}
+        },function (res) {
+            if(res && res.total == 1 && res.list.length == 1){
+                callback(res.list);
+            }else {
+                publicChargeRecordHandle(param,callback)
+            }
+        })
+    }
+
+
+}
+
+function publicChargeRecordHandle(param,callback) {
     var dialogObj = {
         href: contextPath + "/settle/charge/charge/publicView",
         width:780,
@@ -3012,8 +3031,7 @@ function publicChargeRecordService(param,callback) {
     var recordClass = null;
     dialogObj["onLoad"] =function(){
         recordClass = new  ChargeRecordDialogClass();
-        recordClass.gridChargeRecordList();
-        recordClass.treeChargeCategory();
+        recordClass.initChargeRecordDialogData(param);
     };
     dialogObj["buttons"] =[{
         text:'确定',

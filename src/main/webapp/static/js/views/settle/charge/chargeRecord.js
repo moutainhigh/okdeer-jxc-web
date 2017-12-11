@@ -166,6 +166,11 @@ function categroyCodeCb(data) {
     }
 }
 
+function closeChargeRecordDialog() {
+    $(editDialogTemp).panel('destroy');
+    editDialogTemp = null;
+}
+
 /**
  * 搜索
  */

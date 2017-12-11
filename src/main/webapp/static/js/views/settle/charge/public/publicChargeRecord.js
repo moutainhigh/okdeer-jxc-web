@@ -9,6 +9,12 @@ function ChargeRecordDialogClass() {
 
 }
 
+ChargeRecordDialogClass.prototype.initChargeRecordDialogData = function(param) {
+    $("#chargeCodeName").val(param.key);
+    chRecordClass.gridChargeRecordList();
+    chRecordClass.treeChargeCategory();
+}
+
 ChargeRecordDialogClass.prototype.gridName = "gridChargeRecordDialogList";
 ChargeRecordDialogClass.prototype.gridHandel = new GridClass();
 var chRecordClass = new ChargeRecordDialogClass();
