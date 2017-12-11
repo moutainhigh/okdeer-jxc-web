@@ -112,11 +112,8 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
             footer.add(vo);
 
             List<DgStockAnalysisVo> vos = listFuture.get();
-            PageUtils<DgStockAnalysisVo> list = new PageUtils<>(vos, footer, countFuture.get());
-            list.setPageNum(pageNumber);
-            list.setPageSize(pageSize);
+            PageUtils<DgStockAnalysisVo> list = new PageUtils<>(vos, footer, countFuture.get(), pageNumber, pageSize);
 
-            //list.setFooter(footer);
             // 过滤数据权限字段
             cleanAccessData(list);
             return list;
