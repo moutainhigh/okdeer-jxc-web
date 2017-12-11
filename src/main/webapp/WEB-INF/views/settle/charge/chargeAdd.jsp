@@ -12,7 +12,7 @@
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
 			<button class="ubtns-item" onclick="saveChargeRecord()" id="saveBtn">保存</button>
-			<button class="ubtns-item" onclick="closeCategroyDialog()">关闭</button>
+			<button class="ubtns-item" onclick="closeChargeRecordDialog()">关闭</button>
 		</div>
 	</div>
 	<div class="ub uline"></div>
