@@ -211,6 +211,28 @@ public class ExcelExportUtil {
 		exportMergeHeaderExcel(reportFileName, null, headers, columns, null, dataList, response, null, firstColIndex,
 				mergeHeaders);
 	}
+	
+	/**
+	 * 导出Excel，动态合并表头，合并行
+	 * @Description: 导出Excel，动态合并表头，合并行
+	 * @param reportFileName 导出文件名
+	 * @param headers 表头 
+	 * @param columns 字段名
+	 * @param mergeColumns 合并行名称
+	 * @param dataList 导出数据结果集
+	 * @param response 输出流
+	 * @param firstColIndex 开始合并表头的列索引，从0开始
+	 * @param mergeHeaders 需要合并表头的字段名称
+	 * @author liwb
+	 * @date 2017年12月8日
+	 */
+	public static void exportMergeHeaderEndRowExcel(String reportFileName, String[] headers, String[] columns, 
+			List<String> mergeColumns, List<JSONObject> dataList, HttpServletResponse response, 
+			int firstColIndex, String[] mergeHeaders) {
+		
+		exportMergeHeaderExcel(reportFileName, null, headers, columns, mergeColumns, dataList, response, null, firstColIndex,
+				mergeHeaders);
+	}
 
 	/**
 	 * @Description: 导出Excel，动态合并表头
