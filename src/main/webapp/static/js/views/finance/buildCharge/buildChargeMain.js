@@ -168,7 +168,16 @@ function initGridStoreCharge() {
                         row["price"] = 0.0000;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
-                }
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:isdisabled,
+                        min:0,
+                        precision:4,
+                        onChange:changeChargePrice
+                    }
+                },
             },
 
             {field:'amount',title:'金额',width:120,align:'right',
@@ -274,8 +283,15 @@ function delLineHandel(event){
 }
 
 function changeChargeNum(newVal,oldVal) {
-    var price = gridRecordHandel.getFieldData(gridRecordHandel.getSelectRowIndex(),"price");
+    var price = gridRecordHandel.getFieldValue(gridRecordHandel.getSelectRowIndex(),"price");
     var amount = (newVal*price).toFixed(4);
+    gridRecordHandel.setFieldValue("amount",amount);
+    updateFooter();
+}
+
+function changeChargePrice(newVal,oldVal) {
+    var num = gridRecordHandel.getFieldValue(gridRecordHandel.getSelectRowIndex(),"num");
+    var amount = (newVal*num).toFixed(4);
     gridRecordHandel.setFieldValue("amount",amount);
     updateFooter();
 }
@@ -336,7 +352,12 @@ function saveStoreCharge() {
             $_jxc.alert("第"+(i+1)+"行，数量不能为空或0");
             isCheckResult = false;
             return false;
-        };
+        }
+        if(!v["price"]){
+            $_jxc.alert("第"+(i+1)+"行，金额不能为空或0");
+            isCheckResult = false;
+            return false;
+        }
         if(v["validity"]<=0){
             $_jxc.alert("第"+(i+1)+"行，保修期限必须大于0");
             isCheckResult = false;
