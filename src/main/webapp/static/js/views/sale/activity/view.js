@@ -286,7 +286,7 @@ function initDatagridsortN2N() {
                     return str;
                 },
             },
-            {field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            {field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
         ]],
         onBeforeLoad:function(){
