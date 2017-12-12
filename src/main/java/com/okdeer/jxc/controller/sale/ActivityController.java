@@ -876,7 +876,7 @@ public class ActivityController extends BaseController<ActivityController> {
 					fileName = "特价打包活动货号导入模板";
 				} else if (ActivityType.N_TO_N.getValue().equals(activityType)) { //N元N件
 					templateName = ExportExcelConstant.ACTIVITY_N_TO_N_GOODS_SKUCODE_TEMPLATE;
-					fileName = "特价打包活动货号导入模板";
+					fileName = "N元N件活动货号导入模板";
 				}else{
 					LOG.warn("活动类型不正确");
 					return;
@@ -896,7 +896,7 @@ public class ActivityController extends BaseController<ActivityController> {
 					fileName = "特价打包活动条码导入模板";
 				} else if (ActivityType.N_TO_N.getValue().equals(activityType)) { //N元N件
 					templateName = ExportExcelConstant.ACTIVITY_N_TO_N_GOODS_BARCODE_TEMPLATE;
-					fileName = "特价打包活动条码导入模板";
+					fileName = "N元N件活动条码导入模板";
 				}else{
 					LOG.warn("活动类型不正确");
 					return;

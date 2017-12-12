@@ -634,7 +634,7 @@ function selectOptionN2N() {
 
     $(".importGood").addClass('unhide');//不能进行商品选择
 	// 禁止按钮点击事件
-    disableGoods('SelectGoods','');
+
     initDatagridsortN2N();
     $('#sortN2N').prop('checked',true);
     $('#activityScopen2n').val('1');
@@ -3929,10 +3929,11 @@ function toImportproduct(type){
     }
     
     var activityType=$("#activityType").combobox('getValue');
+    var isgoodsN2N = $("#goodsN2N").is(":checked");
     
     //只支持特价、折扣、偶数特价类型的活动
-    if(activityType!=='1' && activityType!=='2' && activityType!=='3'&& activityType!=='12'){
-    	 $_jxc.alert("只支持特价、偶数特价，特价打包类型的活动");
+    if(activityType!=='1' && activityType!=='2' && activityType!=='3'&& activityType!=='12'&& (activityType!=='11' && isgoodsN2N == false)){
+    	 $_jxc.alert("只支持特价、偶数特价，特价打包和N元N件商品类型的活动");
          return;
     }
     
