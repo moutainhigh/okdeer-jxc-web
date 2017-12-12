@@ -160,8 +160,14 @@ function gridReload(gridName,httpParams,selectTypeName){
 	}
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
+	
+	var formData = $("#queryForm").serializeObject();
+
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
+	
 	$("#"+gridName).datagrid("options").url = contextPath+'/report/branchGoodsSaleReport/getList';
-	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+	$("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("load");
 }
