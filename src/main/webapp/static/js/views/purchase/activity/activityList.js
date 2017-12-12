@@ -21,8 +21,16 @@ $(function () {
         }
     });
     initGridActivityList();
-
+    changeRadio();
+    query();
 })
+
+function changeRadio() {
+    $(".radioItem").change(function () {
+        var statuVal = $(this).val();
+        query();
+    })
+}
 
 //初始化默认条件
 function initConditionParams(){
