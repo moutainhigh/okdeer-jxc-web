@@ -707,7 +707,18 @@ function selectStockAndPrice(sourceBranchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	}
     },function(result){
-    	setDataValue(result);
+    	if(result.length > 0){
+    		$.each(data,function(i,val){
+    			$.each(result,function(j,obj){
+    				if(val.skuId==obj.skuId){
+    					data[i].sourceStock = obj.sourceStock;
+    					data[i].defectNum = obj.defectNum;
+    					data[i].originPlace = obj.originPlace;
+    				}
+    			})
+    		})
+    	}
+    	setDataValue(data);
     });
 }
 
