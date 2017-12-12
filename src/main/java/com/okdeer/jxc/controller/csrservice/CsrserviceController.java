@@ -171,6 +171,9 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
                                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
+            if (org.apache.commons.lang3.StringUtils.equals("0", getCurrBranchId()) && org.apache.commons.lang3.StringUtils.isBlank(vo.getTypeId())) {
+                vo.setTypeId("0");
+            }
             PageUtils<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo, pageSize, pageNumber);
             return list;
         } catch (Exception e) {
