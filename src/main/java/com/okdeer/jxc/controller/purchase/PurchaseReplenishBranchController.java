@@ -163,15 +163,13 @@ public class PurchaseReplenishBranchController extends BaseController<PurchaseRe
 				int newEnd = modIndex;
 				qo.setStartCount(newStart);
 				qo.setEndCount(newEnd);
-				LOG.info(
-						"DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数mod、startCount、endCount参数:{}, {}",
-						newStart, newEnd);
+				LOG.info("机构补货分析导出startCount和endCount参数:{}, {}", newStart, newEnd);
 				purchaseReplenishAnalyService.getBranchReplenishAnalyExportList(qo);
 				Future<List<PurchaseReplenishBranchPo>> listFuture = RpcContext.getContext().getFuture();
 				data.addAll(listFuture.get());
 			}
 		} else {
-			LOG.info("DgStockAnalysisController.exportDgStockAnalysis东莞大仓导出startCount和endCount参数导出不超过:{}", 5000);
+			LOG.info("机构补货分析导出startCount和endCount参数导出不超过:{}", 5000);
 			purchaseReplenishAnalyService.getBranchReplenishAnalyExportList(qo);
 			Future<List<PurchaseReplenishBranchPo>> listFuture = RpcContext.getContext().getFuture();
 			forEachFuture(data, futures);

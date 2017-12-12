@@ -17,12 +17,13 @@ GpeExportClass.prototype.initGpeParams = function(data){
 	_gpe_export_datagrid_id = data.datagridId;
 	_gpe_export_params = data.queryParams;
 	_gpe_export_url = data.url;
-	
+
+    $("#gpeExportDataForm #totalRows").html("<strong>"+$("#"+_gpe_export_datagrid_id).datagrid('getData').total+"</strong>");
 }
 
-GpeExportClass.prototype.toGpeExportOk = function(){
+toGpeExportOk = function(){
 	// 是否选择导出项
-    var choose = $('input[name="chose"]:checked').val();
+    var choose = $('#gpeExportDataForm input[name="chose"]:checked').val();
     if(choose == null){
         $_jxc.alert("请选择导出项");
         return;
@@ -58,8 +59,8 @@ GpeExportClass.prototype.toGpeExportOk = function(){
     }
     //手动填写范围
     if(choose=="2"){
-        stratRow = parseInt($("#startRow").val());
-        endRow = parseInt($("#endRow").val());
+        stratRow = parseInt($("#gpeExportDataForm #startRow").val());
+        endRow = parseInt($("#gpeExportDataForm #endRow").val());
         if ((endRow - stratRow + 1) > 20000) {
             $_jxc.alert("最大导出20000条");
             return;
@@ -80,11 +81,11 @@ GpeExportClass.prototype.toGpeExportOk = function(){
     _gpe_export_params.endCount = endRow - (stratRow - 1);
     
 	// 模拟表单进行提交
-	var form = $("<form>");
-	form.attr("style", "display:none");
-	form.attr("target", "");
-	form.attr("method", "post");
-	form.attr("action", _gpe_export_url);
+	// var form = $("<form>");
+    // $("#exportDataForm").attr("style", "display:none");
+    $("#gpeExportDataForm").attr("target", "");
+    $("#gpeExportDataForm").attr("method", "post");
+    $("#gpeExportDataForm").attr("action", _gpe_export_url);
 	var input;
 	$.each(_gpe_export_params, function(key, value) {
 		input = $("<input type='hidden'>");
@@ -92,14 +93,13 @@ GpeExportClass.prototype.toGpeExportOk = function(){
 			"name" : key
 		});
 		input.val(value);
-		form.append(input);
+		$("#gpeExportDataForm").append(input);
 	});
 
-	$("body").append(form);
-	form.submit();
-	form.remove();
+    $("#gpeExportDataForm").submit();
+    $("#gpeExportDataForm").remove();
 	
-	$('#exportChose').panel('destroy');
+	$('#gpeExportDialog').panel('destroy');
 }
 
 // 取消导出
