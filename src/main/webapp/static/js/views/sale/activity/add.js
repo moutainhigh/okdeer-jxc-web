@@ -633,8 +633,7 @@ function selectOptionN2N() {
     $('.n2nTypechoose').removeClass('unhide');
 
     $(".importGood").addClass('unhide');//不能进行商品选择
-	// 禁止按钮点击事件
-
+    disableGoods('SelectGoods','');
     initDatagridsortN2N();
     $('#sortN2N').prop('checked',true);
     $('#activityScopen2n').val('1');
