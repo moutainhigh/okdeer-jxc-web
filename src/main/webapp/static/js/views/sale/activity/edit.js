@@ -417,7 +417,7 @@ function initDatagridsortN2N() {
                     return str;
                 },
             },
-            {field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            {field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
         ]],
         onBeforeLoad:function(){
@@ -3428,15 +3428,15 @@ function saveActivity(){
 
       //保存结束编辑
       $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-      var rows= gridHandel.getRows();
-      if(rows.length==0){
-          $_jxc.alert("表格不能为空");
-          return;
-      }
-
       //  类别(1)  商品(0)
       var n2nType = $("input[name='n2nstatus']:checked").val();
       if(n2nType === "0"){
+          var rows = gridHandel.getRows();
+          if(rows.length==0){
+              $_jxc.alert("表格不能为空");
+              return;
+          }
+
           for(var i=0;i<rows.length;i++){
               var v = rows[i];
               if(!v["skuCode"]){
@@ -3447,6 +3447,11 @@ function saveActivity(){
           }
           saveDataHandel(rows);
       }else if(n2nType === "1"){
+          var rows = gridHandel.getRowsWhere({categoryName:'1'});
+          if(rows.length==0){
+              $_jxc.alert("请添加类别");
+              return;
+          }
           for(var i=0;i<rows.length;i++){
               var v = rows[i];
               if(!v["categoryCode"]){
