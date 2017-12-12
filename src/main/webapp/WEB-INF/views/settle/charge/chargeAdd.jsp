@@ -64,7 +64,6 @@
 
 			<input id="brandName" name="brandName" class="uinp" type="text" onclick="getGoodsBrand()" readonly="readonly">
 			<div class="uinp-more" onclick="getGoodsBrand()">...</div>
-			<i class="ub ub-ac uc-red">*</i>
 			</div>
 			</div>
 
