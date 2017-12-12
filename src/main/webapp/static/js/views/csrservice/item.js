@@ -285,6 +285,7 @@ function queryService() {
  * 修改
  */
 function editHandel(id, csrserviceCode, referencePrice, remark, csrserviceName, isAllowAdjustPrice) {
+    var branchName = selectNode.getParentNode() ? selectNode.getParentNode().text:selectNode.text;
     var param = {
         type:"edit",
         id:id,
@@ -293,7 +294,7 @@ function editHandel(id, csrserviceCode, referencePrice, remark, csrserviceName, 
         remark:remark,
         csrserviceName: csrserviceName,
         isAllowAdjustPrice: isAllowAdjustPrice,
-        branchName: selectNode.getParentNode().text,
+        branchName: branchName,
         csrserviceType: selectNode.text
     }
     openEditServiceDailog(param);
