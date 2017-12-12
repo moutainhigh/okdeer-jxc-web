@@ -3,7 +3,12 @@ $(function(){
 	//开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
+    // 机构选择初始化
+	$('#branchSelects').branchSelect({
+		param : {
+			formType : 'BF'
+		}
+	});
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
