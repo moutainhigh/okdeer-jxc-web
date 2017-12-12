@@ -785,6 +785,12 @@ public interface ExportExcelConstant {
     /*** 特价打包活动商品引入条码导入模板  */
     String ACTIVITY_SPECIAL_PACKAGE_GOODS_BARCODE_TEMPLATE = "activitySpecialPackageGoodsBarCodeTemplate.xlsx";
 
+    /*** 特价打包活动商品引入货号导入模板  */
+    String ACTIVITY_N_TO_N_GOODS_SKUCODE_TEMPLATE = "activityNTONGoodsSkuCodeTemplate.xlsx";
+
+    /*** 特价打包活动商品引入条码导入模板  */
+    String ACTIVITY_N_TO_N_GOODS_BARCODE_TEMPLATE = "activityNTONGoodsBarCodeTemplate.xlsx";
+
 	/**
 	 * 一开通交易明细
 	 */
