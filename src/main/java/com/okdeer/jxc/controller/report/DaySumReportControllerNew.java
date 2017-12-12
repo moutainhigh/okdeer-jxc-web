@@ -88,8 +88,8 @@ public class DaySumReportControllerNew extends AbstractSimpleGpeController<DaySu
 	@Override
 	protected EasyUIPageInfo<DaySumReportVo> queryListPage(DaySumReportQo qo) {
 		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchId())) {
-			qo.setBranchId(UserUtil.getCurrBranchId());
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		// 查询分页数据
 		return daySumReportFacade.queryListPage(qo);
@@ -102,8 +102,8 @@ public class DaySumReportControllerNew extends AbstractSimpleGpeController<DaySu
 	@Override
 	protected DaySumReportVo queryTotal(DaySumReportQo qo) {
 		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchId())) {
-			qo.setBranchId(UserUtil.getCurrBranchId());
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		return daySumReportFacade.queryListTotal(qo);
 	}
@@ -115,8 +115,8 @@ public class DaySumReportControllerNew extends AbstractSimpleGpeController<DaySu
 	@Override
 	protected List<DaySumReportVo> queryList(DaySumReportQo qo) {
 		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchId())) {
-			qo.setBranchId(UserUtil.getCurrBranchId());
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		// 查询数据
 		return daySumReportFacade.queryList(qo);

@@ -3,7 +3,7 @@ $(function() {
 	initConditionParams();
 
 	// 机构选择初始化
-	$('#branchComponents').branchSelect({
+	$('#branchSelects').branchSelect({
 		param : {
 			formType : 'BF'
 		}

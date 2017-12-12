@@ -94,4 +94,14 @@
         <dubbo:method name="getBranchReplenishAnalyReportSum" async="true"></dubbo:method>
         <dubbo:method name="getBranchReplenishAnalyExportList" async="true"></dubbo:method>
 	</dubbo:reference>
+	
+	<dubbo:reference interface="com.okdeer.jxc.report.sale.CategorySaleCostReportServiceApi" id="categorySaleCostReportServiceApi"
+					 version="1.0.0" check="false">
+        <dubbo:method name="getTotalNew" async="true"></dubbo:method>
+       <!--  <dubbo:method name="getListNew" async="true"></dubbo:method> -->
+        <dubbo:method name="getBeginCostAmountList" async="true"></dubbo:method>
+        <dubbo:method name="getEndCostAmountList" async="true"></dubbo:method>
+        
+	</dubbo:reference>
+	
 </beans>
