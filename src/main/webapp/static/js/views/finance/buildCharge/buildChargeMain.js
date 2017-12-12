@@ -52,7 +52,7 @@ $(function () {
         oldData = {
             remark:$("#remark").val()                  // 备注
         }
-
+        $("#purTime").removeProp("disabled");
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/buildCharge/getDetailList";
     }else if(chargeStatus === "check"){
@@ -69,7 +69,6 @@ $(function () {
 function disablePageElement() {
     $("#supplierCodeName").addClass("uinp-no-more")
     $("#supplierCodeName").prop("disabled","disabled");
-    $("#purTime").addClass("uinp-no-more")
     $("#purTime").prop("disabled","disabled");
     $("#branchCodeName").addClass("uinp-no-more")
     $("#branchCodeName").prop("disabled","disabled");
