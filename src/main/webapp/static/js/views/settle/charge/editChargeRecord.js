@@ -44,11 +44,6 @@ function saveChargeRecord() {
         return;
     }
 
-    if($_jxc.isStringNull($("#formChargeRecord #brandId").val())){
-        $_jxc.alert("品牌不能为空");
-        return;
-    }
-
     var addUrl = contextPath+'/settle/charge/charge/addCharge';
     var updateUrl = contextPath+'/settle/charge/charge/updateCharge';
 

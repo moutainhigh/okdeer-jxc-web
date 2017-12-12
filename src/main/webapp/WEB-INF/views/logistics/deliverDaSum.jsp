@@ -54,7 +54,7 @@
 					 <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">发货机构:</div>
 	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId"/>
-	                    <input class="uinp ub ub-f1" type="text"  id="sourceBranchName" name="sourceBranchName" onblur="clearBranchCode(this,'sourceBranchId')"/>
+	                    <input class="uinp ub ub-f1" type="text" readonly="readonly"  id="sourceBranchName" name="sourceBranchName" onblur="clearBranchCode(this,'sourceBranchId')"/>
 	                    <div class="uinp-more" onclick="selectSourceBranch()" >...</div>
 	                </div>
 
