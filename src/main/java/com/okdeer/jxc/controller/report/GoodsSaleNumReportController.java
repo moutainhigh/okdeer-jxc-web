@@ -17,6 +17,8 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleNumReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleNumReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +76,15 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			/*vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
 			if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
 				vo.setBrancheType(Boolean.TRUE);
+			}*/
+			if(StringUtils.isEmpty(vo.getBranchCompleCode())){
+				vo.setBranchCompleCode(this.getCurrBranchCompleCode());
 			}
+			
 			PageUtils<GoodsSaleNumReportVo> goodsOutInfoDetailList = goodsSaleNumReportServiceApi.goodsSaleNumList(vo);
 			GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
 			List<GoodsSaleNumReportVo> footer = new ArrayList<GoodsSaleNumReportVo>();

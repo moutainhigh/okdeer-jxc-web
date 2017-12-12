@@ -87,7 +87,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
-            vo.setSourceBranchId(UserUtil.getCurrBranchId());
+            /*vo.setSourceBranchId(UserUtil.getCurrBranchId());*/
             if (StringUtils.isEmpty(vo.getBranchCompleCode())) {
                 vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
             }

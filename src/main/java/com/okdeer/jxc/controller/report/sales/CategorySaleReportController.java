@@ -39,8 +39,8 @@ import com.okdeer.retail.common.report.DataRecord;
 public class CategorySaleReportController extends ReportController {
 
 	//@Reference(version = "1.0.0", check = false)
-//	@Resource
-	@Reference(version = "1.0.0", check = false)
+	@Resource
+//	@Reference(version = "1.0.0", check = false)
 	CategorySaleCostReportServiceApi categorySaleCostReportServiceApi;
 
 	@RequestMapping(value = "view")
