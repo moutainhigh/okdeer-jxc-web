@@ -74,7 +74,7 @@ var priceGrantUtil = {
 			fieldArr = [ "salePrice" ];
 		}
 		if(hasSalePrice==false){
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -88,7 +88,7 @@ var priceGrantUtil = {
 			fieldArr = [ "vipPrice" ];
 		}
 		if(hasVipPrice==false){
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -108,7 +108,7 @@ var priceGrantUtil = {
                     fieldArr.splice($.inArray(item,fieldArr),1);
                 })
 			}
-            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -127,7 +127,7 @@ var priceGrantUtil = {
                     fieldArr.splice($.inArray(item,fieldArr),1);
                 })
             }
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -141,7 +141,7 @@ var priceGrantUtil = {
 			fieldArr = [ "lowestPrice" ];
 		}
 		if(hasLowestPrice==false){
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -160,7 +160,7 @@ var priceGrantUtil = {
                     fieldArr.splice($.inArray(item,fieldArr),1);
                 })
             }
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 
@@ -178,7 +178,7 @@ var priceGrantUtil = {
                     fieldArr.splice($.inArray(item,fieldArr),1);
                 })
             }
-            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+            $_jxc.hideDataGridColumn(datagridId, fieldArr);
         }
     },
 	
