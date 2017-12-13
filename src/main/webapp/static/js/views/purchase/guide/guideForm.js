@@ -369,3 +369,8 @@ function nextStep (){
 	
 }
 
+function clearForm() {
+    $("input[type = 'hidden']").val("");
+    $("input[type = 'text']").val("");
+    $("input[type='radio'][value='1']").prop("checked",true);
+}
