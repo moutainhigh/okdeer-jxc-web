@@ -418,7 +418,15 @@ $(function () {
                 fromParams = param;
                 $("#goodsInfo").val(param.key);
                 if(!param.key){
+
+                    //2017-12-13 宋文杰 许永勤 跟产品确认
+                    // 所有单据品牌和类别 需要带供应商
+                    // 添加goodsTypeVal 属性 告诉后台区分是树是品牌，类别还是供应商
+                    //后台根据此条件决定是否使用供应商supplierId字段的值
+                    var goodsTypeVal =  $("#goodsType").combobox('getValue');
+
                 	var _searParam = serializeParam();
+                    _searParam.goodsTypeVal = goodsTypeVal;
                     $("#gridGoods").datagrid("options").method = "post";
                     $("#gridGoods").datagrid("options").queryParams = _searParam;
                     $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
