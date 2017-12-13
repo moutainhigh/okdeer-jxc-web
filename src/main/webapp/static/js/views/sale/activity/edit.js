@@ -3424,8 +3424,6 @@ function saveActivity(){
           return;
       }
 
-
-
       //保存结束编辑
       $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
       //  类别(1)  商品(0)
@@ -3454,8 +3452,8 @@ function saveActivity(){
           }
           for(var i=0;i<rows.length;i++){
               var v = rows[i];
-              if(!v["categoryCode"]){
-                  $_jxc.alert("第"+(i+1)+"行，类别编号不能为空");
+              if(!v["categoryName"]){
+                  $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
                   isCheckResult = false;
                   return false;
               }
