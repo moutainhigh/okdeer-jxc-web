@@ -9,25 +9,6 @@
 
 package com.okdeer.jxc.controller.report.supplier;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -41,6 +22,19 @@ import com.okdeer.jxc.controller.report.DayReportController;
 import com.okdeer.jxc.report.qo.DayReportQo;
 import com.okdeer.jxc.report.service.DayReportService;
 import com.okdeer.jxc.report.vo.SupplierMonthReportVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 /**
  * @ClassName: SupplierMonthlyReportController
@@ -61,7 +55,7 @@ public class SupplierMonthlyReportController extends BaseController<DayReportCon
 	private DayReportService dayReportService;
 
 	@RequestMapping(value = "/list")
-	public ModelAndView add() {
+	public ModelAndView list() {
 		Map<String, String> model = Maps.newHashMap();
 		// model.put("branchId", UserUtil.getCurrentUser().getBranchId());
 		// model.put("branchName", UserUtil.getCurrentUser().getBranchName());
