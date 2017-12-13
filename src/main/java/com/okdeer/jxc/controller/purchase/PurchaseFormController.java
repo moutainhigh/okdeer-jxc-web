@@ -639,7 +639,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				BranchSpecVo branchSpec = branchSpecServiceApi.queryByBranchId(branchId);
 				// 允许采购收货取采购订单价格：0.否，1.是
 				if (branchSpec.getIsAllowPiGetPaPrice().intValue() == 0) {
-					list = purchaseFormServiceApi.getDetailAndPriceById(formId);
+					list = purchaseFormServiceApi.getDetailAndPlPriceById(formId);
 				} else {
 					list = purchaseFormServiceApi.selectDetailById(formId);
 				}
@@ -670,7 +670,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		//查询促销商品价格
-        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, formVo.getSupplierId());
+        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, formVo.getSupplierId(),formVo.getBranchId());
         boolean bool = false;
 		StringBuilder message = new StringBuilder();
 		int count = 0;
@@ -1225,17 +1225,17 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			}
 
 			//查询促销商品价格
-            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, po.getSupplierId());
+            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, po.getSupplierId(),po.getBranchId());
             boolean bool = false;
 			StringBuilder message = new StringBuilder();
-			int count = 1;
+			int count = 0;
 			if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
 				for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
 					for (int i = 0, length = detailList.size(); i < length; ++i) {
 						if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), detailList.get(i).getSkuId())
 								&& !purchaseActivityDetailVo.getNewPurPrice().equals(detailList.get(i).getPrice())) {
 							++count;
-							if (count <= 3) {
+							if (count <= 2) {
 								bool = true;
 								message.append("'").append(detailList.get(i).getSkuName()).append("'、");
 							}
@@ -1245,7 +1245,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			}
 			if (bool) {
 				message.deleteCharAt(message.length() - 1);
-				if (count > 3) {
+				if (count > 2) {
 					message.append("等").append(count).append("种");
 				}
 				message.append("商品价格已产生变动，是否按当前单据价格继续审核？");
