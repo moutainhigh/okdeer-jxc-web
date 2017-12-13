@@ -80,7 +80,7 @@ $(function () {
                 var _searchParam = serializeParam();
                 if(goodsTypeVal === 'categoryCode'){
                     brandId = "";
-                    supplierId = "";
+                    // supplierId = "";
                 }else if(goodsTypeVal === "brandId"){
                     // 如果品牌选中所有，处理为0的数据 不需要传到后台----  2017-11-22与产品确认
                     if(treeNode.id === "0"){
@@ -88,7 +88,7 @@ $(function () {
                     }else{
                         brandId = treeNode.id;
                     }
-                    supplierId = "";
+                    // supplierId = "";
                 }else if(goodsTypeVal === "supplierId"){
                     //如果供应商选中所有，不处理为0的数据，点击可能没有数据----  2017-11-22与产品确认
                     brandId = "";
@@ -96,12 +96,13 @@ $(function () {
                 }
                 _searchParam.categoryCode = categoryCode;
                 _searchParam.brandId = brandId;
+                //2017-12-13 宋文杰 许永勤 跟产品确认
+                // 所有单据品牌和类别 需要带供应商
+                // 添加goodsTypeVal 属性 告诉后台区分是树是品牌，类别还是供应商
+                //后台根据此条件决定是否使用供应商supplierId字段的值
                 _searchParam.supplierId = supplierId;
-                //如果单据为 促销进价单 品牌 类别 都需要带上供应商
-                //2017-11-22  宋文杰与产品新需求  目前去掉
-                // if(type === "PL"){
-                //     _searchParam.supplierId = fromParams.supplierId
-                // }
+                _searchParam.goodsTypeVal = goodsTypeVal;
+
 
                 /***
                  * 'categoryCode':categoryCode, 点击树节点的类别值
@@ -352,6 +353,7 @@ $(function () {
                     var goodsTypeVal =  $("#goodsType").combobox('getValue');
                     var searchSupplierId = '';
                     var _searchParam = serializeParam();
+
                     if(goodsTypeVal === "supplierId"){
                         searchSupplierId = $("#supplierId").val();
                         _searchParam.supplierId = searchSupplierId;
@@ -359,9 +361,16 @@ $(function () {
 
                     // 当左侧树选中的是类别或者品牌时，点击查询按钮不带供应商条件
                     //2017-11-22 由产品彭冲 开发许永勤 赵燎原  测试姜国亮 共同确认
-                    if(goodsTypeVal === "categoryCode" || goodsTypeVal === "brandId"){
-                        _searchParam.supplierId = "";
-                    }
+                    //2017-12-13 此条件废弃，按2017-12-13 确定的逻辑来，zhaoly
+                    // if(goodsTypeVal === "categoryCode" || goodsTypeVal === "brandId"){
+                    //     _searchParam.supplierId = "";
+                    // }
+
+                    //2017-12-13 宋文杰 许永勤 跟产品确认
+                    // 所有单据品牌和类别 需要带供应商
+                    // 添加goodsTypeVal 属性 告诉后台区分是树是品牌，类别还是供应商
+                    //后台根据此条件决定是否使用供应商supplierId字段的值
+                    _searchParam.goodsTypeVal = goodsTypeVal;
 
                     var queryParams=_searchParam;
                     
