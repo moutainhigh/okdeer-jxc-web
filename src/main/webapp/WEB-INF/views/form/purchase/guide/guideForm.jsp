@@ -17,7 +17,7 @@
         	<shiro:hasPermission name="JxcPurchaseGuide:nextStep">
                 <div id="btnNext" class="ubtns-item" onclick="nextStep()">下一步</div>
             </shiro:hasPermission>
-            <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+            <div class="ubtns-item" onclick="clearForm()">重置</div>
 			<div class="ubtns-item" onclick="toClose()">关闭</div>
         </div>
     </div>
