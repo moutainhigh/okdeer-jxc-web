@@ -495,7 +495,7 @@ function getActivityGoods(data){
 	    },function(result){
     		if(result['code'] == 0){
     			isdisabled = true;
-    			initPricePrintGrid();
+//    			initPricePrintGrid();
     			var tempData = result.data;
     			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
     			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
@@ -520,9 +520,9 @@ function disableBtn(){
 	 $('#discount').attr('readonly','readonly');
 	$('#discount').val('');
 	 $('#discount').addClass('uinp-no-more');
-	 var e = $("#pricePrint").datagrid('getColumnOption', 'activityTime');
-
-     e.editor = {disabled:true};
+//	 var e = $("#pricePrint").datagrid('getColumnOption', 'activityTime');
+//
+//     e.editor = {disabled:true};
 }
 
 
