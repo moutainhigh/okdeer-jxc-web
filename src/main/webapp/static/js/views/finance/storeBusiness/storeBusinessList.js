@@ -77,7 +77,7 @@ function selectOperator(){
     new publicOperatorService(function(data){
         //data.Id
         $("#createUserId").val(data.id);
-        $("#operateUserName").val("["+data.userCode+"]"+data.userName);
+        $("#createUserName").val("["+data.userCode+"]"+data.userName);
     });
 }
 
