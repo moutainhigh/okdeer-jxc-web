@@ -67,6 +67,10 @@ import java.util.*;
 @RequestMapping("goods/goodsSelect")
 public class GoodsSelectController extends BaseController<GoodsSelectController> {
 
+    final static String SELECT_CATEGORY_CODE = "categoryCode";
+    final static String SELECT_BRAND_ID = "brandId";
+    final static String SELECT_SUPPLIER_ID = "supplierId";
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
 
@@ -132,8 +136,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			
-			if(StringUtils.isEmpty(vo.getFormType())){
+
+            vo.setActivitySupplierId(vo.getSupplierId());
+            if (StringUtils.equals(vo.getGoodsTypeVal(), SELECT_BRAND_ID) || StringUtils.equals(vo.getGoodsTypeVal(), SELECT_CATEGORY_CODE)) {
+                vo.setSupplierId("");
+            }
+            if(StringUtils.isEmpty(vo.getFormType())){
 				vo.setFormType(vo.getType());
 			}
 			// 如果页面上有传入机构 则选择页面上的
