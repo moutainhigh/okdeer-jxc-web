@@ -88,7 +88,7 @@ public interface GpeMarkContrant {
 	/**
 	 * 按大类汇总
 	 */
-	String KEY_BY_CASHIER = "收银员";
+	String KEY_BY_CASHIER = "cashier";
 
 	/**
 	 * 机构汇总
