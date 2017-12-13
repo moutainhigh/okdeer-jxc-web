@@ -228,7 +228,12 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 		Class<?> clazz = getViewObjectClassArray()[index];
 
 		// 获取用户自定义标记
-		CustomMarkBean customMarkBean = new CustomMarkBean(null, null, null);
+	/*	CustomMarkBean customMarkBean = new CustomMarkBean(null, null, null);*/
+		// 获取用户自定义标记
+		MutilCustomMarkBean mutilCustomMarkBean = getMutilCustomMark();
+		CustomMarkBean customMarkBean = new CustomMarkBean(mutilCustomMarkBean.getMoudle(),
+				mutilCustomMarkBean.getSection(), mutilCustomMarkBean.getKeys()[index]);
+		
 		LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
 
 		// 导出
