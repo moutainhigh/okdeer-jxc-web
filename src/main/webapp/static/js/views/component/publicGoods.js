@@ -80,7 +80,7 @@ $(function () {
                 var _searchParam = serializeParam();
                 if(goodsTypeVal === 'categoryCode'){
                     brandId = "";
-                    // supplierId = "";
+                    supplierId =  $("#supplierId").val();
                 }else if(goodsTypeVal === "brandId"){
                     // 如果品牌选中所有，处理为0的数据 不需要传到后台----  2017-11-22与产品确认
                     if(treeNode.id === "0"){
@@ -88,7 +88,7 @@ $(function () {
                     }else{
                         brandId = treeNode.id;
                     }
-                    // supplierId = "";
+                    supplierId =  $("#supplierId").val();
                 }else if(goodsTypeVal === "supplierId"){
                     //如果供应商选中所有，不处理为0的数据，点击可能没有数据----  2017-11-22与产品确认
                     brandId = "";
