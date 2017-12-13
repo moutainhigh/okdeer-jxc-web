@@ -522,7 +522,7 @@ function  businessCheck() {
 function exportDetail(){
 	var length = $("#" + gridName).datagrid('getData').total;
 	if(length == 0){
-		$_jxc.alert('提示',"列表数据为空");
+		$_jxc.alert("列表数据为空");
 		return;
 	}
 	
