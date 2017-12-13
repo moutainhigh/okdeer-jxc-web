@@ -58,7 +58,6 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
 //选择树节点
 var selectNode = null;
 ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
-    debugger;
     selectNode = treeNode;
     $("#formCategoryList #categoryCode").val(selectNode.code);
     categoryCodeSearch();
