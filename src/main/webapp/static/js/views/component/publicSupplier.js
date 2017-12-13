@@ -35,7 +35,14 @@ function initSupplierView(param){
     supplierSelectType = param.supplierSelectType||"";
     var pubSupTree = new publicSupplierTree();
     pubSupTree.initTreeSupplier(); //初始树
-    initDatagridSupplier(saleWayNot,isDirect,branchId, supplierCodeOrName); //初始化表格
+
+    var param = $.extend({
+        saleWayNot:saleWayNot,
+        isDirect:isDirect,
+        branchId:branchId,
+        supplierCodeOrName:supplierCodeOrName
+    },param);
+    initDatagridSupplier(param); //初始化表格
 }
 var supplierCallBack ;
 //初始化回调函数
@@ -102,20 +109,17 @@ publicSupplierTree.prototype.zTreeOnClick = function(event, treeId, treeNode) {
 };
 
 //初始化表格
-function initDatagridSupplier(saleWayNot, isDirect, branchId, supplierNameOrsupplierCode){
+function initDatagridSupplier(param){
+    var param = $.extend({
+        isAllowPurchase:isAllowPurchase,
+        supplierSelectType:supplierSelectType
+    },param);
     $("#gridSupplier").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
         url:contextPath + "/common/supplier/getComponentList",
-        queryParams:{
-        	saleWayNot:saleWayNot,
-        	isDirect:isDirect,
-        	isAllowPurchase:isAllowPurchase,
-        	branchId:branchId,
-        	supplierNameOrsupplierCode:supplierNameOrsupplierCode,
-            supplierSelectType:supplierSelectType
-        },
+        queryParams:param,
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号

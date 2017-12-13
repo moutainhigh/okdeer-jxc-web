@@ -93,9 +93,13 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			
+			if(StringUtils.isNotBlank(qo.getQueryType()) && "ALL".equals(qo.getQueryType())){
+				return supplierService.queryLists(qo);
+			}
 
 			String branchId  = qo.getBranchId();
-			if (org.apache.commons.lang3.StringUtils.isNotBlank(branchId) && branchId.contains(",")) {
+			if (StringUtils.isNotBlank(branchId) && branchId.contains(",")) {
 				String[] branchIds = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchId, ",");
 
 				List<String> branchIdsList = Arrays.stream(branchIds).map((str) -> {
@@ -140,7 +144,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 				}
 
 				//总部是否查询自己及下属所有的供应商,否则只查询自己的供应商 不为空就查询所有
-				if ("0".equals(branchId) && org.apache.commons.lang3.StringUtils.isNotBlank(qo.getSupplierSelectType())) {
+				if ("0".equals(branchId) && StringUtils.isNotBlank(qo.getSupplierSelectType())) {
 					qo.setBranchId("");
 					qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 				} else {
@@ -148,9 +152,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 					qo.setDataType(1);
 				}
 			}
-			LOG.debug("vo:" + qo.toString());
 			PageUtils<SupplierPo> suppliers = supplierService.queryLists(qo);
-			LOG.debug("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询供应商异常:", e);

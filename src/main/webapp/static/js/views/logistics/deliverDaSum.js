@@ -7,6 +7,10 @@ var gridHandel = new GridClass();
 var gVarBranchId = "";
 var gVarBranchCompleCode = "";
 $(function(){
+	//开始和结束时间
+	/*toChangeDatetime(30);*/
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDataDeliverDaSumList();
     //机构组件初始化
     $('#branchSelect').branchSelect({
@@ -31,6 +35,8 @@ function initDataDeliverDaSumList() {
         showFooter:true,
         pageList : [20,50,100],//可以设置每页记录条数的列表
         pageSize:50,
+        width:"100%",
+        height:"100%",
         fit:true,
         columns:[[
             {field:'branchCode',title:'配送点代号',width:120,align:'left'},
@@ -44,6 +50,7 @@ function initDataDeliverDaSumList() {
             gridHandel.setDatagridHeader("center");
         }
     });
+    
 }
 
 /**
@@ -84,4 +91,27 @@ function exportExcel(){
 
 	$("#formList").attr("action",contextPath+"/logistics/deliverDaSum/exportList");
 	$("#formList").submit();
+}
+
+/**
+ * 发货机构
+ */
+function selectSourceBranch(){
+        new publicAgencyService(function(data){
+            if($("#sourceBranchId").val()!=data.branchesId){
+                $("#sourceBranchId").val(data.branchesId);
+                //$("#sourceBranchName").val(data.branchName);
+                $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
+                /*gridHandel.setLoadData([$.extend({},gridDefault)]);*/
+            }
+        },'DZ',$("#targetBranchId").val(),'',1);
+}
+function clearBranchCode(obj,branchId){
+	var branchName = $(obj).val();
+	
+	//如果修改名称
+	if(!branchName || 
+			(branchName && branchName.indexOf("[")<0 && branchName.indexOf("]")<0)){
+		$("#" + branchId +"").val('');
+	}
 }

@@ -929,7 +929,7 @@ function getTwoDecimalB(decimal){
 }
 
 function getPriceFmtB(decimal){
-	return '<b>' + parseFloat(decimal || 0).toFixed(2) + '</b>';
+	return '<b>' + parseFloat(decimal || 0).toFixed(4) + '</b>';
 }
 
 /**

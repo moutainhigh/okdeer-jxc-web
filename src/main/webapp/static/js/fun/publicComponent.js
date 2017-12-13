@@ -3076,3 +3076,105 @@ function initCombotree(id,dataItems,defValue){
         }
     })
 }
+
+/*------------------------------开店费用档案选择--------------------------------------*/
+
+function publicChargeRecordService(param,callback) {
+    if(!param || typeof (param.key) === 'undefined'){
+        publicChargeRecordHandle(param,callback)
+    }else{
+        $_jxc.ajax({
+            url :contextPath+'/settle/charge/charge/list',
+            data:{chargeCodeName:param.key}
+        },function (res) {
+            if(res && res.total == 1 && res.list.length == 1){
+                callback(res.list);
+            }else {
+                publicChargeRecordHandle(param,callback)
+            }
+        })
+    }
+
+
+}
+
+function publicChargeRecordHandle(param,callback) {
+    var dialogObj = {
+        href: contextPath + "/settle/charge/charge/publicView",
+        width:780,
+        height:600,
+        title:"开店费用选择",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            pubChargeRecord = null;
+        },
+        modal: true,
+    };
+    var recordClass = null;
+    dialogObj["onLoad"] =function(){
+        recordClass = new  ChargeRecordDialogClass();
+        recordClass.initChargeRecordDialogData(param);
+    };
+    dialogObj["buttons"] =[{
+        text:'确定',
+        handler:function(){
+            getCheckedChargeRecord();
+
+        }
+    },{
+        text:'取消',
+        handler:function(){
+            $(pubChargeRecord).dialog('destroy');
+            pubChargeRecord = null;
+        }
+    }];
+
+    var pubChargeRecord = $('<div id="publicChargeRecord"/>').dialog(dialogObj);
+
+    function getCheckedChargeRecord() {
+        recordClass.publicChargeRecordGetCheck(callback);
+        $(pubChargeRecord).dialog('destroy');
+        pubChargeRecord = null;
+    }
+}
+
+/*--------------------------------------------------------------------*/
+
+/*------------------------------开店费用类型选择--------------------------------------*/
+/*
+ * 费用类别选择
+ * */
+var categroyCodeDialogTemp = null;
+function publicChargeCodeService(callback) {
+    categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
+        href: contextPath+"/settle/charge/chargeCategory/publicView",
+        width: 750,
+        height: 600,
+        title: "费用类别选择",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            $(categroyCodeDialogTemp).panel('destroy');
+            categroyCodeDialogTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            var categoryDialogClass = new ChargeCategoryDialogClass();
+            categoryDialogClass.gridChargeCategoryList();
+            categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
+            categoryDialogClass.treeChargeCategory();
+        }
+    })
+
+    function categroyDialogCb(data) {
+        callback(data);
+        $(categroyCodeDialogTemp).panel('destroy');
+        categroyCodeDialogTemp = null;
+    }
+}
+
+
+
+/*--------------------------------------------------------------------*/

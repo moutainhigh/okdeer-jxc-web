@@ -63,6 +63,7 @@
 				            <option value="WZF">微支付</option>
 				            <option value="YQB">云钱包</option>
 				            <option value="DJQ">代金券</option>
+				            <option value="OFFDJQ">线下代金券</option>
 				            <option value="YFQ">运费代金券</option>
 				            <option value="PDF">平台垫付</option>
 				            <option value="PBT">平台补贴</option>

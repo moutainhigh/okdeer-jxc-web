@@ -35,7 +35,7 @@ import com.okdeer.retail.common.page.EasyUIPageInfo;
  */
 @RestController
 @RequestMapping("logistics/deliverDaSum")
-public class LogisticsDeliverDaSumController extends BaseController<LogisticsDeliverDaSumController>  {
+public class LogisticsDeliverDaSumController extends BaseController<LogisticsDeliverDaSumController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private LogisticsDeliverDaSumService logisticsDeliverDaSumService;
@@ -64,6 +64,9 @@ public class LogisticsDeliverDaSumController extends BaseController<LogisticsDel
 		if (StringUtils.isBlank(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
+		if (StringUtils.isNotBlank(qo.getSourceBranchId())) {
+			qo.setSourceBranchName(null);
+		}
 		LOG.debug("查询物流销售单商品汇总导出：{}", qo);
 		try {
 			return logisticsDeliverDaSumService.queryListPage(qo);
@@ -72,6 +75,7 @@ public class LogisticsDeliverDaSumController extends BaseController<LogisticsDel
 		}
 		return new EasyUIPageInfo(new ArrayList<LogisticsDeliverDaSumVo>());
 	}
+
 	@RequestMapping(value = "exportList")
 	public RespJson exportList(LogisticsDeliverDaSumQo qo, HttpServletResponse response) {
 		try {
@@ -79,11 +83,16 @@ public class LogisticsDeliverDaSumController extends BaseController<LogisticsDel
 			if (StringUtils.isBlank(qo.getBranchCompleCode())) {
 				qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 			}
+			if (StringUtils.isNotBlank(qo.getSourceBranchId())) {
+				qo.setSourceBranchName(null);
+			}
 			List<LogisticsDeliverDaSumVo> list = logisticsDeliverDaSumService.queryList(qo);
 			String fileName = "物流销售单商品汇总";
-			String	templateName = "logisticsDeliverDaSum.xlsx";
-		/*	LogisticsDeliverDaSumVo sumVo =logisticsDeliverDaSumService.queryTotal(qo);
-			list.add(sumVo);*/
+			String templateName = "logisticsDeliverDaSum.xlsx";
+			/*
+			 * LogisticsDeliverDaSumVo sumVo
+			 * =logisticsDeliverDaSumService.queryTotal(qo); list.add(sumVo);
+			 */
 			// 导出Excel
 			exportListForXLSX(response, list, fileName, templateName);
 			// 添加导出次数
@@ -93,5 +102,5 @@ public class LogisticsDeliverDaSumController extends BaseController<LogisticsDel
 		}
 		return RespJson.error();
 	}
-	
+
 }
