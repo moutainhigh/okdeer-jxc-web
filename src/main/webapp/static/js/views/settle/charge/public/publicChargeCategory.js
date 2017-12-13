@@ -49,7 +49,7 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
         var childrens = treeObj.getNodes()[0].children;
         treeObj.selectNode(childrens[0]);
         selectNode = childrens[0];
-        $("#categoryCode").val(selectNode.code);
+        $("#formCategoryList #categoryCode").val(selectNode.code);
         categoryCodeSearch();
     });
 }
@@ -58,8 +58,9 @@ ChargeCategoryDialogClass.prototype.treeChargeCategory = function() {
 //选择树节点
 var selectNode = null;
 ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, treeNode) {
+    debugger;
     selectNode = treeNode;
-    $("#typeCode").val(selectNode.code);
+    $("#formCategoryList #categoryCode").val(selectNode.code);
     categoryCodeSearch();
 }
 
