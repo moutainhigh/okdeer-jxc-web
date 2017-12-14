@@ -176,7 +176,7 @@ function formatter_formNo(value,row,index,formatter){
 function toGpeSetting() {
 	publicGpeSetting({
 		onSettingChange:function(columns,frozenColumns){
-			initDaySumGrid(columns,frozenColumns);
+			initDatagridRequire(columns,frozenColumns);
 		}
 	});
 }
