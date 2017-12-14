@@ -81,7 +81,7 @@ function initPurReportTotalGrid() {
 	    		   }
 	    		   return strHtml;
 	            }},
-            {field: 'salesmanUserName', title: '采购员', width:100, align: 'left'},
+            {field: 'salesManName', title: '采购员', width:100, align: 'left'},
             {field: 'createUserName', title: '制单人', width:100, align: 'left'},
             {field: 'createTime', title: '制单日期', width:150, align: 'left'},
             {field: 'validUserName', title: '审核人', width:100, align: 'left'},

@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>分公司商品查询分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/branch/branchGoodsSaleReport.js?V=${versionNo}"></script>
 </head>
 <body class="uw  ufs-14 upad-8 uc-black box-border">
@@ -44,15 +43,13 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r20">
-				     <!-- 隐藏类别 -->
-					<input type="hidden" name="startCount" id="startCount" class="uinp" />
-					<input type="hidden" name="endCount" id="endCount" class="uinp" />
-					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
+			     <!-- 隐藏类别 -->
+				<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
+				<div class="ub ub-ac umar-r20" id="branchComponent">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
 					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.type == 0 ? '' : branchesGrow.branchName}" maxlength="50"/>
-					<input type="hidden" name="branchId" id="branchId" value="${branchesGrow.branchesId}">
-					<div class="uinp-more" onclick="searchBranch()">...</div>
+					<input type="hidden" name="branchIds" id="branchIds" value="${branchesGrow.branchesId}">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">货号:</div>

@@ -466,7 +466,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						skuIds.add(detailVo.getSkuId());
 					}
 				}
-				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId(),vo.getId());
 				if (!resp.isSuccess()) {
 					return resp;
 				}
@@ -545,7 +545,18 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	* @author xuyq
 	* @date 2017年5月12日
 	*/
-	public RespJson validReceiptItem(List<String> skuIds, String formId) {
+	public RespJson validReceiptItem(List<String> skuIds,String referenceId,String formId) {
+	    // 验证引用单据是否已经被引用（多窗口操作）
+	    DeliverForm deliverForm = deliverFormServiceApi.queryDeliverFormById(referenceId);
+        // 入库单如果引用店间入库时，判断是否已终止
+        if (DeliverStatusEnum.STOPPED.getName().equals(deliverForm.getDealStatus())) {
+            return RespJson.error("当前引用单据已终止，请重新选择");
+        }
+        
+        int count = deliverFormServiceApi.queryListsByReferenceIds(referenceId, formId);
+        if (count > 0) {
+            return RespJson.error("当前引用单据已被使用，请重新选择");
+        }
 		List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
 		if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size())
 				|| CollectionUtils.isEmpty(list)) {
@@ -590,7 +601,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						skuIds.add(detailVo.getSkuId());
 					}
 				}
-				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId(),vo.getDeliverFormId());
 				if (!resp.isSuccess()) {
 					return resp;
 				}

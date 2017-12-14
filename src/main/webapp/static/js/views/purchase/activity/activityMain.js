@@ -362,6 +362,13 @@ function toImportproduct(type) {
         $_jxc.alert("请先选择机构名称");
         return;
     }
+
+    var supplierId = $("#supplierId").val();
+    if (!supplierId) {
+        $_jxc.alert("请先选择供应商");
+        return;
+    }
+
     var param = {
         url: contextPath + "/purchase/activity/importList?branchName='" + $("#branchName").val() + "'&supplierId='" + $("#supplierId").val() + "'",
         tempUrl: contextPath + "/purchase/activity/exportTemp",

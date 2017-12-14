@@ -230,11 +230,13 @@
 			<div class="ub ub-ac uw-390 unhide" id="dvn2nCount">
 			<div class="umar-r10 uw-70 ut-r">任选数量:</div>
 			<input class="uinp uw-300  easyui-numberbox"  data-options="min:0,max:999999,precision:0" type="text" id="n2nCount">
+	<i class="ub ub-ac uc-red">*</i>
 			</div>
 
 			<div class="ub ub-ac uw-410  unhide" id="dvn2nSaleAmount">
 			<div class="umar-r10 uw-110 ut-r">销售金额:</div>
 			<input class="uinp uw-300  easyui-numberbox" data-options="min:0,max:999999.99,precision:2" type="text" id="n2nSaleAmount">
+	<i class="ub ub-ac uc-red">*</i>
 			</div>
 
 			</div>

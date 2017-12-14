@@ -152,7 +152,7 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
             if (bool) {
                 return RespJson.success();
             } else {
-                return RespJson.error("该服务类型下有服务项目，不能删除!");
+                return RespJson.error("该服务类型下有服务项目或者已被门店关联，不能删除!");
             }
         } catch (Exception e) {
             LOG.error("删除服务类型失败!", e);
@@ -171,6 +171,9 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
                                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
+            if (org.apache.commons.lang3.StringUtils.equals("0", getCurrBranchId()) && org.apache.commons.lang3.StringUtils.isBlank(vo.getTypeId())) {
+                vo.setTypeId("0");
+            }
             PageUtils<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo, pageSize, pageNumber);
             return list;
         } catch (Exception e) {

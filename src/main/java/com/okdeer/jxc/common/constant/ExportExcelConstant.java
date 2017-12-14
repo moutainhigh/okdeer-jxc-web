@@ -285,6 +285,9 @@ public interface ExportExcelConstant {
 	/*** 门店费用明细导出模板  */
 	String STORE_CHARGE_DETAIL_EXPORT_TEMPLATE = "storeChargeDetailExportTemplate.xlsx";
 	
+	/*** 门店经营数据明细导出模板  */
+	String STORE_BUSINESS_DETAIL_EXPORT_TEMPLATE = "storeBusinessDetailExportTemplate.xlsx";
+	
 	/*** 日盈亏平衡分析导出模板  */
 	String BEY_DAY_ANALYSIS_EXPORT_TEMPLATE = "beyDayAnalysisExportTemplate.xlsx";
 	
@@ -785,6 +788,12 @@ public interface ExportExcelConstant {
     /*** 特价打包活动商品引入条码导入模板  */
     String ACTIVITY_SPECIAL_PACKAGE_GOODS_BARCODE_TEMPLATE = "activitySpecialPackageGoodsBarCodeTemplate.xlsx";
 
+    /*** 特价打包活动商品引入货号导入模板  */
+    String ACTIVITY_N_TO_N_GOODS_SKUCODE_TEMPLATE = "activityNTONGoodsSkuCodeTemplate.xlsx";
+
+    /*** 特价打包活动商品引入条码导入模板  */
+    String ACTIVITY_N_TO_N_GOODS_BARCODE_TEMPLATE = "activityNTONGoodsBarCodeTemplate.xlsx";
+
 	/**
 	 * 一开通交易明细
 	 */
@@ -960,4 +969,6 @@ public interface ExportExcelConstant {
      * 便民服务收银流水
      */
     String CSRSERVICE_CASH_FLOW = "CsrserviceCashFlow.xlsx";
+    
+    String CHARGE_CATEGORY="chargeCategory.xlsx";
 }

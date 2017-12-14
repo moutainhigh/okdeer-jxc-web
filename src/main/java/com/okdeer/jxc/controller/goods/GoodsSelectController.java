@@ -67,6 +67,10 @@ import java.util.*;
 @RequestMapping("goods/goodsSelect")
 public class GoodsSelectController extends BaseController<GoodsSelectController> {
 
+    final static String SELECT_CATEGORY_CODE = "categoryCode";
+    final static String SELECT_BRAND_ID = "brandId";
+    final static String SELECT_SUPPLIER_ID = "supplierId";
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
 
@@ -132,8 +136,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			
-			if(StringUtils.isEmpty(vo.getFormType())){
+
+            vo.setActivitySupplierId(vo.getSupplierId());
+            if (StringUtils.equals(vo.getGoodsTypeVal(), SELECT_BRAND_ID) || StringUtils.equals(vo.getGoodsTypeVal(), SELECT_CATEGORY_CODE)) {
+                vo.setSupplierId("");
+            }
+            if(StringUtils.isEmpty(vo.getFormType())){
 				vo.setFormType(vo.getType());
 			}
 			// 如果页面上有传入机构 则选择页面上的
@@ -214,7 +222,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                         }
 
                         //查询促销商品价格
-						List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, vo.getActivitySupplierId());
+                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService
+                                .getNewPurPriceBySkuIds(skus, vo.getActivitySupplierId(), vo.getBranchId());
 
                         if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                             for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
@@ -304,7 +313,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
             }
 
             //查询促销商品价格
-			List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, StringUtils.isBlank(vo.getActivitySupplierId()) ? supplierId : vo.getActivitySupplierId());
+            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(
+                    skus, StringUtils.isBlank(vo.getActivitySupplierId()) ? supplierId : vo.getActivitySupplierId(),
+                    vo.getBranchId());
 
             if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                 for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
@@ -406,6 +417,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					paramVo.setPageSize(1);
 					suppliers = queryPurchaseGoods(paramVo).getList();
 				} else {
+				    String supplierId = paramVo.getSupplierId();
 					// 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
                     if (FormType.PA.name().equals(type) || FormType.PR.name().equals(type)) {
                         paramVo.setSupplierId(null);
@@ -449,7 +461,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                         }
 
                         //查询促销商品价格
-						List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, StringUtils.isBlank(paramVo.getActivitySupplierId()) ? paramVo.getSupplierId() : paramVo.getActivitySupplierId());
+                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService
+                                .getNewPurPriceBySkuIds(skus, supplierId ,paramVo.getBranchId());
 						if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                             for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
                                 for (int i = 0, length = goodsSelects.size(); i < length; ++i) {

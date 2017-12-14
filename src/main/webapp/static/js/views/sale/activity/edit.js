@@ -417,7 +417,7 @@ function initDatagridsortN2N() {
                     return str;
                 },
             },
-            {field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            {field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
             {field:'categoryName',title:'商品类别',width:'200px',align:'left'},
         ]],
         onBeforeLoad:function(){
@@ -3424,19 +3424,17 @@ function saveActivity(){
           return;
       }
 
-
-
       //保存结束编辑
       $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-      var rows= gridHandel.getRows();
-      if(rows.length==0){
-          $_jxc.alert("表格不能为空");
-          return;
-      }
-
       //  类别(1)  商品(0)
       var n2nType = $("input[name='n2nstatus']:checked").val();
       if(n2nType === "0"){
+          var rows = gridHandel.getRows();
+          if(rows.length==0){
+              $_jxc.alert("表格不能为空");
+              return;
+          }
+
           for(var i=0;i<rows.length;i++){
               var v = rows[i];
               if(!v["skuCode"]){
@@ -3447,10 +3445,15 @@ function saveActivity(){
           }
           saveDataHandel(rows);
       }else if(n2nType === "1"){
+          var rows = gridHandel.getRowsWhere({categoryName:'1'});
+          if(rows.length==0){
+              $_jxc.alert("请添加类别");
+              return;
+          }
           for(var i=0;i<rows.length;i++){
               var v = rows[i];
-              if(!v["categoryCode"]){
-                  $_jxc.alert("第"+(i+1)+"行，类别编号不能为空");
+              if(!v["categoryName"]){
+                  $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
                   isCheckResult = false;
                   return false;
               }
@@ -3986,10 +3989,10 @@ function toImportproduct(type){
     }
     
     var activityType=$("#activityType").combobox('getValue');
-    
+    var isgoodsN2N = $("#goodsN2N").is(":checked");
     //只支持特价、折扣、偶数特价类型的活动
-    if(activityType!=='1' && activityType!=='2' && activityType!=='3'&& activityType!=='12'){
-    	 $_jxc.alert("只支持特价，偶数特价，特价打包类型的活动");
+    if(activityType!=='1' && activityType!=='2' && activityType!=='3'&& activityType!=='12' && (activityType!=='11' && isgoodsN2N == false)){
+    	 $_jxc.alert("只支持特价，偶数特价，特价打包和N元N件商品类型的活动");
          return;
     }
     

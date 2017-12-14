@@ -397,7 +397,11 @@ function initDirectDataGrid(){
            {field:'taxAmount',title:'税额',width:'80px',align:'right',
                formatter : function(value, row, index) {
                    if(row.isFooter){
-                       return;
+                       return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                   }
+
+                   if(!value){
+                   	row.taxAmount = parseFloat(value||0).toFixed(4);
                    }
                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },

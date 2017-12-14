@@ -67,6 +67,11 @@ var priceGrantStr = '${priceGrantStr}';
 var sessionUserId = '${user.id}';
 var sessionUserCode = '${user.userCode}';
 var sessionUserName = '${user.userName}';
+var sessionUserCodeName = '';
+if(sessionUserCode && sessionUserName){
+	sessionUserCodeName = "["+sessionUserCode+"]"+sessionUserName;
+}
+
 var sessionBranchId = '${user.branchId}';
 var sessionBranchCode = '${user.branchCode}';
 var sessionBranchName = '${user.branchName}';

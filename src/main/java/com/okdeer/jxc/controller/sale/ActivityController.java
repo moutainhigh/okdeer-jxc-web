@@ -763,6 +763,8 @@ public class ActivityController extends BaseController<ActivityController> {
 				field = new String[] { "skuCode", "saleAmount"};
 			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
 				field = new String[]{"skuCode", "limitCount"};
+			} else if (ActivityType.N_TO_N.getValue().equals(activityType)) {//N元N件
+				field = new String[]{"skuCode"};
 			} else {
 				return null;
 			}
@@ -775,6 +777,8 @@ public class ActivityController extends BaseController<ActivityController> {
 				field = new String[] { "barCode", "saleAmount"};
 			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
 				field = new String[]{"barCode", "limitCount"};
+			} else if (ActivityType.N_TO_N.getValue().equals(activityType)) {//N元N件
+				field = new String[]{"barCode"};
 			}else{
 				return null;
 			}
@@ -811,6 +815,9 @@ public class ActivityController extends BaseController<ActivityController> {
 			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
 				columns = new String[]{"skuCode", "limitCount"};
 				headers = new String[]{"货号", "特价打包数量"};
+			} else if (ActivityType.N_TO_N.getValue().equals(activityType)) {//N元N件
+				columns = new String[]{"skuCode"};
+				headers = new String[]{"货号"};
 			} else {
 				LOG.warn("活动类型不正确");
 				return;
@@ -828,7 +835,10 @@ public class ActivityController extends BaseController<ActivityController> {
 			} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) {//特价打包
 				columns = new String[]{"barCode", "limitCount"};
 				headers = new String[]{"条码", "特价打包数量"};
-			}else{
+			} else if (ActivityType.N_TO_N.getValue().equals(activityType)) {//N元N件
+				columns = new String[]{"barCode"};
+				headers = new String[]{"条码"};
+			} else {
 				LOG.warn("活动类型不正确");
 				return;
 			}
@@ -864,6 +874,9 @@ public class ActivityController extends BaseController<ActivityController> {
 				} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) { //特价打包
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_PACKAGE_GOODS_SKUCODE_TEMPLATE;
 					fileName = "特价打包活动货号导入模板";
+				} else if (ActivityType.N_TO_N.getValue().equals(activityType)) { //N元N件
+					templateName = ExportExcelConstant.ACTIVITY_N_TO_N_GOODS_SKUCODE_TEMPLATE;
+					fileName = "N元N件活动货号导入模板";
 				}else{
 					LOG.warn("活动类型不正确");
 					return;
@@ -881,6 +894,9 @@ public class ActivityController extends BaseController<ActivityController> {
 				} else if (ActivityType.SPECIAL_PACKAGE.getValue().equals(activityType)) { //特价打包
 					templateName = ExportExcelConstant.ACTIVITY_SPECIAL_PACKAGE_GOODS_BARCODE_TEMPLATE;
 					fileName = "特价打包活动条码导入模板";
+				} else if (ActivityType.N_TO_N.getValue().equals(activityType)) { //N元N件
+					templateName = ExportExcelConstant.ACTIVITY_N_TO_N_GOODS_BARCODE_TEMPLATE;
+					fileName = "N元N件活动条码导入模板";
 				}else{
 					LOG.warn("活动类型不正确");
 					return;

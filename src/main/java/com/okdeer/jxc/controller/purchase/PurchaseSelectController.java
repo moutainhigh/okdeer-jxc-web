@@ -159,7 +159,7 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 			BranchSpecVo branchSpec = branchSpecService.queryByBranchId(branchId);
 			// 允许采购收货取采购订单价格：0.否，1.是
 			if (branchSpec.getIsAllowPiGetPaPrice().intValue() == 0) {
-				list = purchaseFormServiceApi.getDetailAndPriceById(formId);
+				list = purchaseFormServiceApi.getDetailAndPlPriceById(formId);
 			} else {
 				list = purchaseFormServiceApi.selectDetailById(formId);
 			}
