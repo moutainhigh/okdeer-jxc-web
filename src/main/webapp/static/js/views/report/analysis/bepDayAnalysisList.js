@@ -132,7 +132,7 @@ function toGpeSetting(){
 	publicGpeSetting({
 		tabKey : tabKey,
 		onSettingChange:function(columns,frozenColumns){
-			initCashDailyGrid(columns,frozenColumns);
+			initGridDayAnalysis(columns,frozenColumns);
 		}
 	});
 }
