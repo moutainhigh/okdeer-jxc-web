@@ -164,7 +164,7 @@ function toGpeSetting(){
 	publicGpeSetting({
 		tabKey : tabKey,
 		onSettingChange:function(columns,frozenColumns){
-			initGoodsSaleSummaryAnalysisGrid(columns,frozenColumns);
+			initDatagridYueJXC(columns,frozenColumns);
 		}
 	});
 }
