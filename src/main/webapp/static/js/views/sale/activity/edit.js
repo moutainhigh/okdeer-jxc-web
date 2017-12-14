@@ -22,6 +22,8 @@ $(function(){
     
     //如果是门店，则只能查看当前店铺数据
 	if(sessionBranchType >= 3){
+        $("#branchName").val(sessionBranchCodeName);
+        $("#branchIds").val(sessionBranchId);
 		$("#selectBranch").hide();
 		$("#branchName").prop('disabled','disabled');
 		$("#branchName").unbind("click");
@@ -167,7 +169,7 @@ function  editstart(){
 		    		 branchIds = branchIds.substring(0,branchIds.length - 1);
 		    		 branchName = branchName.substring(0,branchName.length - 1);
 		    		//复制过来的  不赋值
-			    	 if(sUrl != 'toCopy'){
+			    	//  if(sUrl != 'toCopy'){
 			    		 var branchsName =data.obj.branchsName;
 			    		 var branchsFullName =data.obj.branchsFullName;
 			    		 if(branchsName){
@@ -183,7 +185,7 @@ function  editstart(){
 			    		 }
 			    		 
 			    		 $('#branchIds').val(branchIds);
-			    	 }
+			    	 // }
 			    	 
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  

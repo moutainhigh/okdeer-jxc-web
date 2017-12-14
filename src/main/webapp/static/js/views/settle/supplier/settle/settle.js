@@ -585,14 +585,14 @@ function updateFooter(){
 function updateFrom(){
 	var _footerRow = gridHandel.getFooterRow();
 	//应付金额汇总
-	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
+	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(4));
 	//优惠金额汇总
-	$('#discountAmount').val(parseFloat(_footerRow[0].discountAmount||0).toFixed(2));
+	$('#discountAmount').val(parseFloat(_footerRow[0].discountAmount||0).toFixed(4));
 	//已付金额汇总
-	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
+	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(4));
 	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
 	//未付金额汇总
-	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
+	$('#unpayAmount').val(_unpayAmount1.toFixed(4));
 
 	//实付金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));

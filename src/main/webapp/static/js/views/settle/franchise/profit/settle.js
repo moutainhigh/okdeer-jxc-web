@@ -268,11 +268,11 @@ function calAmount(){
 			clickCaculateFlag = true;
     		//保存时用于比较
     		$('#oldTime').val(_startTime+''+_endTime);
-			$("#profit").numberbox('setValue',$_jxc.roundx(parseFloat(result['profitAmount']),2));
+			$("#profit").numberbox('setValue',$_jxc.roundx(parseFloat(result['profitAmount']),4));
 			//profitOfCompany
-			$("#profitOfCompany").numberbox('setValue',$_jxc.roundx(parseFloat(result['targetProfitAmount']),2));
-			$("#profitSupper").numberbox('setValue',$_jxc.roundx(parseFloat(result['franchiseProfitAmount']),2));
-			$("#amount").numberbox('setValue',$_jxc.roundx(parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0),2));
+			$("#profitOfCompany").numberbox('setValue',$_jxc.roundx(parseFloat(result['targetProfitAmount']),4));
+			$("#profitSupper").numberbox('setValue',$_jxc.roundx(parseFloat(result['franchiseProfitAmount']),4));
+			$("#amount").numberbox('setValue',$_jxc.roundx(parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0),4));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;

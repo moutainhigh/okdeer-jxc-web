@@ -348,7 +348,7 @@ function changeActMountFrom(newV,oldV){
 	
 	var _unpayAmountText = parseFloat($('#unpayAmount').val()||0);
 	//格式化2位小数比较
-	_unpayAmountText = parseFloat(_unpayAmountText||0).toFixed(2);
+	_unpayAmountText = parseFloat(_unpayAmountText||0).toFixed(4);
 	//转成数字
 	_unpayAmountText = parseFloat(_unpayAmountText||0);
 	
@@ -499,12 +499,12 @@ function updateFooter(){
 function updateFrom(){
 	var _footerRow = gridHandel.getFooterRow();
 	//应收金额汇总
-	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(2));
+	$('#payableAmount').val(parseFloat(_footerRow[0].payableAmount||0).toFixed(4));
 	//已收金额汇总
-	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(2));
+	$('#payedAmount').val(parseFloat(_footerRow[0].payedAmount||0).toFixed(4));
 	var _unpayAmount1 = parseFloat(_footerRow[0].unpayAmount||0);
 	//未收金额汇总
-	$('#unpayAmount').val(_unpayAmount1.toFixed(2));
+	$('#unpayAmount').val(_unpayAmount1.toFixed(4));
 	
 	//实收金额汇总
 	$('#actualAmount').numberbox('setValue',parseFloat(_footerRow[0].actualAmount||0));
