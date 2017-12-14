@@ -382,8 +382,8 @@ function onChangeAmount(vewV,oldV){
 		return;
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
-	//格式化2位小数比较
-	_unpayAmount = parseFloat(_unpayAmount||0).toFixed(2);
+	//格式化4位小数比较
+	_unpayAmount = parseFloat(_unpayAmount||0).toFixed(4);
 	//转成数字
 	_unpayAmount = parseFloat(_unpayAmount||0);
 	
