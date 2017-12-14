@@ -117,26 +117,26 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l12">
              	 <div class="umar-r10 uw-90 ut-r">优惠金额汇总:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="discountAmount" readonly='readonly'  name="discountAmount">
+             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.0000" id="discountAmount" readonly='readonly'  name="discountAmount">
              </div>
          </div>
          
          <div class="ub umar-t8">
 	         <div class="ub ub-ac uw-300 ">
 	             <div class="umar-r10 uw-90 ut-r">应付金额汇总:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="payableAmount" readonly='readonly'  name="payableAmount">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.0000" id="payableAmount" readonly='readonly'  name="payableAmount">
 	         </div>
 	         <div class="ub ub-ac uw-300 umar-l10">
 	             <div class="umar-r10 uw-90 ut-r">已付金额汇总:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="payedAmount" readonly='readonly'  name="payedAmount">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.0000" id="payedAmount" readonly='readonly'  name="payedAmount">
 	         </div>
              <div class="ub ub-ac uw-300 umar-l20">
              	 <div class="umar-r10 uw-90 ut-r">未付金额汇总:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="unpayAmount" readonly='readonly'  name="unpayAmount">
+             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.0000" id="unpayAmount" readonly='readonly'  name="unpayAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l24">
              	 <div class="umar-r10 uw-90 ut-r">实付金额汇总:</div>
-             	 <input class="uinp easyui-numberbox" data-options="precision:2,onChange:changeActMountFrom,filter:filterData" type="text" value="0.00" id="actualAmount"  name="actualAmount">
+             	 <input class="uinp easyui-numberbox" data-options="precision:4,onChange:changeActMountFrom,filter:filterData" type="text" value="0.0000" id="actualAmount"  name="actualAmount">
              </div>
          </div>
          
