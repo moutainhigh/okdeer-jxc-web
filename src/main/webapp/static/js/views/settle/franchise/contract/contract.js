@@ -99,29 +99,29 @@ function initContact(){
             		options:{
             			min:0,
             			max:999999.99,
-            			precision:2,
+            			precision:4,
             			onChange:changeTaxEnd
             		}
             	}
             },
             {field:'targetAllocation',title:'甲方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
             		options:{
             			min:0,
             			max:100,
-            			prompt:'0.00~100.00',
-            			precision:2,
+            			prompt:'0.0000~100.0000',
+            			precision:4,
             			onChange:changeTaxA
             		}
             	}
             },
             {field:'franchiseAllocation',title:'乙方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return $_jxc.isStringNull(value)? '' : '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -129,7 +129,7 @@ function initContact(){
             			min:0,
             			max:100,
             			readonly:true,
-            			precision:2,
+            			precision:4,
             		}
             	},
             	styler:function(value,row,index){

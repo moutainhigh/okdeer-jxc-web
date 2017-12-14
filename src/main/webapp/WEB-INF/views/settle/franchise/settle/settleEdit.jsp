@@ -96,7 +96,7 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l8">
              	 <div class="umar-r10 uw-90 ut-r">实收金额汇总:</div>
-             	 <input class="uinp easyui-numberbox" data-options="precision:2,onChange:changeActMountFrom" type="text" id="actualAmount" 
+             	 <input class="uinp easyui-numberbox" data-options="precision:4,onChange:changeActMountFrom" type="text" id="actualAmount"
              	 	name="actualAmount" value="${settle.actualAmount}">
              </div>
              <div class="ub ub-ac umar-l40">
