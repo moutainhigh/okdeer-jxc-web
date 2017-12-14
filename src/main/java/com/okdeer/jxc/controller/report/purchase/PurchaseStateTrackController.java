@@ -79,7 +79,7 @@ public class PurchaseStateTrackController extends BaseController<PurchaseStateTr
             @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
             if (StringUtils.isEmpty(qo.getBranchId())) {
-                qo.setBranchCode(getCurrBranchCode());
+                qo.setBranchCode(getCurrBranchCompleCode());
             }
             qo.setPageNumber(pageNumber);
             qo.setPageSize(pageSize);
