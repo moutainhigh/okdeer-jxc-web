@@ -20,6 +20,7 @@ import com.okdeer.jxc.report.qo.GoodsUnsaleReportQo;
 import com.okdeer.jxc.report.service.GoodsUnsaleReportService;
 import com.okdeer.jxc.report.vo.GoodsUnsaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,20 +98,23 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
             goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
             Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
 
-            PageUtils<GoodsUnsaleReportVo> list = listFuture.get();
+//            PageUtils<GoodsUnsaleReportVo> list = listFuture.get();
 
             GoodsUnsaleReportVo reportVo = unsaleReportVoFuture.get();
-            List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
+           /* List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
             if (reportVo != null) {
                 // 过滤数据权限字段
                 cleanAccessData(reportVo);
                 footer.add(reportVo);
                 list.setTotal(reportVo.getCount());
             }
-            list.setFooter(footer);
+            list.setFooter(footer);*/
+            PageUtils<GoodsUnsaleReportVo> pages = new PageUtils<GoodsUnsaleReportVo>(listFuture.get().getList(),
+                    reportVo, reportVo.getCount(), pageNumber, pageSize);
+            
             // 过滤数据权限字段
-            cleanAccessData(list);
-            return list;
+            cleanAccessData(pages);
+            return pages;
         } catch (Exception e) {
             LOG.error("获取滞销信息列表信息异常:{}", e);
         }
@@ -124,9 +129,9 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
      * @author liux01
      * @date 2017年2月15日
      */
-    @RequestMapping(value = "/exportList", method = RequestMethod.POST)
+    @RequestMapping(value = "/exportList2", method = RequestMethod.POST)
     @ResponseBody
-    public RespJson exportList(HttpServletResponse response, GoodsUnsaleReportQo vo) {
+    public RespJson exportList2(HttpServletResponse response, GoodsUnsaleReportQo vo) {
         RespJson resp = RespJson.success();
         try {
             vo.setSourceBranchId(UserUtil.getCurrBranchId());
@@ -148,6 +153,66 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
         }
         return resp;
     }
+    /**
+	 * 
+	 * @Description: 导出滞销信息
+	 * @param response
+	 * @param vo
+	 * @return
+	 * @author liux01
+	 * @date 2017年2月15日
+	 */
+	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, GoodsUnsaleReportQo vo) {
+		RespJson resp = RespJson.success();
+		try {
+			// 导出的数据列表
+			List<GoodsUnsaleReportVo> exportList = new ArrayList<GoodsUnsaleReportVo>();
+
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(vo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(vo.getEndCount());
+
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
+
+			// 每2K条数据一次查询
+			for (int i = 0; i < resIndex; i++) {
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				vo.setStartCount(newStart);
+				vo.setEndCount(LIMIT_REQ_COUNT);
+				List<GoodsUnsaleReportVo> tempList =goodsUnsaleReportService. exportList("",vo);
+				exportList.addAll(tempList);
+			}
+
+			// 存在余数时，查询剩余的数据
+			if (modIndex > 0) {
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				vo.setStartCount(newStart);
+				vo.setEndCount(newEnd);
+				List<GoodsUnsaleReportVo> tempList =goodsUnsaleReportService.exportList("",vo);
+				exportList.addAll(tempList);
+			}
+			
+			//Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
+			//goodsUnsaleReportVo.setBranchCode("合计:");
+			//exportList.add(goodsUnsaleReportVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
+			String fileName = "商品滞销查询报表_"+DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.GOODS_UNSALE_REPORT;
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("导出滞销信息列表异常：{}", e);
+			resp = RespJson.error("导出滞销信息列表异常");
+		}
+		return resp;
+	}
 
     /**
      * @param qo
