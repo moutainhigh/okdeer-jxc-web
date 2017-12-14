@@ -18,6 +18,7 @@ import com.okdeer.jxc.report.goods.service.NewGoodsSaleAnalysisService;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.common.report.DataRecord;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +47,12 @@ import java.util.concurrent.Future;
  *
  */
 
+@SuppressWarnings("deprecation")
 @Controller
 @RequestMapping("report/newGoodsSaleAnalysis")
 public class NewGoodsSaleAnalysisController extends ReportController {
 
-    //@Reference(version = "1.0.0", check = false)
+    /*** 异步调用只能通过dubbo配置文件的方式注入 */
     @Resource
     private NewGoodsSaleAnalysisService newGoodsSaleAnalysisService;
 
