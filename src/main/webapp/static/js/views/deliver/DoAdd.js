@@ -737,7 +737,7 @@ function selectStockAndPrice(sourceBranchId,data){
     					data[i].priceBack = obj.distributionPrice;
     					data[i].untaxedPrice = obj.untaxedPrice;
     					data[i].untaxedPriceBack = obj.untaxedPrice;
-    					data[i].taxRate = obj.taxRate;
+    					data[i].taxRate = obj.disTaxRate;
     				}
     			})
     		})
