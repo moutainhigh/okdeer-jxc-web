@@ -466,7 +466,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						skuIds.add(detailVo.getSkuId());
 					}
 				}
-				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId(),vo.getId());
+				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId(),vo.getDeliverFormId());
 				if (!resp.isSuccess()) {
 					return resp;
 				}
@@ -557,7 +557,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
         if (count > 0) {
             return RespJson.error("当前引用单据已被使用，请重新选择");
         }
-		List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
+		List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(referenceId);
 		if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size())
 				|| CollectionUtils.isEmpty(list)) {
 			return RespJson.error("已选配送单号，不允许添加其他商品");
