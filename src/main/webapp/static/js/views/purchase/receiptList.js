@@ -202,7 +202,7 @@ function initDatagridOrders(){
     });
    // query();
     if(hasPurchasePrice==false){
-       // priceGrantUtil.grantPurchasePrice(tableIdName,["amount","untaxedAmount"])
+    	priceGrantUtil.grantPurchasePrice(tableIdName,["amount","untaxedAmount"])
 	}
 }
 
@@ -259,7 +259,7 @@ function initDatagridFormPA(){
     });
 
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount","untaxedAmount"])
     }
 }
 

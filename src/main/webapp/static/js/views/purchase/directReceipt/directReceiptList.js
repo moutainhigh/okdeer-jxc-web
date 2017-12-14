@@ -269,7 +269,7 @@ function initDirectDatagrid(){
     });
     //query();
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["amount"])
+        priceGrantUtil.grantPurchasePrice(gridName,["amount","untaxedAmount"])
     }
     
 }
