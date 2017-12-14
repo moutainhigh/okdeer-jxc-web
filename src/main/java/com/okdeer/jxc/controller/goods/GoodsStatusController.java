@@ -48,7 +48,7 @@ import net.sf.json.JSONObject;
 
 /**
  * ClassName: GoodsStatusController 
- * @Description: TODO
+ * @Description: 商品状态查询管理
  * @author liux01
  * @date 2017年3月6日
  *
@@ -128,10 +128,12 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if(com.okdeer.jxc.common.utils.StringUtils.isBlank(vo.getBranchCompleCode())){
+			if(StringUtils.isBlank(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
-			
+			if(vo.getGuideType() == null){
+			    vo.setGuideType(0);
+			}
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getOutGuideList(vo);
 			// 过滤数据权限字段
 			cleanAccessData(list);
@@ -163,7 +165,9 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 			if(com.okdeer.jxc.common.utils.StringUtils.isBlank(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
-			//vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			if(vo.getGuideType() == null){
+                vo.setGuideType(0);
+            }
 			PageUtils<GoodsStatusVo> list = goodsStatusService.getStopGuideList(vo);
 			cleanAccessData(list);
 			return list;
