@@ -171,8 +171,8 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
                                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
-            if (org.apache.commons.lang3.StringUtils.equals("0", getCurrBranchId()) && org.apache.commons.lang3.StringUtils.isBlank(vo.getTypeId())) {
-                vo.setTypeId("0");
+            if (org.apache.commons.lang3.StringUtils.isBlank(vo.getTypeId())) {
+                vo.setTypeId(getCurrBranchId());
             }
             PageUtils<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo, pageSize, pageNumber);
             return list;
@@ -241,8 +241,10 @@ public class CsrserviceController extends BaseController<CsrserviceController> {
     @RequestMapping(value = "export", method = RequestMethod.POST)
     public RespJson exportHandel(CsrserviceVo vo, HttpServletResponse response) {
         try {
+        	if (org.apache.commons.lang3.StringUtils.isBlank(vo.getTypeId())) {
+        		vo.setTypeId(getCurrBranchId());
+        	}
             LOG.debug("导出服务项目条件：{}", vo);
-
             List<CsrserviceVo> list = csrserviceTypeService.getCsrserviceVoList(vo);
 
             RespJson respJson = super.validateExportList(list);
