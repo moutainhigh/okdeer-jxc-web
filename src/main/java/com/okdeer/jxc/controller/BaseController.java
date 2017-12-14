@@ -1,4 +1,3 @@
-
 package com.okdeer.jxc.controller;
 
 import java.io.InputStream;
@@ -28,6 +27,7 @@ import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
+import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.price.MapAccessParser;
 import com.okdeer.retail.common.price.vo.KeyExtendVo;
@@ -76,13 +76,12 @@ public class BaseController<T> {
 	 * @Fields error_Msg : 500页面错误提示消息key值
 	 */
 	protected static final String ERROR_MSG = "errorMsg";
-	
-	
-	protected static Integer LIMIT_MAX_COUNT = 20000;//数据导出最大导出为2万条，如果没有值的话
-	
-	protected static Integer LIMIT_MIN_COUNT = 100;//如果数据导出pageSize没传的话，默认导出100条
-	
-	protected static Integer LIMIT_REQ_COUNT = 2000;//一次请求的数据量
+
+	protected static Integer LIMIT_MAX_COUNT = 20000;// 数据导出最大导出为2万条，如果没有值的话
+
+	protected static Integer LIMIT_MIN_COUNT = 100;// 如果数据导出pageSize没传的话，默认导出100条
+
+	protected static Integer LIMIT_REQ_COUNT = 2000;// 一次请求的数据量
 
 	/**
 	 * @Description: 获取当前用户信息
@@ -126,7 +125,7 @@ public class BaseController<T> {
 		SysUser user = getCurrentUser();
 		return user == null ? null : user.getBranchCode();
 	}
-	
+
 	/**
 	 * @Description: 获取当前机构名称
 	 * @return
@@ -205,8 +204,8 @@ public class BaseController<T> {
 	 * @author zhengwj
 	 * @date 2017年7月27日
 	 */
-	protected void exportParamListForXLSX(HttpServletResponse response, List<?> dataList, Map<String, Object> param, String fileName,
-			String templateName) {
+	protected void exportParamListForXLSX(HttpServletResponse response, List<?> dataList, Map<String, Object> param,
+			String fileName, String templateName) {
 		ReportExcelUtil.exportParamListForXLSX(response, dataList, param, fileName, templateName);
 	}
 
@@ -307,9 +306,9 @@ public class BaseController<T> {
 	 * @param data 要过滤的vo对象
 	 */
 	protected void cleanAccessData(Object data) {
-	    if(data == null){
-	        return;
-	    }
+		if (data == null) {
+			return;
+		}
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
 		parser.cleanDataObject(data);
@@ -320,29 +319,39 @@ public class BaseController<T> {
 	 * @param datas 要过滤的vo对象
 	 */
 	protected void cleanAccessData(List<? extends Object> datas) {
-	    if(CollectionUtils.isEmpty(datas)||datas.get(0)==null){
-	        return;
-	    }
-	    Object obj = datas.get(0);
-	    if(obj == null){
-	        return;
-	    }
+		if (CollectionUtils.isEmpty(datas) || datas.get(0) == null) {
+			return;
+		}
+		Object obj = datas.get(0);
+		if (obj == null) {
+			return;
+		}
 		Class<?> cls = datas.get(0).getClass();
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
 		parser.cleanDataObjects(datas);
 	}
+
 	/**
-     * 过滤价格权限数据（vo list）
-     * @param datas 要过滤的vo对象
-     */
+	 * 过滤价格权限数据（vo list）
+	 * @param datas 要过滤的vo对象
+	 */
 	protected void cleanAccessData(PageUtils<? extends Object> page) {
-	    if(CollectionUtils.isNotEmpty(page.getFooter())){
-	        cleanAccessData(page.getFooter());
-	    }
-	    if(CollectionUtils.isNotEmpty(page.getList())){
-	        cleanAccessData(page.getList());
-	    }
+		if (CollectionUtils.isNotEmpty(page.getFooter())) {
+			cleanAccessData(page.getFooter());
+		}
+		if (CollectionUtils.isNotEmpty(page.getList())) {
+			cleanAccessData(page.getList());
+		}
+	}
+
+	protected void cleanAccessData(EasyUIPageInfo<?> page) {
+		if (CollectionUtils.isNotEmpty(page.getFooter())) {
+			cleanAccessData(page.getFooter());
+		}
+		if (CollectionUtils.isNotEmpty(page.getList())) {
+			cleanAccessData(page.getList());
+		}
 	}
 
 	/**
@@ -351,17 +360,17 @@ public class BaseController<T> {
 	 * @param dataMap 要过滤的数据
 	 */
 	protected void cleanDataMap(String keyStr, DataRecord data) {
-	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
-	        return;
-	    }
+		if (StringUtils.isBlank(keyStr) || data == null || data.size() == 0) {
+			return;
+		}
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(data);
 	}
-	
+
 	protected void cleanDataMap(Map<String, String> priceMap, DataRecord data) {
-		if(priceMap==null || priceMap.isEmpty() || data == null || data.isEmpty()){
+		if (priceMap == null || priceMap.isEmpty() || data == null || data.isEmpty()) {
 			return;
 		}
 		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
@@ -376,17 +385,17 @@ public class BaseController<T> {
 	 * @param dataMap 要过滤的数据
 	 */
 	protected void cleanDataMap(String keyStr, Map<String, Object> data) {
-	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
-	        return;
-	    }
+		if (StringUtils.isBlank(keyStr) || data == null || data.size() == 0) {
+			return;
+		}
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(data);
 	}
-	
+
 	protected void cleanDataMap(Map<String, String> priceMap, Map<String, Object> data) {
-		if(priceMap==null || priceMap.isEmpty() || data == null || data.isEmpty()){
+		if (priceMap == null || priceMap.isEmpty() || data == null || data.isEmpty()) {
 			return;
 		}
 		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
@@ -401,15 +410,15 @@ public class BaseController<T> {
 	 * @param dataMaps 要过滤的数据
 	 */
 	protected void cleanDataMaps(String keyStr, List<DataRecord> datas) {
-	    if(StringUtils.isBlank(keyStr) || CollectionUtils.isEmpty(datas)){
-	        return;
-	    }
+		if (StringUtils.isBlank(keyStr) || CollectionUtils.isEmpty(datas)) {
+			return;
+		}
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(datas);
 	}
-	
+
 	/**
 	 * @Description: 过滤价格权限数据（map集合）
 	 * @param priceMap map集合 <权限名称, 权限字段，多个以','分隔>
@@ -418,7 +427,7 @@ public class BaseController<T> {
 	 * @date 2017年7月20日
 	 */
 	protected void cleanDataMaps(Map<String, String> priceMap, List<DataRecord> datas) {
-		if(priceMap==null || priceMap.isEmpty() || CollectionUtils.isEmpty(datas)){
+		if (priceMap == null || priceMap.isEmpty() || CollectionUtils.isEmpty(datas)) {
 			return;
 		}
 		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
@@ -426,7 +435,7 @@ public class BaseController<T> {
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(datas);
 	}
-	
+
 	/**
 	 * @Description: 转换过滤权限字段
 	 * @param priceMap
@@ -436,16 +445,16 @@ public class BaseController<T> {
 	 */
 	private List<KeyExtendVo> parserPriceKeyByMap(Map<String, String> priceMap) {
 		List<KeyExtendVo> list = new ArrayList<KeyExtendVo>();
-		if(priceMap == null){
+		if (priceMap == null) {
 			return list;
 		}
-		
+
 		KeyExtendVo vo = null;
-		for(Entry<String, String> i: priceMap.entrySet()){
+		for (Entry<String, String> i : priceMap.entrySet()) {
 			vo = new KeyExtendVo();
 			String key = i.getKey();
 			String value = i.getValue();
-			if(StringUtils.isAnyBlank(key, value)){
+			if (StringUtils.isAnyBlank(key, value)) {
 				continue;
 			}
 			Set<String> extKeys = new HashSet<String>(Arrays.asList(value.split(",")));
@@ -453,7 +462,7 @@ public class BaseController<T> {
 			vo.setExtKeys(extKeys);
 			list.add(vo);
 		}
-		
+
 		return list;
 	}
 
@@ -495,7 +504,7 @@ public class BaseController<T> {
 	 * @return
 	 */
 	protected Integer limitStartCount(Integer startCount) {
-		if(startCount == null || startCount < 0){
+		if (startCount == null || startCount < 0) {
 			startCount = 0;
 		}
 		return startCount;
@@ -506,9 +515,9 @@ public class BaseController<T> {
 	 * @return
 	 */
 	protected Integer limitEndCount(Integer endCount) {
-		if(endCount == null || endCount < 0){
+		if (endCount == null || endCount < 0) {
 			endCount = LIMIT_MIN_COUNT;
-		}else if(endCount > LIMIT_MAX_COUNT){
+		} else if (endCount > LIMIT_MAX_COUNT) {
 			endCount = LIMIT_MAX_COUNT;
 		}
 		return endCount;

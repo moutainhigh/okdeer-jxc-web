@@ -737,7 +737,7 @@ function selectStockAndPrice(sourceBranchId,data){
     					data[i].priceBack = obj.distributionPrice;
     					data[i].untaxedPrice = obj.untaxedPrice;
     					data[i].untaxedPriceBack = obj.untaxedPrice;
-    					data[i].taxRate = obj.taxRate;
+    					data[i].taxRate = obj.disTaxRate;
     				}
     			})
     		})
@@ -1156,7 +1156,23 @@ function selectStockAndPriceImport(sourceBranchId,data){
     		goodsStockVo : JSON.stringify(GoodsStockVo)
     	}
     },function(result){
-    	updateListData(result);
+    	if(result.length > 0){
+    		$.each(data,function(i,val){
+    			$.each(result,function(j,obj){
+    				if(val.skuId==obj.skuId){
+    					data[i].sourceStock = obj.sourceStock;
+    					data[i].defectNum = obj.defectNum;
+    					data[i].originPlace = obj.originPlace;
+    					data[i].price = obj.distributionPrice;
+    					data[i].priceBack = obj.distributionPrice;
+    					data[i].untaxedPrice = obj.untaxedPrice;
+    					data[i].untaxedPriceBack = obj.untaxedPrice;
+    					data[i].taxRate = obj.disTaxRate;
+    				}
+    			})
+    		})
+    	}
+    	updateListData(data);
     });
 }
 
@@ -1180,13 +1196,15 @@ function updateListData(data){
          }
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["dealNum"] = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
-             rows[i]["amount"] = parseFloat(rows[i]["distributionPrice"]||0)*parseFloat(rows[i]["dealNum"]||0);
+             rows[i]["amount"] = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
              rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["dealNum"]||0);
+             rows[i]["taxAmount"] = parseFloat(rows[i]["amount"] - rows[i]["untaxedAmount"]).toFixed(4);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;
              rows[i]["amount"] = 0;
              rows[i]["untaxedAmount"] = 0;
+             rows[i]["taxAmount"] = 0;
          }
      }
      var argWhere ={skuCode:1};  //验证重复性

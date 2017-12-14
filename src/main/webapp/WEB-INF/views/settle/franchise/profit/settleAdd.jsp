@@ -99,7 +99,7 @@
             </div>
             <div class="ub ub-ac uw-300 umar-l28">
                  <div class="umar-r10 uw-90 ut-r">毛利:</div>
-	             <input class="easyui-numberbox uw-200" data-options="precision:2" value="0.00" id="profit" readonly='readonly'  name="profitAmount">
+	             <input class="easyui-numberbox uw-200" data-options="precision:4" value="0.0000" id="profit" readonly='readonly'  name="profitAmount">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -113,19 +113,19 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-310 umar-l6">
                  <div class="umar-r10 uw-90 ut-r">公司应得毛利:</div>
-	             <input class="easyui-numberbox uw-204" data-options="precision:2" value="0.00" id="profitOfCompany" readonly='readonly'  name="targetProfitAmount">
+	             <input class="easyui-numberbox uw-204" data-options="precision:4" value="0.0000" id="profitOfCompany" readonly='readonly'  name="targetProfitAmount">
              </div>
              <div class="ub ub-ac uw-320 umar-l8">
              	 <div class="umar-r10 uw-110 ut-r">加盟店应得毛利:</div>
-	             <input class="easyui-numberbox uw-200" data-options="precision:2" value="0.00" id="profitSupper" readonly='readonly'  name="franchiseProfitAmount">
+	             <input class="easyui-numberbox uw-200" data-options="precision:4" value="0.0000" id="profitSupper" readonly='readonly'  name="franchiseProfitAmount">
              </div>
              <div class="ub ub-ac uw-304 umar-l20">
                  <div class="umar-r10 uw-90 ut-r">本次收款金额:</div>
-             	 <input class="easyui-numberbox uw-200" data-options="precision:2" value="0.00" id="amount" readonly='readonly'  name="totalAmount">
+             	 <input class="easyui-numberbox uw-200" data-options="precision:4" value="0.0000" id="amount" readonly='readonly'  name="totalAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l16">
              	 <div class="umar-r10 uw-90 ut-r">其他收款金额:</div>
-             	 <input class="uinp easyui-numberbox" data-options="max:999999.99,min:-999999.99,precision:2,onChange:calulateMoney" value="0.00" type="text"  id="otherAmount"  name="otherAmount">
+             	 <input class="uinp easyui-numberbox" data-options="max:999999.9999,min:-999999.9999,precision:4,onChange:calulateMoney" value="0.0000" type="text"  id="otherAmount"  name="otherAmount">
              </div>
          </div>
          <div class="ub umar-t8">

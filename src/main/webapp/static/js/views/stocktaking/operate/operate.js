@@ -108,12 +108,12 @@ function getColumns(){
         {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
             formatter:function(value,row,index){
                 if(row.isFooter){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 }
                 if(!value){
-                    row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+                    row["stocktakingNum"] = parseFloat(value||0).toFixed(4);
                 }
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
             editor:{
                 type:'numberbox',
@@ -131,9 +131,9 @@ function getColumns(){
                     return
                 }
                 if(!row.price){
-                	row.price = parseFloat(value||0).toFixed(2);
+                	row.price = parseFloat(value||0).toFixed(4);
                 }
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 
         
@@ -141,14 +141,14 @@ function getColumns(){
         {field:'amount',title:'零售金额',width:'100px',align:'right',
             formatter : function(value, row, index) {
                 if(row.isFooter){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 }
 
                 if(!row.amount){
-                	row.amount = parseFloat(value||0).toFixed(2);
+                	row.amount = parseFloat(value||0).toFixed(4);
                 }
                 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
             editor:{
                 type:'numberbox',
@@ -191,12 +191,12 @@ function getColumns(){
 			{field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
 	            formatter:function(value,row,index){
 	                if(row.isFooter){
-	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 	                }
 	                if(!value){
-	                    row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+	                    row["stocktakingNum"] = parseFloat(value||0).toFixed(4);
 	                }
-	                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 	            },
 	            editor:{
 	                type:'numberbox',
