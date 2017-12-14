@@ -48,19 +48,19 @@ function getColumns(){
             {field:'stocktakingNum',title:'实际盘点数量',width:'120px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value){
-                        row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+                        row["stocktakingNum"] = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                         disabled:isdisabled,
                         min:0,
-                        precision:2,
+                        precision:4,
                         onChange: onChangeStockNum,
                     }
                 }

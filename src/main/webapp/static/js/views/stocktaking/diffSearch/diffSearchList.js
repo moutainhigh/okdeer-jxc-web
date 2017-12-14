@@ -106,10 +106,10 @@ function getFiledsList(){
                           }
 
                           if(!row.snapshootStockNum){
-                              row.snapshootStockNum = parseFloat(value||0).toFixed(2);
+                              row.snapshootStockNum = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 		          {field: 'stocktakingNum', title: '盘点数量', width: 100, align: 'right',
@@ -119,10 +119,10 @@ function getFiledsList(){
                           }
 
                           if(!row.stocktakingNum){
-                              row.stocktakingNum = parseFloat(value||0).toFixed(2);
+                              row.stocktakingNum = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 		          {field: 'profitLossNum', title: '盈亏数量', width: 100, align: 'right',
@@ -132,10 +132,10 @@ function getFiledsList(){
                           }
 
                           if(!row.profitLossNum){
-                              row.profitLossNum = parseFloat(value||0).toFixed(2);
+                              row.profitLossNum = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 				  {field: 'untaxedProfitLossCostAmount', title: '盈亏金额（不含税成本价）', width: 140, align: 'right',
@@ -145,10 +145,10 @@ function getFiledsList(){
 						  }
 						  
 						  if(!row.untaxedProfitLossCostAmount){
-							  row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(2);
+							  row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(4);
 						  }
 						  
-						  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					  },
 				  },
 		          {field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right',
@@ -158,10 +158,10 @@ function getFiledsList(){
                           }
 
                           if(!row.profitLossCostAmount){
-                              row.profitLossCostAmount = parseFloat(value||0).toFixed(2);
+                              row.profitLossCostAmount = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 		          {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'right',
@@ -171,10 +171,10 @@ function getFiledsList(){
                           }
 
                           if(!row.profitLossSaleAmount){
-                              row.profitLossSaleAmount = parseFloat(value||0).toFixed(2);
+                              row.profitLossSaleAmount = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 		          {field: 'stocktakingNumHandle', title: '实际处理数量', width: 160, align: 'right',
@@ -184,10 +184,10 @@ function getFiledsList(){
                           }
 
                           if(!row.stocktakingNumHandle){
-                              row.stocktakingNumHandle = parseFloat(value||0).toFixed(2);
+                              row.stocktakingNumHandle = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  },
 				  {field: 'untaxedCostAmountHandle', title: '实际处理金额（不含税成本价）', width: 200, align: 'right',
@@ -197,10 +197,10 @@ function getFiledsList(){
 						  }
 						  
 						  if(!row.untaxedCostAmountHandle){
-							  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(2);
+							  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(4);
 						  }
 						  
-						  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					  },
 				  },
 		          {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'right',
@@ -210,10 +210,10 @@ function getFiledsList(){
                           }
 
                           if(!row.costAmountHandle){
-                              row.costAmountHandle = parseFloat(value||0).toFixed(2);
+                              row.costAmountHandle = parseFloat(value||0).toFixed(4);
                           }
 
-                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                          return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                       },
 				  }
 		          ] ]
@@ -237,10 +237,10 @@ function getFiledsList(){
 							}
 
 							if(!row.snapshootStockNum){
-								row.snapshootStockNum = parseFloat(value||0).toFixed(2);
+								row.snapshootStockNum = parseFloat(value||0).toFixed(4);
 							}
 
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						},
 					},
 					{field: 'stocktakingNum', title: '盘点数量', width: 100, align: 'right',
@@ -250,10 +250,10 @@ function getFiledsList(){
 							}
 
 							if(!row.stocktakingNum){
-								row.stocktakingNum = parseFloat(value||0).toFixed(2);
+								row.stocktakingNum = parseFloat(value||0).toFixed(4);
 							}
 
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						},
 					},
 					{field: 'profitLossNum', title: '盈亏数量', width: 100, align: 'right',
@@ -263,10 +263,10 @@ function getFiledsList(){
 							}
 
 							if(!row.profitLossNum){
-								row.profitLossNum = parseFloat(value||0).toFixed(2);
+								row.profitLossNum = parseFloat(value||0).toFixed(4);
 							}
 
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						},
 					},
 
@@ -274,34 +274,34 @@ function getFiledsList(){
 		          {field:'untaxedSnapshootCostPrice',title:'原库存不含税成本价',width:'120px',align:'right',
 		        	  formatter:function(value,row,index){
 		        		  if(row.isFooter){
-		        			  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        			  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        		  }
 		        		  if(!value){
-		        			  row["untaxedSnapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+		        			  row["untaxedSnapshootCostPrice"] = parseFloat(value||0).toFixed(4);
 		        		  }
-		        		  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		        	  },
 		          },
 		            {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
-		                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                    }
 		                    if(!value){
-		                        row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+		                        row["snapshootCostPrice"] = parseFloat(value||0).toFixed(4);
 		                    }
-		                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 		                },
 					},
 					{field:'snapshootSalePrice',title:'零售价',width:'120px',align:'right',
 						formatter:function(value,row,index){
 							if(row.isFooter){
-								return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+								return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 							}
 							if(!value){
-								row["snapshootCostPrice"] = parseFloat(value||0).toFixed(2);
+								row["snapshootCostPrice"] = parseFloat(value||0).toFixed(4);
 							}
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						},
 					},
 					{field: 'untaxedProfitLossCostAmount', title: '盈亏金额（不含税成本价）', width: 140, align: 'right',
@@ -311,10 +311,10 @@ function getFiledsList(){
 							}
 							
 							if(!row.untaxedProfitLossCostAmount){
-								row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(2);
+								row.untaxedProfitLossCostAmount = parseFloat(value||0).toFixed(4);
 							}
 							
-							return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+							return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 						},
 					},
 				{field: 'profitLossCostAmount', title: '盈亏金额（成本价）', width: 140, align: 'right',
@@ -324,10 +324,10 @@ function getFiledsList(){
 						}
 
 						if(!row.profitLossCostAmount){
-							row.profitLossCostAmount = parseFloat(value||0).toFixed(2);
+							row.profitLossCostAmount = parseFloat(value||0).toFixed(4);
 						}
 
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					},
 				},
 				{field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'right',
@@ -337,10 +337,10 @@ function getFiledsList(){
 						}
 
 						if(!row.profitLossSaleAmount){
-							row.profitLossSaleAmount = parseFloat(value||0).toFixed(2);
+							row.profitLossSaleAmount = parseFloat(value||0).toFixed(4);
 						}
 
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 					},
 				},
 
@@ -363,10 +363,10 @@ function getFiledsList(){
                 }
 
                 if(!row.snapshootStockNum){
-                    row.snapshootStockNum = parseFloat(value||0).toFixed(2);
+                    row.snapshootStockNum = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
         {field: 'stocktakingNum', title: '盘点数量', width: 100, align: 'right',
@@ -376,10 +376,10 @@ function getFiledsList(){
                 }
 
                 if(!row.stocktakingNum){
-                    row.stocktakingNum = parseFloat(value||0).toFixed(2);
+                    row.stocktakingNum = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
         {field: 'profitLossNum', title: '盈亏数量', width: 100, align: 'right',
@@ -389,10 +389,10 @@ function getFiledsList(){
                 }
 
                 if(!row.profitLossNum){
-                    row.profitLossNum = parseFloat(value||0).toFixed(2);
+                    row.profitLossNum = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
         {field: 'profitLossSaleAmount', title: '盈亏金额（售价）', width: 140, align: 'right',
@@ -402,10 +402,10 @@ function getFiledsList(){
                 }
 
                 if(!row.profitLossSaleAmount){
-                    row.profitLossSaleAmount = parseFloat(value||0).toFixed(2);
+                    row.profitLossSaleAmount = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
         {field: 'stocktakingNumHandle', title: '实际处理数量', width: 160, align: 'right',
@@ -415,10 +415,10 @@ function getFiledsList(){
                 }
 
                 if(!row.stocktakingNumHandle){
-                    row.stocktakingNumHandle = parseFloat(value||0).toFixed(2);
+                    row.stocktakingNumHandle = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
 		  {field: 'untaxedCostAmountHandle', title: '实际处理金额（不含税成本价）', width: 200, align: 'right',
@@ -428,10 +428,10 @@ function getFiledsList(){
 				  }
 				  
 				  if(!row.untaxedCostAmountHandle){
-					  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(2);
+					  row.untaxedCostAmountHandle = parseFloat(value||0).toFixed(4);
 				  }
 				  
-				  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			  },
 		  },
         {field: 'costAmountHandle', title: '实际处理金额（成本价）', width: 200, align: 'right',
@@ -441,10 +441,10 @@ function getFiledsList(){
                 }
 
                 if(!row.costAmountHandle){
-                    row.costAmountHandle = parseFloat(value||0).toFixed(2);
+                    row.costAmountHandle = parseFloat(value||0).toFixed(4);
                 }
 
-                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
             },
 		  },
 		  {field: 'periodSaleAmount', title: '盘点周期销售金额', width: 200, align: 'right',
@@ -454,10 +454,10 @@ function getFiledsList(){
 				  }
 				  
 				  if(!row.costAmountHandle){
-					  row.costAmountHandle = parseFloat(value||0).toFixed(2);
+					  row.costAmountHandle = parseFloat(value||0).toFixed(4);
 				  }
 				  
-				  return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				  return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
 			  },
 		  },
 		  {field: 'lossRateNum', title: '盘点损耗占比', width: 200, align: 'right',
@@ -467,9 +467,9 @@ function getFiledsList(){
 				  }
 				  
 				  if(!row.costAmountHandle){
-					  row.costAmountHandle = parseFloat(value||0).toFixed(2);
+					  row.costAmountHandle = parseFloat(value||0).toFixed(4);
 				  }
-				  return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
+				  return '<b>'+parseFloat(value||0).toFixed(4)+'%</b>';
 			  },
 		  }
         ] ]

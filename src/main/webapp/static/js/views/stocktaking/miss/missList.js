@@ -53,9 +53,9 @@ function initDgTakeStockMiss(){
                     }
 
                     if(!row.snapshootStock){
-                        row.snapshootStock = parseFloat(value||0).toFixed(2);
+                        row.snapshootStock = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
 			},
 			{field: 'categoryCode', title: '类别编号', width: 100, align: 'left'},
