@@ -1,6 +1,8 @@
 package com.okdeer.jxc.controller.report.goodsanalysis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.controller.AbstractMutilGpeController;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
+import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.facade.report.goodsanalysis.facade.GoodsSaleSummaryAnalysisFacade;
 import com.okdeer.retail.facade.report.goodsanalysis.qo.GoodsSaleSummaryAnalysisQo;
 import com.okdeer.retail.facade.report.goodsanalysis.vo.GoodsSaleSummaryAnalysisByBigCategoryVo;
@@ -90,35 +93,43 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected EasyUIPageInfo<?> queryListPage(GoodsSaleSummaryAnalysisQo qo) {
+		EasyUIPageInfo<?> page=null;
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
+			page= goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
 		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListPageByBigCategory(qo);
+			page= goodsSaleSummaryAnalysisFacade.queryListPageByBigCategory(qo);
 		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListPageByStore(qo);
+			page= goodsSaleSummaryAnalysisFacade.queryListPageByStore(qo);
 		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListPageByStoreGoods(qo);
+			page= goodsSaleSummaryAnalysisFacade.queryListPageByStoreGoods(qo);
 		}
-		return null;
+		if (page != null) {
+			cleanAccessData(page);
+		}
+		return page;
 	}
 
 	@Override
 	protected Object queryTotal(GoodsSaleSummaryAnalysisQo qo) {
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			GoodsSaleSummaryAnalysisByGoodsVo	vo= goodsSaleSummaryAnalysisFacade.queryListTotalByGoods(qo);
+			GoodsSaleSummaryAnalysisByGoodsVo vo = goodsSaleSummaryAnalysisFacade.queryListTotalByGoods(qo);
 			vo.setSkuCode("合计:");
+			cleanAccessData(vo);
 			return vo;
 		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			GoodsSaleSummaryAnalysisByBigCategoryVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByBigCategory(qo);
+			GoodsSaleSummaryAnalysisByBigCategoryVo vo = goodsSaleSummaryAnalysisFacade.queryListTotalByBigCategory(qo);
 			vo.setBigCategoryCode("合计:");
+			cleanAccessData(vo);
 			return vo;
 		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			GoodsSaleSummaryAnalysisByStoreVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByStore(qo);
+			GoodsSaleSummaryAnalysisByStoreVo vo = goodsSaleSummaryAnalysisFacade.queryListTotalByStore(qo);
 			vo.setStoreCode("合计:");
+			cleanAccessData(vo);
 			return vo;
 		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			GoodsSaleSummaryAnalysisByStoreGoodsVo vo= goodsSaleSummaryAnalysisFacade.queryListTotalByStoreGoods(qo);
+			GoodsSaleSummaryAnalysisByStoreGoodsVo vo = goodsSaleSummaryAnalysisFacade.queryListTotalByStoreGoods(qo);
 			vo.setStoreCode("合计:");
+			cleanAccessData(vo);
 			return vo;
 		}
 		return null;
@@ -126,16 +137,31 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected List<?> queryList(GoodsSaleSummaryAnalysisQo qo) {
+		List<?> list = null;
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListByGoods(qo);
+			list = goodsSaleSummaryAnalysisFacade.queryListByGoods(qo);
 		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListByBigCategory(qo);
+			list = goodsSaleSummaryAnalysisFacade.queryListByBigCategory(qo);
 		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListByStore(qo);
+			list = goodsSaleSummaryAnalysisFacade.queryListByStore(qo);
 		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			return goodsSaleSummaryAnalysisFacade.queryListByStoreGoods(qo);
+			list = goodsSaleSummaryAnalysisFacade.queryListByStoreGoods(qo);
 		}
-		return null;
+		if (list != null) {
+			cleanAccessData(list);
+		}
+		return list;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.SALE_PRICE, "saleAmount"); // 销售额
+		map.put(PriceConstant.COST_PRICE, "costAmount,grossProfit,grossProfitRate"); // 成本额，毛利，毛利率
+		return map;
 	}
 
 }

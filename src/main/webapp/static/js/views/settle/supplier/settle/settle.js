@@ -382,7 +382,11 @@ function onChangeAmount(vewV,oldV){
 		return;
 	}
 	var _unpayAmount = parseFloat(gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'unpayAmount')||0);
+<<<<<<< HEAD
 	//格式化2位小数比较
+=======
+	//格式化4位小数比较
+>>>>>>> branch 'master' of http://zhaoly@10.20.101.5/ERP/okdeer-jxc-web.git
 	_unpayAmount = parseFloat(_unpayAmount||0).toFixed(4);
 	//转成数字
 	_unpayAmount = parseFloat(_unpayAmount||0);
