@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.controller.AbstractSimpleGpeController;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -74,7 +75,7 @@ public class CashFlowReportController extends AbstractSimpleGpeController<CashFl
 			qo.setBranchNameOrCode(null);
 		}
 		// 默认当前机构
-		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
+		if (StringUtils.isBlank(qo.getBranchCompleCode()) ) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		// 如果没有修改所选收银员信息，则去掉该参数
@@ -100,7 +101,7 @@ public class CashFlowReportController extends AbstractSimpleGpeController<CashFl
 			qo.setOrderType("2");
 			qo.setSource(4);
 		}
-
+		LOG.info(JSON.toJSONString(qo));
 		return qo;
 	}
 
@@ -137,6 +138,8 @@ public class CashFlowReportController extends AbstractSimpleGpeController<CashFl
 
 	@Override
 	protected List<CashFlowReportVo> queryList(CashFlowReportQo qo) {
-		return cashFlowReportService.queryList(getParmas(qo));
+		//因为 合计 已经改变了原始传进来参数，不符合密等，不能再处理参数
+		//getParmas(qo)
+		return cashFlowReportService.queryList(qo);
 	}
 }
