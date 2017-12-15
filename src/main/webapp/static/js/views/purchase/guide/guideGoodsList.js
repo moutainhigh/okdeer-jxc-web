@@ -510,10 +510,14 @@ function nextStep (){
 }
 
 function saveDataHandel(gridRows) {
+	var param = {
+		guideParam:eval("("+$('#formData').val()+")"),
+		dateList:gridRows
+	};
     $_jxc.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
         contentType:"application/json",
-        data:JSON.stringify(gridRows)
+        data:JSON.stringify(param)
     },function(result){
         if(result.code == 0){
             var guideNo = result.data;
