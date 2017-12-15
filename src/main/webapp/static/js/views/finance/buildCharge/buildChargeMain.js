@@ -347,17 +347,17 @@ function saveStoreCharge() {
     var isCheckResult = true;
     var detailList = [];
     $.each(rows,function(i,v){
-        if(!v["num"]){
+        if(!v["num"] || parseFloat(v["num"]) == "0"){
             $_jxc.alert("第"+(i+1)+"行，数量不能为空或0");
             isCheckResult = false;
             return false;
         }
-        if(!v["price"]){
+        if(!v["price"] || parseFloat(v["price"]) == "0"){
             $_jxc.alert("第"+(i+1)+"行，金额不能为空或0");
             isCheckResult = false;
             return false;
         }
-        if(v["validity"]<=0){
+        if(v["validity"]<=0 || parseFloat(v["validity"]) == "0"){
             $_jxc.alert("第"+(i+1)+"行，保修期限必须大于0");
             isCheckResult = false;
             return false;
