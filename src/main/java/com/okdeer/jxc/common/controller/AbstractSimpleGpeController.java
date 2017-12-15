@@ -152,6 +152,8 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 		qo.setPageSize(pageSize);
 		// 查询数据
 		EasyUIPageInfo<V> list = queryListPage(qo);
+		//添加数据权限的处理
+		cleanAccessData(list);
 		return list;
 	}
 
@@ -174,7 +176,8 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		// 查询合计
 		V total = queryTotal(qo);
-
+		//添加数据权限的处理
+		cleanAccessData(total);
 		// 导出的数据列表
 		List<V> exportList = new ArrayList<V>();
 
@@ -220,7 +223,8 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 		// 获取用户自定义标记
 		CustomMarkBean customMarkBean = getCustomMark();
 		LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
-
+		//添加数据权限的处理
+		cleanAccessData(exportList);
 		// 导出
 		ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
 		return RespJson.success();
