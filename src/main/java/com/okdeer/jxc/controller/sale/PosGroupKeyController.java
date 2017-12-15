@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +181,8 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
             for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
                 PosGroupKeyDetailVo vo = posGroupKeys.get(i);
                 vo.setGroupId(groupId);
+                vo.setCreateTime(new Date());
+                vo.setCreateUserId(getCurrUserId());
                 posGroupKeys.set(i, vo);
             }
             posGroupKeyService.savePosGroupKeyDetails(posGroupKeys);
