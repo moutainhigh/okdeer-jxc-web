@@ -146,6 +146,7 @@ function cleardata(){
 
     $('#formNo').val("");
     $('#categoryCode').val("");
+    $('#categoryName').val("");
     $('#goodsCategoryId').val("");
 
 }
