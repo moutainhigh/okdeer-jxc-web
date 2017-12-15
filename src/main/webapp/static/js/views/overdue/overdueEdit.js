@@ -304,9 +304,8 @@ function changeEndDate(date,oDate){
 
 //计算天数
 function getDistanceDay(arg2){
-
     var _d = new Date(arg2).getTime() - new Date().getTime();
-    _d = _d/(60*60*1000*24)+1;//距离天数
+    _d = parseInt(_d / (60*60*1000*24) + 2);//距离天数
 //	gridHandel.setFieldsData({distanceDay:_d});
     gridHandel.setFieldValue('distanceDay',_d);
 
