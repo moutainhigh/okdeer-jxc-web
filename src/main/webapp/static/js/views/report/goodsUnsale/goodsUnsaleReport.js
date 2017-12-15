@@ -162,7 +162,7 @@ function selectBranches(){
 
 //选择商品
 function selectGoods(searchKey){
-	if(!$("#branchId").val()){
+	if(!$("#branchCompleCode").val()){
 		 $_jxc.alert("请选择机构");
 	     return;
 	}
