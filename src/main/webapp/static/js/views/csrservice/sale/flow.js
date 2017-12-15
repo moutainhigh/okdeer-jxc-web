@@ -49,7 +49,7 @@ function initCashWaterGrid() {
                 field: 'originalPrice', title: '原价', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(4);
+                    return '<b>' + saleAmount.toFixed(4) + '</b>';
                 }
                 return '0.00';
             }
@@ -58,7 +58,7 @@ function initCashWaterGrid() {
                 field: 'totalAmount', title: '原价金额', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(4);
+                    return '<b>' + saleAmount.toFixed(4) + '</b>';
                 }
                 return '0.00';
             }
@@ -67,7 +67,7 @@ function initCashWaterGrid() {
                 field: 'salePrice', title: '销售价', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(4);
+                    return '<b>' + saleAmount.toFixed(4) + '</b>';
                 }
                 return '0.00';
             }
@@ -76,12 +76,20 @@ function initCashWaterGrid() {
                 field: 'saleAmount', title: '销售金额', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(4);
+                    return '<b>' + saleAmount.toFixed(4) + '</b>';
                 }
                 return '0.00';
             }
             },
-            {field: 'saleNum', title: '数量', width: 150, align: 'center'},
+            {field: 'saleNum', title: '数量', width: 150, align: 'right',
+                formatter: function (saleNum) {
+                    if (saleNum) {
+                        saleNum = parseFloat(saleNum);
+                        return '<b>' + saleNum.toFixed(4) + '</b>';
+                    }
+                    return '0.0000';
+                }
+            },
             {field: 'saleType', title: '业务类型', width: 100, align: 'center'},
             {field: 'operatorName', title: '收银员', width: 100, align: 'left'},
             {field: 'ticketNo', title: '小票号', width: 180, align: 'center'},
@@ -89,51 +97,6 @@ function initCashWaterGrid() {
         ]]
     });
     gridHandel.setDatagridHeader("center");
-}
-
-
-//改变日期
-function changeDate(index) {
-    switch (index) {
-        case 0: //今天
-            $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            break;
-        case 1: //昨天
-            $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 1));
-            $("#txtEndDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 1));
-            break;
-        case 2: //本周
-            $("#txtStartDate").val(dateUtil.getCurrentWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            break;
-        case 3: //上周
-            $("#txtStartDate").val(dateUtil.getPreviousWeek()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousWeek()[1].format("yyyy-MM-dd"));
-            break;
-        case 4: //本月
-            $("#txtStartDate").val(dateUtil.getCurrentMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            break;
-        case 5: //上月
-            $("#txtStartDate").val(dateUtil.getPreviousMonth()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousMonth()[1].format("yyyy-MM-dd"));
-            break;
-        case 6: //本季
-            $("#txtStartDate").val(dateUtil.getCurrentSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            break;
-        case 7: //上季
-            $("#txtStartDate").val(dateUtil.getPreviousSeason()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getPreviousSeason()[1].format("yyyy-MM-dd"));
-            break;
-        case 8: //今年
-            $("#txtStartDate").val(dateUtil.getCurrentYear()[0].format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-            break;
-        default :
-            break;
-    }
 }
 
 

@@ -46,18 +46,18 @@ function initCashWaterGrid() {
                 field: 'saleAmount', title: '销售金额', width: 120, align: 'right', formatter: function (saleAmount) {
                 if (saleAmount) {
                     saleAmount = parseFloat(saleAmount);
-                    return saleAmount.toFixed(4);
+                    return '<b>' + saleAmount.toFixed(4) + '</b>';
                 }
-                return '0.00';
+                return '0.0000';
             }
             },
             {
                 field: 'payAmount', title: '付款金额', width: 120, align: 'right', formatter: function (payAmount) {
                 if (payAmount) {
                     payAmount = parseFloat(payAmount);
-                    return payAmount.toFixed(4);
+                    return '<b>' + payAmount.toFixed(4) + '</b>';
                 }
-                return '0.00';
+                return '0.0000';
             }
             },
             {field: 'payType', title: '付款方式', width: 100, align: 'center'},
