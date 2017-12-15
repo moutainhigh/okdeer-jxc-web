@@ -153,6 +153,8 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 		qo.setPageSize(pageSize);
 		// 查询数据
 		EasyUIPageInfo<?> list = queryListPage(qo);
+		//添加数据权限的处理
+		cleanAccessData(list);
 		return list;
 	}
 
@@ -175,7 +177,8 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		// 查询合计
 		Object total = queryTotal(qo);
-
+		//添加数据权限
+		cleanAccessData(total);
 		// 导出的数据列表
 		List<Object> exportList = new ArrayList<Object>();
 
@@ -236,6 +239,9 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 		
 		LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
 
+		//添加数据权限
+		cleanAccessData(exportList);
+		
 		// 导出
 		ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
 		return RespJson.success();
