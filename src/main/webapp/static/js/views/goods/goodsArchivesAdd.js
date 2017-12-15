@@ -73,6 +73,9 @@ function initGoodsView(data,flag){
 	}
 	
     // hidePageElement();
+	
+	// 根据商品类型判断是否管理库存
+	isEnableManagerStock();
 }
 
 function hidePageElement() {
@@ -188,6 +191,7 @@ function setInputValByObj(){
 		}else{
 			$('#supplierRate').numberbox('enable');
 		}
+		
 	}
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
@@ -196,7 +200,6 @@ function setInputValByObj(){
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
 	//生成毛利值，毛利率
 	setGrossProfit();
-	
 }
 
 /**
@@ -360,30 +363,55 @@ function getGoodsPupplier(){
 		//经营方式
 		$("#saleWay").val(data.saleWay);
 		//商品类型
-        var pricingType = 	$('#type').combobox("getValue");
 		if(data.saleWay=='A'){
 			$("#supplierRate").textbox("setValue","");
 			$('#supplierRate').numberbox('disable');
-            if(pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
-                $("#managerStock").removeAttr("checked");
-                $("#managerStock").prop("disabled","disabled");
-            }else{
-                $("#managerStock").prop("checked","checked");
-                $("#managerStock").removeProp("disabled");
-            }
+			
+			// 商品类型为 捆绑商品、自动转货 默认不管理库存
+			isEnableManagerStock();
 		}else {
-        	if(data.saleWay=='C' || pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
-                $("#managerStock").removeAttr("checked");
-                $("#managerStock").prop("disabled","disabled");
-            }else{
-                $("#managerStock").prop("checked","checked");
-                $("#managerStock").removeProp("disabled");
+			
+			if(data.saleWay=='C'){
+				isEnableManagerStock
+			} else {
+            	enableManagerStock();
 			}
 
             $('#supplierRate').numberbox('enable');
 		}
 	});
 }
+
+/**
+ * 商品类型为 捆绑商品、自动转货 默认不管理库存
+ */
+function isEnableManagerStock(){
+	var pricingType = 	$('#type').combobox("getValue");
+	
+	if(pricingType == "BIND"|| pricingType == "AUTOMATICTRANSFER"){
+    	disableManagerStock();
+    }else{
+    	enableManagerStock();
+    }
+}
+
+/**
+ * 禁用 是否管理库存
+ */
+function disableManagerStock(){
+	$("#managerStock").removeAttr("checked");
+    $("#managerStock").prop("disabled","disabled");
+}
+
+/**
+ * 启用 是否管理库存
+ */
+function enableManagerStock(){
+	 $("#managerStock").prop("checked","checked");
+     $("#managerStock").removeProp("disabled");
+}
+
+
 
 //毛利值 = 零售价-进货价
 function setGrossProfit(){
