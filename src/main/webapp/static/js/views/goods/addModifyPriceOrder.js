@@ -163,6 +163,7 @@ function initAddModifyPriceGridEdit() {
         align:'center',       //占满
         showFooter:true,
         width:'100%',
+        height:'100%',
         columns : [ [
             {
                 field : 'ck',
