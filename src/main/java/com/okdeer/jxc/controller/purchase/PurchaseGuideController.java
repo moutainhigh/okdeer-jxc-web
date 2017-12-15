@@ -147,6 +147,8 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
         List<PurchaseGuideGoodsVo> goodsVoList = Lists.newArrayList();
         // 原向导条件页参数
         PurchaseGuideQo qo = GsonUtils.fromJson(guideParam, PurchaseGuideQo.class);
+        // 构建查询条件信息
+        buldSearchParams(qo);
         // 再次查询向导生成的集合（数据权限控制后，可能存在价格金额为空的情况，故需要重新查询一次）
         PageUtils<PurchaseGuideGoodsPo> page = purchaseGuideService.getGoodsList(qo);
         if (page == null || CollectionUtils.isEmpty(page.getList())) {
