@@ -90,7 +90,6 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
             }
             vo.setPageNum(pageNumber);
             vo.setPageSize(pageSize);
-            vo.setEndTime(new DateTime(vo.getEndTime()).plusDays(1).toDate());
             PageUtils<CashFlowReportVo> list = tradeOrderCsrserviceService.getPageList(vo);
             list.setFooter(Arrays.asList(tradeOrderCsrserviceService.sumList(vo)));
             return list;
@@ -107,7 +106,6 @@ public class CsrserviceCashFlowController extends BaseController<CsrserviceCashF
         if (StringUtils.isBlank(vo.getBranchCode())) {
             vo.setBranchCode(getCurrBranchCompleCode());
         }
-        vo.setEndTime(new DateTime(vo.getEndTime()).plusDays(1).toDate());
         List<CashFlowReportVo> exportList = tradeOrderCsrserviceService.getList(vo);
 
         String fileName = "便民服务收银流水_" + DateUtils.getCurrSmallStr();
