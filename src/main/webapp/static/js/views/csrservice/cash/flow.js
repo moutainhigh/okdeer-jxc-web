@@ -60,6 +60,7 @@ function initCashWaterGrid() {
                 return '0.0000';
             }
             },
+            {field: 'businessTypeStr', title: '业务类型', width: 100, align: 'center'},
             {field: 'payType', title: '付款方式', width: 100, align: 'center'},
             {field: 'cashier', title: '收银员', width: 100, align: 'left'},
             {field: 'remark', title: '备注', width: 150, align: 'left'},

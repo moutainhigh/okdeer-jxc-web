@@ -29,7 +29,13 @@ function initCashWaterGrid() {
         pageSize: pageSize,
         height: '100%',
         columns: [[
-            {field: 'branchCode', title: '机构编号', width: 100, align: 'left'},
+            {field: 'branchCode', title: '机构编号', width: 100, align: 'left', formatter: function (value) {
+            		if (value === 'total') {
+            			return '合计';
+            		}
+            		return value;
+            	}
+            },
             {field: 'branchName', title: '机构名称', width: 220, align: 'left'},
             {field: 'orderNo', title: '单据编号', width: 180, align: 'left'},
             {field: 'ecardNo', title: '交易号(卡号)', width: 180, align: 'left'},
@@ -46,13 +52,16 @@ function initCashWaterGrid() {
             {field: 'csrserviceCode', title: '服务编号', width: 180, align: 'left'},
             {field: 'csrserviceName', title: '服务名称', width: 180, align: 'left'},
             {
-                field: 'originalPrice', title: '原价', width: 120, align: 'right', formatter: function (saleAmount) {
-                if (saleAmount) {
-                    saleAmount = parseFloat(saleAmount);
-                    return '<b>' + saleAmount.toFixed(4) + '</b>';
+                field: 'originalPrice', title: '原价', width: 120, align: 'right', formatter: function (saleAmount,row) {
+                	if(row.branchCode === 'total'){
+                		return '';
+                	}
+	                if (saleAmount) {
+	                    saleAmount = parseFloat(saleAmount);
+	                    return '<b>' + saleAmount.toFixed(4) + '</b>';
+	                }
+	                return '0.00';
                 }
-                return '0.00';
-            }
             },
             {
                 field: 'totalAmount', title: '原价金额', width: 120, align: 'right', formatter: function (saleAmount) {
@@ -64,13 +73,16 @@ function initCashWaterGrid() {
             }
             },
             {
-                field: 'salePrice', title: '销售价', width: 120, align: 'right', formatter: function (saleAmount) {
-                if (saleAmount) {
-                    saleAmount = parseFloat(saleAmount);
-                    return '<b>' + saleAmount.toFixed(4) + '</b>';
-                }
-                return '0.00';
-            }
+                field: 'salePrice', title: '销售价', width: 120, align: 'right', formatter: function (saleAmount,row) {
+                	if(row.branchCode === 'total'){
+                		return '';
+                	}
+	                if (saleAmount) {
+	                    saleAmount = parseFloat(saleAmount);
+	                    return '<b>' + saleAmount.toFixed(4) + '</b>';
+	                }
+	                return '0.00';
+	            }
             },
             {
                 field: 'saleAmount', title: '销售金额', width: 120, align: 'right', formatter: function (saleAmount) {
