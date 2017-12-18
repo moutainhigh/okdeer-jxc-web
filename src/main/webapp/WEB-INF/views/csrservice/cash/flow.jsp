@@ -27,7 +27,7 @@
             </div>
 
             <!-- 引入时间选择控件 -->
-            <%@ include file="/WEB-INF/views/component/dataSelectHour.jsp" %>
+            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp" %>
         </div>
 
         <div class="ub uline umar-t8"></div>
