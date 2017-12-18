@@ -105,8 +105,8 @@ public class GoodSaleDetailController extends ReportController {
         //Future<DataRecord> footerDataFuture = RpcContext.getContext().getFuture();
 
         //1、查询列表
-        goodSaleDetailServiceApi.getListNew(param);
-        Future<List<DataRecord>> listFuture = RpcContext.getContext().getFuture();
+        goodSaleDetailServiceApi.getListPage(param, page, rows);
+        Future<PageUtils<DataRecord>> listFuture = RpcContext.getContext().getFuture();
 
         // 2、统计个数
         goodSaleDetailServiceApi.countGoodSaleDetail(param);
@@ -121,7 +121,7 @@ public class GoodSaleDetailController extends ReportController {
         List<DataRecord> footer = new ArrayList<>();
         footer.add(vo);
 
-        List<DataRecord> vos = listFuture.get();
+        List<DataRecord> vos = listFuture.get().getList();
         PageUtils<DataRecord> list = new PageUtils<>(vos, footer, countFuture.get(),page,rows);
         for (DataRecord dataRecord : list.getList()) {
 			formatter(dataRecord);
