@@ -143,7 +143,7 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 * @throws Exception
 	 * @date 2017年12月15日
 	 */
-    private List<PurchaseGuideGoodsVo> buildGuideGoodsVoList(String guideParam, String dataList) throws Exception {
+    private List<PurchaseGuideGoodsVo> buildGuideGoodsVoList(String guideParam, String dataList) {
         List<PurchaseGuideGoodsVo> goodsVoList = Lists.newArrayList();
         // 原向导条件页参数
         PurchaseGuideQo qo = GsonUtils.fromJson(guideParam, PurchaseGuideQo.class);
