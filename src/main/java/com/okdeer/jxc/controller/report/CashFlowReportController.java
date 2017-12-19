@@ -138,7 +138,7 @@ public class CashFlowReportController extends AbstractSimpleGpeController<CashFl
 
 	@Override
 	protected List<CashFlowReportVo> queryList(CashFlowReportQo qo) {
-		//因为 合计 已经改变了原始传进来参数，不符合密等，不能再处理参数
+		//因为 先查询合计参数 orderType 已经被改变，不符合密等，不能再处理参数
 		//getParmas(qo)
 		return cashFlowReportService.queryList(qo);
 	}

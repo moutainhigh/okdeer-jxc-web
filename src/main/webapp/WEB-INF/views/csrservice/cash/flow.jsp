@@ -78,6 +78,19 @@
                 <div class="uinp-more" id="cashierIdSelect" onclick="searchCashierId()">...</div>
             </div>
 
+            <div class="ub ub-ac umar-l24">
+                <div class="umar-r10 uw-70 ut-r">业务类型:</div>
+                <!--select-->
+                <select class="easyui-combobox uselect uw-300" name="businessType" id="businessType"
+                        data-options="editable:false">
+                    <option value="" selected="selected">全部</option>
+                    <option value="A">销售</option>
+                    <option value="B">退货</option>
+                    <option value="D">一卡通充值</option>
+                    <option value="E">一卡通售卡</option>
+                </select>
+            </div>
+
         </div>
     </form>
 
