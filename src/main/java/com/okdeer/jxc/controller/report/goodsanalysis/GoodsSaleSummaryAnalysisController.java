@@ -93,20 +93,25 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected EasyUIPageInfo<?> queryListPage(GoodsSaleSummaryAnalysisQo qo) {
-		EasyUIPageInfo<?> page=null;
-		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			page= goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
-		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			page= goodsSaleSummaryAnalysisFacade.queryListPageByBigCategory(qo);
-		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			page= goodsSaleSummaryAnalysisFacade.queryListPageByStore(qo);
-		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			page= goodsSaleSummaryAnalysisFacade.queryListPageByStoreGoods(qo);
+		try {
+			EasyUIPageInfo<?> page = null;
+			if (KEY_BY_GOODS.equals(qo.getTabKey())) {
+				page = goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
+			} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
+				page = goodsSaleSummaryAnalysisFacade.queryListPageByBigCategory(qo);
+			} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
+				page = goodsSaleSummaryAnalysisFacade.queryListPageByStore(qo);
+			} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
+				page = goodsSaleSummaryAnalysisFacade.queryListPageByStoreGoods(qo);
+			}
+			if (page != null) {
+				cleanAccessData(page);
+			}
+			return page;
+		} catch (Exception e) {
+			LOG.error("商品销售分析查询出现异常:{}",e);
 		}
-		if (page != null) {
-			cleanAccessData(page);
-		}
-		return page;
+		return null;
 	}
 
 	@Override
