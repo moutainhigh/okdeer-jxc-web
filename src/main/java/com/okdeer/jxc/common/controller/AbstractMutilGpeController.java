@@ -148,14 +148,19 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 	@ResponseBody
 	public EasyUIPageInfo<?> queryListPage(Q qo, @RequestParam(value = "page") int pageNumber,
 			@RequestParam(value = "rows") int pageSize) {
-		// 分页参数
-		qo.setPageNum(pageNumber);
-		qo.setPageSize(pageSize);
-		// 查询数据
-		EasyUIPageInfo<?> list = queryListPage(qo);
-		//添加数据权限的处理
-		cleanAccessData(list);
-		return list;
+		try {
+			// 分页参数
+			qo.setPageNum(pageNumber);
+			qo.setPageSize(pageSize);
+			// 查询数据
+			EasyUIPageInfo<?> list = queryListPage(qo);
+			// 添加数据权限的处理
+			cleanAccessData(list);
+			return list;
+		} catch (Exception e) {
+			LOG.error("查询列表出现异常{}", e);
+		}
+		return null;
 	}
 
 	/**
@@ -175,76 +180,84 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 	@RequestMapping(value = "/export", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, Q qo) {
-		// 查询合计
-		Object total = queryTotal(qo);
-		//添加数据权限
-		cleanAccessData(total);
-		// 导出的数据列表
-		List<Object> exportList = new ArrayList<Object>();
+		try {
+			// 查询合计
+			Object total = queryTotal(qo);
+			// 添加数据权限
+			cleanAccessData(total);
+			// 导出的数据列表
+			List<Object> exportList = new ArrayList<Object>();
 
-		// 限制导出数据的起始数量
-		int startCount = limitStartCount(qo.getStartCount());
-		// 限制导出数据的总数量
-		int endCount = limitEndCount(qo.getEndCount());
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(qo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(qo.getEndCount());
 
-		// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
-		int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
-		// 余数，按2K拆分后，剩余的数据
-		int modIndex = endCount % LIMIT_REQ_COUNT;
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
 
-		// 每2K条数据一次查询
-		for (int i = 0; i < resIndex; i++) {
-			int newStart = (i * LIMIT_REQ_COUNT) + startCount;
-			qo.setStartCount(newStart);
-			qo.setEndCount(LIMIT_REQ_COUNT);
-			List<?> tempList = queryList(qo);
-			exportList.addAll(tempList);
+			// 每2K条数据一次查询
+			for (int i = 0; i < resIndex; i++) {
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<?> tempList = queryList(qo);
+				exportList.addAll(tempList);
+			}
+
+			// 存在余数时，查询剩余的数据
+			if (modIndex > 0) {
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				List<?> tempList = queryList(qo);
+				exportList.addAll(tempList);
+			}
+
+			// 部分报表导出不需要合计栏
+			if (total != null) {
+				// 添加到数据列表
+				exportList.add(total);
+			}
+
+			// 选项卡索引
+			int index = getTabKeyIndex(qo.getTabKey());
+
+			// 获取没有权限访问的字段
+			Set<String> forbidSet = null;
+			Set<String>[] forbidSetArray = getForbidSetArray();
+			if (null != forbidSetArray && forbidSetArray.length > 0) {
+				forbidSet = getForbidSetArray()[index];
+			}
+
+			// 获取Vo对象的class
+			Class<?> clazz = getViewObjectClassArray()[index];
+
+			// 获取用户自定义标记
+			/*
+			 * CustomMarkBean customMarkBean = new CustomMarkBean(null, null,
+			 * null);
+			 */
+			// 获取用户自定义标记
+			MutilCustomMarkBean mutilCustomMarkBean = getMutilCustomMark();
+			CustomMarkBean customMarkBean = new CustomMarkBean(mutilCustomMarkBean.getMoudle(),
+					mutilCustomMarkBean.getSection(), mutilCustomMarkBean.getKeys()[index]);
+
+			LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
+
+			// 添加数据权限
+			cleanAccessData(exportList);
+
+			// 导出
+			ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
+			return RespJson.success();
+		} catch (Exception e) {
+			LOG.error("导出列表出现异常{}", e);
+			return RespJson.error("导出数据出现异常！");
 		}
-
-		// 存在余数时，查询剩余的数据
-		if (modIndex > 0) {
-			int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
-			int newEnd = modIndex;
-			qo.setStartCount(newStart);
-			qo.setEndCount(newEnd);
-			List<?> tempList = queryList(qo);
-			exportList.addAll(tempList);
-		}
-
-		// 部分报表导出不需要合计栏
-		if (total != null) {
-			// 添加到数据列表
-			exportList.add(total);
-		}
-
-		// 选项卡索引
-		int index = getTabKeyIndex(qo.getTabKey());
-
-		// 获取没有权限访问的字段
-		Set<String> forbidSet = null;
-		Set<String>[] forbidSetArray = getForbidSetArray();
-		if (null != forbidSetArray && forbidSetArray.length > 0) {
-			forbidSet = getForbidSetArray()[index];
-		}
-
-		// 获取Vo对象的class
-		Class<?> clazz = getViewObjectClassArray()[index];
-
-		// 获取用户自定义标记
-	/*	CustomMarkBean customMarkBean = new CustomMarkBean(null, null, null);*/
-		// 获取用户自定义标记
-		MutilCustomMarkBean mutilCustomMarkBean = getMutilCustomMark();
-		CustomMarkBean customMarkBean = new CustomMarkBean(mutilCustomMarkBean.getMoudle(),
-				mutilCustomMarkBean.getSection(), mutilCustomMarkBean.getKeys()[index]);
-		
-		LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
-
-		//添加数据权限
-		cleanAccessData(exportList);
-		
-		// 导出
-		ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
-		return RespJson.success();
 	}
 
 	/**

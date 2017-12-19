@@ -147,14 +147,19 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 	@ResponseBody
 	public EasyUIPageInfo<V> queryListPage(Q qo, @RequestParam(value = "page") int pageNumber,
 			@RequestParam(value = "rows") int pageSize) {
-		// 分页参数
-		qo.setPageNum(pageNumber);
-		qo.setPageSize(pageSize);
-		// 查询数据
-		EasyUIPageInfo<V> list = queryListPage(qo);
-		//添加数据权限的处理
-		cleanAccessData(list);
-		return list;
+		try {
+			// 分页参数
+			qo.setPageNum(pageNumber);
+			qo.setPageSize(pageSize);
+			// 查询数据
+			EasyUIPageInfo<V> list = queryListPage(qo);
+			// 添加数据权限的处理
+			cleanAccessData(list);
+			return list;
+		} catch (Exception e) {
+			LOG.error("查询列表出现异常{}", e);
+			return null;
+		}
 	}
 
 	/**
@@ -174,60 +179,65 @@ public abstract class AbstractSimpleGpeController<Q extends GpePageQo, V> extend
 	@RequestMapping(value = "/export", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, Q qo) {
-		// 查询合计
-		V total = queryTotal(qo);
-		//添加数据权限的处理
-		cleanAccessData(total);
-		// 导出的数据列表
-		List<V> exportList = new ArrayList<V>();
+		try {
+			// 查询合计
+			V total = queryTotal(qo);
+			// 添加数据权限的处理
+			cleanAccessData(total);
+			// 导出的数据列表
+			List<V> exportList = new ArrayList<V>();
 
-		// 限制导出数据的起始数量
-		int startCount = limitStartCount(qo.getStartCount());
-		// 限制导出数据的总数量
-		int endCount = limitEndCount(qo.getEndCount());
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(qo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(qo.getEndCount());
 
-		// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
-		int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
-		// 余数，按2K拆分后，剩余的数据
-		int modIndex = endCount % LIMIT_REQ_COUNT;
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
 
-		// 每2K条数据一次查询
-		for (int i = 0; i < resIndex; i++) {
-			int newStart = (i * LIMIT_REQ_COUNT) + startCount;
-			qo.setStartCount(newStart);
-			qo.setEndCount(LIMIT_REQ_COUNT);
-			List<V> tempList = queryList(qo);
-			exportList.addAll(tempList);
+			// 每2K条数据一次查询
+			for (int i = 0; i < resIndex; i++) {
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<V> tempList = queryList(qo);
+				exportList.addAll(tempList);
+			}
+
+			// 存在余数时，查询剩余的数据
+			if (modIndex > 0) {
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				List<V> tempList = queryList(qo);
+				exportList.addAll(tempList);
+			}
+			// 部分报表导出不需要合计栏
+			if (total != null) {
+				// 添加到数据列表
+				exportList.add(total);
+			}
+			// 获取没有权限访问的字段
+			Set<String> forbidSet = getForbidSet();
+
+			// 获取Vo对象的class
+			Class<V> clazz = getViewObjectClass();
+
+			// 获取用户自定义标记
+			CustomMarkBean customMarkBean = getCustomMark();
+			LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
+			// 添加数据权限的处理
+			cleanAccessData(exportList);
+			// 导出
+			ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
+			return RespJson.success();
+		} catch (Exception e) {
+			LOG.error("查询列表出现异常{}", e);
+			return null;
 		}
-
-		// 存在余数时，查询剩余的数据
-		if (modIndex > 0) {
-			int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
-			int newEnd = modIndex;
-			qo.setStartCount(newStart);
-			qo.setEndCount(newEnd);
-			List<V> tempList = queryList(qo);
-			exportList.addAll(tempList);
-		}
-		//部分报表导出不需要合计栏
-		if(total!=null){
-			// 添加到数据列表
-			exportList.add(total);
-		}
-		// 获取没有权限访问的字段
-		Set<String> forbidSet = getForbidSet();
-
-		// 获取Vo对象的class
-		Class<V> clazz = getViewObjectClass();
-
-		// 获取用户自定义标记
-		CustomMarkBean customMarkBean = getCustomMark();
-		LocalCustomMarkHelper.setLocalCustomMark(customMarkBean);
-		//添加数据权限的处理
-		cleanAccessData(exportList);
-		// 导出
-		ExportHelper.export(getCurrUserId(), clazz, exportList, forbidSet, response);
-		return RespJson.success();
 	}
 
 	/**
