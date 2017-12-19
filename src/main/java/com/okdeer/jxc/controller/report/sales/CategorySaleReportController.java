@@ -106,13 +106,14 @@ public class CategorySaleReportController extends ReportController {
 		Map<String, Object> map = this.builderParams(request, null);
 		CategorySaleCostQo qo=	JSON.parseObject(JSON.toJSONString(map), CategorySaleCostQo.class);
 		qo.setPageSize(pageSize);
+		qo.setPageRow(page);
 		//异步获取合计
 		categorySaleCostReportServiceApi.getTotalNew(qo);
 		CategorySaleCostVo total=new CategorySaleCostVo();
 		Future<CategorySaleCostVo> listFuture = RpcContext.getContext().getFuture();
 
 
-		List<CategorySaleCostVo> list=categorySaleCostReportServiceApi.getListNew(qo);
+		List<CategorySaleCostVo> list=categorySaleCostReportServiceApi.getListPageNew(qo);
 		if(!CollectionUtils.isEmpty(list)){
 			List<String> categoryCodeList=new ArrayList<String>();
 			Map<String,CategorySaleCostVo> saleListMap=new HashMap<String,CategorySaleCostVo>();
