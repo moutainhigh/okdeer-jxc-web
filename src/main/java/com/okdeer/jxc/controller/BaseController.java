@@ -346,6 +346,9 @@ public class BaseController<T> {
 	}
 
 	protected void cleanAccessData(EasyUIPageInfo<?> page) {
+		if(page==null){
+			return;
+		}
 		if (CollectionUtils.isNotEmpty(page.getFooter())) {
 			cleanAccessData(page.getFooter());
 		}
