@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -50,6 +50,29 @@
                    <div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
                 </div>
                 
+                <div class="ub ub-ac">
+			        <div class="umar-r10 uw-70 ut-r">报表类型:</div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="reportType" value="category1" /><span>一级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="reportType" value="category2" /><span>二级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input  type="radio" name="reportType" value="category3" /><span>三级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input  type="radio" name="reportType" value="itemTotal" checked="checked" /><span>开的费用明细汇总</span>
+						</label>
+                    </div>
+			    </div>
             </div>
             
        	</form>

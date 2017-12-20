@@ -316,6 +316,9 @@ public interface ExportExcelConstant {
 	/*** 门店费用详情导入模板  */
 	String STORE_CHARGE_MAIN_IMPORT_TEMPLATE = "storeChargeMainImportTemplate.xlsx";
 	
+	/*** 建店费用详情导入模板  */
+	String BUILD_CHARGE_IMPORT_TEMPLATE = "buildChargeImportTemplate.xlsx";
+	
 	/*** 门店目标计划环比导出模板  */
 	String STORE_PLAN_MOM_REPORT_TEMPLATE = "storePlanMoMReportTemplate.xlsx";
 	

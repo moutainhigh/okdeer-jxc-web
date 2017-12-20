@@ -48,6 +48,11 @@ var threeLevelCgName = 'threeLevelCgName';
 
 function mergeRows(data){
 	
+	var reportType = $(':radio[name="reportType"]:checked').val();
+	if(reportType != 'itemTotal'){
+		return;
+	}
+	
 	var merges = getMergesData(data.rows);
 	for(var i=0; i<merges.length; i++){
 		$("#"+datagridKey).datagrid('mergeCells',{
@@ -163,11 +168,16 @@ function exportData(){
 }
 
 function openChargeCodeDialog() {
+	
+	var param = {
+		levels : [1, 2, 3]
+	}
+	
     new publicChargeCodeService(function (data) {
         $("#categoryId").val(data.id);
         $("#categoryCode").val(data.categoryCode);
         $("#categoryName").val(data.categoryName);
-    })
+    }, param)
 }
 
 

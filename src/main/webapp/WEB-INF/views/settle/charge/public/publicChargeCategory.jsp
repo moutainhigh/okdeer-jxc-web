@@ -28,8 +28,6 @@
 					<input class="uinp uw-380" type="text" name="categoryCodeName"
 						id="categoryCodeName" placeholder="输入编号、名称进行查询"> <input
 						type="hidden" name="categoryCode" id="categoryCode" />
-					<input
-					type="hidden" name="levels" id="levels" value="3"/>
 					<input type="button" class="ubtn  umar-r10" value="查询"
 					onclick="categoryCodeSearch()">
 				</div>

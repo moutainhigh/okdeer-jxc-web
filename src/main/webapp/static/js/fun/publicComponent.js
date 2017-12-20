@@ -3147,7 +3147,7 @@ function publicChargeRecordHandle(param,callback) {
  * 费用类别选择
  * */
 var categroyCodeDialogTemp = null;
-function publicChargeCodeService(callback) {
+function publicChargeCodeService(callback,param) {
     categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
         href: contextPath+"/settle/charge/chargeCategory/publicView",
         width: 750,
@@ -3162,9 +3162,8 @@ function publicChargeCodeService(callback) {
         modal: true,
         onLoad: function () {
             var categoryDialogClass = new ChargeCategoryDialogClass();
-            categoryDialogClass.gridChargeCategoryList();
+            categoryDialogClass.initPubChargeCategory(param);
             categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
-            categoryDialogClass.treeChargeCategory();
         }
     })
 

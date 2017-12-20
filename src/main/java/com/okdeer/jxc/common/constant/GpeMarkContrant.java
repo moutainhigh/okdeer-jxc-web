@@ -111,5 +111,8 @@ public interface GpeMarkContrant {
 	
 	/*** 用户发票处理 报表  */
 	String INVOICE_FORM_REPORT = "invoiceFormReport";
+	
+	/*** 开店费用查询 报表  */
+	String BUILD_CHARGE_SEARCH_REPORT = "buildChargeSearchReport";
 
 }

@@ -97,7 +97,7 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			}
 
 			qo.setMaxNo(BuildChargeReportService.MAX_STORE_NUM);
-
+			
 			List<DataRecord> storeList = buildChargeReportService.getStoreList(qo);
 
 			if (CollectionUtils.isEmpty(storeList)) {
@@ -122,22 +122,25 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			threeLevelType.setWidth("100px");
 			threeLevelType.setFormatter(boldFmt.toString());
 			storeInfoList.add(threeLevelType);
+			
+			// 明细汇总则需要构建 费用明细 列
+			if("itemTotal".equals(qo.getReportType())){
+				// 构建 费用编码 列
+				GridColumn chargeCode = new GridColumn();
+				chargeCode.setField(BuildChargeReportService.COL_KEY_CHARGE_CODE);
+				chargeCode.setTitle(BuildChargeReportService.COL_TITLE_CHARGE_CODE);
+				chargeCode.setRowspan(2); // 行合并
+				chargeCode.setWidth("70px");
+				storeInfoList.add(chargeCode);
 
-			// 构建 费用编码 列
-			GridColumn chargeCode = new GridColumn();
-			chargeCode.setField(BuildChargeReportService.COL_KEY_CHARGE_CODE);
-			chargeCode.setTitle(BuildChargeReportService.COL_TITLE_CHARGE_CODE);
-			chargeCode.setRowspan(2); // 行合并
-			chargeCode.setWidth("70px");
-			storeInfoList.add(chargeCode);
-
-			// 构建 费用名称 列
-			GridColumn chargeName = new GridColumn();
-			chargeName.setField(BuildChargeReportService.COL_KEY_CHARGE_NAME);
-			chargeName.setTitle(BuildChargeReportService.COL_TITLE_CHARGE_NAME);
-			chargeName.setRowspan(2); // 行合并
-			chargeName.setWidth("120px");
-			storeInfoList.add(chargeName);
+				// 构建 费用名称 列
+				GridColumn chargeName = new GridColumn();
+				chargeName.setField(BuildChargeReportService.COL_KEY_CHARGE_NAME);
+				chargeName.setTitle(BuildChargeReportService.COL_TITLE_CHARGE_NAME);
+				chargeName.setRowspan(2); // 行合并
+				chargeName.setWidth("120px");
+				storeInfoList.add(chargeName);
+			}
 
 			// 构建 合计 列
 			GridColumn totalColumn = new GridColumn();
@@ -272,14 +275,17 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			// 三级类别 列
 			headerList.add(BuildChargeReportService.COL_TITLE_THREE_LEVEL_CG_NAME);
 			columnList.add(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
-
-			// 编号 列
-			headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_CODE);
-			columnList.add(BuildChargeReportService.COL_KEY_CHARGE_CODE);
-
-			// 名称 列
-			headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_NAME);
-			columnList.add(BuildChargeReportService.COL_KEY_CHARGE_NAME);
+			
+			// 明细汇总则需要构建 费用明细 列
+			if("itemTotal".equals(qo.getReportType())){
+				// 编号 列
+				headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_CODE);
+				columnList.add(BuildChargeReportService.COL_KEY_CHARGE_CODE);
+				
+				// 名称 列
+				headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_NAME);
+				columnList.add(BuildChargeReportService.COL_KEY_CHARGE_NAME);
+			}
 
 			// 合计 列
 			headerList.add(BuildChargeReportService.COL_TITLE_TOTAL_COLUMN);
@@ -315,8 +321,11 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			String[] mergeHeaders = new String[] { BuildChargeReportService.COL_TITLE_TOTAL_NUM,
 					BuildChargeReportService.COL_TITLE_TOTAL_AMOUNT };
 
-			// 从第一列开始合并列头
-			int firstColIndex = 3;
+			// 从第几列开始合并列头
+			int firstColIndex = 1;
+			if("itemTotal".equals(qo.getReportType())){
+				firstColIndex = 3;
+			}
 			
 			List<String> mergeColumn = new ArrayList<>();
 			mergeColumn.add(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
