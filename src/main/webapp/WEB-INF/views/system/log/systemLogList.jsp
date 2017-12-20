@@ -9,7 +9,6 @@
 <title>系统日志</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 
 <script src="${ctx}/static/js/views/system/log/systemLogList.js?V=${versionNo}"></script>
 <style>
@@ -41,8 +40,6 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<input type="hidden" id="startCount" name="startCount" >
-				<input type="hidden" id="endCount" name="endCount" >
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
 					<input type="hidden" name="branchCompleCode" id="branchCompleCode">

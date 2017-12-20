@@ -6,7 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>供应商机构商品关系表</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<script  src="${ctx}/static/js/views/supplierBranchGoods/supplierBranchGoodsList.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -62,8 +61,6 @@
 			      <!-- 供应商ID -->
                   <input class="uinp" name="supplierId" id="supplierId" value="" type="hidden">
                   <input class="uinp" name="supplierName" id="supplierName" value="" type="hidden">
-                  <input class="uinp" name="startCount" id="startCount" value="" type="hidden">
-                  <input class="uinp" name="endCount" id="endCount" value="" type="hidden">
                   <div class="umar-r10 uw-70 ut-r">机构名称:</div>
                   <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId" value="${branchesGrow.branchesId}"/>
                   <input class="uinp ub ub-f1" type="hidden" id="brancheType" name="brancheType" value="${branchesGrow.type}"/>

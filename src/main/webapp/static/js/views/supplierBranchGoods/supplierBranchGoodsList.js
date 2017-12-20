@@ -184,8 +184,6 @@ function initDatagridsupplierList(){
  * 搜索
  */
 function searchHandel(){
-	$("#startCount").val('');
-	$("#endCount").val('');
     var fromObjStr = $('#formList').serializeObject();
 	$("#gridSupplierArchiveList").datagrid("options").method = "post";
     $("#gridSupplierArchiveList").datagrid("options").url =contextPath+'/supplierBranchGoods/findSupplierBranchGoods',
@@ -299,25 +297,13 @@ function exportData(){
 		$_jxc.alert("请选择供应商");
 		return;
 	}
-	var rows = $("#gridSupplierArchiveList").datagrid("getRows");
-	if(rows.length <= 0){
-		 $_jxc.alert('无数据可导');
-	     return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
 
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-	$("#formList").attr("action",contextPath+"/supplierBranchGoods/exportList");
-	$("#formList").submit();
+    var param = {
+        datagridId:"gridSupplierArchiveList",
+        formObj:$("#formList").serializeObject(),
+        url:contextPath+"/supplierBranchGoods/exportList"
+    }
+    publicExprotService(param);
 }
 
 
