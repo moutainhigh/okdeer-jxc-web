@@ -51,8 +51,6 @@ function selectListBranches(){
 }
 
 function queryLogList() {
-	$("#startCount").val('');
-	$("#endCount").val('');
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").url = contextPath+'/system/log/getOpLogList';
@@ -63,24 +61,11 @@ function queryLogList() {
  * 导出
  */
 function exportData(){
-	var length = $("#"+gridName).datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/system/log/exportHandel"
+    }
+    publicExprotService(param);
 
-	$("#queryForm").attr("action",contextPath+"/system/log/exportHandel");
-	$("#queryForm").submit();
 }
