@@ -36,7 +36,7 @@
             </div>
 	               
 	        <div class="ub uline umar-t8"></div>
-	        
+	        <input class="uinp" type="hidden" id="tabKey" name="tabKey">
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
