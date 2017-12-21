@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.report;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,6 +80,9 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected EasyUIPageInfo<GoodsOutInDetailVo> queryListPage(GoodsOutInDetailVo qo) {
+		if(StringUtils.isNotEmpty( qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		EasyUIPageInfo<GoodsOutInDetailVo> page= goodsOutInDetailServiceApi.getGoodsOutInDetailList(qo);
 		return page;
 	}
