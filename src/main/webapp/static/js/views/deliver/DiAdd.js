@@ -13,8 +13,7 @@ $(function(){
     initDatagridAddRequireOrder();
     loadFormByFormNoDO();
 });
-
-
+var selFormType;
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
 	var str = val;
@@ -125,7 +124,16 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
-            {field:'dealNum',hidden:true},
+            {field:'dealNum',hidden:true,
+            	formatter:function(value,row){
+                    if(!value||value==""||parseFloat(value)==0.0){
+                    	if(selFormType === 'DR'){
+                    		row["dealNum"] = row["applyNum"]||0;
+                    	}                    	
+                  	  value = row["dealNum"];
+                    }
+                }
+            },
             {field:'applyNum',title:'申请数量',hidden:true},
             {field:'receiveNum',title:'数量',width:'80px',align:'right',
             	formatter:function(value,row){
@@ -133,7 +141,12 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["receiveNum"] = row["dealNum"]||0;
+                    	if(selFormType === 'DR'){
+                    		row["receiveNum"] = row["applyNum"]||0;
+                    	}else{
+                    		row["receiveNum"] = row["dealNum"]||0;
+                    	}
+                    	
                   	  value = row["receiveNum"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -761,12 +774,13 @@ function selectDeliver(){
 		$("#sourceBranchName").val(data.sourceBranchName);
 		$("#targetBranchId").val(data.targetBranchId);
 		$("#targetBranchName").val(data.targetBranchName);
+		selFormType = data.formType;
 		if(data.formType=="DD"){
-			$("#typeDD").attr("checked","checked");
-			$("#typeDA").attr("checked",false);
-		}else{
-			$("#typeDA").attr("checked","checked");
-			$("#typeDD").attr("checked",false);
+			$("#typeDD").prop("checked",true);
+		}else if(data.formType=="DR"){
+			$("#typeDR").prop("checked",true);
+		}else {
+			$("#typeDO").prop("checked",true);
 		}
 		loadLists(referenceId);
 	});
@@ -808,15 +822,12 @@ function setData(){
             $("#sourceBranchName").val(data.data.sourceBranchName);
             
             if(data.data.formType=="DD"){
-    			$("#typeDD").attr("checked","checked");
-    			$("#typeDA").attr("checked",false);
-    		}else{
-    			$("#typeDA").attr("checked","checked");
-    			$("#typeDD").attr("checked",false);
+    			$("#typeDD").prop("checked",true);
+    		}else if(data.data.formType=="DR"){
+    			$("#typeDR").prop("checked",true);
+    		}else {
+    			$("#typeDO").prop("checked",true);
     		}
-            //$("#address").html(data.data.address);
-            //$("#contacts").html(data.data.contacts);
-            //$("#mobile").html(data.data.mobile);
         }
     });
 }

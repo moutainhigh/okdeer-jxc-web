@@ -44,21 +44,21 @@
                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" value="${form.sourceBranchName}" readonly="readonly" />
                    <div class="uinp-more">...</div>
                </div>
-                <div class="ub ub-ac uw-300">
+                <div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">原单类型:</div>
                    <div class="ub">
                    <c:choose>
-	                   	<c:when test='${"DD" eq (form.sourceOrderType) }'> 
-	                   		 <input type="radio" id="typeDO" disabled="disabled"/><label for="typeDO">配送出库单</label>
-	                        <input type="radio" id="typeDD" disabled="disabled" checked="checked"/><label for="typeDD">店间配送单</label>
+	                   	<c:when test='${"DD" eq (form.sourceOrderType) || "DR" eq (form.sourceOrderType) }'> 
+	    					<input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DO" eq (form.sourceOrderType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
+	                        <input type="radio" id="typeDD" disabled="disabled" <c:if test='${"DD" eq (form.sourceOrderType)  }'>checked="checked" </c:if>/><label for="typeDD">店间配送单</label>
+	                        <input type="radio" id="typeDR" disabled="disabled" <c:if test='${"DR" eq (form.sourceOrderType)  }'>checked="checked" </c:if>/><label for="typeDR">退货申请单</label>
 	   					</c:when>
 	   					<c:otherwise> 
-	    					<input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DD" ne (form.referenceType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
+	    					<input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DO" eq (form.referenceType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
 	                        <input type="radio" id="typeDD" disabled="disabled" <c:if test='${"DD" eq (form.referenceType)  }'>checked="checked" </c:if>/><label for="typeDD">店间配送单</label>
+	                        <input type="radio" id="typeDR" disabled="disabled" <c:if test='${"DR" eq (form.referenceType)  }'>checked="checked" </c:if>/><label for="typeDR">退货申请单</label>
    						</c:otherwise>
                    </c:choose>
-                      
-                       <!-- <div class="uinp-more" onclick="selectDeliver()">...</div> -->
                    </div>
                </div>
                <div class="ub ub-ac umar-l20">
@@ -77,11 +77,11 @@
                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${form.targetBranchName}" readonly="readonly"/>
                    <div class="uinp-more">...</div>
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">配送单号:</div>
                    <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />
                       <c:choose>
-	                   	<c:when test='${"DD" eq (form.sourceOrderType) }'> 
+	                   	<c:when test='${"DD" eq (form.sourceOrderType) || "DR" eq (form.sourceOrderType) }'> 
 	                   		<input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" value="${form.sourceOrderNo}" readonly="readonly"/>
 	   					</c:when>
 	   					<c:otherwise> 
