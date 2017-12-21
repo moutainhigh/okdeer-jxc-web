@@ -7,7 +7,17 @@ $(function(){
     $("#branchCompleCode").val(sessionBranchCompleCode);
     
     initDataGridReport();
+    initRadioChange();
 });
+
+function initRadioChange(){
+    $("input[type='radio'][name='reportType']").change(function () {
+        var rdVal = $(this).val();
+        queryColumns = [];
+        initDataGridReport();
+        $("#"+datagridKey).datagrid('loadData', []);
+    })
+}
 
 var datagridKey = 'gridBuildChargeReport';
 var gridHandel = new GridClass();
