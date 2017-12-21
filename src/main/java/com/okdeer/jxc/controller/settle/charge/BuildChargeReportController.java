@@ -97,14 +97,14 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			}
 
 			qo.setMaxNo(BuildChargeReportService.MAX_STORE_NUM);
-			
+
 			List<DataRecord> storeList = buildChargeReportService.getStoreList(qo);
 
 			if (CollectionUtils.isEmpty(storeList)) {
 				LOG.warn("获取开店投资费用报表列数据为空！");
 				return RespJson.businessError("获取开店投资费用报表列数据为空!");
 			}
-			
+
 			// 是否加粗 格式，isBold 函数在JS文件中实现
 			StringBuffer boldFmt = new StringBuffer();
 			boldFmt.append(".separator.function(value,row,index){");
@@ -114,17 +114,22 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			List<GridColumn> storeInfoList = new ArrayList<GridColumn>();
 			List<GridColumn> storeAmountList = new ArrayList<GridColumn>();
 
+			String reportType = qo.getReportType();
+
+			// 类别列名
+			String typeNameColumnTitle = getTypeNameColumnTitle(reportType);
+
 			// 构建 三级类别 列
 			GridColumn threeLevelType = new GridColumn();
 			threeLevelType.setField(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
-			threeLevelType.setTitle(BuildChargeReportService.COL_TITLE_THREE_LEVEL_CG_NAME);
+			threeLevelType.setTitle(typeNameColumnTitle);
 			threeLevelType.setRowspan(2); // 行合并
 			threeLevelType.setWidth("100px");
 			threeLevelType.setFormatter(boldFmt.toString());
 			storeInfoList.add(threeLevelType);
-			
+
 			// 明细汇总则需要构建 费用明细 列
-			if("itemTotal".equals(qo.getReportType())){
+			if ("itemTotal".equals(reportType)) {
 				// 构建 费用编码 列
 				GridColumn chargeCode = new GridColumn();
 				chargeCode.setField(BuildChargeReportService.COL_KEY_CHARGE_CODE);
@@ -148,7 +153,17 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			totalColumn.setTitle(BuildChargeReportService.COL_TITLE_TOTAL_COLUMN);
 			totalColumn.setColspan(2); // 列合并
 			storeInfoList.add(totalColumn);
-
+			
+			// 如是类别报表，则需要计算平均值
+			if (!"itemTotal".equals(reportType)) {
+				// 构建 平均值 列
+				GridColumn avgColumn = new GridColumn();
+				avgColumn.setField(BuildChargeReportService.COL_KEY_AVG_COLUMN);
+				avgColumn.setTitle(BuildChargeReportService.COL_TITLE_AVG_COLUMN);
+				avgColumn.setColspan(2); // 列合并
+				storeInfoList.add(avgColumn);
+			}
+			
 			// 金额格式化，getPriceFmtB 函数在JS文件中实现
 			StringBuffer amountFmt = new StringBuffer();
 			amountFmt.append(".separator.function(value,row,index){");
@@ -156,10 +171,18 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			amountFmt.append("}.separator.");
 
 			// 构建合计总 数量、金额 列
-			GridColumn totalColumn1 = buildTotalNumColumn(amountFmt.toString(), 0);
-			GridColumn totalColumn2 = buildTotalAmountColumn(amountFmt.toString(), 0);
+			GridColumn totalColumn1 = buildTotalNumColumn(amountFmt.toString(), "0");
+			GridColumn totalColumn2 = buildTotalAmountColumn(amountFmt.toString(), "0");
 			storeAmountList.add(totalColumn1);
 			storeAmountList.add(totalColumn2);
+			
+			if (!"itemTotal".equals(reportType)) {
+				// 构建合计总 数量、金额 列
+				GridColumn avgColumn1 = buildTotalNumColumn(amountFmt.toString(), "00");
+				GridColumn avgColumn2 = buildTotalAmountColumn(amountFmt.toString(), "00");
+				storeAmountList.add(avgColumn1);
+				storeAmountList.add(avgColumn2);
+			}
 
 			int i = 1;
 			for (DataRecord r : storeList) {
@@ -172,8 +195,8 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 				store.setTitle(branchName);
 				store.setColspan(2); // 列合并
 
-				GridColumn column1 = buildTotalNumColumn(amountFmt.toString(), i); // 数量
-				GridColumn column2 = buildTotalAmountColumn(amountFmt.toString(), i); // 金额
+				GridColumn column1 = buildTotalNumColumn(amountFmt.toString(), String.valueOf(i)); // 数量
+				GridColumn column2 = buildTotalAmountColumn(amountFmt.toString(), String.valueOf(i)); // 金额
 
 				storeInfoList.add(store);
 				storeAmountList.add(column1);
@@ -204,13 +227,37 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 	}
 
 	/**
+	 * @Description: 根据报表类型获取类别列名，默认为三级类别，当报表类型为一级类别、二级类别时取相应表头
+	 * @param reportType
+	 * @return
+	 * @author liwb
+	 * @date 2017年12月21日
+	 */
+	private String getTypeNameColumnTitle(String reportType) {
+		String typeNameColumnTitle = null;
+
+		switch (reportType) {
+			case "category1":
+				typeNameColumnTitle = "一级类别";
+				break;
+			case "category2":
+				typeNameColumnTitle = "二级类别";
+				break;
+			default:
+				typeNameColumnTitle = "三级类别";
+				break;
+		}
+		return typeNameColumnTitle;
+	}
+
+	/**
 	 * @Description: 构建 数量 列
 	 * @param format
 	 * @return
 	 * @author liwb
 	 * @date 2017年9月14日
 	 */
-	private GridColumn buildTotalNumColumn(String format, int storeIndex) {
+	private GridColumn buildTotalNumColumn(String format, String storeIndex) {
 		GridColumn totalColumn1 = new GridColumn();
 		totalColumn1.setField(BuildChargeReportService.COL_KEY_TOTAL_NUM + storeIndex);
 		totalColumn1.setTitle(BuildChargeReportService.COL_TITLE_TOTAL_NUM);
@@ -227,7 +274,7 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 	 * @author liwb
 	 * @date 2017年9月14日
 	 */
-	private GridColumn buildTotalAmountColumn(String format, int storeIndex) {
+	private GridColumn buildTotalAmountColumn(String format, String storeIndex) {
 		GridColumn totalColumn2 = new GridColumn();
 		totalColumn2.setField(BuildChargeReportService.COL_KEY_TOTAL_AMOUNT + storeIndex);
 		totalColumn2.setTitle(BuildChargeReportService.COL_TITLE_TOTAL_AMOUNT);
@@ -260,9 +307,29 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			LOG.debug("查询开店投资费用报表条件：{}", qo);
 
 			String timeStr = DateUtils.getCurrSmallStr();
+			
+			String reportType = qo.getReportType();
+			
+			String reportTypeName = StringUtils.EMPTY;
+			switch(reportType){
+				case "category1":
+					reportTypeName = "_一级类别";
+					break;
+				case "category2":
+					reportTypeName = "_二级类别";
+					break;
+				case "category3":
+					reportTypeName = "_三级类别";
+					break;
+				case "itemTotal":
+					reportTypeName = "_明细汇总";
+					break;
+				
+			}
+			
 
 			// 导出文件名称，不包括后缀名
-			String reportFileName = "开店投资费用报表_" + timeStr;
+			String reportFileName = "开店投资费用报表"+reportTypeName+"_" + timeStr;
 
 			// 最多1000个店铺数据
 			qo.setMaxNo(1000);
@@ -272,16 +339,19 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			List<String> headerList = new ArrayList<String>();
 			List<String> columnList = new ArrayList<String>();
 
+			// 类别列名
+			String typeNameColumnTitle = getTypeNameColumnTitle(reportType);
+
 			// 三级类别 列
-			headerList.add(BuildChargeReportService.COL_TITLE_THREE_LEVEL_CG_NAME);
+			headerList.add(typeNameColumnTitle);
 			columnList.add(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
-			
+
 			// 明细汇总则需要构建 费用明细 列
-			if("itemTotal".equals(qo.getReportType())){
+			if ("itemTotal".equals(qo.getReportType())) {
 				// 编号 列
 				headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_CODE);
 				columnList.add(BuildChargeReportService.COL_KEY_CHARGE_CODE);
-				
+
 				// 名称 列
 				headerList.add(BuildChargeReportService.COL_TITLE_CHARGE_NAME);
 				columnList.add(BuildChargeReportService.COL_KEY_CHARGE_NAME);
@@ -292,6 +362,15 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 			headerList.add(BuildChargeReportService.COL_TITLE_TOTAL_COLUMN);
 			columnList.add(BuildChargeReportService.COL_KEY_TOTAL_NUM + 0);
 			columnList.add(BuildChargeReportService.COL_KEY_TOTAL_AMOUNT + 0);
+			
+			// 如是类别报表，则需要平均值列
+			if (!"itemTotal".equals(reportType)) {
+				// 构建 平均值 列
+				headerList.add(BuildChargeReportService.COL_TITLE_AVG_COLUMN);
+				headerList.add(BuildChargeReportService.COL_TITLE_AVG_COLUMN);
+				columnList.add(BuildChargeReportService.COL_KEY_TOTAL_NUM + "00");
+				columnList.add(BuildChargeReportService.COL_KEY_TOTAL_AMOUNT + "00");
+			}
 
 			int i = 1;
 			for (DataRecord store : storeList) {
@@ -323,15 +402,15 @@ public class BuildChargeReportController extends BaseController<BuildChargeRepor
 
 			// 从第几列开始合并列头
 			int firstColIndex = 1;
-			if("itemTotal".equals(qo.getReportType())){
+			if ("itemTotal".equals(qo.getReportType())) {
 				firstColIndex = 3;
 			}
-			
+
 			List<String> mergeColumn = new ArrayList<>();
 			mergeColumn.add(BuildChargeReportService.COL_KEY_THREE_LEVEL_CG_NAME);
 
-			ExcelExportUtil.exportMergeHeaderEndRowExcel(reportFileName, headers, columns, mergeColumn, dataList, response, firstColIndex,
-					mergeHeaders);
+			ExcelExportUtil.exportMergeHeaderEndRowExcel(reportFileName, headers, columns, mergeColumn, dataList,
+					response, firstColIndex, mergeHeaders);
 
 		} catch (Exception e) {
 			LOG.error("开店投资费用报表导出失败", e);

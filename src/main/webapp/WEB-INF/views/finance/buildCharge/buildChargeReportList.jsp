@@ -69,7 +69,7 @@
                     </div>
                     <div class="ub ub-ac umar-r10">
 						<label>
-							<input  type="radio" name="reportType" value="itemTotal" checked="checked" /><span>开的费用明细汇总</span>
+							<input  type="radio" name="reportType" value="itemTotal" checked="checked" /><span>明细汇总</span>
 						</label>
                     </div>
 			    </div>
