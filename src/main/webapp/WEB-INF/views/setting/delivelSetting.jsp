@@ -132,6 +132,39 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">门店报损单允许负库存出库:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockIdOut0" name="isAllowMinusStockIdOut" value="0" />
+						<label for="isAllowMinusStockIdOut0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockIdOut1" name="isAllowMinusStockIdOut" value="1" />
+						<label for="isAllowMinusStockIdOut1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">门店退货申请单允许负库存出库:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockDrOut0" name="isAllowMinusStockDrOut" value="0" />
+						<label for="isAllowMinusStockDrOut0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockDrOut1" name="isAllowMinusStockDrOut" value="1" />
+						<label for="isAllowMinusStockDrOut1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">门店店间配送单允许负库存出库:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockDdOut0" name="isAllowMinusStockDdOut" value="0" />
+						<label for="isAllowMinusStockDdOut0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowMinusStockDdOut1" name="isAllowMinusStockDdOut" value="1" />
+						<label for="isAllowMinusStockDdOut1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">要货单起订金额控制:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
@@ -193,12 +226,23 @@
 				<div class="ub ub-ac upad-16">
 					<div class="ub uw-220 ut-r ">允许配送出库单生成要货单:</div>
 					<div class="ub ub-ac umar-r10">
-					<input class="ub radioItem" type="radio" name="isAllowDoGenerDa" checked="checked" id="isAllowDoGenerDa0" value="0"/>
+					<input class="ub radioItem" type="radio" name="isAllowDoGenerDa" id="isAllowDoGenerDa0" value="0"/>
 					<label for="isAllowDoGenerDa0">不启用</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 					<input class="ub radioItem" type="radio" name="isAllowDoGenerDa" id="isAllowDoGenerDa1" value="1"/>
 					<label for="isAllowDoGenerDa1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16">
+					<div class="ub uw-220 ut-r ">允许引用门店退货申请入库时</br>自动生成门店配送出库单:</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="isAllowDrGenerDo" id="isAllowDrGenerDo0" value="0"/>
+					<label for="isAllowDrGenerDo0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="isAllowDrGenerDo" id="isAllowDrGenerDo1" value="1"/>
+					<label for="isAllowDrGenerDo1">启用</label>
 					</div>
 				</div>
 			</form>
@@ -260,7 +304,15 @@
 		var isAllowPmGenerPa= data.isAllowPmGenerPa;
 		var isAllowDoGenerDa= data.isAllowDoGenerDa;
 		var isAllowDaAuditSort= data.isAllowDaAuditSort;
-
+		//<!-- 门店报损单允许负库存出库 0-不启用 1-启用 -->
+		var isAllowMinusStockIdOut= data.isAllowMinusStockIdOut;
+		//<!-- 门店引用退货申请单出库允许负库存出库 0-不启用 1-启用 -->
+		var isAllowMinusStockDrOut= data.isAllowMinusStockDrOut;
+		//<!-- 门店引用店间配送单出库允许负库存出库 0-不启用 1-启用 -->
+		var isAllowMinusStockDdOut= data.isAllowMinusStockDdOut;
+		//<!-- 允许入库引用门店退货申请时自动生成配送出库单 0-不启用 1-启用 -->
+		var isAllowDrGenerDo= data.isAllowDrGenerDo;
+		
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
@@ -344,6 +396,30 @@
 			$("#isAllowDaAuditSort0").attr("checked", "true");
 		} else {
 			$("#isAllowDaAuditSort1").attr("checked", "true");
+		}
+	    //<!-- 门店报损单允许负库存出库 0-不启用 1-启用 -->
+		if (isAllowMinusStockIdOut === null || isAllowMinusStockIdOut === 0 || isAllowMinusStockIdOut === '') {
+			$("#isAllowMinusStockIdOut0").attr("checked", "true");
+		} else {
+			$("#isAllowMinusStockIdOut1").attr("checked", "true");
+		}
+        //<!-- 门店引用退货申请单出库允许负库存出库 0-不启用 1-启用 -->
+		if (isAllowMinusStockDrOut === null || isAllowMinusStockDrOut === 0 || isAllowMinusStockDrOut === '') {
+			$("#isAllowMinusStockDrOut0").attr("checked", "true");
+		} else {
+			$("#isAllowMinusStockDrOut1").attr("checked", "true");
+		}
+        //<!-- 门店引用店间配送单出库允许负库存出库 0-不启用 1-启用 -->
+		if (isAllowMinusStockDdOut === null || isAllowMinusStockDdOut === 0 || isAllowMinusStockDdOut === '') {
+			$("#isAllowMinusStockDdOut0").attr("checked", "true");
+		} else {
+			$("#isAllowMinusStockDdOut1").attr("checked", "true");
+		}
+        //<!-- 允许入库引用门店退货申请时自动生成配送出库单 0-不启用 1-启用 -->
+		if (isAllowDrGenerDo === null || isAllowDrGenerDo === 0 || isAllowDrGenerDo === '') {
+			$("#isAllowDrGenerDo0").attr("checked", "true");
+		} else {
+			$("#isAllowDrGenerDo1").attr("checked", "true");
 		}
 
 	}

@@ -33,12 +33,12 @@
                    </div>
 
                </div>
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">原单类型:</div>
                    <div class="ub">
-                       <input type="radio" id="typeDA" disabled="disabled" /><label for="typeDA">配送出库单</label>
-                       <input type="radio" id="typeDD" disabled="disabled"/><label for="typeDD">店间配送单</label>
-                       <!-- <div class="uinp-more" onclick="selectDeliver()">...</div> -->
+                       <input type="radio" name="refFormType" id="typeDO" disabled="disabled"/><label for="typeDO">配送出库单</label>
+                       <input type="radio" name="refFormType" id="typeDD" disabled="disabled"/><label for="typeDD">店间配送单</label>
+                       <input type="radio" name="refFormType" id="typeDR" disabled="disabled"/><label for="typeDR">退货申请单</label>
                    </div>
                </div>
                <div class="ub ub-ac uw-300">
@@ -60,7 +60,7 @@
                    </div>
 
                </div>
-                <div class="ub ub-ac uw-300">
+                <div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">配送单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${referenceId}"/>

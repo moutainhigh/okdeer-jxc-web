@@ -253,6 +253,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				branchesGrow.setSourceBranchId("");
 				branchesGrow.setSourceBranchName("");
 			}
+			boolean isAllowDrGenerDo = true;
+			// 当前登录机构是否可引用退货单出库出库
+            if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() != type.intValue()
+                    && Constant.INTEGER_ONE.equals(branchesGrow.getIsAllowDrGenerDo())) {
+                // 如果是分公司或店铺账号，且允许入库引用门店退货申请时自动生成配送出库单，则不需要再引用退货单做出库单
+                isAllowDrGenerDo = false;
+            }
+            model.addAttribute("isAllowDrGenerDo", isAllowDrGenerDo);
 			model.addAttribute("branchesGrow", branchesGrow);
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
