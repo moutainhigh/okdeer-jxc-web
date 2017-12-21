@@ -69,6 +69,8 @@
 				            <option value="PBT">平台补贴</option>
 				            <option value="DXR">店小二</option>
 				            <option value="ZZT">HS深圳通</option>
+				            <option value="LZG">鹿掌柜</option>
+				            <option value="YZF">翼支付</option>
 				            <option value="QT">其他</option>
 				        </select>
                 </div>  
