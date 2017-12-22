@@ -23,6 +23,7 @@ function changeType(){
         $("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
         $('#cashDaily').datagrid({showFooter:false});
         tabKey=type;
+        $("#tabKey").val(tabKey);
     	/*if (type=="cashier") {
 			showCashier();
 		} else if (type=="branch") {
@@ -32,6 +33,7 @@ function changeType(){
 		}*/
     	// 重新初始表格
 		initGridByGpeGridColumns();
+		/*tabKey = $('input[type="radio"][name="tabKey"]:checked').val();*/
     });
 }
 

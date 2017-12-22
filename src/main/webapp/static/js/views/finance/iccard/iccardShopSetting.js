@@ -345,7 +345,7 @@ function saveSetting(){
     $_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             $_jxc.alert("门店设置保存成功");
-            $("#"+gridShopName).datagrid('reload');
+//            $("#"+gridShopName).datagrid('reload');
         }else{
             $_jxc.alert(result['message']);
         }
