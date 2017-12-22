@@ -380,6 +380,7 @@ public class OrderEdiInController {
 			// 采购收货单明细
 			BigDecimal totalNum = BigDecimal.ZERO;
 			BigDecimal amount = BigDecimal.ZERO;
+			BigDecimal untaxedAmount = BigDecimal.ZERO;
 			List<PurchaseFormDetail> piDetailList = new ArrayList<PurchaseFormDetail>();
 			Map<String, ImportEntity> importList = formMap.get(formNo);
 			for (Map.Entry<String, ImportEntity> entryEntity : importList.entrySet()) {
@@ -397,6 +398,7 @@ public class OrderEdiInController {
 						piDetailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 				// 采购入库赠品明细
@@ -410,11 +412,13 @@ public class OrderEdiInController {
 						piDetailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 			}
 			piForm.setTotalNum(totalNum);
 			piForm.setAmount(amount);
+			piForm.setUntaxedAmount(untaxedAmount);
 			RespJson resp = purchaseFormServiceApi.save(piForm, piDetailList);
 			if (resp.isSuccess()) {
 				result.add("采购入库单【" + formNo + "】导入成功。</br>");
@@ -460,6 +464,7 @@ public class OrderEdiInController {
 			// 配送出库单明细
 			BigDecimal totalNum = BigDecimal.ZERO;
 			BigDecimal amount = BigDecimal.ZERO;
+			BigDecimal untaxedAmount = BigDecimal.ZERO;
 			List<DeliverFormListVo> detailList = new ArrayList<DeliverFormListVo>();
 			for (Map.Entry<String, ImportEntity> entryEntity : entry.getValue().entrySet()) {
 				// 货号
@@ -478,6 +483,7 @@ public class OrderEdiInController {
 						detailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 				// 配送出库赠品明细
@@ -491,6 +497,7 @@ public class OrderEdiInController {
 						detailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 			}
@@ -508,6 +515,7 @@ public class OrderEdiInController {
 			
 			doForm.setTotalNum(totalNum);
 			doForm.setAmount(amount);
+			doForm.setUntaxedAmount(untaxedAmount);
 			doForm.setDeliverFormListVo(detailList);
 			RespJson resp = deliverFormServiceApi.insertForm(doForm);
 			if (resp.isSuccess()) {
@@ -558,6 +566,7 @@ public class OrderEdiInController {
 			// 配送入库单明细
 			BigDecimal totalNum = BigDecimal.ZERO;
 			BigDecimal amount = BigDecimal.ZERO;
+			BigDecimal untaxedAmount = BigDecimal.ZERO;
 			BigDecimal num = BigDecimal.ZERO;
 			List<DeliverFormListVo> detailList = new ArrayList<DeliverFormListVo>();
 			for (Map.Entry<String, ImportEntity> entryEntity : entry.getValue().entrySet()) {
@@ -598,6 +607,7 @@ public class OrderEdiInController {
 						detailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 				// 配送出库赠品明细
@@ -611,11 +621,13 @@ public class OrderEdiInController {
 						detailList.add(formDetail);
 						totalNum = totalNum.add(formDetail.getDealNum());
 						amount = amount.add(formDetail.getAmount());
+						untaxedAmount = untaxedAmount.add(formDetail.getUntaxedAmount());
 					}
 				}
 			}
 			diForm.setTotalNum(totalNum);
 			diForm.setAmount(amount);
+			diForm.setUntaxedAmount(untaxedAmount);
 			diForm.setDeliverFormListVo(detailList);
 			RespJson resp = deliverFormServiceApi.insertForm(diForm);
 			if (resp.isSuccess()) {
@@ -759,6 +771,8 @@ public class OrderEdiInController {
 		formDetail.setPriceBack(paDetail.getPriceBack()); // 单价备份
 		formDetail.setSalePrice(paDetail.getSalePrice()); // 销售价
 		formDetail.setAmount(num.multiply(paDetail.getPrice())); // 金额
+		formDetail.setUntaxedAmount(paDetail.getUntaxedAmount());
+		formDetail.setUntaxedPrice(paDetail.getUntaxedPrice());
 		formDetail.setTax(paDetail.getTax()); // 税率
 		formDetail.setIsGift(isGift); // 是否赠品
 		formDetail.setRemark(paDetail.getRemark()); // 备注
@@ -912,6 +926,8 @@ public class OrderEdiInController {
 		formDetail.setPriceBack(doDetail.getPriceBack()); // 单价备份
 		formDetail.setSalePrice(doDetail.getSalePrice()); // 销售价
 		formDetail.setAmount(num.multiply(doDetail.getPrice())); // 金额
+	    formDetail.setUntaxedAmount(doDetail.getUntaxedAmount());
+	    formDetail.setUntaxedPrice(doDetail.getUntaxedPrice());
 		formDetail.setIsGift(isGift.toString()); // 是否赠品
 		formDetail.setRemark(doDetail.getRemark()); // 备注
 		formDetail.setApplyNum(doDetail.getApplyNum()); // 申请储量
