@@ -325,6 +325,7 @@ function gpeUserSettingGridSave() {
 	// 重新排序
 	$(rows).each(function(index, element) {
 		element.orders = index + 1;
+		element['title'] = element['title'].trim();
         element['ctitle'] = element['ctitle'].trim();
 		//得到冻结行的数据和非冻结行的数据
 		if(element.frozen && element['ctitle'].length > 0){
