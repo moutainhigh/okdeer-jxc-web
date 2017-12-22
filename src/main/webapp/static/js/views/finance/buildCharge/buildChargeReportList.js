@@ -28,10 +28,19 @@ var queryColumns = [];
 function initDataGridReport(){
 	gridHandel.setGridName(datagridKey);
 	
+	var reportType = $(':radio[name="reportType"]:checked').val();
+	
+	var rowNoFlg = false;
+	
+	// 明细汇总 不需要行号，类别报表需要行号
+	if(reportType != 'itemTotal'){
+		rowNoFlg = true;
+	}
+	
 	dg = $("#"+datagridKey).datagrid({
         align:'right',
         singleSelect:true,  //单选  false多选
-        rownumbers:false,    //序号
+        rownumbers:rowNoFlg,    //序号
         pagination:false,    //分页
         showFooter:true,
 		height:'100%',

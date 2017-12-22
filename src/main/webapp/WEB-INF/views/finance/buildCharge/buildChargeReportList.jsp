@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}4"></script>
+<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;

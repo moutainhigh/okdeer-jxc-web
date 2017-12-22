@@ -56,6 +56,7 @@ function disableFormNoElement(tabKey){
 		$("#formNo").removeProp("disabled");
 	}else{
 		$("#formNo").prop("disabled", true);
+		$("#formNo").val('');
 	}
 }
 
