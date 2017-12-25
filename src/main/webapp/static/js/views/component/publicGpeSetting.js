@@ -211,21 +211,24 @@ function getBasePath() {
 function onClickCheckBox(index, field, value) {
 	// 当前点击行
 	var row = _gpe_setting_datagrid.datagrid("getRows")[index];
-
+	var flag = false;
 	// 判断点击的为哪一个复选框
 	if (field == 'gshow') {
 		// 是否显示
 		row.gshow = value ? false : true;
+        flag = row.gshow;
 	} else if (field == 'pshow') {
 		// 是否打印
 		row.pshow = value ? false : true;
+        flag = row.pshow;
 	} else if (field == 'eshow') {
 		// 是否导出
 		row.eshow = value ? false : true;
+        flag = row.eshow;
 	} else if (field == 'frozen') {
 		// 是否冻结
 		row.frozen = value ? false : true;
-
+        flag = row.frozen;
 		// 冻结或取消冻结
 		if (row.frozen) {
 			// 冻结
@@ -235,6 +238,8 @@ function onClickCheckBox(index, field, value) {
 			unfrozenRow(index);
 		}
 	}
+    $("#gpeUserSettingGrid").datagrid("getPanel").
+    find(".datagrid-btable").find("tr[datagrid-row-index="+index+"]").find("td[field="+field+"]").find("input[type='checkbox']").prop("checked",flag)
 }
 
 // 冻结
