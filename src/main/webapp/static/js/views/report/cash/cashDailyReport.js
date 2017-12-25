@@ -33,7 +33,7 @@ function changeType(){
 		}*/
     	// 重新初始表格
 		initGridByGpeGridColumns();
-		tabKey = $('input[type="radio"][name="tabKey"]:checked').val();
+		/*tabKey = $('input[type="radio"][name="tabKey"]:checked').val();*/
     });
 }
 

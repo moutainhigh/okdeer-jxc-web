@@ -50,6 +50,10 @@
 					<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
 					<input class="uinp ub ub-f1" type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode">
 				</div>
+				
+				<div class="ub ub-ac  umar-l40">
+					<label><input type="checkbox" name="onlyDifference" id="onlyDifference">只显示期初期末成本有差异数据</label>
+				</div>
 			</div>
 		</form>
 

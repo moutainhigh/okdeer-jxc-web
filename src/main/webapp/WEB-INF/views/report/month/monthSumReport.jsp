@@ -41,6 +41,9 @@
 					<input class="uinp ub ub-f1" type="text" name="categoryNameCode" id="categoryNameCode" readonly="readonly" />
 					<div class="uinp-more" onClick="searchCategory()">...</div>
 				</div>
+				<div class="ub ub-ac  umar-l40">
+					<label><input type="checkbox" name="onlyDifference" id="onlyDifference">只显示期初期末成本有差异数据</label>
+				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac uw-300">
