@@ -320,10 +320,36 @@ function gpeUserSettingGridSave() {
 	// 获取最新行数据
 	var rows = $("#gpeUserSettingGrid").datagrid("getRows");
 
+	var frozenRow = [];
+	var unFrozenRow = [];
 	// 重新排序
 	$(rows).each(function(index, element) {
 		element.orders = index + 1;
+		element['title'] = element['title'].trim();
+        element['ctitle'] = element['ctitle'].trim();
+		//得到冻结行的数据和非冻结行的数据
+		if(element.frozen && element['ctitle'].length > 0){
+            frozenRow.push(element);
+		}else if(element.frozen == false && element['ctitle'].length > 0){
+            unFrozenRow.push(element);
+		}
 	});
+
+	var isAllow = true;
+    $(frozenRow).each(function (i,f_item) {
+		$(unFrozenRow).each(function (j,unf_itme) {
+			if(f_item.ctitle === unf_itme.ctitle){
+                isAllow = false;
+                return false;
+			}
+        })
+    })
+
+	if(isAllow == false){
+    	$_jxc.alert("冻结列和非冻结列不能有相同的合并标题。")
+		return;
+	}
+
 
 	// 更新setting对象
 	_gpe_setting_setting.fields = rows;
