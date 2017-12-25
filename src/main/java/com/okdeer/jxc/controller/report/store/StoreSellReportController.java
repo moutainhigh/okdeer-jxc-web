@@ -156,11 +156,17 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 
 	@Override
 	protected EasyUIPageInfo<StoreSell> queryListPage(StoreSellQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		return storeSellFacade.getStoreSells(qo);
 	}
 
 	@Override
 	protected StoreSell queryTotal(StoreSellQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		StoreSell sell= storeSellFacade.sumStoreSells(qo);
 		sell.setBranchCode("合计：");
 		return sell;
@@ -168,6 +174,9 @@ public class StoreSellReportController extends AbstractSimpleGpeController<Store
 
 	@Override
 	protected List<StoreSell> queryList(StoreSellQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		return storeSellFacade.exportStoreSells(qo);
 	}
 }
