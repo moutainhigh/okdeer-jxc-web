@@ -181,7 +181,8 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		try {
-			
+			// 查询合计
+			Object total = queryTotal(qo);
 			// 导出的数据列表
 			List<Object> exportList = new ArrayList<Object>();
 
@@ -214,8 +215,7 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 				exportList.addAll(tempList);
 			}
 			
-			// 查询合计
-			Object total = queryTotal(qo);
+		
 			// 添加数据权限
 			cleanAccessData(total);
 
