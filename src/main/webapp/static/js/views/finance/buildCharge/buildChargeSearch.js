@@ -7,6 +7,12 @@ $(function() {
 	// 开始和结束时间
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+
+    $('#chargeCodeComp').chargeCodeSelect({
+        param : {
+            levels : "1, 2, 3"
+        }
+    });
     
     // 初始化表格
 	initGridByGpeGridColumns();
@@ -58,18 +64,6 @@ function disableFormNoElement(tabKey){
 		$("#formNo").prop("disabled", true);
 		$("#formNo").val('');
 	}
-}
-
-function openChargeCodeDialog() {
-	
-	var param = {
-		levels : [1, 2, 3]
-	}
-	
-    new publicChargeCodeService(function (data) {
-        $("#categoryCode").val(data.categoryCode);
-        $("#categoryName").val(data.categoryName);
-    }, param)
 }
 
 //查询
