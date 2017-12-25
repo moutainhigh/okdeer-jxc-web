@@ -80,7 +80,7 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected EasyUIPageInfo<GoodsOutInDetailVo> queryListPage(GoodsOutInDetailVo qo) {
-		if(StringUtils.isNotEmpty( qo.getBranchCompleCode())){
+		if(StringUtils.isEmpty( qo.getBranchCompleCode())){
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
 		EasyUIPageInfo<GoodsOutInDetailVo> page= goodsOutInDetailServiceApi.getGoodsOutInDetailList(qo);
@@ -89,6 +89,9 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected GoodsOutInDetailVo queryTotal(GoodsOutInDetailVo qo) {
+		if(StringUtils.isEmpty( qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		GoodsOutInDetailVo vo= goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(qo);
 		vo.setBranchName("合计:");
 		return vo;
@@ -96,6 +99,9 @@ public class GoodsOutInDetailReportController extends AbstractSimpleGpeControlle
 
 	@Override
 	protected List<GoodsOutInDetailVo> queryList(GoodsOutInDetailVo qo) {
+		if(StringUtils.isEmpty( qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
+		}
 		return goodsOutInDetailServiceApi.exportList(qo);
 	}
 }
