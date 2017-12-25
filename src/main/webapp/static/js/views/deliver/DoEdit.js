@@ -921,12 +921,14 @@ function check(){
  * 校验是否负库存出库
  */
 function checkValid(){	
+	var referenceNo = $("#referenceNo").val();
 	$_jxc.ajax({
 		url : contextPath+"/form/deliverForm/checkValid",
 		type : "POST",
 		data : {
 			sourceBranchId : $("#sourceBranchId").val(),
 			deliverFormId : $("#formId").val(),
+			refDeliverType : referenceNo.substr(0, 2),
 			deliverType : 'DO'
 		}
 	},function(result){

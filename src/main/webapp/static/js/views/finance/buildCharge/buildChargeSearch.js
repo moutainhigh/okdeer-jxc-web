@@ -125,6 +125,9 @@ function initBuildChargeSearchGrid(columns,frozenColumns) {
 }
 
 function formatter_formNo(value,row,index,formatter){
+	if(!value){
+        return '';
+    }
 	var hrefStr='parent.addTab("建店费用详情","' + contextPath+'/finance/buildCharge/toEdit?formId=' + row.formId + '")';
 	return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 }
