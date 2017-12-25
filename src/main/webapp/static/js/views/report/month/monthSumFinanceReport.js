@@ -71,9 +71,6 @@ function queryForm(){
 	$("#"+datagridId).datagrid("options").method = "post";
 	$("#"+datagridId).datagrid('options').url = contextPath + '/report/month/finance/list';
 	$("#"+datagridId).datagrid('load', fromObjStr);
-	
-	// 清除url，避免自动查询
-	$("#"+datagridId).datagrid('options').url = null;
 }
 
 
