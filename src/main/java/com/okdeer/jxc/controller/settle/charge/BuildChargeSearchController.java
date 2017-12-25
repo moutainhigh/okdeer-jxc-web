@@ -99,6 +99,7 @@ public class BuildChargeSearchController extends AbstractMutilGpeController<Buil
 	 */
 	@Override
 	protected Object queryTotal(BuildChargeSearchQo qo) {
+		buildDefaultParams(qo);
 		return buildChargeSearchService.getTotalSum(qo);
 	}
 
