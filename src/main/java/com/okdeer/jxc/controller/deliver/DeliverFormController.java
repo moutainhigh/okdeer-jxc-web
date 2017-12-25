@@ -742,8 +742,21 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			BranchSpecVo branchSpecVo = branchSpecServiceApi.queryByBranchId(vo.getSourceBranchId());
+            boolean isAllowFormMinusStock = branchSpecVo.getIsAllowMinusStock() == 1;
+			Branches targetBranch = branchesServiceApi.getBranchInfoById(vo.getSourceBranchId());
+			Integer branchType = targetBranch.getType();
+			// 目标机构是店铺，并且引用单据为店间或退货时
+			if ((BranchTypeEnum.SELF_STORE.getCode().equals(branchType)
+			        || BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branchType)
+			        || BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branchType))
+			        && ((FormType.DD.toString().equals(vo.getRefDeliverType())
+			                && Constant.INTEGER_ONE.equals(branchSpecVo.getIsAllowMinusStockDdOut()))
+			                || (FormType.DR.toString().equals(vo.getRefDeliverType())
+			                        && !Constant.INTEGER_ONE.equals(branchSpecVo.getIsAllowMinusStockDrOut())))) {
+			    isAllowFormMinusStock = false;
+			}
 			// 不允许负库存出库，直接审核，否则判断是否存在负库存需要提示
-			if (branchSpecVo.getIsAllowMinusStock() == 0) {
+			if (!isAllowFormMinusStock) {
 				return RespJson.success();
 			}
 			vo.setPageNumber(1);
