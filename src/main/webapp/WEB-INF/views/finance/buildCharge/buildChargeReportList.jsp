@@ -10,7 +10,7 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}4"></script>
+<script src="${ctx}/static/js/views/finance/buildCharge/buildChargeReportList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -54,7 +54,7 @@
 			        <div class="umar-r10 uw-70 ut-r">报表类型:</div>
                     <div class="ub ub-ac umar-r10">
 						<label>
-							<input type="radio" name="reportType" value="category1" /><span>一级类别</span>
+							<input type="radio" name="reportType" value="category1" checked="checked" /><span>一级类别</span>
 						</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="ub ub-ac umar-r10">
 						<label>
-							<input  type="radio" name="reportType" value="itemTotal" checked="checked" /><span>明细汇总</span>
+							<input  type="radio" name="reportType" value="itemTotal" /><span>明细汇总</span>
 						</label>
                     </div>
 			    </div>

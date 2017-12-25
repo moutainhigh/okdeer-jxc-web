@@ -56,6 +56,7 @@ function disableFormNoElement(tabKey){
 		$("#formNo").removeProp("disabled");
 	}else{
 		$("#formNo").prop("disabled", true);
+		$("#formNo").val('');
 	}
 }
 
@@ -108,7 +109,7 @@ function initBuildChargeSearchGrid(columns,frozenColumns) {
         align: 'center',
         //url: "",
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect: false,  //单选  false多选
+        singleSelect: true,  //单选  false多选
         rownumbers: true,    //序号
         pagination: true,    //分页
         //fitColumns:true,    //占满
@@ -127,6 +128,11 @@ function initBuildChargeSearchGrid(columns,frozenColumns) {
     });
 	$("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);
+}
+
+function formatter_formNo(value,row,index,formatter){
+	var hrefStr='parent.addTab("建店费用详情","' + contextPath+'/finance/buildCharge/toEdit?formId=' + row.formId + '")';
+	return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 }
 
 /**

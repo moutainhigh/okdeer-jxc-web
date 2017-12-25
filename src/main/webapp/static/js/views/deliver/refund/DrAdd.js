@@ -1189,9 +1189,13 @@ function checkHandel(){
             }
         },function(result){
             if(result['code'] == 0){
-                $_jxc.alert("操作成功！下一步请做配送出库操作",function(){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
+            	var tips = "操作成功！下一步请做配送出库操作";
+            	if(result['isAllowDrGenerDo'] == 1){
+            		tips = "操作成功！下一步请做配送入库操作";
+            	}
+            	$_jxc.alert(tips,function(){
+            		location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+            	});
             }else{
                 $_jxc.alert(result['message']);
             }
