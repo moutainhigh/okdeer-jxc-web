@@ -820,7 +820,7 @@ function setData(){
             $("#targetBranchName").val(data.data.targetBranchName);
             $("#sourceBranchId").val(data.data.sourceBranchId);
             $("#sourceBranchName").val(data.data.sourceBranchName);
-            
+            selFormType = data.data.formType;
             if(data.data.formType=="DD"){
     			$("#typeDD").prop("checked",true);
     		}else if(data.data.formType=="DR"){
