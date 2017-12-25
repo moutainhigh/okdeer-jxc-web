@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +14,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.controller.AbstractMutilGpeController;
+import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.facade.report.goodsanalysis.facade.GoodsSaleSummaryAnalysisFacade;
@@ -94,6 +96,9 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 	@Override
 	protected EasyUIPageInfo<?> queryListPage(GoodsSaleSummaryAnalysisQo qo) {
 		try {
+			if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			}
 			EasyUIPageInfo<?> page = null;
 			if (KEY_BY_GOODS.equals(qo.getTabKey())) {
 				page = goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
@@ -116,6 +121,9 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected Object queryTotal(GoodsSaleSummaryAnalysisQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
 			GoodsSaleSummaryAnalysisByGoodsVo vo = goodsSaleSummaryAnalysisFacade.queryListTotalByGoods(qo);
 			vo.setSkuCode("合计:");
@@ -142,6 +150,9 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected List<?> queryList(GoodsSaleSummaryAnalysisQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
 		List<?> list = null;
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
 			list = goodsSaleSummaryAnalysisFacade.queryListByGoods(qo);
