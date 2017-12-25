@@ -186,7 +186,7 @@ public class CashDailyReportController extends AbstractMutilGpeController<CashDa
 
 	@Override
 	protected List<?> queryList(CashDailyReportQo qo) {
-		buildDefaultParams(qo);
+		/*buildDefaultParams(qo);*/
 		return cashDailyReportService.queryList(qo);
 	}
 }

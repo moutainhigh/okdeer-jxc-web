@@ -107,7 +107,7 @@ public class BepDayAnalysisController extends AbstractMutilGpeController<BepAnal
 
 	@Override
 	protected List<?> queryList(BepAnalysisQo qo) {
-		buildParams(qo);
+		/*buildParams(qo);*/
 		return bepDayAnalysisService.getBepDayAnalysisForExport(qo);
 	}
 
