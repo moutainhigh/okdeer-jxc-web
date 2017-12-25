@@ -2,6 +2,11 @@
 $(function(){
     
     $('#branchSelect').branchSelect();
+    $('#chargeCodeComp').chargeCodeSelect({
+        param : {
+            levels : "1, 2, 3"
+        }
+    });
     
     $("#branchCodeName").val(sessionBranchCodeName);
     $("#branchCompleCode").val(sessionBranchCompleCode);
@@ -184,19 +189,6 @@ function exportData(){
 	}
 	$("#queryForm").attr("action",contextPath+"/report/buildChargeInvest/exportList");
 	$("#queryForm").submit();
-}
-
-function openChargeCodeDialog() {
-	
-	var param = {
-		levels : [1, 2, 3]
-	}
-	
-    new publicChargeCodeService(function (data) {
-        $("#categoryId").val(data.id);
-        $("#categoryCode").val(data.categoryCode);
-        $("#categoryName").val(data.categoryName);
-    }, param)
 }
 
 

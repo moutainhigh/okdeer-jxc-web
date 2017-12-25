@@ -41,13 +41,13 @@
                    <div class="uinp-more">...</div>
                 </div>
                 
-                <div class="ub ub-ac">
+                <div class="ub ub-ac" id="chargeCodeComp">
                    <div class="umar-r10 uw-70 ut-r">类别:</div>
                    <input type="hidden" id="categoryId"  name="categoryId"  />
                    <input type="hidden" id="categoryCode" name="categoryCode"  />
                    <input class="uinp ub ub-f1" type="text" id="categoryName"
-						name="categoryName"  onclick="openChargeCodeDialog()" readonly="readonly"/>
-                   <div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
+						name="categoryName"/>
+                   <div class="uinp-more" >...</div>
                 </div>
                 
                 <div class="ub ub-ac">
