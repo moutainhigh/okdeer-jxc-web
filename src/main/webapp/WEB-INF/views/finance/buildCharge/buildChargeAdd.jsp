@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/finance/buildCharge/buildChargeMain.js?V=${versionNo}1"></script>
+	src="${ctx}/static/js/views/finance/buildCharge/buildChargeMain.js?V=${versionNo}2"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -29,14 +29,9 @@
 					<div class="ubtns-item" onclick="storeChargeAdd()">新增</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="saveStoreCharge()">保存</div>
-				<%--<shiro:hasPermission name="JxcBuildCharge:audit">--%>
-					<%--<div class="ubtns-item uinp-no-more">审核</div>--%>
-				<%--</shiro:hasPermission>--%>
 				<div class="ubtns-item" style="width: 100px;"
 					onclick="selectChargeRecord()">开店费用选择</div>
-				<%--<shiro:hasPermission name="JxcBuildCharge:delete">--%>
-					<%--<div class="ubtns-item uinp-no-more">删除</div>--%>
-				<%--</shiro:hasPermission>--%>
+				<div class="ubtns-item" onclick="toImportBuildCharge()">费用导入</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>

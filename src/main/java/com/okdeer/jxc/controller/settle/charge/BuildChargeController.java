@@ -7,17 +7,28 @@
 
 package com.okdeer.jxc.controller.settle.charge;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.ImportExcelConstant;
+import com.okdeer.jxc.common.exception.BusinessException;
+import com.okdeer.jxc.common.fmChargeImport.FmChargeImportComponent;
+import com.okdeer.jxc.common.fmChargeImport.FmChargeImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -49,6 +60,9 @@ public class BuildChargeController extends BaseController<BuildChargeController>
 
 	@Reference(version = "1.0.0", check = false)
 	private BuildChargeService buildChargeService;
+	
+	@Autowired
+	private FmChargeImportComponent fmChargeImportComponent;
 
 	@RequestMapping(value = "toManager")
 	public ModelAndView toManager() {
@@ -240,76 +254,69 @@ public class BuildChargeController extends BaseController<BuildChargeController>
 //		}
 //		return RespJson.error();
 //	}
-//
-//	@RequestMapping(value = "importList")
-//	public RespJson importList(@RequestParam("file") MultipartFile file) {
-//		RespJson respJson = RespJson.success();
-//		try {
-//			if (file.isEmpty()) {
-//				return RespJson.error("文件为空");
-//			}
-//
-//			// 文件流
-//			InputStream is = file.getInputStream();
-//
-//			// 获取文件名
-//			String fileName = file.getOriginalFilename();
-//
-//			// // 文件流
-//			// InputStream tempIs = file.getInputStream();
-//			// 获取标题
-//			// List<String> firstColumn = ExcelReaderUtil.readXlsxTitle(tempIs);
-//
-//			String[] fields = ImportExcelConstant.STORE_CHARGE_FIELDS;
-//
-//			ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
-//
-//			ChargeImportVo importVo = chargeImportComponent.importSelectCharge(fileName, is, fields,
-//					super.getCurrUserId(), "/finance/BuildCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_STORE_CHARGE_CODE);
-//
-//			respJson.put("importInfo", importVo);
-//        } catch (BusinessException e) {
-//            respJson = RespJson.error(e.getMessage());
-//		} catch (IOException e) {
-//			respJson = RespJson.error("读取Excel流异常");
-//			LOG.error("读取Excel流异常", e);
-//		} catch (Exception e) {
-//			respJson = RespJson.error("导入发生异常");
-//			LOG.error("用户导入异常", e);
-//		}
-//		return respJson;
-//	}
-//
-//	/**
-//	 * @Description: 错误信息下载
-//	 * @param code
-//	 * @param type
-//	 * @param response
-//	 * @author zhangchm
-//	 * @date 2016年10月15日
-//	 */
-//	@RequestMapping(value = "downloadErrorFile")
-//	public void downloadErrorFile(HttpServletResponse response) {
-//		String reportFileName = "错误数据";
-//
-//		String[] headers = ImportExcelConstant.STORE_CHARGE_HEADERS;
-//		String[] columns = ImportExcelConstant.STORE_CHARGE_FIELDS;
-//
-//		chargeImportComponent.downloadErrorFile(super.getCurrUserId(), reportFileName, headers, columns, response);
-//	}
-//
-//	@RequestMapping(value = "exportTemp")
-//	public void exportTemp(HttpServletResponse response) {
-//		LOG.debug("导出建店费用导入模板请求参数");
-//		try {
-//			String fileName = "建店费用详情导入模板";
-//			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_IMPORT_TEMPLATE;
-//			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
-//				exportListForXLSX(response, null, fileName, templateName);
-//			}
-//		} catch (Exception e) {
-//			LOG.error("导出建店费用导入模板异常:{}", e);
-//		}
-//	}
+
+	@RequestMapping(value = "importList")
+	public RespJson importList(@RequestParam("file") MultipartFile file) {
+		RespJson respJson = RespJson.success();
+		try {
+			if (file.isEmpty()) {
+				return RespJson.error("文件为空");
+			}
+
+			// 文件流
+			InputStream is = file.getInputStream();
+
+			// 获取文件名
+			String fileName = file.getOriginalFilename();
+
+			String[] fields = ImportExcelConstant.BUILD_CHARGE_FIELDS;
+
+			FmChargeImportVo importVo = fmChargeImportComponent.importSelectCharge(fileName, is, fields,
+					super.getCurrUserId(), "/finance/buildCharge/downloadErrorFile");
+
+			respJson.put("importInfo", importVo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
+		} catch (IOException e) {
+			respJson = RespJson.error("读取Excel流异常");
+			LOG.error("读取Excel流异常", e);
+		} catch (Exception e) {
+			respJson = RespJson.error("导入发生异常");
+			LOG.error("用户导入异常", e);
+		}
+		return respJson;
+	}
+
+	/**
+	 * @Description: 错误信息下载
+	 * @param code
+	 * @param type
+	 * @param response
+	 * @author zhangchm
+	 * @date 2016年10月15日
+	 */
+	@RequestMapping(value = "downloadErrorFile")
+	public void downloadErrorFile(HttpServletResponse response) {
+		String reportFileName = "错误数据";
+
+		String[] headers = ImportExcelConstant.BUILD_CHARGE_HEADERS;
+		String[] columns = ImportExcelConstant.BUILD_CHARGE_FIELDS;
+
+		fmChargeImportComponent.downloadErrorFile(super.getCurrUserId(), reportFileName, headers, columns, response);
+	}
+
+	@RequestMapping(value = "exportTemp")
+	public void exportTemp(HttpServletResponse response) {
+		LOG.debug("导出建店费用导入模板请求参数");
+		try {
+			String fileName = "建店费用详情导入模板";
+			String templateName = ExportExcelConstant.BUILD_CHARGE_IMPORT_TEMPLATE;
+			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
+				exportListForXLSX(response, null, fileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("导出建店费用导入模板异常:{}", e);
+		}
+	}
 
 }

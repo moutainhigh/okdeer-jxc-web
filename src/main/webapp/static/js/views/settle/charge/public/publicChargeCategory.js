@@ -16,6 +16,28 @@ ChargeCategoryDialogClass.prototype.gridHandel = new GridClass();
 
 var pubChargeCategoryCallback = null;
 
+ChargeCategoryDialogClass.prototype.initPubChargeCategory = function(param){
+	initForm(param);
+	chCateClass.treeChargeCategory();
+	gridChargeCategoryList();
+}
+
+function initForm(param){
+	if(param){
+		//根据参数序列化到dom结构中
+		for(key in param){
+			if(key === "categoryCodeName"){
+				$("#formCategoryList #categoryCodeName").val(param[key]);
+			}else{
+				var _inpStr = "<input type='hidden' name='"+key+"' id='"+key+"' value='"+(param[key]||"")+"' />";
+				$('#formCategoryList').append(_inpStr);
+			}
+
+			
+		}
+	}
+}
+
 ChargeCategoryDialogClass.prototype.initPubChCategoryCallback = function (cb) {
     pubChargeCategoryCallback = cb;
 }
@@ -64,7 +86,7 @@ ChargeCategoryDialogClass.prototype.zTreeOnClick = function (event, treeId, tree
 }
 
 
-ChargeCategoryDialogClass.prototype.gridChargeCategoryList = function() {
+function gridChargeCategoryList() {
     chCateClass.gridHandel.setGridName(chCateClass.gridName);
     $("#"+chCateClass.gridName).datagrid({
         method:'post',

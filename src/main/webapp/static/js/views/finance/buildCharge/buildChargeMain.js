@@ -525,14 +525,13 @@ function exportList(){
 }
 
 
-//新的导入功能 
-function toImportStoreCharge(){
+//开店费用导入功能 
+function toImportBuildCharge(){
 	
     var param = {
         url : contextPath+"/finance/buildCharge/importList",
         tempUrl : contextPath+"/finance/buildCharge/exportTemp",
-        title : "费用导入",
-        type : -1
+        title : "费用导入"
     }
     
     new publicUploadFileService(function(data){
@@ -540,4 +539,12 @@ function toImportStoreCharge(){
     		setChargeList(data);
     	}
     },param);
+}
+
+function setChargeList(data){
+	
+	console.log(data);
+	
+	$("#"+gridRecordName).datagrid("loadData",data);
+	  
 }

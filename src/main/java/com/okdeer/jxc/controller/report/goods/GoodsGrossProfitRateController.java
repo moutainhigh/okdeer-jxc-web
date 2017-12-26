@@ -132,8 +132,8 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 		if (StringUtils.isEmpty(qo.getBranchId())) {
 			qo.setBranchId(this.getCurrBranchId());
 		}
-		if (SysConstant.MANAGER_BRANCH_ID.equals(qo.getBranchId())) {
-			qo.setBranchCompleCode(SysConstant.MANAGER_BRANCH_CODE);
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
 		if (qo.getType() == null) {
 			qo.setType(this.getCurrBranchType());

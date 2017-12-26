@@ -2,12 +2,27 @@
 $(function(){
     
     $('#branchSelect').branchSelect();
+    $('#chargeCodeComp').chargeCodeSelect({
+        param : {
+            levels : "1, 2, 3"
+        }
+    });
     
     $("#branchCodeName").val(sessionBranchCodeName);
     $("#branchCompleCode").val(sessionBranchCompleCode);
     
     initDataGridReport();
+    initRadioChange();
 });
+
+function initRadioChange(){
+    $("input[type='radio'][name='reportType']").change(function () {
+        var rdVal = $(this).val();
+        queryColumns = [];
+        initDataGridReport();
+        $("#"+datagridKey).datagrid('loadData', []);
+    })
+}
 
 var datagridKey = 'gridBuildChargeReport';
 var gridHandel = new GridClass();
@@ -18,10 +33,19 @@ var queryColumns = [];
 function initDataGridReport(){
 	gridHandel.setGridName(datagridKey);
 	
+	var reportType = $(':radio[name="reportType"]:checked').val();
+	
+	var rowNoFlg = false;
+	
+	// 明细汇总 不需要行号，类别报表需要行号
+	if(reportType != 'itemTotal'){
+		rowNoFlg = true;
+	}
+	
 	dg = $("#"+datagridKey).datagrid({
         align:'right',
         singleSelect:true,  //单选  false多选
-        rownumbers:false,    //序号
+        rownumbers:rowNoFlg,    //序号
         pagination:false,    //分页
         showFooter:true,
 		height:'100%',
@@ -47,6 +71,11 @@ function initDataGridReport(){
 var threeLevelCgName = 'threeLevelCgName';
 
 function mergeRows(data){
+	
+	var reportType = $(':radio[name="reportType"]:checked').val();
+	if(reportType != 'itemTotal'){
+		return;
+	}
 	
 	var merges = getMergesData(data.rows);
 	for(var i=0; i<merges.length; i++){
@@ -160,14 +189,6 @@ function exportData(){
 	}
 	$("#queryForm").attr("action",contextPath+"/report/buildChargeInvest/exportList");
 	$("#queryForm").submit();
-}
-
-function openChargeCodeDialog() {
-    new publicChargeCodeService(function (data) {
-        $("#categoryId").val(data.id);
-        $("#categoryCode").val(data.categoryCode);
-        $("#categoryName").val(data.categoryName);
-    })
 }
 
 

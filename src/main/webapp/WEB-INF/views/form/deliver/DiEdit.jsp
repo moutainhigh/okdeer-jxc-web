@@ -56,12 +56,12 @@
                    </div>
 
                </div>
-               <div class="ub ub-ac uw-300">
+               <div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">原单类型:</div>
                    <div class="ub">
-                       <input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DD" ne (form.referenceType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
+                       <input type="radio" id="typeDO" disabled="disabled"  <c:if test='${"DO" eq (form.referenceType) }'>checked="checked" </c:if>/><label for="typeDO">配送出库单</label>
                        <input type="radio" id="typeDD" disabled="disabled" <c:if test='${"DD" eq (form.referenceType)  }'>checked="checked" </c:if>/><label for="typeDD">店间配送单</label>
-                       <!-- <div class="uinp-more" onclick="selectDeliver()">...</div> -->
+                       <input type="radio" id="typeDR" disabled="disabled" <c:if test='${"DR" eq (form.referenceType)  }'>checked="checked" </c:if>/><label for="typeDR">退货申请单</label>
                    </div>
                </div>
                
@@ -84,7 +84,7 @@
                    </div>
 
                </div>
-                <div class="ub ub-ac uw-300">
+                <div class="ub ub-ac uw-350">
                    <div class="umar-r10 uw-70 ut-r">配送单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${form.referenceId}" />

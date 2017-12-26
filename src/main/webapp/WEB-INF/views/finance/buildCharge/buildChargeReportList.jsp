@@ -41,15 +41,38 @@
                    <div class="uinp-more">...</div>
                 </div>
                 
-                <div class="ub ub-ac">
+                <div class="ub ub-ac" id="chargeCodeComp">
                    <div class="umar-r10 uw-70 ut-r">类别:</div>
                    <input type="hidden" id="categoryId"  name="categoryId"  />
                    <input type="hidden" id="categoryCode" name="categoryCode"  />
                    <input class="uinp ub ub-f1" type="text" id="categoryName"
-						name="categoryName"  onclick="openChargeCodeDialog()" readonly="readonly"/>
-                   <div class="uinp-more" onclick="openChargeCodeDialog()">...</div>
+						name="categoryName"/>
+                   <div class="uinp-more" >...</div>
                 </div>
                 
+                <div class="ub ub-ac">
+			        <div class="umar-r10 uw-70 ut-r">报表类型:</div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="reportType" value="category1" checked="checked" /><span>一级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="reportType" value="category2" /><span>二级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input  type="radio" name="reportType" value="category3" /><span>三级类别</span>
+						</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10">
+						<label>
+							<input  type="radio" name="reportType" value="itemTotal" /><span>明细汇总</span>
+						</label>
+                    </div>
+			    </div>
             </div>
             
        	</form>

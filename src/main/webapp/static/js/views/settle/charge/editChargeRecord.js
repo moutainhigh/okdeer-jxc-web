@@ -86,13 +86,17 @@ function getGoodsBrand(){
 * */
 var categroyCodeDialogTemp = null;
 function openChargeCodeDialog() {
+	
+	var param = {
+		levels : [3]
+	}
 
     new publicChargeCodeService(function (data) {
         $("#formChargeRecord #categoryId").val(data.id);
         $("#formChargeRecord #categoryCode").val(data.categoryCode);
         // var code = "["+data.categoryCode+"]"
         $("#formChargeRecord #categoryName").val(data.categoryName);
-    })
+    }, param)
 }
 
 

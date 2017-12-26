@@ -134,7 +134,7 @@ public class ExcelReaderUtil {
 			// xlsx(2007)格式
 		    importList = readXlsx(is, fields, entity);
 		}
-		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
+		LOG.debug("文件[{}], 后缀名为=[{}]", fileName, postfix);
         if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
             throw new BusinessException("每次最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
         }
@@ -171,7 +171,7 @@ public class ExcelReaderUtil {
 			// xlsx(2007)格式
 		    importList = readXlsx(is, fields);
 		}
-		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
+		LOG.debug("文件[{}], 后缀名为=[{}]", fileName, postfix);
         if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
             throw new BusinessException("每次最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
         }
@@ -207,7 +207,7 @@ public class ExcelReaderUtil {
 			// xlsx(2007)格式
 			return readXlsxForFirstColumn(is, entity);
 		}
-		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
+		LOG.debug("文件[{}], 后缀名为=[{}]", fileName, postfix);
 		return Collections.emptyList();
 	}
 

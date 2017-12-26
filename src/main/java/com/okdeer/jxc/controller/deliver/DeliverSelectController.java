@@ -77,7 +77,7 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			LOG.debug("制定调拨单选择页面参数:{}"+vo.toString());
+			LOG.debug("制定调拨单选择页面参数:{}",vo);
 			
 			/**
 			 * @author zhangchm
@@ -113,9 +113,9 @@ public class DeliverSelectController extends BaseController<PurchaseForm> {
 			 * @author zhangchm
 			 * 修改查询公共组件配送单号选择end
 			 */
-			LOG.debug("vo:" + vo.toString());
+			LOG.debug("vo:{}" , vo);
 			PageUtils<DeliverSelect> suppliers = deliverSelectServiceApi.queryLists(vo);
-			LOG.debug("page" + suppliers.toString());
+			LOG.debug("page:{}" , suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("调拨单订单选择查询数据出现异常:", e);

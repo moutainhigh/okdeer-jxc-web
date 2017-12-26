@@ -209,7 +209,7 @@ public class SaleFlowReportController extends AbstractSimpleGpeController<SaleFl
 			qo.setBranchNameOrCode(null);
 		}
 		// 默认当前机构
-		if (StringUtils.isBlank(qo.getBranchCode()) && StringUtils.isBlank(qo.getBranchNameOrCode())) {
+		if (StringUtils.isBlank(qo.getBranchCompleCode()) ) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 

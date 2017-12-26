@@ -3143,11 +3143,130 @@ function publicChargeRecordHandle(param,callback) {
 /*--------------------------------------------------------------------*/
 
 /*------------------------------开店费用类型选择--------------------------------------*/
+
+$.fn.chargeCodeSelect = function(param){
+    //元素绑定失败
+    if($(this).length == 0){
+        console.error('供应商选择组件绑定失败');
+        return;
+    }
+    var _this = this;
+    if(typeof param == 'undefined')param = {};
+
+    //默认参数对象
+    var _default = {
+        /**
+         * 格式化数据 显示数据
+         */
+        textFomatter:function(data){
+            return "["+data.categoryCode+"]"+data.categoryName;
+        },
+        /**
+         * 获取组件信息
+         */
+        getComponentDetail:function(nameOrCode){
+            var param = $.extend({},this.param);
+            if(nameOrCode){
+                param.categoryCodeName = nameOrCode;
+            }
+            publicChargeCodeParam(param,this.onLoadSuccess,this.dom)
+        }
+
+    }
+
+    _default = $.extend({},$_jxc.autoCompleteComponent(),_default,param);
+    _default.setDom(this);
+    _default.initDomEvent();
+    $.data(this,'component',_default);
+}
+
+function publicChargeCodeParam(param,callback,cbDom) {
+    cbDom = cbDom || window;
+    //默认参数
+    var _defParam = {
+        // categoryType:'',           //0 单选弹框底部没有【确认】【取消】按钮   1反之
+        // type:0,
+    }
+    param =  $.extend(_defParam,param);
+
+    if(param.categoryCodeName){
+
+        var _ajaxParam = $.extend({},param);
+
+        _ajaxParam.page = 1;
+        _ajaxParam.rows = 10;
+        var _categoryNameOrCode = param.categoryCodeName
+        //避免用户直接输入完整格式: [xxxxx]名称
+        var reg = /\[\S*\]/;
+        if(reg.test(_categoryNameOrCode)){
+            //取出[]里的编号，默认取已第一个[]里的值
+            reg = /\[(\S*)\]/;
+            arr = reg.exec(_categoryNameOrCode);
+            _ajaxParam.categoryCodeName = arr[1];
+        }
+        //组件参数 不传后台
+        // delete _ajaxParam.type;
+
+        $_jxc.ajax({
+            url:contextPath+'/settle/charge/chargeCategory/list',
+            data:_ajaxParam
+        },function(data){
+            if(data&&data.list){
+                //精确匹配到只有一条数据时立即返回
+                if(data.list.length==1){
+                    callback.call(cbDom,data.list[0]);
+                }else if(data.list.length>1){
+                    //匹配到多条时 弹窗选择
+                    publicChargeCodeServiceHandle(callback,param,cbDom);
+                }else{
+                    //没有匹配数据时 返回字符串方便判断
+                    callback.call(cbDom,'NO');
+                }
+            }else{
+                //没有匹配数据时 返回字符串方便判断
+                callback.call(cbDom,'NO');
+            }
+        })
+    }else{
+        publicChargeCodeServiceHandle(callback,param,cbDom);
+    }
+}
+
+function publicChargeCodeServiceHandle(callback,param,cbDom) {
+    categroyCodeDialogTemp = $('<div/>').dialog({
+        href: contextPath+"/settle/charge/chargeCategory/publicView",
+        width: 750,
+        height: 600,
+        title: "费用类别选择",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+            callback.call(cbDom,'NO');
+            $(categroyCodeDialogTemp).panel('destroy');
+            categroyCodeDialogTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            var categoryDialogClass = new ChargeCategoryDialogClass();
+            categoryDialogClass.initPubChargeCategory(param);
+            categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
+        }
+    })
+
+    function categroyDialogCb(data) {
+        callback.call(cbDom,data);
+        $(categroyCodeDialogTemp).panel('destroy');
+        categroyCodeDialogTemp = null;
+    }
+}
+
+
+
 /*
  * 费用类别选择
  * */
 var categroyCodeDialogTemp = null;
-function publicChargeCodeService(callback) {
+function publicChargeCodeService(callback,param) {
     categroyCodeDialogTemp = $('<div id="categroyCodeDialog"/>').dialog({
         href: contextPath+"/settle/charge/chargeCategory/publicView",
         width: 750,
@@ -3162,9 +3281,8 @@ function publicChargeCodeService(callback) {
         modal: true,
         onLoad: function () {
             var categoryDialogClass = new ChargeCategoryDialogClass();
-            categoryDialogClass.gridChargeCategoryList();
+            categoryDialogClass.initPubChargeCategory(param);
             categoryDialogClass.initPubChCategoryCallback(categroyDialogCb)
-            categoryDialogClass.treeChargeCategory();
         }
     })
 

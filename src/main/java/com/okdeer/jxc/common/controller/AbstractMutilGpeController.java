@@ -183,8 +183,6 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 		try {
 			// 查询合计
 			Object total = queryTotal(qo);
-			// 添加数据权限
-			cleanAccessData(total);
 			// 导出的数据列表
 			List<Object> exportList = new ArrayList<Object>();
 
@@ -216,6 +214,10 @@ public abstract class AbstractMutilGpeController<Q extends GpePageQo> extends Ba
 				List<?> tempList = queryList(qo);
 				exportList.addAll(tempList);
 			}
+			
+		
+			// 添加数据权限
+			cleanAccessData(total);
 
 			// 部分报表导出不需要合计栏
 			if (total != null) {

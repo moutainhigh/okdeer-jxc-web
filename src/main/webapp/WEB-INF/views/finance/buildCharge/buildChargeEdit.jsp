@@ -36,7 +36,7 @@
 						<div class="ubtns-item" onclick="chargeCheck()">审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="selectChargeRecord()">费用选择</div>
-					<%--<div class="ubtns-item" onclick="toImportStoreCharge()">费用导入</div>--%>
+					<div class="ubtns-item" onclick="toImportBuildCharge()">费用导入</div>
 					<shiro:hasPermission name="JxcBuildCharge:delete">
 						<div class="ubtns-item" onclick="chargeDelete()">删除</div>
 					</shiro:hasPermission>
@@ -48,7 +48,7 @@
 						<div class="ubtns-item-disabled">审核</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item-disabled">费用选择</div>
-					<%--<div class="ubtns-item-disabled">费用导入</div>--%>
+					<div class="ubtns-item-disabled">费用导入</div>
 					<shiro:hasPermission name="JxcBuildCharge:delete">
 						<div class="ubtns-item-disabled">删除</div>
 					</shiro:hasPermission>

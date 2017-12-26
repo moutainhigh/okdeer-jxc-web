@@ -771,7 +771,7 @@ public class OrderEdiInController {
 		formDetail.setPriceBack(paDetail.getPriceBack()); // 单价备份
 		formDetail.setSalePrice(paDetail.getSalePrice()); // 销售价
 		formDetail.setAmount(num.multiply(paDetail.getPrice())); // 金额
-		formDetail.setUntaxedAmount(paDetail.getUntaxedAmount());
+		formDetail.setUntaxedAmount(num.multiply(paDetail.getUntaxedPrice()));
 		formDetail.setUntaxedPrice(paDetail.getUntaxedPrice());
 		formDetail.setTax(paDetail.getTax()); // 税率
 		formDetail.setIsGift(isGift); // 是否赠品
@@ -926,7 +926,7 @@ public class OrderEdiInController {
 		formDetail.setPriceBack(doDetail.getPriceBack()); // 单价备份
 		formDetail.setSalePrice(doDetail.getSalePrice()); // 销售价
 		formDetail.setAmount(num.multiply(doDetail.getPrice())); // 金额
-	    formDetail.setUntaxedAmount(doDetail.getUntaxedAmount());
+	    formDetail.setUntaxedAmount(num.multiply(doDetail.getUntaxedPrice()));
 	    formDetail.setUntaxedPrice(doDetail.getUntaxedPrice());
 		formDetail.setIsGift(isGift.toString()); // 是否赠品
 		formDetail.setRemark(doDetail.getRemark()); // 备注

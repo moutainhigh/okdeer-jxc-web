@@ -70,6 +70,7 @@ var gridDefault = {
     largeNum:0,
     realNum:0,
     isGift:0,
+    untaxedAmount:0
 }
 var gridName = "gridEditOrder";
 var gridHandel = new GridClass();
