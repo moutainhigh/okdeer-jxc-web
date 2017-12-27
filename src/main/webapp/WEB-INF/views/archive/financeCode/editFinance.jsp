@@ -42,6 +42,19 @@
 			<i class="ub uc-red">*</i>
 			</div>
 
+
+			<div class="ub upad-4 umar-t10 uhide" id="dvRefund">
+			<div class="ub ub-ac">
+			<div class="umar-r10 uw-70 ut-r">退货类型:</div>
+				<select class="uselect easyui-combobox" style="width: 204px;"
+				data-options="editable:false" name="refundType" id="refundType">
+					<option value="0">现金退款</option>
+					<option value="1">优惠不退</option>
+					<option value="2">原路退回</option>
+				</select>
+			</div>
+			</div>
+
 			<div class="ub upad-4 umar-t10">
 
 				<div class="ub ub-ac">
@@ -51,18 +64,25 @@
 				</div>
 			</div>
 
-			<div class="ub upad-4 umar-t10">
+			<div class="ub upad-4 umar-t10" id="dvFixed">
 
 			<div class="ub ub-ac" >
 			<div class="umar-r10 uw-30 ut-r"></div>
 			<div id="cbDiv">
-				<span class="uw-150"><label for="isFixed" class="none" id="isFixedLabel"><input id="isFixed" type="checkbox" name="isFixed">是否固定支出</label>
+				<span class="uw-150"><label for="isFixed" class="uhide" id="isFixedLabel"><input id="isFixed" type="checkbox" name="isFixed">是否固定支出</label>
 				</span>
 				
 				<label for="ckbSave" id="ckbSaveLabel"><input id="ckbSave" type="checkbox" checked="checked">保存后自动更新</label>
 			</div>
-
 			</div>
+			</div>
+
+			<div class="ub upad-4 umar-t10 uhide" id="dvPost">
+				<div class="ub ub-ac">
+				<div class="umar-r10 uw-70 ut-r"></div>
+					<label for="isClientDisplay"><input id="isClientDisplay" type="checkbox">是否前台显示</label>
+					<label for="isSystemDefault"><input id="isSystemDefault" type="checkbox">是否系统默认</label>
+				</div>
 			</div>
 
 		</div>

@@ -23,11 +23,16 @@ function initFinanceDialog(param) {
     // 机构运营费用打开是否固定的选项
     nodeCode = param.nodeCode;
     if(nodeCode.startWith("101005")){
-    	$("#isFixedLabel").removeClass("none");
+        $("#dvFixed").removeClass("uhide");
+    	$("#isFixedLabel").removeClass("uhide");
     	if(param.type === "edit" && param.isFixed === '1'){
     		$('#isFixed').prop('checked', true);
     	}
     	
+    }else if(nodeCode.startWith("101004")){
+        $("#dvRefund").removeClass("uhide");
+        $("#dvPost").removeClass("uhide");
+        $("#dvFixed").addClass("uhide");
     }
 }
 
