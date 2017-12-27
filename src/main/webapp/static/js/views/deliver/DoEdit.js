@@ -1087,7 +1087,9 @@ function toImportproduct(type){
         tempUrl:contextPath+"/form/deliverForm/exportReport",
         type:type,
         tipSign:1,
-        branchId:sourceBranchId,
+        targetBranchId : targetBranchId,
+        sourceBranchId : sourceBranchId,
+        formType:'DO'
     }
     new publicUploadFileService(function(data){
     	if (data.length != 0) {
