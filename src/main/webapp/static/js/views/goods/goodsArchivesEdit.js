@@ -80,6 +80,21 @@ function typeChange(){
     }
 }
 
+function goodsTypeChange() {
+	var type = $("#goodsSaleType").val();
+    if(type == "LOTTERY"){
+        $("#allowGift").prop("disabled","disabled");
+        $("#allowActivity").prop("disabled","disabled");
+        $("#fastDeliver").prop("disabled","disabled");
+		$("#weekday").find("input[type='checkbox']").prop("disabled","disabled");
+    }else {
+        $("#allowGift").removeProp("disabled")
+        $("#allowActivity").removeProp("disabled")
+        $("#fastDeliver").removeProp("disabled")
+        $("#weekday").find("input[type='checkbox']").removeProp("disabled");
+    }
+}
+
 //根据商品名称获取助记码
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
