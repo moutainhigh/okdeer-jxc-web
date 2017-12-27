@@ -818,7 +818,8 @@ function updateListData(data){
          rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
          rows[i]["taxAmount"] = rows[i]["amount"]-rows[i]["untaxedAmount"];
          if(parseInt(rows[i]["distributionSpec"])){
-             rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+        	 // 如果导入数量为1，规则为9时，后台反正出箱数为0.1111，此处通过后台反算的箱数*规则时，得出数量为0.9999，故导入不需要前端返算数量
+             // rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
          }else{
         	 rows[i]["largeNum"]  =  0;
         	 rows[i]["distributionSpec"] = 0;

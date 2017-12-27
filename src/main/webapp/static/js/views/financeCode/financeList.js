@@ -86,7 +86,7 @@ function initGridFinanceList() {
             {field:'value',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
                     if (updatePermission) {
-                    	return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"','"+row.isFixed+"')\" class='ualine'>"+value+"</a>";
+                    	return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"')\" class='ualine'>"+value+"</a>";
                 	}else{
                 		return value;
                 	}
@@ -220,14 +220,12 @@ function delCostItem(){
 /**---------------------------------2.7机构运营费用   end------------------------**/
 
 
-function updateFinanceCode(id,value,label,remark,isFixed) {
+function updateFinanceCode(id) {
+	
     var param = {
         type:"edit",
         id:id,
-        value:value,
-        label:label,
-        remark:remark,
-        isFixed:isFixed,
+        dictTypeId: selectNode.id,
         nodeCode:selectNode.code
     }
     openFinanceDialog(param);
@@ -236,7 +234,7 @@ function updateFinanceCode(id,value,label,remark,isFixed) {
 var editDialogTemp = null;
 function openFinanceDialog(param) {
     editDialogTemp = $('<div/>').dialog({
-        href: contextPath+"/archive/financeCode/toAdd",
+        href: contextPath+"/archive/financeCode/toAdd?dictTypeCode="+param.nodeCode,
         width: 400,
         height: 400,
         title: "财务代码新增",

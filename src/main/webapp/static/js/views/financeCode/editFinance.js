@@ -9,31 +9,77 @@ var type = "add";
 var nodeCode = "" ;
 function initFinanceDialog(param) {
     type = param.type;
-	if(param.type === "edit"){
-		$("#id").val(param.id);
-        $("#value").val(param.value);
+    
+    $("#dictTypeId").val(param.dictTypeId);
+    
+    if(type === "edit"){
+    	
         $("#value").addClass("uinp-no-more")
         $("#value").prop("readOnly","readOnly");
-        $("#label").val(param.label);
-        $("#remark").val(param.remark);
         $("#ckbSaveLabel").css("display","none");
+        
+        var params = {
+            url:contextPath+"/archive/financeCode/getDictById",
+            data:{
+            	dictId:param.id
+            }
+        }
+
+        $_jxc.ajax(params,function (result) {
+            if(result['code'] == 0){
+            	initFinanceData(result.data);
+            }else{
+                $_jxc.alert(result['message'])
+            }
+        })
+        
 	}
-    $("#dictTypeId").val(param.dictTypeId);
     
     // 机构运营费用打开是否固定的选项
     nodeCode = param.nodeCode;
     if(nodeCode.startWith("101005")){
         $("#dvFixed").removeClass("uhide");
     	$("#isFixedLabel").removeClass("uhide");
+<<<<<<< HEAD
     	if(param.type === "edit" && param.isFixed === '1'){
     		$('#isFixed').prop('checked', true);
     	}
     }
     //2.11 新增需求  新增POS付款方式的特殊处理
     else if(nodeCode.startWith("101004")){
+=======
+    }else if(nodeCode.startWith("101004")){
+>>>>>>> branch 'master' of http://zhaoly@10.20.101.5/ERP/okdeer-jxc-web.git
         $("#dvRefund").removeClass("uhide");
         $("#dvPost").removeClass("uhide");
         $("#dvFixed").addClass("uhide");
+    }
+}
+
+function initFinanceData(data){
+	$("#id").val(data.id);
+    $("#value").val(data.value);
+    $("#label").val(data.label);
+    $("#remark").val(data.remark);
+    
+    if(nodeCode.startWith("101004")){
+    	$("#refundType").combobox("setValue",data.refundType);
+    	if(data.isClientDisplay == 1){
+    		$('#isClientDisplay').prop('checked', true);
+    	}else{
+    		$('#isClientDisplay').removeProp('checked');
+    	}
+        if(data.isSystemDefault == 1){
+        	$('#isSystemDefault').prop('checked', true);
+        }else{
+        	$('#isSystemDefault').removeProp('checked');
+        }
+    }else if(nodeCode.startWith("101005")){
+    	if(data.isFixed == 1){
+    		$('#isFixed').prop('checked', true);
+    	}else{
+    		$('#isFixed').prop('checked');
+    	}
     }
 }
 
@@ -44,9 +90,16 @@ function saveFinanceCode() {
         return;
     }
 
-    if($("#value").val().trim().length < 4){
-        $_jxc.alert("编号为4位数字");
-        return;
+    if(nodeCode.startWith("101004")){
+    	if($("#value").val().trim().length < 3){
+    		$_jxc.alert("编号为3位大写字母");
+    		return;
+    	}
+    }else{
+    	if($("#value").val().trim().length < 4){
+    		$_jxc.alert("编号为4位数字");
+    		return;
+    	}
     }
 
 
@@ -59,6 +112,15 @@ function saveFinanceCode() {
 	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode';
 	
 	var isFixed = null;
+	var refundType = null;
+	var isClientDisplay = null;
+	var isSystemDefault = null;
+	
+	if(nodeCode.startWith("101004")){
+		refundType = $("#refundType").val();
+		isClientDisplay = $('#isClientDisplay').is(':checked') ? 1 : 0;
+		isSystemDefault = $('#isSystemDefault').is(':checked') ? 1 : 0;
+	}
 	
 	if(nodeCode.startWith("101005")){
 		isFixed = $('#isFixed').is(':checked') ? 1 : 0;
@@ -69,7 +131,10 @@ function saveFinanceCode() {
         value:$("#value").val(),
         label:$("#label").val().trim(),
         remark:$("#remark").val(),
-        isFixed:isFixed
+        isFixed:isFixed,
+        refundType:refundType,
+        isClientDisplay:isClientDisplay,
+        isSystemDefault:isSystemDefault
     }
     if(type === "edit"){
         data.id = $("#id").val();

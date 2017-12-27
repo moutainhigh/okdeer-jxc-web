@@ -432,5 +432,11 @@ public class UserController extends BaseController<UserController> {
 		}
 		return RespJson.error();
 	}
+	
+	
+	@RequestMapping(value = "/toUserCodeList")
+	public String toUserCodeList() {
+		return "system/userCodeList";
+	}
 
 }

@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}3"></script>
+<script src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -23,11 +23,21 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">编号:</div>
-					<input class="uinp  ub ub-f1" type="text" id="value"
-					onkeyup="this.value=this.value.replace(/\D/g,'')"
-					onafterpaste="this.value=this.value.replace(/\D/g,'')"
-					placeholder="编号为4位数字"
-					name="value"  maxlength="4"/>
+					<c:if test="${dictTypeCode eq '101004' }">
+						<input class="uinp  ub ub-f1" type="text" id="value" name="value" 
+							onkeyup="this.value=this.value.replace(/[^A-Z]/g,'')"
+							onafterpaste="this.value=this.value.replace(/[^A-Z]/g,'')"
+							placeholder="编号为3位大写字母"
+							maxlength="3"/>
+					</c:if>
+					<c:if test="${dictTypeCode ne '101004' }">
+						<input class="uinp  ub ub-f1" type="text" id="value" name="value" 
+							onkeyup="this.value=this.value.replace(/\D/g,'')"
+							onafterpaste="this.value=this.value.replace(/\D/g,'')"
+							placeholder="编号为4位数字"
+							maxlength="4"/>
+					</c:if>
+					
 					<input type="hidden" name="id" id="id" />
 				</div>
 			<i class="ub uc-red">*</i>
@@ -48,9 +58,11 @@
 			<div class="umar-r10 uw-70 ut-r">退货类型:</div>
 				<select class="uselect easyui-combobox" style="width: 204px;"
 				data-options="editable:false" name="refundType" id="refundType">
-					<option value="0">现金退款</option>
-					<option value="1">优惠不退</option>
-					<option value="2">原路退回</option>
+					<c:if test="${not empty refundTypeList }">
+					<c:forEach items="${refundTypeList }" var="i">
+						<option value="${i.value}">${i.name}</option>
+					</c:forEach>
+					</c:if>
 				</select>
 			</div>
 			</div>
@@ -80,8 +92,8 @@
 			<div class="ub upad-4 umar-t10 uhide" id="dvPost">
 				<div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r"></div>
-					<label for="isClientDisplay"><input id="isClientDisplay" type="checkbox">是否前台显示</label>
-					<label for="isSystemDefault"><input id="isSystemDefault" type="checkbox">是否系统默认</label>
+					<label for="isClientDisplay"><input id="isClientDisplay" type="checkbox" checked="checked" />是否前台显示</label>&nbsp;&nbsp;
+					<label for="isSystemDefault"><input id="isSystemDefault" type="checkbox" checked="checked" />是否系统默认</label>
 				</div>
 			</div>
 
