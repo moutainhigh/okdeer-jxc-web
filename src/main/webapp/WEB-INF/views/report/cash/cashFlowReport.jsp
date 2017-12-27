@@ -84,7 +84,8 @@
 				            <option value="ZZT">HS深圳通</option>
 				            <option value="CZK">储值卡</option>
 				            <option value="YKT">一卡通</option>
-				            <option value="LGJ">鹿管家</option>
+				            <option value="LZG">鹿掌柜</option>
+				            <option value="YZF">翼支付</option>
 				            <option value="QT">其他</option>
 				        </select>
                 </div>  
