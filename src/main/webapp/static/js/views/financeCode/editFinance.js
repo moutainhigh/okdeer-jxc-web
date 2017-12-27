@@ -40,7 +40,16 @@ function initFinanceDialog(param) {
     if(nodeCode.startWith("101005")){
         $("#dvFixed").removeClass("uhide");
     	$("#isFixedLabel").removeClass("uhide");
+<<<<<<< HEAD
+    	if(param.type === "edit" && param.isFixed === '1'){
+    		$('#isFixed').prop('checked', true);
+    	}
+    }
+    //2.11 新增需求  新增POS付款方式的特殊处理
+    else if(nodeCode.startWith("101004")){
+=======
     }else if(nodeCode.startWith("101004")){
+>>>>>>> branch 'master' of http://zhaoly@10.20.101.5/ERP/okdeer-jxc-web.git
         $("#dvRefund").removeClass("uhide");
         $("#dvPost").removeClass("uhide");
         $("#dvFixed").addClass("uhide");
