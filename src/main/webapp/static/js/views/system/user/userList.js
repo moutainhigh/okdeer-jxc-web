@@ -229,3 +229,13 @@ function updateStatus(status) {
 		}
 	});
 }
+
+function createQrCode() {
+    var rowData = $("#dg").datagrid("getSelected");
+    if (rowIsNull(rowData)) {
+        return;
+    }
+    var storage=window.localStorage;
+    storage.userData = rowData;
+    window.open(contextPath + "/system/user/toUserCodeList");
+}

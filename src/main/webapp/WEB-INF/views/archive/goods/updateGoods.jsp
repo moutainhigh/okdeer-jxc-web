@@ -237,8 +237,8 @@
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品类型:</div>
-						<select class="uselect" style="width: 204px;" name="type"
-							id="type">
+						<select class="uselect" style="width: 204px;" name="goodsType"
+							id="goodsSaleType" onChange="goodsTypeChange()">
 							<c:forEach items="${goodsType}" var="type">
 								<option value="${type.name}">${type.value}</option>
 							</c:forEach>
@@ -400,12 +400,12 @@
 							type="checkbox" name="checkbox" /><span>是否关注商品</span>
 						</label>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r20" id="dvfastDeliver">
 						<label> <input id="fastDeliver" name="fastDeliver"
 							type="checkbox" name="checkbox" /><span>是否直送商品</span>
 						</label>
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r20" id="dvallowActivity">
 						<label> <input id="allowActivity" name="allowActivity"
 							type="checkbox" name="checkbox" /><span>是否参与促销</span>
 						</label>
@@ -416,7 +416,7 @@
 						</label>
 
 					</div>
-					<div class="ub ub-ac umar-r20">
+					<div class="ub ub-ac umar-r20" id="dvallowGift">
 						<label> <input id="allowGift" name="allowGift"
 									   type="checkbox" name="checkbox" /><span>是否可为赠品</span>
 						</label>
