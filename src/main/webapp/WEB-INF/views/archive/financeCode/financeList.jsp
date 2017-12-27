@@ -5,11 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>机构信息</title>
+<title>财务代码</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/financeCode/financeList.js?V=${versionNo}11"></script>
+<script src="${ctx}/static/js/views/financeCode/financeList.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">

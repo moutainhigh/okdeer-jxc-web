@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.SysConstant;
+import com.okdeer.jxc.common.enums.FmRefundTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -58,14 +60,13 @@ public class FinanceCodeController extends BaseController<FinanceCodeController>
 	}
 
 	@RequestMapping(value = "toAdd")
-	public ModelAndView toAdd() {
-		return new ModelAndView("archive/financeCode/editFinance");
-	}
-
-	@RequestMapping(value = "toEdit")
-	public ModelAndView toEdit(String dictId) {
+	public ModelAndView toAdd(String dictTypeCode) {
 		ModelAndView mv = new ModelAndView("archive/financeCode/editFinance");
-		mv.addObject("dictId", dictId);
+		// POS付款方式 需要把退货类型枚举列表传给前端
+		if(StringUtils.isNotBlank(dictTypeCode) && SysConstant.DICT_TYPE_POS_PAYMENT_CODE.equals(dictTypeCode)){
+			mv.addObject("refundTypeList", FmRefundTypeEnum.values());
+		}
+		mv.addObject("dictTypeCode", dictTypeCode);
 		return mv;
 	}
 
@@ -75,7 +76,7 @@ public class FinanceCodeController extends BaseController<FinanceCodeController>
 			return RespJson.error("字典id为空");
 		}
 
-		LOG.debug("字典Id：", dictId);
+		LOG.debug("字典Id：{}", dictId);
 		try {
 			SysDict sysDict = sysDictService.getById(dictId);
 
