@@ -1145,7 +1145,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
 
 function updateListData(data){
      var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-     var addDefaultData = gridHandel.addDefault(data, {dealNum:0,largeNum:0,});
+     var addDefaultData = gridHandel.addDefault(data, {});
      var keyNames = {
          id:'skuId',
          disabled:'',
