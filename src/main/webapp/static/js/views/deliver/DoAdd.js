@@ -1183,8 +1183,8 @@ function updateListData(data){
          id:'skuId',
          disabled:'',
          pricingType:'',
-         taxRate:'inputTax'
-         //num : 'dealNum'
+         taxRate:'inputTax',
+         num : 'dealNum'
      };
      var rows = gFunUpdateKey(addDefaultData,keyNames);
      
@@ -1199,7 +1199,8 @@ function updateListData(data){
         	 rows[i]["taxAmount"] = 0;
          }
          if(parseInt(rows[i]["distributionSpec"])){
-        	 rows[i]["dealNum"] = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
+        	 // 如果导入数量为1，规则为9时，后台反正出箱数为0.1111，此处通过后台反算的箱数*规则时，得出数量为0.9999，故导入不需要前端返算数量
+        	 // rows[i]["dealNum"] = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);
              rows[i]["amount"] = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
              rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["dealNum"]||0);
              rows[i]["taxAmount"] = parseFloat(rows[i]["amount"] - rows[i]["untaxedAmount"]).toFixed(4);
