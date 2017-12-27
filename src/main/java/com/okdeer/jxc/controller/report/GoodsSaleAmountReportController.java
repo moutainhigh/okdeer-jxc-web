@@ -27,13 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * ClassName: GoodsSaleAmountReportController 
- * @Description: TODO
+ * @Description: 单品ABC销售额
  * @author liux01
  * @date 2016年11月10日
  *
@@ -77,21 +76,11 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			/*vo.setSourceBranchId(UserUtil.getCurrBranchId());
-            Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
-            if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
-                vo.setBrancheType(Boolean.TRUE);
-            }*/
 			if(StringUtils.isEmpty(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(this.getCurrBranchCompleCode());
 			}
             PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
-            GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
-            List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
-            if (goodsSaleAmountReportVo != null) {
-                footer.add(goodsSaleAmountReportVo);
-            }
-            goodsOutInfoDetailList.setFooter(footer);
+            
             // 过滤数据权限字段
             cleanAccessData(goodsOutInfoDetailList);
             return goodsOutInfoDetailList;
