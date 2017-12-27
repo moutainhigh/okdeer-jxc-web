@@ -28,8 +28,9 @@ function initFinanceDialog(param) {
     	if(param.type === "edit" && param.isFixed === '1'){
     		$('#isFixed').prop('checked', true);
     	}
-    	
-    }else if(nodeCode.startWith("101004")){
+    }
+    //2.11 新增需求  新增POS付款方式的特殊处理
+    else if(nodeCode.startWith("101004")){
         $("#dvRefund").removeClass("uhide");
         $("#dvPost").removeClass("uhide");
         $("#dvFixed").addClass("uhide");
