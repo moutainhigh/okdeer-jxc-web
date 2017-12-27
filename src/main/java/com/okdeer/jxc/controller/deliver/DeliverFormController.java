@@ -1153,7 +1153,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 										RoundingMode.HALF_UP);
 								BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
 										RoundingMode.HALF_UP);
-								String formType = map.get("formType");
 								// 只有要货或直送要货才校验数量，箱数整数倍
                                 if (!FormTypeEnum.DA.toString().equals(formType)
                                         && !FormTypeEnum.DY.toString().equals(formType)) {
@@ -1485,7 +1484,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								if (realLargeNum.compareTo(tempLargeNum) == 0) {
 									return true;
 								}
-                                String formType = map.get("formType");
                                 // 只有要货或直送要货才校验数量，箱数整数倍
                                 if (!FormTypeEnum.DA.toString().equals(formType)
                                         && !FormTypeEnum.DY.toString().equals(formType)) {
