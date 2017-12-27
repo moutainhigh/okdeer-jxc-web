@@ -8,10 +8,27 @@
 <title>员工二维码列表</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/system/user/userCodeList.js?V=${versionNo}"></script>
+
+	<script>
+	$(function(){
+	if(!window.localStorage){
+	alert("浏览器支持localstorage");
+	}else{
+	var storage=window.localStorage;
+
+	var  data=storage.userData;
+
+	$('#userData').val(data);
+	}
+	$('#printdata').submit();
+	storage.clear();
+	});
+	</script>
 
 </head>
 <body class="uw ufs-14 uc-black upad-8 box-border">
-	
+	<form id="printdata" action="${ctx}/system/user/printUserCode" method="post">
+		<input type="hidden" id="userData" name='userData' value=""/>
+	</form>
 </body>
 </html>
