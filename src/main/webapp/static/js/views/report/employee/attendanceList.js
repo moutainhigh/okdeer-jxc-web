@@ -4,12 +4,16 @@
 $(function () {
     //开始和结束时间
     toChangeDate(9);
-    $('#branchComponent').branchSelect();
+    $('#branchComponent').branchSelect({
+        onAfterRender:function(data){
+            $("#storeId").val(data.branchId);
+        }
+    });
 
     $('#cashierSelect').operatorSelect({
         onAfterRender:function(data){
-            $("#cashierId").val(data.id);
-            $("#cashierName").val(data.userName);
+            $("#userId").val(data.id);
+            $("#userName").val(data.userName);
         }
     });
 
@@ -30,7 +34,6 @@ function initAttendanceGrid(columns,frozenColumns) {
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:'',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -38,7 +41,7 @@ function initAttendanceGrid(columns,frozenColumns) {
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
-        pageList : [20, 50, 100],
+        pageSize : 50,
         height:'100%',
         width:'100%',
         columns : columns,
