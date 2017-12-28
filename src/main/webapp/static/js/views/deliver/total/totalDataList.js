@@ -66,12 +66,31 @@ function initGridTotalList () {
     });
 }
 
-
+function toAddTab(title,url){
+    window.parent.addTab(title,url);
+}
 
 function preStep() {
 
 }
 
 function createDeliver() {
-    
+    var rows = $("#"+gridName).datagrid("getSelected");
+    if(rows.length <= 0){
+        $_jxc.alert("请勾选列表数据");
+        return;
+    }
+
+    $_jxc.ajax({
+        url:contextPath+"/form/deliverForm/updateDeliverForm",
+        contentType:"application/json",
+        data:JSON.stringify(rows),
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("生成成功！");
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
+
 }
