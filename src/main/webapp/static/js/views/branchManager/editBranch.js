@@ -43,7 +43,7 @@ function getBranchInfo(){
                             // 加价率，要乘以 100
                             if(key === "markupRate"){
                             	if(value){
-                            		value = parseFloat(value) * 100;
+                            		value = (parseFloat(value) * 100).toFixed(2);
                             	}
                             }
 
