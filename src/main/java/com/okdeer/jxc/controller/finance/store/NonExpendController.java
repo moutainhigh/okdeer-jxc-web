@@ -211,6 +211,23 @@ public class NonExpendController extends BaseController<NonExpendController> {
 		}
 		return RespJson.error();
 	}
+	
+	@RequestMapping(value = "antiAudit", method = RequestMethod.POST)
+	public RespJson antiAudit(String formId) {
+		LOG.debug("反审营业外支出ID：{}", formId);
+		try {
+			
+			UpdateStatusVo vo = new UpdateStatusVo();
+			vo.setId(formId);
+			vo.setUpdateUserId(super.getCurrUserId());
+			
+			return storeChargeService.antiAuditStoreCharge(vo);
+			
+		} catch (Exception e) {
+			LOG.error("反审营业外支出失败：", e);
+		}
+		return RespJson.error();
+	}
 
 	@RequestMapping(value = "deleteExpend", method = RequestMethod.POST)
 	public RespJson deleteExpend(String formId) {
