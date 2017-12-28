@@ -14,6 +14,9 @@ public interface GpeMarkContrant {
 	
 	/** 财务Moudle  */
 	String MOUDLE_FINANCE = "finance";
+	
+	/** 零售Moudle  */
+	String MOUDLE_RETAIL = "retail";
 
 	/**
 	 * 日结报表Section
@@ -114,5 +117,8 @@ public interface GpeMarkContrant {
 	
 	/*** 开店费用查询 报表  */
 	String BUILD_CHARGE_SEARCH_REPORT = "buildChargeSearchReport";
+	
+	/*** 奖券登记查询 报表  */
+	String LOTTERY_SEARCH_REPORT = "lotterySearchReport";
 
 }
