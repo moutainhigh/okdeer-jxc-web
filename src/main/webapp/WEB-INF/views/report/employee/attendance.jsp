@@ -30,7 +30,7 @@
 	        <div class="ub umar-t8">
 				<div class="ub  ub-ac uw-390" id="branchComponent">
 				<div class="umar-r10 uw-70 ut-r">门店:</div>
-				<input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
+				<input class="uinp ub ub-f1" type="hidden" id="storeId" name="storeId" value="">
 				<input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName">
 				<div class="uinp-more" id="selectBranchMore">...</div>
 				<i class="ub ub-ac uc-red">*</i>
@@ -38,8 +38,8 @@
 
 				<div class="ub ub-ac umar-r40" id="cashierSelect">
 				<div class="umar-r10 uw-60 ut-r">收银员:</div>
-				<input name="cashierId" id="cashierId" type="hidden">
-				<input class="uinp" id="cashierName" name="cashierName" type="text" maxlength="50" />
+				<input name="userId" id="userId" type="hidden">
+				<input class="uinp" id="userName" name="userName" type="text" maxlength="50" />
 				<div class="uinp-more">...</div>
 				</div>
 	        </div>
