@@ -40,7 +40,12 @@ function initFinanceDialog(param) {
     if(nodeCode.startWith("101005")){
         $("#dvFixed").removeClass("uhide");
     	$("#isFixedLabel").removeClass("uhide");
-    }else if(nodeCode.startWith("101004")){
+    	if(param.type === "edit" && param.isFixed === '1'){
+    		$('#isFixed').prop('checked', true);
+    	}
+    }
+    //2.11 新增需求  新增POS付款方式的特殊处理
+    else if(nodeCode.startWith("101004")){
         $("#dvRefund").removeClass("uhide");
         $("#dvPost").removeClass("uhide");
         $("#dvFixed").addClass("uhide");

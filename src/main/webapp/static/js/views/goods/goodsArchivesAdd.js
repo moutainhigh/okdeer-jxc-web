@@ -601,7 +601,21 @@ function typeChange(){
 		if(pricingType == "BIND"||pricingType == "AUTOMATICTRANSFER"){
 			$("#managerStock").removeAttr("checked");
 			$("#managerStock").prop("disabled","disabled");
-		}else{
+		}
+		else{
+            if(pricingType == "LOTTERY"){
+                $("#allowGift").prop("disabled","disabled");
+                $("#allowActivity").prop("disabled","disabled");
+                $("#fastDeliver").prop("disabled","disabled");
+                $("#weekday").find("input[type='checkbox']").prop("disabled","disabled");
+            }else {
+                $("#allowGift").removeProp("disabled");
+                $("#allowActivity").removeProp("disabled");
+                $("#fastDeliver").removeProp("disabled");
+                $("#weekday").find("input[type='checkbox']").removeProp("disabled");
+			}
+
+
 			if( $("#saleWay").val() == "C"){
                 $("#managerStock").removeAttr("checked");
                 $("#managerStock").prop("disabled","disabled");

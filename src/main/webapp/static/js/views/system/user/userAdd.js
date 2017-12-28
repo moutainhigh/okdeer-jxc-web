@@ -28,6 +28,8 @@ function searchBranchInfo (){
         $("#addUserForm #roleCodeOrName").val("");
         $("#maxDiscountRadio").numberbox("setValue",100);
         $("#maxDiscountRadio").numberbox({readonly: true});
+        $("#billMaxDiscountRate").numberbox("setValue",100);
+        $("#billMaxDiscountRate").numberbox({readonly: true});
 
 
 	},"","");
@@ -53,9 +55,12 @@ function searchRole (){
 		var branchType = data.branchType;
 		if(branchType==3||branchType==4||branchType==5){
 			$("#maxDiscountRadio").numberbox({readonly: false});
+			$("#billMaxDiscountRate").numberbox({readonly: false});
 		}else{
 			$("#maxDiscountRadio").numberbox("setValue",100);
 			$("#maxDiscountRadio").numberbox({readonly: true});
+			$("#billMaxDiscountRate").numberbox("setValue",100);
+			$("#billMaxDiscountRate").numberbox({readonly: true});
 		}
 
 	}, opBranchCompleCode, opBranchType);

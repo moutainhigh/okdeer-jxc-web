@@ -356,12 +356,12 @@
 						type="checkbox" name="checkbox" /><span>是否关注商品</span>
 					</label>
 				</div>
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="dvfastDeliver">
 					<label> <input id="fastDeliver" name="fastDeliver"
 						type="checkbox" name="checkbox" /><span>是否直送商品</span>
 					</label>
 				</div>
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="dvallowActivity">
 					<label> <input id="allowActivity" name="allowActivity"
 						type="checkbox" name="checkbox" checked="checked" /><span>是否参与促销</span>
 					</label>
@@ -371,7 +371,7 @@
 						type="checkbox" name="checkbox" /><span>分店调价</span>
 					</label>
 				</div>
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="dvallowGift">
 					<label> <input id="allowGift" name="allowGift"
 								   type="checkbox" name="checkbox" /><span>是否可为赠品</span>
 					</label>

@@ -84,8 +84,17 @@
 			</div>
 			<div class="ub umar-t20">
 				<div class="ub ub-ac umar-l20">
-					<div class="umar-r10 uw-60 ut-r">最大折扣比率:</div>
+					<div class="umar-r10 uw-60 ut-r">单品折扣最大比例:</div>
 					<input id="maxDiscountRadio" name="maxDiscountRadio"
+						class="uinp uw-230 easyui-numberbox easyui-validatebox"
+						data-options="required:true,min:1,max:100,precision:0" type="text"
+						value="100"> % <i class="uc-red">*</i>
+				</div>
+			</div>
+			<div class="ub umar-t20">
+				<div class="ub ub-ac umar-l20">
+					<div class="umar-r10 uw-60 ut-r">整单折扣最大比例:</div>
+					<input id="billMaxDiscountRate" name="billMaxDiscountRate"
 						class="uinp uw-230 easyui-numberbox easyui-validatebox"
 						data-options="required:true,min:1,max:100,precision:0" type="text"
 						value="100"> % <i class="uc-red">*</i>

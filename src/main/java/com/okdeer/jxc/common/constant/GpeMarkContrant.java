@@ -64,6 +64,21 @@ public interface GpeMarkContrant {
 	String SECTION_STORE_SELL = "storeSell";
 
 	/**
+	 * 一卡通账号充值提现明细
+	 */
+	String SECTION_ICCARD_DETAIL = "icCardDetail";
+	
+	/**
+	 * @Fields SECTION_STORE_ATTENDANCE : 员工考勤查询
+	 */
+	String SECTION_STORE_ATTENDANCE = "storeAttendance";
+	
+	/**
+	 * @Fields SECTION_EMPLOYEE_DISCOUNT : 员工折扣消费查询
+	 */
+	String SECTION_EMPLOYEE_DISCOUNT = "employeeDiscount";
+	
+	/**
 	 * 通用Key:list
 	 */
 	String KEY_LIST = "list";

@@ -143,7 +143,7 @@ function openDialog(argUrl, argTitle, argType) {
 	dalogTemp = $('<div/>').dialog({
 		href : argUrl,
 		width : 800,
-		height : 580,
+		height : 620,
 		title : argTitle,
 		closable : true,
 		resizable : true,
@@ -228,4 +228,14 @@ function updateStatus(status) {
             $("#dg").datagrid('reload');
 		}
 	});
+}
+
+function createQrCode() {
+    var rowData = $("#dg").datagrid("getSelected");
+    if (rowIsNull(rowData)) {
+        return;
+    }
+    var storage=window.localStorage;
+    storage.userData = rowData;
+    window.open(contextPath + "/system/user/toUserCodeList");
 }

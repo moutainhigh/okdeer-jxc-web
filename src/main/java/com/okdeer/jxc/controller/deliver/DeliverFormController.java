@@ -50,6 +50,7 @@ import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
+import com.okdeer.jxc.common.enums.FormTypeEnum;
 import com.okdeer.jxc.common.enums.IsReference;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -1152,6 +1153,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 										RoundingMode.HALF_UP);
 								BigDecimal tempLargeNum = checkNum.divide(obj.getDistributionSpec(), 0,
 										RoundingMode.HALF_UP);
+								// 只有要货或直送要货才校验数量，箱数整数倍
+                                if (!FormTypeEnum.DA.toString().equals(formType)
+                                        && !FormTypeEnum.DY.toString().equals(formType)) {
+                                    return true;
+                                }
 								if (realLargeNum.compareTo(tempLargeNum) != 0) {
 									json = new JSONObject();
 									if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
@@ -1478,7 +1484,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								if (realLargeNum.compareTo(tempLargeNum) == 0) {
 									return true;
 								}
-								
+                                // 只有要货或直送要货才校验数量，箱数整数倍
+                                if (!FormTypeEnum.DA.toString().equals(formType)
+                                        && !FormTypeEnum.DY.toString().equals(formType)) {
+                                    return true;
+                                }
 								json = new JSONObject();
 								if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
 									goodsTip = obj.getSkuCode();
