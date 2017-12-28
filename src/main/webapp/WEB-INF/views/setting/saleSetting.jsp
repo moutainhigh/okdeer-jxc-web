@@ -44,6 +44,16 @@
 								</div>
 							</div>
 
+							<div class="ub upad-4">
+								<div class="ub ub-ac uw-320">
+									<div class="umar-r10 uw-120 ut-r">员工折扣比例:</div>
+									<div class="ub ub-ac umar-r10">
+										<input class="easyui-numberbox uw-200"  data-options="max:100.00,min:0.01,precision:2" 
+											value="100.00" id="employeeDiscount" name="employeeDiscount" />%
+									</div>
+								</div>
+							</div>
+							
 						</div>
 
 					</div>
@@ -92,17 +102,26 @@
 								</div>
 							</div>
 							
-							<div class="ub upad-4">
-								<div class="ub ub-ac uw-320">
-									<div class="umar-r10 uw-150 ut-r">扫码购允许负库存销售:</div>
-									<div class="ub uw-110 ub-ac umar-r10">
-										<label><input class="" type="radio" id="isSelfpayAllowMinusStock1" name="isSelfpayAllowMinusStock" value="1" /><span>启用</span></label>
-									</div>
-									<div class="ub uw-110 ub-ac umar-r10">
-										<label><input class="" type="radio" id="isSelfpayAllowMinusStock0" name="isSelfpayAllowMinusStock" value="0" /><span>不启用</span></label>
-									</div>
+							<div class="ub ub-ac">
+								<div class="umar-r10 uw-150 ut-r">扫码购允许负库存销售:</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="isSelfpayAllowMinusStock1" name="isSelfpayAllowMinusStock" value="1" /><span>启用</span></label>
+								</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="isSelfpayAllowMinusStock0" name="isSelfpayAllowMinusStock" value="0" /><span>不启用</span></label>
 								</div>
 							</div>
+							
+							<div class="ub ub-ac">
+								<div class="umar-r10 uw-150 ut-r">是否允许员工折价:</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="isAllowEmployeeDiscount1" name="isAllowEmployeeDiscount" value="1" /><span>启用</span></label>
+								</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="isAllowEmployeeDiscount0" name="isAllowEmployeeDiscount" value="0" /><span>不启用</span></label>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -150,6 +169,7 @@
 		}else{
 			$("#receivingSetting1").attr("checked","true");
 		}
+		$("#employeeDiscount").numberbox('setValue',data.employeeDiscount*100);
 		
 		indexTab = 0;
 	}
@@ -168,6 +188,7 @@
 			obj.branchId = $("#branchId").val();
 			obj.centComputeType = $('input[name="centComputeType"]:checked').val();
 			obj.receivingSetting = $('input[name="receivingSetting"]:checked').val();
+			obj.employeeDiscount = parseFloat($("#employeeDiscount").numberbox('getValue')||0)/100;
 			url = contextPath + "/branchSetting/save";
 		} else if (indexTab == 1) {
 			var specBranchId = $("#specBranchId").val();
@@ -183,20 +204,11 @@
 			obj.isAllowMobileLogin = $('input[name="isAllowMobileLogin"]:checked').val();
 			obj.branchId = specBranchId;
 			obj.receiptMobile = receiptMobile;
-			if($('#isSelfpayAllowMinusStock0').is(':checked')) {
-				obj.isSelfpayAllowMinusStock = 0;
-			}else{
-				obj.isSelfpayAllowMinusStock = 1;
-			}
+			obj.isSelfpayAllowMinusStock = $('input[name="isSelfpayAllowMinusStock"]:checked').val();
+			obj.isThirdPartyDelivery = $('input[name="isThirdPartyDelivery"]:checked').val();
+			obj.isAllowEmployeeDiscount = $('input[name="isAllowEmployeeDiscount"]:checked').val();
 			
-			if($('#isThirdPartyDelivery0').is(':checked')) {
-				obj.isThirdPartyDelivery = 1;
-			}else{
-				obj.isThirdPartyDelivery = 0;
-			}
-			
-			url = contextPath
-					+ "/pos/posReceiptSetting/saveOrUpdatePosReceiptSetting";
+			url = contextPath + "/pos/posReceiptSetting/saveOrUpdatePosReceiptSetting";
 		}
 		gFunStartLoading();
 		$.ajax({
@@ -246,10 +258,10 @@
 							isAllowMobileLogin = result.isAllowMobileLogin;
 						}
 						$("#receiptMobile").val(receiptMobile);
-						if (isAllowMobileLogin == 0) {
-							$("#isAllowMobileLogin0").prop("checked", "true");
+						if (isAllowMobileLogin == 1) {
+							$("#isAllowMobileLogin1").prop("checked", "checked");
 						} else {
-							$("#isAllowMobileLogin1").prop("checked", "true");
+							$("#isAllowMobileLogin0").prop("checked", "checked");
 						}
 						if(result.isSelfpayAllowMinusStock == 1){
 							$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
@@ -258,9 +270,15 @@
 						}
 						
 						if(result.isThirdPartyDelivery == 1){
-							$("#isThirdPartyDelivery0").prop("checked","checked");								
-						}else{
 							$("#isThirdPartyDelivery1").prop("checked","checked");
+						}else{
+							$("#isThirdPartyDelivery0").prop("checked","checked");								
+						}
+						
+						if(result.isAllowEmployeeDiscount == 1){
+							$("#isAllowEmployeeDiscount1").prop("checked","checked");								
+						}else{
+							$("#isAllowEmployeeDiscount0").prop("checked","checked");
 						}
 					},
 					error : function(result) {

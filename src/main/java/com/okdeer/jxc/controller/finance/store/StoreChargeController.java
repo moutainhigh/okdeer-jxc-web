@@ -211,6 +211,23 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 		}
 		return RespJson.error();
 	}
+	
+	@RequestMapping(value = "antiAudit", method = RequestMethod.POST)
+	public RespJson antiAudit(String formId) {
+		LOG.debug("反审门店费用ID：{}", formId);
+		try {
+			
+			UpdateStatusVo vo = new UpdateStatusVo();
+			vo.setId(formId);
+			vo.setUpdateUserId(super.getCurrUserId());
+			
+			return storeChargeService.antiAuditStoreCharge(vo);
+			
+		} catch (Exception e) {
+			LOG.error("反审门店费用失败：", e);
+		}
+		return RespJson.error();
+	}
 
 	@RequestMapping(value = "deleteStoreCharge", method = RequestMethod.POST)
 	public RespJson deleteStoreCharge(String formId) {

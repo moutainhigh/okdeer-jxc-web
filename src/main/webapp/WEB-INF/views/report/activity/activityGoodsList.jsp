@@ -68,7 +68,10 @@
 	              <label><input type="checkbox" value="8" name="activityType1" onclick="selectedTypeItem()">手工折扣</label>
 	              <label><input type="checkbox" value="9" name="activityType1" onclick="selectedTypeItem()">手工议价</label>
 	              <label><input type="checkbox" value="10" name="activityType1" onclick="selectedTypeItem()">买满送</label>
+	              <label><input type="checkbox" value="12" name="activityType1" onclick="selectedTypeItem()">特价打包</label>
+	              <label><input type="checkbox" value="11" name="activityType1" onclick="selectedTypeItem()">N元N件</label>
 	              <label><input type="checkbox" value="13" name="activityType1" onclick="selectedTypeItem()">手工赠送</label>
+	              <label><input type="checkbox" value="14" name="activityType1" onclick="selectedTypeItem()">员工折扣</label>
                 </div>
            </div>
        	</form>

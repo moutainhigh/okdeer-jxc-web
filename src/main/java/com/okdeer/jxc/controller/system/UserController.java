@@ -183,11 +183,17 @@ public class UserController extends BaseController<UserController> {
 	public String toEditUser(String userId, Model model) {
 
 		SysUser user = sysUserService.getUserById(userId);
-		// 最大折扣比率，需乘以100
+		// 单品折扣最大比例（大于0小于等于1），需乘以100
 		if (null != user.getMaxDiscountRadio()) {
 			BigDecimal maxDiscountRadio = user.getMaxDiscountRadio().multiply(
 					new BigDecimal(Constant.STRING_ONE_HUNDRED));
 			user.setMaxDiscountRadio(maxDiscountRadio);
+		}
+		// 整单折扣最大比例（大于0小于等于1），需乘以100
+		if (null != user.getBillMaxDiscountRate()) {
+			BigDecimal billMaxDiscountRate = user.getBillMaxDiscountRate().multiply(
+					new BigDecimal(Constant.STRING_ONE_HUNDRED));
+			user.setBillMaxDiscountRate(billMaxDiscountRate);
 		}
 		Branches branch = branchService.getBranchInfoById(user.getBranchId());
 		SysRole role = roleService.getRoleByUserId(userId);

@@ -24,7 +24,7 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcbuildChargeSearch:export">
+					<shiro:hasPermission name="JxcLotterySearch:export">
 						<div class="ubtns-item" onclick="toGpeExport()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
@@ -44,20 +44,17 @@
 					<div class="uinp-more" >...</div>
 				</div>
 				<div class="ub ub-ac" id="chargeCodeComp">
-                   <div class="umar-r10 ut-r">类别:</div>
-                   <input type="hidden" id="categoryCode" name="categoryCode"  />
-                   <input class="uinp ub ub-f1" type="text" id="categoryName"
-						name="categoryName"/>
-                   <div class="uinp-more">...</div>
+                   <div class="umar-r10 ut-r">奖券货号:</div>
+                   <input class="uinp" type="text" id="skuCode" name="skuCode" />
                 </div>
 			</div>
 			<div class="ub umar-t8"><div class="ub ub-ac umar-r40">
 				<div class="ub ub-ac umar-r40">
                      <div class="umar-r10 uw-60 ut-r">单号:</div>
-                     <input class="uinp" type="text" id="formNo" name="formNo"/>
+                     <input class="uinp" type="text" id="formNo" name="formNo" />
                 </div>
-				<div class="umar-r10 ut-r">名称:</div>
-	                 <input class="uinp" type="text" id="chargeName" name="chargeName"/>
+				<div class="umar-r10 ut-r">奖券名称:</div>
+	                 <input class="uinp" type="text" id="skuName" name="skuName" />
 	            </div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">查询类型:</div>

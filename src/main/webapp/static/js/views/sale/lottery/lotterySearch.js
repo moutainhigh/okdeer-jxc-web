@@ -8,12 +8,6 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 
-    $('#chargeCodeComp').chargeCodeSelect({
-        param : {
-            levels : "1, 2, 3"
-        }
-    });
-    
     // 初始化表格
 	initGridByGpeGridColumns();
 	
@@ -23,7 +17,8 @@ $(function() {
 	// 只允许分公司、店铺
 	$('#branchComponent').branchSelect({
 		param:{
-            branchTypesStr:	$_jxc.branchTypeEnum.BRANCH_COMPANY +
+            branchTypesStr:	$_jxc.branchTypeEnum.HEAD_QUARTERS +
+            				',' + $_jxc.branchTypeEnum.BRANCH_COMPANY +
 				            ',' + $_jxc.branchTypeEnum.OWN_STORES +
 				            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
 				            ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
@@ -74,7 +69,7 @@ function queryForm(){
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#"+datagridId).datagrid("options").method = "post";
-	$("#"+datagridId).datagrid('options').url = contextPath + '/finance/buildChargeSearch/list';
+	$("#"+datagridId).datagrid('options').url = contextPath + '/sale/lotterySearch/list';
 	$("#"+datagridId).datagrid('load', fromObjStr);
 }
 
@@ -122,14 +117,6 @@ function initBuildChargeSearchGrid(columns,frozenColumns) {
     });
 	$("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);
-}
-
-function formatter_formNo(value,row,index,formatter){
-	if(!value){
-        return '';
-    }
-	var hrefStr='parent.addTab("建店费用详情","' + contextPath+'/finance/buildCharge/toEdit?formId=' + row.formId + '")';
-	return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 }
 
 /**
