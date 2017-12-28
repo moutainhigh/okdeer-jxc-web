@@ -54,7 +54,7 @@ function toChangeDate(index,fmt){
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format(fmt));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
-        case 9: //昨天
+        case 9: //向前30天
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format(fmt));
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
