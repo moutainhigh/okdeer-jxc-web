@@ -406,8 +406,34 @@ function  chargeCheck() {
             })
         }
     })
+}
 
+function  chargeAntiAudit() {
+    var newData = {
+        remark:$("#remark").val(),                  // 备注
+        grid:gridHandel.getRows(),
+    }
 
+    var param = {
+        url :contextPath+"/finance/nonIncome/antiAudit",
+        data:{
+            formId:formId,
+        }
+    }
+
+    $_jxc.confirm("是否确认反审?",function (data) {
+        if(data){
+            $_jxc.ajax(param,function (result) {
+                if(result['code'] == 0){
+                    $_jxc.alert("操作成功！",function(){
+                        location.href = contextPath +"/finance/nonIncome/toEdit?formId=" + formId;
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
+        }
+    })
 }
 
 function exportList(){
