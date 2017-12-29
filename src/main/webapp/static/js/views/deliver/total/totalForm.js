@@ -6,20 +6,68 @@ $(function () {
             type:'NOTREE',
         },
         onAfterRender:function(data){
+        	var targetBranchIdStrArr = [];
+        	 if(data && data.length >0 ){
+                 data.forEach(function(obj,index){
+                     targetBranchIdStrArr.push(obj.branchId);
+                 })
+             }
+        	 $("#targetBranchIdStr").val(targetBranchIdStrArr.join(","));
+        	 
         }
     });
 
     $('#sourceBranchComponent').branchSelect({
         onAfterRender:function(data){
+	       	if(data){
+	       		$("#sourceBranchIdStr").val(data.branchId);
+	         }
+	       	
         }
     });
 
-    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val(dateUtil.getCurrDayPreOrNextDay("prev",1).format("yyyy-MM-dd"));
-
     initGridTotalList();
+    
+    initFormData();
 
-})
+});
+
+var formData;
+function initFormData(){
+	
+	formData = $("#formData").val();
+	
+	if('undefined' != typeof(formData) && "" != formData){
+		formData = $.parseJSON(formData);
+		
+		if($.isEmptyObject(formData)){
+			initFormValue();
+		}else{
+			formData.startTime = formData.startTime.substr(0, 10);
+		    formData.endTime = formData.endTime.substr(0, 10);
+		    
+			setFormValue(formData);
+			
+			// 自动查询数据
+			queryForm();
+		}
+	}
+	
+}
+
+function initFormValue(){
+	$("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",1).format("yyyy-MM-dd"));
+    $("#endTime").val(dateUtil.getCurrDayPreOrNextDay("prev",1).format("yyyy-MM-dd"));
+}
+
+function setFormValue(formData){
+	$("#targetBranchIdStr").val(formData.targetBranchIdStr);
+	$("#targetBranchCodeName").val(formData.targetBranchCodeName);
+	$("#sourceBranchIdStr").val(formData.sourceBranchIdStr);
+	$("#sourceBranchCodeName").val(formData.sourceBranchCodeName);
+	$("#startTime").val(formData.startTime);
+	$("#endTime").val(formData.endTime);
+}
 
 var gridTotalHandle = new GridClass();
 var gridName = "gridTotalList";
@@ -33,7 +81,7 @@ function initGridTotalList () {
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+        pagination:false,    //分页
         fitColumns:true,    //每列占满
         //fit:true,         //占满
         showFooter:true,
@@ -48,7 +96,7 @@ function initGridTotalList () {
             {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
             {field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
-            {field: 'amount', title: '单据金额', width: '80px', align: 'right',
+            {field: 'amount', title: '单据金额', width: '90px', align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -91,52 +139,42 @@ function toAddTab(title,url){
 
 //查询
 function queryForm(){
-    var targetBranchId = $("#targetBranchId").val();
-    var sourceBranchId = $("#sourceBranchId").val();
-    if(!targetBranchId){
+    var targetBranchIdStr = $("#targetBranchIdStr").val();
+    var sourceBranchIdStr = $("#sourceBranchIdStr").val();
+    if(!targetBranchIdStr){
         $_jxc.alert("请选择要货机构");
         return;
     }
-    if(!sourceBranchId){
+    if(!sourceBranchIdStr){
         $_jxc.alert("请选择发货机构");
         return;
     }
 
-    var fromObjStr = $('#queryForm').serializeObject();
+    var fromObjStr = $('#totalForm').serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid('options').url = contextPath + '/store/attendance/list';
+    $("#"+gridName).datagrid('options').url = contextPath + '/form/deliverTotal/getFormList';
     $("#"+gridName).datagrid('load', fromObjStr);
 }
 
+/**
+ * 下一步
+ */
 function nextStep() {
-    var targetBranchId = $("#targetBranchId").val();
-    var sourceBranchId = $("#sourceBranchId").val();
-    var rows = $("#"+gridName).datagrid("getSelected");
-    if(rows.length <= 0){
-        $_jxc.alert("请勾选列表数据");
-        return;
-    }
-
-    var reqObj = {
-        targetBranchId :targetBranchId,
-        targetBranchName:$("#targetBranchName").val(),
-        sourceBranchId :sourceBranchId,
-        sourceBranchName:$("#sourceBranchName").val(),
-        deliverStartDate:$('#startTime').val(),
-        deliverEndDate:$('#endTime').val(),
-        deliverFormListVo:rows,
-    }
-
-    $_jxc.ajax({
-        url:contextPath+"/form/deliverForm/updateDeliverForm",
-        contentType:"application/json",
-        data:JSON.stringify(reqObj),
-    },function(result){
-        if(result['code'] == 0){
-            $_jxc.alert("提交成功！");
-        }else{
-            $_jxc.alert(result['message']);
-        }
+    var rows = $("#"+gridName).datagrid("getChecked");
+	if(rows.length <= 0){
+		$_jxc.alert('请勾选要货单数据！');
+		return;
+	}
+    
+    var formNoList = [];
+    rows.forEach(function(obj, index){
+    	formNoList.push(obj.formNo);
     })
+    
+    var formObjStr = $('#totalForm').serializeObject();
+    formObjStr.formNoList = formNoList;
+
+    //提交参数并跳转到第二步
+	$.StandardPost(contextPath+"/form/deliverTotal/toTotalDataList", formObjStr);
 
 }

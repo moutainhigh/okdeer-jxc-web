@@ -1,6 +1,15 @@
+
+var formData;
 $(function () {
+	
+	formData = $("#formData").val();
+	formData = $.parseJSON(formData);
+    formData.startTime = formData.startTime.substr(0, 10);
+    formData.endTime = formData.endTime.substr(0, 10);
+	
     initGridTotalList();
-})
+});
+
 
 var gridTotalDataHandle = new GridClass();
 var gridName = "gridTotalDataList";
@@ -67,9 +76,10 @@ function initGridTotalList () {
 }
 
 
-
+//上一步
 function preStep() {
-
+	//返回到上一步
+	$.StandardPost(contextPath+"/form/deliverTotal/toTotalForm", formData);
 }
 
 function createDeliver() {
