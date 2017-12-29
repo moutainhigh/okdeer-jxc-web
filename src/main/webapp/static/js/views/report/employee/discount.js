@@ -51,7 +51,10 @@ function initDatagridDiscount(columns,frozenColumns){
         height : '100%',
         width : '100%',
         columns : columns,
-        frozenColumns : frozenColumns
+        frozenColumns : frozenColumns,
+        onBeforeLoad:function(data){
+            gridHandel.setDatagridHeader("center");
+        }
     });
     $("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);

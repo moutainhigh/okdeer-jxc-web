@@ -29,10 +29,10 @@
 	
 	        <div class="ub umar-t8">
 
-				<div class="ub  ub-ac uw-390" id="branchComponent">
-				<div class="umar-r10 uw-70 ut-r">机构:</div>
+				<div class="ub  ub-ac umar-r40" id="branchComponent">
+				<div class="umar-r10 uw-60 ut-r">机构:</div>
 				<input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
-				<input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName">
+				<input class="uinp ub ub-f1" type="text" id="branchName"  value="" name="branchName">
 				<div class="uinp-more">...</div>
 				</div>
 
@@ -51,7 +51,7 @@
 				</div>
 
 
-	            <div class="ub ub-ac umar-l20">
+	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-60 ut-r">汇总类型:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="dealStatus" id="deal0" value="summaryStatistics" checked="checked"/><label for="deal0">汇总统计 </label>
