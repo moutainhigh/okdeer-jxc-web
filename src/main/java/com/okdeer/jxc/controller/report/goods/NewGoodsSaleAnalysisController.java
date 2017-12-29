@@ -21,6 +21,7 @@ import com.okdeer.retail.common.report.DataRecord;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,6 +69,8 @@ public class NewGoodsSaleAnalysisController extends ReportController {
                                                 @RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
                                                 @RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) throws ExecutionException, InterruptedException, ExecutionException {
         Map<String, Object> param = getParam(request);
+        StopWatch sw = new StopWatch();
+        sw.start("新品销售分析列表" + param.get("branchCompleCode") + ":" + param.get("startTime") + "~" + param.get("endTime"));
         newGoodsSaleAnalysisService.getListPage(param, page, rows);
         Future<PageUtils<DataRecord>> listFuture = RpcContext.getContext().getFuture();
         newGoodsSaleAnalysisService.getTotal(param);
@@ -84,6 +87,8 @@ public class NewGoodsSaleAnalysisController extends ReportController {
         for (DataRecord dataRecord : list.getList()) {
             formatter(dataRecord);
         }
+        sw.stop();
+        LOG.info("新品销售分析列表times:{}", sw.prettyPrint());
         cleanDataMaps(getPriceAccess(), list.getList());
         cleanDataMaps(getPriceAccess(), list.getFooter());
         return list;
