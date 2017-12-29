@@ -1,4 +1,3 @@
-
 var formData;
 $(function () {
 	
@@ -78,7 +77,6 @@ function initGridTotalList () {
 function toAddTab(title,url){
     window.parent.addTab(title,url);
 }
-
 
 //上一步
 function preStep() {
