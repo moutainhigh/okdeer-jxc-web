@@ -20,6 +20,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,8 +80,11 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
 			if(StringUtils.isEmpty(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(this.getCurrBranchCompleCode());
 			}
+			StopWatch sw = new StopWatch();
+            sw.start("单品ABC销售额列表" + vo.getBranchCompleCode() + ":" + vo.getStartTime() + "~" + vo.getEndTime());
             PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
-            
+            sw.stop();
+            LOG.info("单品ABC销售额列表times:{}", sw.prettyPrint());
             // 过滤数据权限字段
             cleanAccessData(goodsOutInfoDetailList);
             return goodsOutInfoDetailList;
@@ -111,9 +115,9 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
                 vo.setBrancheType(Boolean.TRUE);
             }
             List<GoodsSaleAmountReportVo> exportList = goodsSaleAmountReportServiceApi.exportList(vo);
-            GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
+            /**GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
             goodsSaleAmountReportVo.setBranchName("合计:");
-            exportList.add(goodsSaleAmountReportVo);
+            exportList.add(goodsSaleAmountReportVo);*/
             // 过滤数据权限字段
             cleanAccessData(exportList);
             String fileName = "单品销售额ABC分析" + vo.getStartTime().replace("-", "") + "-" + vo.getEndTime().replace("-", "");
