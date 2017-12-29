@@ -5,7 +5,7 @@ $(function () {
 	formData = $.parseJSON(formData);
     formData.startTime = formData.startTime.substr(0, 10);
     formData.endTime = formData.endTime.substr(0, 10);
-	
+    
     initGridTotalList();
 });
 
@@ -18,11 +18,14 @@ function initGridTotalList () {
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        //url:contextPath+'/form/purchase/listData',
+        url:contextPath+'/form/deliverTotal/getTempDataList',
+        queryParams:{
+        	formNos:formData.formNoList
+        },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:true,    //分页
+        pagination:false,    //分页
         fitColumns:true,    //每列占满
         //fit:true,         //占满
         showFooter:true,
@@ -31,7 +34,7 @@ function initGridTotalList () {
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')"> 单据详情 </a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'单据明细\',\''+ contextPath +'/form/deliverTotal/toTotalForm?formNo='+ row.formNo +'\')"> 单据详情 </a>';
                 return strHtml;
             }},
             {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},

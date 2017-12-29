@@ -13,11 +13,10 @@ function initGridDeliverList() {
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        url:contextPath+'/form/purchase/listData',
-        queryParam:{
-            formId:$("$formId").val()
+        url:contextPath+'/form/deliverTotal/getTempDataItemList',
+        queryParams:{
+        	formNo:$("#formNo").val()
         },
-        //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:false,    //分页

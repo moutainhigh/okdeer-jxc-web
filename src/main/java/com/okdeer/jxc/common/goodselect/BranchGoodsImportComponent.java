@@ -306,7 +306,7 @@ public class BranchGoodsImportComponent {
 
 			goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code+"&type="+type);
 		}else{//无错误数据
-			String code = "goodsSelectImport_" + userId;
+			String code = "jxc_goodsSelectImport_" + userId;
 			redisTemplateTmp.delete(code);
 		}
 
