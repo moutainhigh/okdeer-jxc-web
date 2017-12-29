@@ -27,43 +27,72 @@ function initGridDeliverList() {
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'要货单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.deliverFormId +'&deliverType=DA\')">' + value + '</a>';
-                return strHtml;
-            }},
-            {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
-            {field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
-            {field: 'amount', title: '单据金额', width: '80px', align: 'right',
+            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
+            {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
+            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+            {field:'barCode',title:'条码',width:'150px',align:'left'},
+            {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
-                }
-            },
-            {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-            {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
-            {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd');
-                    }
-                    return "";
-                }
-            },
-            {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
 
-            {field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd hh:mm');
+                    if(!value){
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
-                    return "";
-                }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
             },
+            {field:'applyNum',title:'数量',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+                    if(!value){
+                        row["applyNum"] = parseFloat(value||0).toFixed(4);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+            },
+            {field:'unit',title:'单位',width:'60px',align:'left'},
+            {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
+            {field:'isGift',title:'是否赠品',width:'80px',align:'left',
+                formatter:function(value,row){
+                    if(row.isFooter){
+                        return;
+                    }
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是': (value=='0'?'否':'请选择');
+                },
+            },
+            {field:'price',title:'参考单价',width:'80px',align:'right',
+                formatter:function(value,row,index){
+                    if(row.isFooter){
+                        return
+                    }
+                    if(!row.price){
+                        row.price = parseFloat(value||0).toFixed(4);
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+            },
+            {field:'amount',title:'参考金额',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    }
+
+                    if(!row.amount){
+                        row.amount = parseFloat(value||0).toFixed(4);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                },
+            },
+
+
             {field: 'remark', title: '备注', width: '200px', align: 'left'},
         ]],
         onBeforeLoad:function(data){
