@@ -91,8 +91,6 @@ function initGridDeliverList() {
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
-
-
             {field: 'remark', title: '备注', width: '200px', align: 'left'},
         ]],
         onBeforeLoad:function(data){
