@@ -113,7 +113,6 @@ public class StoreAttendanceController extends AbstractSimpleGpeController<Store
 	 */
 	@Override
 	protected List<StoreAttendanceVo> queryList(StoreAttendanceQo qo) {
-		buildQo(qo);
 		// 查询数据
 		return storeAttendanceFacade.queryList(qo);
 	}

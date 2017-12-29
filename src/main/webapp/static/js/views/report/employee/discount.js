@@ -5,7 +5,7 @@ $(function () {
     $('#branchComponent').branchSelect();
     toChangeDate(9);
     statuChange();
-    initGridByGpeGridColumns("total");
+    initGridByGpeGridColumns("summaryStatistics");
 })
 
 function statuChange() {
@@ -55,6 +55,14 @@ function initDatagridDiscount(columns,frozenColumns){
     });
     $("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);
+}
+
+//查询
+function query(){
+  var fromObjStr = $('#queryForm').serializeObject();
+  $("#"+datagridId).datagrid("options").method = "post";
+  $("#"+datagridId).datagrid('options').url = contextPath + '/sale/employeeDiscount/list';
+  $("#"+datagridId).datagrid('load', fromObjStr);
 }
 
 
