@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.controller.AbstractSimpleGpeController;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.facade.report.employee.facade.StoreAttendanceFacade;
@@ -91,10 +92,7 @@ public class StoreAttendanceController extends AbstractSimpleGpeController<Store
 	 */
 	@Override
 	protected EasyUIPageInfo<StoreAttendanceVo> queryListPage(StoreAttendanceQo qo) {
-		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
-			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-		}
+		buildQo(qo);
 		// 查询分页数据
 		return storeAttendanceFacade.queryListPage(qo);
 	}
@@ -105,10 +103,7 @@ public class StoreAttendanceController extends AbstractSimpleGpeController<Store
 	 */
 	@Override
 	protected StoreAttendanceVo queryTotal(StoreAttendanceQo qo) {
-		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
-			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-		}
+		buildQo(qo);
 		return storeAttendanceFacade.queryListTotal(qo);
 	}
 
@@ -118,12 +113,24 @@ public class StoreAttendanceController extends AbstractSimpleGpeController<Store
 	 */
 	@Override
 	protected List<StoreAttendanceVo> queryList(StoreAttendanceQo qo) {
-		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
-			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-		}
+		buildQo(qo);
 		// 查询数据
 		return storeAttendanceFacade.queryList(qo);
 	}
 
+	/**
+	 * @Description: 构建查询参数
+	 * @param qo
+	 * @author zhengwj
+	 * @date 2017年12月28日
+	 */
+	private void buildQo(StoreAttendanceQo qo) {
+		// 如果机构为空
+		if (StringUtils.isEmpty(qo.getStoreId())) {
+			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
+		if (StringUtils.isNotEmpty(qo.getEndTime())) {
+			qo.setEndTime(DateUtils.getSmallRStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime(), "yyyy-MM-dd"))));
+		}
+	}
 }
