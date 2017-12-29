@@ -19,6 +19,8 @@
     <div class="ubtns-item" onclick="toClose()">关闭</div>
     </div>
     </div>
+    
+    <input type="hidden" name="formData" id="formData" value='${formData }' />
 
     <div class="ub uw umar-t8 ub-f1">
     <table id="gridTotalDataList"></table>
