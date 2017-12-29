@@ -26,8 +26,8 @@
             <div class="ub umar-t20">
                 <div class="ub  ub-ac uw-390" id="targetBranchComponent">
                 <div class="umar-r10 uw-70 ut-r">要货机构:</div>
-                <input class="uinp ub ub-f1" type="hidden" id="targetBranchId" name="targetBranchId" value="">
-                <input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" value="" name="targetBranchName">
+                <input class="uinp ub ub-f1" type="hidden" id="targetBranchIdStr" name="targetBranchIdStr" value="">
+                <input class="uinp ub ub-f1" type="text" id="targetBranchCodeName" readonly="readonly" value="" name="targetBranchCodeName">
                 <div class="uinp-more">...</div>
                 <i class="ub ub-ac uc-red">*</i>
                 </div>
@@ -37,8 +37,8 @@
             <div class="ub umar-t20">
                 <div class="ub  ub-ac uw-390" id="sourceBranchComponent">
                 <div class="umar-r10 uw-70 ut-r">发货机构:</div>
-                <input class="uinp ub ub-f1" type="hidden" id="sourceBranchId" name="sourceBranchId" value="">
-                <input class="uinp ub ub-f1" type="text" id="sourceBranchName" readonly="readonly" value="" name="sourceBranchName">
+                <input class="uinp ub ub-f1" type="hidden" id="sourceBranchIdStr" name="sourceBranchIdStr" value="">
+                <input class="uinp ub ub-f1" type="text" id="sourceBranchCodeName" readonly="readonly" value="" name="sourceBranchCodeName">
                 <div class="uinp-more">...</div>
                 <i class="ub ub-ac uc-red">*</i>
                 </div>
@@ -49,15 +49,16 @@
             <div class="ub ub-ac uw-516">
             <div class="umar-r10 uw-70 ut-r">要货日期:</div>
 
-            <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />
+            <input class="Wdate uw-300 uinp-no-more" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />
             &nbsp;至&nbsp;
-            <input class="Wdate uw-300 uinp-no-more"  readonly="readonly" disabled="disabled" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}',maxDate:'%y-%M-%d'})" />
+            <input class="Wdate uw-300 uinp-no-more" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}',maxDate:'%y-%M-%d'})" />
             <i class="uc-red">*</i>
 
             </div>
             </div>
 
         </form>
+        <input type="hidden" name="formData" id="formData" value='${formData }' />
 
         <div class="ub uw umar-t8 ub-f1">
         <table id="gridTotalList"></table>
