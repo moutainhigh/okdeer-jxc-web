@@ -7,7 +7,7 @@
     <title>员工折扣消费查询</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="/static/js/views/report/employee/discount.js"></script>
+	<script src="${ctx}/static/js/views/report/employee/discount.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
