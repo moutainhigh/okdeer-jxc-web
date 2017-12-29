@@ -119,7 +119,7 @@
 					<div class="umar-r10 uw-80 ut-r">税票类型:</div>
 					<select class="uselect easyui-combobox" name="stampsType"
 						style="width: 204px;" id="stampsType"
-						data-options="editable:false">
+						data-options="editable:false,value:${supplier.stampsType}">
 						<option value="1">增值税普通发票17%</option>
 						<option value="2">增值税普通发票13%</option>
 						<option value="3">增值税普通发票3%</option>
@@ -220,7 +220,7 @@
 				<div class="ub ub-ac uw-320">
 					<div class="umar-r10 uw-80 ut-r">送货时间:</div>
 					<select class="uselect easyui-combobox" style="width: 204px;"
-						name="deliverTime" id="deliverTime" data-options="editable:false">
+						name="deliverTime" id="deliverTime" data-options="editable:false,value:'${supplier.deliverTime}'">
 						<option value="上午">上午</option>
 						<option value="下午">下午</option>
 						<option value="晚上">晚上</option>
