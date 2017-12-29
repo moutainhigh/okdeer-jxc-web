@@ -7,7 +7,7 @@
     <title>员工折扣消费查询</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="/static/js/views/report/employee/discount.js"></script>
+	<script src="${ctx}/static/js/views/report/employee/discount.js"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -54,10 +54,10 @@
 	            <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">汇总类型:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="dealStatus" id="deal0" value="total"/><label for="deal0">汇总统计 </label>
+	                    <input class="radioItem" type="radio" name="dealStatus" id="deal0" value="summaryStatistics" checked="checked"/><label for="deal0">汇总统计 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="dealStatus" id="deal2" value="order"/><label for="deal2">订单统计 </label>
+	                    <input class="radioItem" type="radio" name="dealStatus" id="deal2" value="orderStatistics"/><label for="deal2">订单统计 </label>
 	                </div>
 	            </div>
 	        </div>
