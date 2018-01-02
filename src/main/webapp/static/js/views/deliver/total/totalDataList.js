@@ -34,7 +34,7 @@ function initGridTotalList () {
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'单据明细\',\''+ contextPath +'/form/deliverTotal/toTotalForm?formNo='+ row.formNo +'\')"> 单据详情 </a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'单据明细\',\''+ contextPath +'/form/deliverTotal/toTotalDataItemList?formNo='+ row.formNo +'\')"> 单据详情 </a>';
                 return strHtml;
             }},
             {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
@@ -53,21 +53,18 @@ function initGridTotalList () {
             {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
                 formatter: function (value, row, index) {
                     if (value) {
+                        row['validityTime'] = new Date(value).format('yyyy-MM-dd');
                         return new Date(value).format('yyyy-MM-dd');
+                    }else{
+                        row['validityTime'] = new Date().format('yyyy-MM-dd');
+                        return new Date().format('yyyy-MM-dd');
                     }
-                    return "";
                 },
             	editor:{
                     type:'datebox',
                     options:{
                         required:false,
-                    	editable:true,
-                    	formatter:function(date){
-                    		var y = date.getFullYear();
-                    		var m = date.getMonth()+1;
-                    		var d = date.getDate();
-                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
-                    	}
+                    	editable:false,
                     }
                 },
             },
@@ -87,11 +84,11 @@ function initGridTotalList () {
         onClickCell:function(rowIndex,field,value){
         	gridTotalDataHandle.setBeginRow(rowIndex);
             gridTotalDataHandle.setSelectFieldName(field);
-            var target = gridFitmentCostHandel.getFieldTarget(field);
+            var target = gridTotalDataHandle.getFieldTarget(field);
             if(target){
             	gridTotalDataHandle.setFieldFocus(target);
             }else{
-            	gridTotalDataHandle.setSelectFieldName("validityTime");
+            	gridTotalDataHandle.setSelectFieldName("formNo");
             }
         },
         onBeforeLoad:function(data){
