@@ -15,8 +15,12 @@
         <form id="totalForm">
              <div class="ub ub-ac">
                 <div class="ubtns">
+                <shiro:hasPermission name="JxcDeliverTotal:search">
                 <div class="ubtns-item" onclick="queryForm()">查询</div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="JxcDeliverTotal:nextStep">
                 <div class="ubtns-item" onclick="nextStep()">下一步</div>
+                </shiro:hasPermission>
                 <div class="ubtns-item" onclick="clearForm()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
                 </div>

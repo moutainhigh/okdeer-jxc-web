@@ -7,7 +7,7 @@
     <title>要货单汇总——中间单据选择</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script src="${ctx}/static/js/views/deliver/total/totalDataList.js?V=${versionNo}12"></script>
+    <script src="${ctx}/static/js/views/deliver/total/totalDataList.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -15,7 +15,9 @@
     <div class="ub ub-ac">
     <div class="ubtns">
     <div class="ubtns-item" onclick="preStep()">上一步</div>
+    <shiro:hasPermission name="JxcDeliverTotal:nextStep">
     <div class="ubtns-item" onclick="createDeliver()">生成要货单</div>
+    </shiro:hasPermission>
     <div class="ubtns-item" onclick="toClose()">关闭</div>
     </div>
     </div>

@@ -18,12 +18,13 @@ function initDatagrid() {
 						align : 'center',
 						url : contextPath + '/system/user/json',
 						// toolbar: '#tb', //工具栏 id为tb
-						singleSelect : true, // 单选 false多选
+						singleSelect : false, // 单选 false多选
 						rownumbers : true, // 序号
 						pagination : true, // 分页
 						fitColumns : true, // 每列占满
 						fit : true, // 占满
 						showFooter : true,
+						pageSize:50,
 						columns : [ [
 								{
 									field : 'check',
@@ -199,11 +200,18 @@ function disable() {
 }
 
 function updateStatus(status) {
-	var rowData = $("#dg").datagrid("getSelected");
-
-	if (rowIsNull(rowData)) {
+	var rows = $("#dg").datagrid("getChecked");
+	if(rows.length <= 0){
+		$_jxc.alert('请选择一条数据！');
 		return;
 	}
+	
+	if(rows.length > 1){
+		$_jxc.alert('一次只能选择一行数据！');
+		return;
+	}
+	
+	var rowData = rows[0];
 
 	var rowStatus = rowData.status;
 	if (rowStatus == status) {
@@ -225,17 +233,27 @@ function updateStatus(status) {
 			$_jxc.alert("操作成功")
 		}else {
             $_jxc.alert(result.message);
-            $("#dg").datagrid('reload');
 		}
+        $("#dg").datagrid('reload');
 	});
 }
 
-function createQrCode() {
-    var rowData = $("#dg").datagrid("getSelected");
-    if (rowIsNull(rowData)) {
-        return;
-    }
-    var storage=window.localStorage;
-    storage.userData = rowData;
-    window.open(contextPath + "/system/user/toUserCodeList");
+function printReport(){
+	var rows = $("#dg").datagrid("getChecked");
+	if(rows.length <= 0){
+		$_jxc.alert('请选择一条数据！');
+		return;
+	}
+    
+    var ids="";
+    $.each(rows,function(i, v){
+		if (i > 0) {
+			ids += ",";
+		}
+		ids += v.id;
+    });
+    
+    console.log(ids);
+    
+	parent.addTabPrint("员工二维码", "员工二维码", contextPath+"/system/user/printUserCode?ids=" + ids);
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="5" printOrder="Horizontal" pageWidth="595" pageHeight="763" columnWidth="115" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zh_CN"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select remarks from mfo_dtl]]>
+	</queryString>
+	<field name="userCode" class="java.lang.String"/>
+	<field name="userName" class="java.lang.String"/>
+	<detail>
+		<band height="88" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="2" y="71" width="112" height="13" uuid="3581aec9-3e71-408b-a557-c6a0dc48b9b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{userCode}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="29" y="3" width="58" height="58" uuid="14f0da7e-c55b-4707-a6af-2a428dd39ed4"/>
+				<imageExpression><![CDATA[com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder($F{userCode},300,300)]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="0" width="114" height="1" uuid="21562f2a-5378-4fa0-af69-be0461aaeb31"/>
+			</line>
+			<line>
+				<reportElement x="114" y="0" width="1" height="88" uuid="ceab4fd7-a423-49aa-98e5-d7bb3ba32b5e"/>
+			</line>
+			<line>
+				<reportElement x="0" y="87" width="114" height="1" uuid="b4ed2118-a9f3-4a41-9321-1122044750b4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="88" uuid="65a02991-cebb-4b59-a289-16d1bc113567"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="2" y="59" width="112" height="13" uuid="9e840bb4-40b2-410c-9648-fa69f128c0b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
