@@ -2,6 +2,11 @@
 package com.okdeer.jxc.controller.system;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +23,14 @@ import com.okdeer.ca.api.sysuser.service.ISysUserApi;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.qo.SysUserQo;
@@ -440,9 +447,28 @@ public class UserController extends BaseController<UserController> {
 	}
 	
 	
-	@RequestMapping(value = "/toUserCodeList")
-	public String toUserCodeList() {
-		return "system/userCodeList";
+	@RequestMapping(value = "printUserCode", method = RequestMethod.GET)
+	@ResponseBody
+	public void printUserCode(String ids, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			LOG.debug("员工ID:{}", ids);
+			if(StringUtils.isBlank(ids)){
+				LOG.error("员工Id为空");
+				return;
+			}
+			
+			List<String> idList = Arrays.asList(ids.split(","));
+			
+			List<SysUser> userList = sysUserService.getUserByIdList(idList);
+			
+			String jaspername = PrintConstant.USER_CODE_LIST_REPORT;
+			
+			JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, jaspername, userList, "");
+			
+		} catch (Exception e) {
+			LOG.error("员工二维码生成打印异常：", e);
+		}
+		
 	}
 
 }

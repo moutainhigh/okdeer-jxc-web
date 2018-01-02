@@ -100,6 +100,9 @@ public interface PrintConstant {
 
 	/*** 会员消费报表——消费明细模版	 */
 	String MEMBER_ORDER_LIST_REPORT = "MemberOrderListReport.jrxml";
+	
+	/*** 员工二维码打印模板	 */
+	String USER_CODE_LIST_REPORT = "userCodeListReport.jrxml";
 
 	/** 
 	 * @Fields COST_ROTARATE_REPORT : 库存成本周转率
