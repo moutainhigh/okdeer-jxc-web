@@ -40,7 +40,7 @@ function initGridTotalList () {
             {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
             {field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
-            {field: 'amount', title: '单据金额', width: '80px', align: 'right',
+            {field: 'amount', title: '单据金额', width: '100px', align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
@@ -56,7 +56,20 @@ function initGridTotalList () {
                         return new Date(value).format('yyyy-MM-dd');
                     }
                     return "";
-                }
+                },
+            	editor:{
+                    type:'datebox',
+                    options:{
+                        required:false,
+                    	editable:true,
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
+                    	}
+                    }
+                },
             },
             {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
 
@@ -71,6 +84,16 @@ function initGridTotalList () {
             },
             {field: 'remark', title: '备注', width: '200px', align: 'left'},
         ]],
+        onClickCell:function(rowIndex,field,value){
+        	gridTotalDataHandle.setBeginRow(rowIndex);
+            gridTotalDataHandle.setSelectFieldName(field);
+            var target = gridFitmentCostHandel.getFieldTarget(field);
+            if(target){
+            	gridTotalDataHandle.setFieldFocus(target);
+            }else{
+            	gridTotalDataHandle.setSelectFieldName("validityTime");
+            }
+        },
         onBeforeLoad:function(data){
             gridTotalDataHandle.setDatagridHeader("center");
         }
@@ -88,22 +111,41 @@ function preStep() {
 }
 
 function createDeliver() {
-    var rows = $("#"+gridName).datagrid("getSelected");
+	$("#"+gridName).datagrid("endEdit");
+	var rows = $("#"+gridName).datagrid("getChecked");
     if(rows.length <= 0){
         $_jxc.alert("请勾选列表数据");
         return;
     }
-
+    
+    var formDataList = new Array();
+    
+    $.each(rows,function(i,data){
+		var temp = {
+				formNo : data.formNo,
+				validityTime : data.validityTime
+		}
+		formDataList[i] = temp;
+	});
+    
+    formData.formDataList = formDataList;
+    
     $_jxc.ajax({
-        url:contextPath+"/form/deliverForm/updateDeliverForm",
+        url:contextPath+"/form/deliverTotal/generateFormList",
         contentType:"application/json",
-        data:JSON.stringify(rows),
+        data:JSON.stringify(formData),
     },function(result){
         if(result['code'] == 0){
-            $_jxc.alert("生成成功！");
+            $_jxc.alert("生成成功！", toFormPage);
+            
         }else{
             $_jxc.alert(result['message']);
         }
     })
 
+}
+
+
+function toFormPage(){
+	window.location = contextPath+'/form/deliverTotal/toTotalForm';
 }
