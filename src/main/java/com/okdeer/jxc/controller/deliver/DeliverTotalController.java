@@ -14,13 +14,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.base.common.utils.mapper.JsonMapper;
 import com.okdeer.jxc.common.exception.BusinessException;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
@@ -179,6 +182,33 @@ public class DeliverTotalController extends BaseController<DeliverTotalControlle
 			LOG.error("要货单汇总查询异常:", e);
 		}
 		return PageUtils.emptyPage();
+	}
+	
+	
+	@RequestMapping(value = "generateFormList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson generateFormList(@RequestBody String jsonData) {
+
+		RespJson respJson = RespJson.error();
+		try {
+
+			DeliverTotalFormQo qo = JsonMapper.nonDefaultMapper().fromJson(jsonData, DeliverTotalFormQo.class);
+			
+			qo.setCurrBranchId(getCurrBranchId());
+			qo.setCurrUserId(getCurrUserId());
+			qo.setCurrUserName(getCurrentUser().getUserName());
+
+			respJson = deliverTotalService.generateFormList(qo);
+			if (!respJson.isSuccess()) {
+				LOG.error(respJson.getMessage());
+			}
+			
+			return respJson;
+		} catch (Exception e) {
+			LOG.error("生成采购订单失败：{}", e);
+		}
+
+		return respJson;
 	}
 
 	private void buildSearchParams(DeliverTotalFormQo qo) {
