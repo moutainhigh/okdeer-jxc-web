@@ -178,3 +178,10 @@ function nextStep() {
 	$.StandardPost(contextPath+"/form/deliverTotal/toTotalDataList", formObjStr);
 
 }
+
+function clearForm() {
+    $("#"+gridName).datagrid('loadData', []);
+    $("input[type = 'hidden']").val("");
+    $("input[type = 'text']").val("");
+    initFormValue();
+}
