@@ -22,7 +22,9 @@
 					<shiro:hasPermission name="JxcUserManage:add">
 						<div class="ubtns-item" onclick="toAdd();">新增</div>
 					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcUserManage:generateQRCode">
 					<div class="ubtns-item" style="width:100px;" onclick="printReport();">员工二维码</div>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcUserManage:enabled">
 						<div class="ubtns-item" onclick="enable();">启用</div>
 					</shiro:hasPermission>
