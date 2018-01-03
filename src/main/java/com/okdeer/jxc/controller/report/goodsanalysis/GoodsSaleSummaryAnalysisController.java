@@ -96,9 +96,13 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 	@Override
 	protected EasyUIPageInfo<?> queryListPage(GoodsSaleSummaryAnalysisQo qo) {
 		try {
-			if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
+			int startCount = (qo.getPageNum() - 1) * qo.getPageSize();
+			int endCount = (qo.getPageNum()) * qo.getPageSize();
+			qo.setStartCount(startCount);
+			qo.setEndCount(endCount);
 			EasyUIPageInfo<?> page = null;
 			if (KEY_BY_GOODS.equals(qo.getTabKey())) {
 				page = goodsSaleSummaryAnalysisFacade.queryListPageByGoods(qo);
@@ -114,14 +118,14 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 			}
 			return page;
 		} catch (Exception e) {
-			LOG.error("商品销售分析查询出现异常:{}",e);
+			LOG.error("商品销售分析查询出现异常:{}", e);
 		}
 		return null;
 	}
 
 	@Override
 	protected Object queryTotal(GoodsSaleSummaryAnalysisQo qo) {
-		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
@@ -150,7 +154,7 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected List<?> queryList(GoodsSaleSummaryAnalysisQo qo) {
-		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		List<?> list = null;
