@@ -1,14 +1,17 @@
 package com.okdeer.jxc.controller.report.sales;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.castor.util.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.common.ReportController;
+import com.okdeer.jxc.report.sale.CategorySaleCostQo;
 import com.okdeer.jxc.report.sale.CategorySaleCostReportServiceApi;
+import com.okdeer.jxc.report.sale.CategorySaleCostVo;
+import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.common.report.DataRecord;
 
@@ -69,13 +75,92 @@ public class CategorySaleReportController extends ReportController {
 	public void formatter(DataRecord dataRecord) {
 
 	}
+
 	@RequestMapping("reportListPageNew")
 	@ResponseBody
-	public PageUtils<DataRecord> reportListPageNew(HttpServletRequest request,
-												@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
-												@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) throws ExecutionException, InterruptedException {
-		return super.reportListPage(request, page, rows);
+	public EasyUIPageInfo<CategorySaleCostVo> reportListPageNew(HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) throws ExecutionException,
+			InterruptedException {
+		// return super.reportListPage(request, page, rows);
+
+		Map<String, Object> map = this.builderParams(request, null);
+		CategorySaleCostQo qo = JSON.parseObject(JSON.toJSONString(map), CategorySaleCostQo.class);
+		qo.setPageSize(rows);
+		qo.setPageRow(page);
+		// 异步获取合计
+		CategorySaleCostVo total;
+		EasyUIPageInfo<CategorySaleCostVo> pageData = categorySaleCostReportServiceApi.getListPageNew(qo);
+		if (CollectionUtils.isEmpty(pageData.getFooter())) {
+			total = new CategorySaleCostVo();
+		} else {
+			total = pageData.getFooter().get(0);
+		}
+		try {
+			List<CategorySaleCostVo> list = pageData.getList();
+			if (!CollectionUtils.isEmpty(list)) {
+				List<String> categoryCodeList = new ArrayList<String>();
+				Map<String, CategorySaleCostVo> saleListMap = new HashMap<String, CategorySaleCostVo>();
+				for (CategorySaleCostVo vo : list) {
+					vo.setBeginCostAmount(BigDecimal.ZERO);
+					vo.setEndCostAmount(BigDecimal.ZERO);
+					categoryCodeList.add(vo.getCategoryCode());
+					saleListMap.put(vo.getCategoryCode() + vo.getBranchId(), vo);
+				}
+				BigDecimal hundred = BigDecimal.valueOf(100);
+				// 根据合计，一击期初期末，计算显示到页面数据
+				for (CategorySaleCostVo vo : list) {
+					// 销售占比 如果合计为0，其他占比全部是100%
+					if (isZeroOrNull(total.getSaleAmount())) {
+						vo.setSaleRate("100%");
+					} else {
+						// 设置销售占比
+						vo.setSaleRate(vo.getSaleAmount().multiply(hundred)
+								.divide(total.getSaleAmount(), BigDecimal.ROUND_HALF_UP, 4)
+								+ "%");
+					}
+
+					// 毛利占比 如果合计为0，其他占比全部是100%
+					if (isZeroOrNull(total.getProfitAmount())) {
+						vo.setMarginrate("100%");
+					} else {
+						// 设置销售占比
+						vo.setMarginrate(vo.getProfitAmount().multiply(hundred)
+								.divide(total.getProfitAmount(), BigDecimal.ROUND_HALF_UP, 4)
+								+ "%");
+					}
+					// 设置毛利率
+					vo.setProfitRate(isZeroOrNull(vo.getSaleAmount()) ? "0%" : vo.getProfitAmount().multiply(hundred)
+							.divide(vo.getSaleAmount(), BigDecimal.ROUND_HALF_UP, 4)
+							+ "%");
+					// 计算库存周转率 期间销售成本/[(期初成本+期末成本)/2]
+				}
+			}
+			return pageData;
+		} catch (Exception e) {
+			LOG.error("类别销售汇总查询出现异常：{}", e);
+			return null;
+		}
 	}
+
+	private boolean isZeroOrNull(BigDecimal big) {
+		if (big == null) {
+			return true;
+		}
+		if (BigDecimal.ZERO.compareTo(big) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	private BigDecimal nulltoZero(BigDecimal big) {
+		if (big == null) {
+			return BigDecimal.ZERO;
+		} else {
+			return big;
+		}
+	}
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
@@ -94,59 +179,70 @@ public class CategorySaleReportController extends ReportController {
 	@RequestMapping(value = "exportExcel")
 	@Override
 	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
-
+		Map<String, Object> map = this.builderParams(request, null);
+		CategorySaleCostQo qo = JSON.parseObject(JSON.toJSONString(map), CategorySaleCostQo.class);
+		// 异步获取合计
+		categorySaleCostReportServiceApi.getTotalNew(qo);
+		Future<CategorySaleCostVo> listFuture = RpcContext.getContext().getFuture();
+		CategorySaleCostVo total = new CategorySaleCostVo();
+		List<CategorySaleCostVo> list = categorySaleCostReportServiceApi.getListNew(qo);
 		try {
-			LOG.debug("商品销售汇总导出");
-			Map<String, Object> map = getParam(request);
-			String reportFileName = "";
-			String templateName = "";
-			if (map.get("reportType") == null || StringUtils.isEmpty(map.get("reportType").toString())) {
-				return;
+			if (!CollectionUtils.isEmpty(list)) {
+				List<String> categoryCodeList = new ArrayList<String>();
+				Map<String, CategorySaleCostVo> saleListMap = new HashMap<String, CategorySaleCostVo>();
+				for (CategorySaleCostVo vo : list) {
+					vo.setBeginCostAmount(BigDecimal.ZERO);
+					vo.setEndCostAmount(BigDecimal.ZERO);
+					categoryCodeList.add(vo.getCategoryCode());
+					saleListMap.put(vo.getCategoryCode() + vo.getBranchId(), vo);
+				}
+				BigDecimal hundred = BigDecimal.valueOf(100);
+				total = listFuture.get();
+				// 根据合计，一击期初期末，计算显示到页面数据
+				for (CategorySaleCostVo vo : list) {
+					// 销售占比 如果合计为0，其他占比全部是100%
+					if (isZeroOrNull(total.getSaleAmount())) {
+						vo.setSaleRate("100%");
+					} else {
+						// 设置销售占比
+						vo.setSaleRate(vo.getSaleAmount().multiply(hundred)
+								.divide(total.getSaleAmount(), BigDecimal.ROUND_HALF_UP, 4)
+								+ "%");
+					}
+					// 毛利占比 如果合计为0，其他占比全部是100%
+					if (isZeroOrNull(total.getProfitAmount())) {
+						vo.setMarginrate("100%");
+					} else {
+						// 设置销售占比
+						vo.setMarginrate(vo.getProfitAmount().multiply(hundred)
+								.divide(total.getProfitAmount(), BigDecimal.ROUND_HALF_UP, 4)
+								+ "%");
+					}
+					// 设置毛利率
+					vo.setProfitRate(isZeroOrNull(vo.getSaleAmount()) ? "0%" : vo.getProfitAmount().multiply(hundred)
+							.divide(vo.getSaleAmount(), BigDecimal.ROUND_HALF_UP, 4)
+							+ "%");
+					// 计算库存周转率 期间销售成本/[(期初成本+期末成本)/2]
+				}
 			}
+			list.add(total);
+			String reportFileName = null;
+			String templateName = null;
 			String timeStr = StringUtil.replaceAll((String) map.get("startTime"), "-", "") + "-"
 					+ StringUtil.replaceAll((String) map.get("endTime"), "-", "") + "-";
 			reportFileName = "类别销售分析" + timeStr;
-			if ("1".equals(map.get("reportType"))||1==Integer.parseInt(map.get("reportType").toString())) {
+			if ("1".equals(map.get("reportType")) || 1 == Integer.parseInt(map.get("reportType").toString())) {
 				templateName = "categoryBigSaleReport.xlsx";
-			} else if ("2".equals(map.get("reportType"))||2==Integer.parseInt(map.get("reportType").toString())) {
+			} else if ("2".equals(map.get("reportType")) || 2 == Integer.parseInt(map.get("reportType").toString())) {
 				templateName = "categoryCenterSaleReport.xlsx";
 			}
-			if ("3".equals(map.get("reportType"))||3==Integer.parseInt(map.get("reportType").toString())) {
+			if ("3".equals(map.get("reportType")) || 3 == Integer.parseInt(map.get("reportType").toString())) {
 				templateName = "categorysmallSaleReport.xlsx";
 			}
-			// 模板名称，包括后缀名
-			List<DataRecord> dataList = getReportService().getList(map);
-			DataRecord sumRecord = categorySaleCostReportServiceApi.getTotal(map);
-			if(sumRecord!=null){
-				for(DataRecord  data:dataList){
-					if(sumRecord.get("saleAmount")==null){
-						data.put("saleRate", "0");
-					}else{
-						BigDecimal sumSaleAmount=(BigDecimal)sumRecord.get("saleAmount");
-						BigDecimal saleAmount=(BigDecimal)data.get("saleAmount");
-						data.put("saleRate",BigDecimal.ZERO.compareTo(sumSaleAmount)==0?"0%":saleAmount .divide(sumSaleAmount,BigDecimal.ROUND_HALF_UP,4).multiply(new BigDecimal("100"))+"%" );
-					}
-					
-					if(sumRecord.get("profitAmount")==null){
-						data.put("marginrate", "0");
-					}else{
-						BigDecimal sumSaleAmount=(BigDecimal)sumRecord.get("profitAmount");
-						BigDecimal saleAmount=(BigDecimal)data.get("profitAmount");
-						data.put("marginrate",BigDecimal.ZERO.compareTo(sumSaleAmount)==0?"0%":saleAmount.divide(sumSaleAmount,BigDecimal.ROUND_HALF_UP,4).multiply(new BigDecimal("100"))+"%" );
-					}
-					if(data.get("profitRate")!=null){
-						data.put("profitRate", data.get("profitRate")+"%");
-					}
-					if(data.get("saleRotationRate")!=null){
-						data.put("saleRotationRate", data.get("saleRotationRate")+"%");
-					}
-				}
-			}
-			dataList.add(sumRecord);
-			cleanDataMaps(getPriceAccess(), dataList);
-			exportListForXLSX(response, dataList, reportFileName, templateName);
+
+			exportListForXLSX(response, list, reportFileName, templateName);
 		} catch (Exception e) {
-			LOG.error("类别销售汇总导出失败",e);
+			LOG.error("导出类别销售汇总出现异常{}", e);
 		}
 	}
 
