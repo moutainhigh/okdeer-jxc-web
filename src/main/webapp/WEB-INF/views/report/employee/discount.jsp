@@ -54,10 +54,10 @@
 	            <div class="ub ub-ac">
 	                <div class="umar-r10 uw-60 ut-r">汇总类型:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="dealStatus" id="deal0" value="summaryStatistics" checked="checked"/><label for="deal0">汇总统计 </label>
+	                    <input class="radioItem" type="radio" name="tabKey" id="deal0" value="summaryStatistics" checked="checked"/><label for="deal0">汇总统计 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="dealStatus" id="deal2" value="orderStatistics"/><label for="deal2">订单统计 </label>
+	                    <input class="radioItem" type="radio" name="tabKey" id="deal2" value="orderStatistics"/><label for="deal2">订单统计 </label>
 	                </div>
 	            </div>
 	        </div>
