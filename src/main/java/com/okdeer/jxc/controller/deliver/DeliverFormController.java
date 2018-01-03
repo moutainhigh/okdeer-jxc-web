@@ -513,7 +513,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 				BigDecimal itemNum;
                 if (FormType.DA.toString().equals(vo.getFormType())
-                        || FormType.DY.toString().equals(vo.getFormType())) {
+                        || FormType.DY.toString().equals(vo.getFormType())
+                        || FormType.DR.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
                 } else {
                     itemNum = deliverFormListVo.getDealNum();
@@ -525,8 +526,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                 if (deliverFormListVo.checkUntaxedPirceBack()) {
                     deliverFormListVo.setUntaxedPriceBack(deliverFormListVo.getUntaxedPrice());
                 }
-				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-				deliverFormListVo.setZeroAmount(itemNum);
+				// 明细，重新计算金额值
+				deliverFormListVo.calcAmount(itemNum);
 				totalAmount = totalAmount.add(deliverFormListVo.getAmount());
 				untaxedTotalAmount = untaxedTotalAmount.add(deliverFormListVo.getUntaxedAmount());
 			}

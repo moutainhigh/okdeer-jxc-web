@@ -775,8 +775,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				formDetail.setUpdateTime(now);
 				formDetail.setUpdateUserId(user.getId());
 				formDetail.setDisabled(0);
-				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-				formDetail.setZeroAmount(formDetail.getRealNum());
+				// 明细，重新计算金额值
+				formDetail.calcAmount(formDetail.getRealNum());
 				totalAmount = totalAmount.add(formDetail.getAmount());
 				untaxedTotalAmount = untaxedTotalAmount.add(formDetail.getUntaxedAmount());
 				list.add(formDetail);
@@ -861,8 +861,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				formDetail.setUpdateTime(now);
 				formDetail.setUpdateUserId(user.getId());
 				formDetail.setDisabled(0);
-                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-                formDetail.setZeroAmount(formDetail.getRealNum());
+                // 明细，重新计算金额值
+                formDetail.calcAmount(formDetail.getRealNum());
                 totalAmount = totalAmount.add(formDetail.getAmount());
                 untaxedTotalAmount = untaxedTotalAmount.add(formDetail.getUntaxedAmount());
 				list.add(formDetail);
@@ -952,8 +952,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				formDetail.setUpdateTime(now);
 				formDetail.setUpdateUserId(user.getId());
 				formDetail.setDisabled(0);
-                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-                formDetail.setZeroAmount(formDetail.getRealNum());
+                // 明细，重新计算金额值
+                formDetail.calcAmount(formDetail.getRealNum());
                 totalAmount = totalAmount.add(formDetail.getAmount());
                 untaxedTotalAmount = untaxedTotalAmount.add(formDetail.getUntaxedAmount());
 				list.add(formDetail);
