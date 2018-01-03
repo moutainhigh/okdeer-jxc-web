@@ -138,7 +138,6 @@ public class EmployeeDiscountSaleController extends AbstractMutilGpeController<E
 	 */
 	@Override
 	protected List<?> queryList(EmployeeDiscountSaleQo qo) {
-		buildQo(qo);
 		switch (qo.getTabKey()) {
 			case KEY_SUMMARY_STATISTICS:
 				return employeeDiscountSaleFacade.queryListBySummary(qo);
