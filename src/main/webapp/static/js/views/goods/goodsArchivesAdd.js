@@ -604,6 +604,11 @@ function typeChange(){
 		}
 		else{
             if(pricingType == "LOTTERY"){
+            	$("#allowGift").removeProp("checked");
+            	$("#allowActivity").removeProp("checked");
+            	$("#fastDeliver").removeProp("checked");
+            	$("#weekday").find("input[type='checkbox']").removeProp("checked");
+            	
                 $("#allowGift").prop("disabled","disabled");
                 $("#allowActivity").prop("disabled","disabled");
                 $("#fastDeliver").prop("disabled","disabled");
@@ -613,6 +618,9 @@ function typeChange(){
                 $("#allowActivity").removeProp("disabled");
                 $("#fastDeliver").removeProp("disabled");
                 $("#weekday").find("input[type='checkbox']").removeProp("disabled");
+                
+                $("#allowActivity").prop("checked","checked");
+            	$("#weekday").find("input[type='checkbox']").prop("checked","checked");
 			}
 
 

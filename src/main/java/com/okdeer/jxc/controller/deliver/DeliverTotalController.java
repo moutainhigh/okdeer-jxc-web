@@ -213,17 +213,19 @@ public class DeliverTotalController extends BaseController<DeliverTotalControlle
 
 	private void buildSearchParams(DeliverTotalFormQo qo) {
 		
-		if(StringUtils.isBlank(qo.getTargetBranchIdStr())){
-			throw new BusinessException("要货机构不能为空");
+		if(StringUtils.isNotBlank(qo.getTargetBranchIdStr())){
+			List<String> targetBranchIds = Arrays.asList(qo.getTargetBranchIdStr().split(","));
+			qo.setTargetBranchIds(targetBranchIds);
 		}
+		
+		
 		if(StringUtils.isBlank(qo.getSourceBranchIdStr())){
 			throw new BusinessException("发货机构不能为空");
 		}
 		
-		List<String> targetBranchIds = Arrays.asList(qo.getTargetBranchIdStr().split(","));
+		
 		List<String> sourceBranchIds = Arrays.asList(qo.getSourceBranchIdStr().split(","));
 		
-		qo.setTargetBranchIds(targetBranchIds);
 		qo.setSourceBranchIds(sourceBranchIds);
 		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
 	}
