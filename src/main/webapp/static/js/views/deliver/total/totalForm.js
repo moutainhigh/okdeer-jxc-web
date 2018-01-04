@@ -85,6 +85,8 @@ function initGridTotalList () {
         fitColumns:true,    //每列占满
         //fit:true,         //占满
         showFooter:true,
+        checkOnSelect:false,	// 当用户仅在点击该复选框的时候才会被选中或取消
+        selectOnCheck:false,	// 选择行将不选中复选框
         height:'100%',
         width:'100%',
         columns:[[
@@ -129,6 +131,8 @@ function initGridTotalList () {
         ]],
         onBeforeLoad:function(data){
             gridTotalHandle.setDatagridHeader("center");
+        },onLoadSuccess:function(){
+        	$("#"+gridName).datagrid('checkAll');
         }
     });
 }
@@ -139,12 +143,7 @@ function toAddTab(title,url){
 
 //查询
 function queryForm(){
-    var targetBranchIdStr = $("#targetBranchIdStr").val();
     var sourceBranchIdStr = $("#sourceBranchIdStr").val();
-    if(!targetBranchIdStr){
-        $_jxc.alert("请选择要货机构");
-        return;
-    }
     if(!sourceBranchIdStr){
         $_jxc.alert("请选择发货机构");
         return;

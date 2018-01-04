@@ -29,6 +29,8 @@ function initGridTotalList () {
         fitColumns:true,    //每列占满
         //fit:true,         //占满
         showFooter:true,
+        checkOnSelect:false,	// 当用户仅在点击该复选框的时候才会被选中或取消
+        selectOnCheck:false,	// 选择行将不选中复选框
         height:'100%',
         width:'100%',
         columns:[[
@@ -93,6 +95,8 @@ function initGridTotalList () {
         },
         onBeforeLoad:function(data){
             gridTotalDataHandle.setDatagridHeader("center");
+        },onLoadSuccess:function(){
+        	$("#"+gridName).datagrid('checkAll');
         }
     });
 }

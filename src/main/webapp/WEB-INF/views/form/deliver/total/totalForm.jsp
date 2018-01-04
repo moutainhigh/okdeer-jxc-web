@@ -33,7 +33,6 @@
                 <input class="uinp ub ub-f1" type="hidden" id="targetBranchIdStr" name="targetBranchIdStr" value="">
                 <input class="uinp ub ub-f1" type="text" id="targetBranchCodeName" readonly="readonly" value="" name="targetBranchCodeName">
                 <div class="uinp-more">...</div>
-                <i class="ub ub-ac uc-red">*</i>
                 </div>
 
             </div>
