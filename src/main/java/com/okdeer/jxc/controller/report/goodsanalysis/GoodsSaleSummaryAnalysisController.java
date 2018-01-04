@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.goodsanalysis;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,8 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 
 	@Override
 	protected Object queryTotal(GoodsSaleSummaryAnalysisQo qo) {
-		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
+		//用list自动算，不再查询一次，以提高效率
+		/*if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
@@ -149,7 +151,7 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 			vo.setStoreCode("合计:");
 			cleanAccessData(vo);
 			return vo;
-		}
+		}*/
 		return null;
 	}
 
@@ -160,17 +162,103 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 		}
 		List<?> list = null;
 		if (KEY_BY_GOODS.equals(qo.getTabKey())) {
-			list = goodsSaleSummaryAnalysisFacade.queryListByGoods(qo);
+			list = totalGoods(goodsSaleSummaryAnalysisFacade.queryListByGoods(qo));
 		} else if (KEY_BY_BIG_CATEGORY.equals(qo.getTabKey())) {
-			list = goodsSaleSummaryAnalysisFacade.queryListByBigCategory(qo);
+			list = totalCategory(goodsSaleSummaryAnalysisFacade.queryListByBigCategory(qo));
 		} else if (KEY_BY_STORE.equals(qo.getTabKey())) {
-			list = goodsSaleSummaryAnalysisFacade.queryListByStore(qo);
+			list = totalStore(goodsSaleSummaryAnalysisFacade.queryListByStore(qo));
 		} else if (KEY_BY_STORE_GOODS.equals(qo.getTabKey())) {
-			list = goodsSaleSummaryAnalysisFacade.queryListByStoreGoods(qo);
+			list = totalStoreGoods(goodsSaleSummaryAnalysisFacade.queryListByStoreGoods(qo));
 		}
 		if (list != null) {
 			cleanAccessData(list);
 		}
+		return list;
+	}
+
+	private List<GoodsSaleSummaryAnalysisByGoodsVo> totalGoods(List<GoodsSaleSummaryAnalysisByGoodsVo> list) {
+		BigDecimal sumXsNum = BigDecimal.ZERO;
+		BigDecimal sumXsAmount = BigDecimal.ZERO;
+		BigDecimal sumXsCost = BigDecimal.ZERO;
+		BigDecimal saleProfitAmount = BigDecimal.ZERO;
+		for (GoodsSaleSummaryAnalysisByGoodsVo vo : list) {
+			sumXsNum = sumXsNum.add(vo.getXsNum());
+			sumXsAmount = sumXsAmount.add(vo.getXsAmount());
+			sumXsCost = sumXsCost.add(vo.getCostAmount());
+			saleProfitAmount = saleProfitAmount.add(vo.getSaleProfitAmount());
+		}
+		GoodsSaleSummaryAnalysisByGoodsVo total = new GoodsSaleSummaryAnalysisByGoodsVo();
+		total.setXsNum(sumXsNum);
+		total.setXsAmount(sumXsAmount);
+		total.setCostAmount(sumXsCost);
+		total.setSaleProfitAmount(saleProfitAmount);
+		total.setSkuCode("合计：");
+		list.add(total);
+		return list;
+	}
+
+	private List<GoodsSaleSummaryAnalysisByBigCategoryVo> totalCategory(
+			List<GoodsSaleSummaryAnalysisByBigCategoryVo> list) {
+		BigDecimal sumXsNum = BigDecimal.ZERO;
+		BigDecimal sumXsAmount = BigDecimal.ZERO;
+		BigDecimal sumXsCost = BigDecimal.ZERO;
+		BigDecimal saleProfitAmount = BigDecimal.ZERO;
+		for (GoodsSaleSummaryAnalysisByBigCategoryVo vo : list) {
+			sumXsNum = sumXsNum.add(vo.getXsNum());
+			sumXsAmount = sumXsAmount.add(vo.getXsAmount());
+			sumXsCost = sumXsCost.add(vo.getCostAmount());
+			saleProfitAmount = saleProfitAmount.add(vo.getSaleProfitAmount());
+		}
+		GoodsSaleSummaryAnalysisByBigCategoryVo total = new GoodsSaleSummaryAnalysisByBigCategoryVo();
+		total.setXsNum(sumXsNum);
+		total.setXsAmount(sumXsAmount);
+		total.setCostAmount(sumXsCost);
+		total.setSaleProfitAmount(saleProfitAmount);
+		total.setBigCategoryCode("合计：");
+		list.add(total);
+		return list;
+	}
+
+	private List<GoodsSaleSummaryAnalysisByStoreVo> totalStore(List<GoodsSaleSummaryAnalysisByStoreVo> list) {
+		BigDecimal sumXsNum = BigDecimal.ZERO;
+		BigDecimal sumXsAmount = BigDecimal.ZERO;
+		BigDecimal sumXsCost = BigDecimal.ZERO;
+		BigDecimal saleProfitAmount = BigDecimal.ZERO;
+		for (GoodsSaleSummaryAnalysisByStoreVo vo : list) {
+			sumXsNum = sumXsNum.add(vo.getXsNum());
+			sumXsAmount = sumXsAmount.add(vo.getXsAmount());
+			sumXsCost = sumXsCost.add(vo.getCostAmount());
+			saleProfitAmount = saleProfitAmount.add(vo.getSaleProfitAmount());
+		}
+		GoodsSaleSummaryAnalysisByStoreVo total = new GoodsSaleSummaryAnalysisByStoreVo();
+		total.setXsNum(sumXsNum);
+		total.setXsAmount(sumXsAmount);
+		total.setCostAmount(sumXsCost);
+		total.setSaleProfitAmount(saleProfitAmount);
+		total.setStoreCode("合计：");
+		list.add(total);
+		return list;
+	}
+
+	private List<GoodsSaleSummaryAnalysisByStoreGoodsVo> totalStoreGoods(
+			List<GoodsSaleSummaryAnalysisByStoreGoodsVo> list) {
+		BigDecimal sumXsNum = BigDecimal.ZERO;
+		BigDecimal sumXsAmount = BigDecimal.ZERO;
+		BigDecimal sumXsCost = BigDecimal.ZERO;
+		BigDecimal saleProfitAmount = BigDecimal.ZERO;
+		for (GoodsSaleSummaryAnalysisByStoreGoodsVo vo : list) {
+			sumXsNum = sumXsNum.add(vo.getXsNum());
+			sumXsAmount = sumXsAmount.add(vo.getXsAmount());
+			sumXsCost = sumXsCost.add(vo.getCostAmount());
+			saleProfitAmount = saleProfitAmount.add(vo.getSaleProfitAmount());
+		}
+		GoodsSaleSummaryAnalysisByStoreGoodsVo total = new GoodsSaleSummaryAnalysisByStoreGoodsVo();
+		total.setXsNum(sumXsNum);
+		total.setXsAmount(sumXsAmount);
+		total.setCostAmount(sumXsCost);
+		total.setSaleProfitAmount(saleProfitAmount);
+		total.setStoreCode("合计：");
+		list.add(total);
 		return list;
 	}
 
