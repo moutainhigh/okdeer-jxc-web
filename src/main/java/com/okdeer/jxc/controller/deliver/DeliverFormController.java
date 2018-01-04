@@ -516,7 +516,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                         || FormType.DY.toString().equals(vo.getFormType())
                         || FormType.DR.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
+                } else if (FormType.DI.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getReceiveNum();
                 } else {
+                    //DD,DB,DO
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
@@ -639,9 +642,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				
                 BigDecimal itemNum;
                 if (FormType.DA.toString().equals(vo.getFormType())
-                        || FormType.DY.toString().equals(vo.getFormType())) {
+                        || FormType.DY.toString().equals(vo.getFormType())
+                        || FormType.DR.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
+                } else if (FormType.DI.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getReceiveNum();
                 } else {
+                    //DD,DB,DO
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
