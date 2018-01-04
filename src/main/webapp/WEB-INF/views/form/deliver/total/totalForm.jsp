@@ -28,7 +28,7 @@
 
 
             <div class="ub umar-t20">
-                <div class="ub  ub-ac uw-390" id="targetBranchComponent">
+                <div class="ub  ub-ac uw-516" id="targetBranchComponent">
                 <div class="umar-r10 uw-70 ut-r">要货机构:</div>
                 <input class="uinp ub ub-f1" type="hidden" id="targetBranchIdStr" name="targetBranchIdStr" value="">
                 <input class="uinp ub ub-f1" type="text" id="targetBranchCodeName" readonly="readonly" value="" name="targetBranchCodeName">
@@ -38,7 +38,7 @@
             </div>
 
             <div class="ub umar-t20">
-                <div class="ub  ub-ac uw-390" id="sourceBranchComponent">
+                <div class="ub  ub-ac uw-516" id="sourceBranchComponent">
                 <div class="umar-r10 uw-70 ut-r">发货机构:</div>
                 <input class="uinp ub ub-f1" type="hidden" id="sourceBranchIdStr" name="sourceBranchIdStr" value="">
                 <input class="uinp ub ub-f1" type="text" id="sourceBranchCodeName" readonly="readonly" value="" name="sourceBranchCodeName">
