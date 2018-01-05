@@ -1165,8 +1165,11 @@ function updateListData(data){
         	 rows[i]["untaxedPrice"] = 0;
         	 rows[i]["taxAmount"] = 0;
          }else{
-        	 rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);
-        	 rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["dealNum"]||0);
+        	 var dealNum = parseFloat(rows[i]["dealNum"]||0).toFixed(4);
+    		 var price = parseFloat(rows[i]["price"]||0).toFixed(4);
+			 var untaxedPrice = parseFloat(rows[i]["untaxedPrice"]||0).toFixed(4);
+             rows[i]["amount"] = parseFloat(price*dealNum).toFixed(4);
+             rows[i]["untaxedAmount"]  = parseFloat(untaxedPrice*dealNum).toFixed(4);
         	 rows[i]["taxAmount"] = parseFloat(rows[i]["amount"] - rows[i]["untaxedAmount"]).toFixed(4);
         	 if(parseInt(rows[i]["distributionSpec"])){
         		 // 如果导入数量为1，规则为9时，后台反正出箱数为0.1111，此处通过后台反算的箱数*规则时，得出数量为0.9999，故导入不需要前端返算数量

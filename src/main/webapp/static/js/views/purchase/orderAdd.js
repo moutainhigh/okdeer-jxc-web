@@ -761,9 +761,11 @@ function updateListData(data){
         	data[i]["untaxedAmount"]  = 0;
         	data[i]["untaxedPrice"] = 0;
         }else{
-        	data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
-        	var untaxedPrice = parseFloat((data[i]["purchasePrice"]||0)/(1+taxRate)).toFixed(4)
-        	data[i]["untaxedAmount"]  = untaxedPrice*parseFloat(data[i]["realNum"]||0);
+        	var price = parseFloat(data[i]["purchasePrice"]||0).toFixed(4);
+        	var realNum = parseFloat(data[i]["realNum"]||0).toFixed(4);
+        	data[i]["amount"]  = parseFloat(price*realNum).toFixed(4);
+        	var untaxedPrice = parseFloat(price/(1+taxRate)).toFixed(4)
+        	data[i]["untaxedAmount"]  = parseFloat(untaxedPrice*realNum).toFixed(4);
         	data[i]["untaxedPrice"] = untaxedPrice;
         }
     	data[i]["taxAmount"] = data[i]["amount"]-data[i]["untaxedAmount"];
