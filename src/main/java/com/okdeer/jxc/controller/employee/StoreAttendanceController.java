@@ -125,7 +125,7 @@ public class StoreAttendanceController extends AbstractSimpleGpeController<Store
 	 */
 	private void buildQo(StoreAttendanceQo qo) {
 		// 如果机构为空
-		if (StringUtils.isEmpty(qo.getStoreId())) {
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		if (StringUtils.isNotEmpty(qo.getEndTime())) {

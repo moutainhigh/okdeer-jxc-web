@@ -7,6 +7,7 @@ $(function () {
     $('#branchComponent').branchSelect({
         onAfterRender:function(data){
             $("#storeId").val(data.branchId);
+            $("#branchCompleCode").val(data.branchCompleCode);
         }
     });
 
