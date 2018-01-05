@@ -29,7 +29,7 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryChargeCategory()">查询</div>
-					<shiro:hasPermission name="bdChargeCategory:add">
+					<shiro:hasPermission name="bdChargeCategory:append">
 						<div class="ubtns-item" onclick="addCategoryCode()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="bdChargeCategory:delete">

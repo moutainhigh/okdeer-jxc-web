@@ -100,9 +100,8 @@ public class GoodsSaleSummaryAnalysisController extends AbstractMutilGpeControll
 			if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 				qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
-			// 根据开始行和每页大小计算起始位置
 			int startCount = (qo.getPageNum() - 1) * qo.getPageSize();
-			int endCount = qo.getPageNum() * qo.getPageSize();
+			int endCount = qo.getPageSize();
 			qo.setStartCount(startCount);
 			qo.setEndCount(endCount);
 			EasyUIPageInfo<?> page = null;
