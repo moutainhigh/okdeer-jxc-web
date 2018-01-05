@@ -14,11 +14,15 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
-			<div class="ubtns-item" onclick="toGpeExport()">导出</div>
-	            <shiro:hasPermission name="JxcPurchaseOrder:print">
-	                <div class="ubtns-item-disabled" onclick="printPreview()">打印</div>
-	            </shiro:hasPermission>
+	                <shiro:hasPermission name="JxcEmployeeDiscount:search">
+						<div class="ubtns-item" onclick="query()">查询</div>
+					</shiro:hasPermission>
+	                <shiro:hasPermission name="JxcEmployeeDiscount:export">
+						<div class="ubtns-item" onclick="toGpeExport()">导出</div>
+					</shiro:hasPermission>
+		            <shiro:hasPermission name="JxcEmployeeDiscount:print">
+		                <div class="ubtns-item-disabled" onclick="printPreview()">打印</div>
+		            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
