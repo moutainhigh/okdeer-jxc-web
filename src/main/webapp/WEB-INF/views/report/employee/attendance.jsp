@@ -14,12 +14,16 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-					<div class="ubtns-item" onclick="queryForm()">查询</div>
+	                <shiro:hasPermission name="bdStoreAttendance:search">
+						<div class="ubtns-item" onclick="queryForm()">查询</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-			<shiro:hasPermission name="JxcPurchaseOrder:print">
-				<div class="ubtns-item ubtns-item-disabled">打印</div>
-			</shiro:hasPermission>
+	                <shiro:hasPermission name="bdStoreAttendance:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="bdStoreAttendance:print">
+						<div class="ubtns-item-disabled">打印</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            <!-- 引入时间选择控件 -->
