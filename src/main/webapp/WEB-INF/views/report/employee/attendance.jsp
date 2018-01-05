@@ -30,6 +30,7 @@
 				<div class="ub  ub-ac uw-390" id="branchComponent">
 				<div class="umar-r10 uw-70 ut-r">门店:</div>
 				<input class="uinp ub ub-f1" type="hidden" id="storeId" name="storeId" value="">
+				<input class="uinp ub ub-f1" type="hidden" id="branchCompleCode" name="branchCompleCode" value="">
 				<input class="uinp ub ub-f1" type="text" id="branchName"  value="" name="branchName">
 				<div class="uinp-more" id="selectBranchMore">...</div>
 				<i class="ub ub-ac uc-red">*</i>
