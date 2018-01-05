@@ -23,10 +23,12 @@ import com.okdeer.ca.api.sysuser.service.ISysUserApi;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -469,6 +471,41 @@ public class UserController extends BaseController<UserController> {
 			LOG.error("员工二维码生成打印异常：", e);
 		}
 		
+	}
+	
+	@RequestMapping(value = "exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(UserListQo qo, HttpServletResponse response) {
+		try {
+			// 默认当前机构
+			if (StringUtils.isBlank(qo.getBranchCompleCode())) {
+				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			}
+
+			LOG.debug("查询用户件：{}", qo);
+
+			List<UserListVo> list = sysUserService.queryListForExport(qo);
+
+			RespJson respJson = super.validateExportList(list);
+			if (!respJson.isSuccess()) {
+				LOG.info(respJson.getMessage());
+				return respJson;
+			}
+
+			// 导出文件名称，不包括后缀名
+			String fileName = "用户信息列表" + "_" + DateUtils.getCurrSmallStr();
+
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.USER_EXPORT_TEMPLATE;
+
+			// 导出Excel
+			exportListForXLSX(response, list, fileName, templateName);
+			return null;
+
+		} catch (Exception e) {
+			LOG.error("导出用户信息失败", e);
+		}
+		return RespJson.error();
 	}
 
 }
