@@ -15,7 +15,7 @@
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
-			<div class="ubtns-item" onclick="exportData()">导出</div>
+			<div class="ubtns-item" onclick="toGpeExport()">导出</div>
 	            <shiro:hasPermission name="JxcPurchaseOrder:print">
 	                <div class="ubtns-item-disabled" onclick="printPreview()">打印</div>
 	            </shiro:hasPermission>
