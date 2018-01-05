@@ -2,6 +2,11 @@
 package com.okdeer.jxc.controller.system;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +23,16 @@ import com.okdeer.ca.api.sysuser.service.ISysUserApi;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.PriceGrantEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.qo.SysUserQo;
@@ -183,11 +192,17 @@ public class UserController extends BaseController<UserController> {
 	public String toEditUser(String userId, Model model) {
 
 		SysUser user = sysUserService.getUserById(userId);
-		// 最大折扣比率，需乘以100
+		// 单品折扣最大比例（大于0小于等于1），需乘以100
 		if (null != user.getMaxDiscountRadio()) {
 			BigDecimal maxDiscountRadio = user.getMaxDiscountRadio().multiply(
 					new BigDecimal(Constant.STRING_ONE_HUNDRED));
 			user.setMaxDiscountRadio(maxDiscountRadio);
+		}
+		// 整单折扣最大比例（大于0小于等于1），需乘以100
+		if (null != user.getBillMaxDiscountRate()) {
+			BigDecimal billMaxDiscountRate = user.getBillMaxDiscountRate().multiply(
+					new BigDecimal(Constant.STRING_ONE_HUNDRED));
+			user.setBillMaxDiscountRate(billMaxDiscountRate);
 		}
 		Branches branch = branchService.getBranchInfoById(user.getBranchId());
 		SysRole role = roleService.getRoleByUserId(userId);
@@ -434,9 +449,63 @@ public class UserController extends BaseController<UserController> {
 	}
 	
 	
-	@RequestMapping(value = "/toUserCodeList")
-	public String toUserCodeList() {
-		return "system/userCodeList";
+	@RequestMapping(value = "printUserCode", method = RequestMethod.GET)
+	@ResponseBody
+	public void printUserCode(String ids, HttpServletResponse response, HttpServletRequest request) {
+		try {
+			LOG.debug("员工ID:{}", ids);
+			if(StringUtils.isBlank(ids)){
+				LOG.error("员工Id为空");
+				return;
+			}
+			
+			List<String> idList = Arrays.asList(ids.split(","));
+			
+			List<SysUser> userList = sysUserService.getUserByIdList(idList);
+			
+			String jaspername = PrintConstant.USER_CODE_LIST_REPORT;
+			
+			JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, jaspername, userList, "");
+			
+		} catch (Exception e) {
+			LOG.error("员工二维码生成打印异常：", e);
+		}
+		
+	}
+	
+	@RequestMapping(value = "exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(UserListQo qo, HttpServletResponse response) {
+		try {
+			// 默认当前机构
+			if (StringUtils.isBlank(qo.getBranchCompleCode())) {
+				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
+			}
+
+			LOG.debug("查询用户件：{}", qo);
+
+			List<UserListVo> list = sysUserService.queryListForExport(qo);
+
+			RespJson respJson = super.validateExportList(list);
+			if (!respJson.isSuccess()) {
+				LOG.info(respJson.getMessage());
+				return respJson;
+			}
+
+			// 导出文件名称，不包括后缀名
+			String fileName = "用户信息列表" + "_" + DateUtils.getCurrSmallStr();
+
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.USER_EXPORT_TEMPLATE;
+
+			// 导出Excel
+			exportListForXLSX(response, list, fileName, templateName);
+			return null;
+
+		} catch (Exception e) {
+			LOG.error("导出用户信息失败", e);
+		}
+		return RespJson.error();
 	}
 
 }

@@ -18,19 +18,19 @@ import com.okdeer.jxc.report.service.GoodsSaleProfitReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleProfitReportVo;
 import com.okdeer.jxc.utils.UserUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * ClassName: GoodsSaleProfitReportController 
- * @Description: TODO
+ * @Description: 单品ABC毛利Controller 
  * @author liux01
  * @date 2016年11月10日
  *
@@ -55,7 +55,7 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 	
 	/**
 	 * 
-	 * @Description: 获取报表列表信息
+	 * @Description: 获取单品ABC毛利列表信息
 	 * @param vo  商品销售毛利对象
 	 * @param pageNumber  页数
 	 * @param pageSize 每页显示数
@@ -78,16 +78,14 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 			if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
 				vo.setBrancheType(Boolean.TRUE);
 			}
-			PageUtils<GoodsSaleProfitReportVo> goodsOutInfoDetailList = goodsSaleProfitReportServiceApi.goodsSaleProfitList(vo);
-			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
-			List<GoodsSaleProfitReportVo> footer = new ArrayList<GoodsSaleProfitReportVo>();
-			if(goodsSaleProfitReportVo !=null){
-				footer.add(goodsSaleProfitReportVo);
-			}
-			goodsOutInfoDetailList.setFooter(footer);
+            StopWatch sw = new StopWatch();
+            sw.start("单品ABC毛利列表" + branches.getBranchName() + ":" + vo.getStartTime() + "~" + vo.getEndTime());
+            PageUtils<GoodsSaleProfitReportVo> goodsOutInfoDetailList = goodsSaleProfitReportServiceApi
+                    .goodsSaleProfitList(vo);
+            sw.stop();
+            LOG.info("单品ABC毛利列表times:{}", sw.prettyPrint());
 			// 过滤价格权限数据
 			cleanAccessData(goodsOutInfoDetailList);
-			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("单品毛利ABC列表信息异常:{}", e);
@@ -97,7 +95,7 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 
 	/**
 	 * 
-	 * @Description: 导出报表信息
+	 * @Description: 导出单品ABC毛利报表信息
 	 * @param response
 	 * @param vo 商品销售毛利对象
 	 * @return
@@ -115,9 +113,9 @@ public class GoodsSaleProfitReportController extends BaseController<GoodsSalePro
 				vo.setBrancheType(Boolean.TRUE);
 			}
 			List<GoodsSaleProfitReportVo> exportList = goodsSaleProfitReportServiceApi.exportList(vo);
-			GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
+			/**GoodsSaleProfitReportVo goodsSaleProfitReportVo = goodsSaleProfitReportServiceApi.queryGoodsSaleProfitSum(vo);
 			goodsSaleProfitReportVo.setBranchName("合计:");
-			exportList.add(goodsSaleProfitReportVo);
+			exportList.add(goodsSaleProfitReportVo);*/
 			// 过滤价格权限数据
 			cleanAccessData(exportList);
 			String fileName = "单品毛利ABC分析"+vo.getStartTime().replace("-", "")+"-"+vo.getEndTime().replace("-", "");

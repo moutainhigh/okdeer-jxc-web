@@ -211,6 +211,23 @@ public class NonIncomeController extends BaseController<NonIncomeController> {
 		}
 		return RespJson.error();
 	}
+	
+	@RequestMapping(value = "antiAudit", method = RequestMethod.POST)
+	public RespJson antiAudit(String formId) {
+		LOG.debug("反审营业外收入ID：{}", formId);
+		try {
+			
+			UpdateStatusVo vo = new UpdateStatusVo();
+			vo.setId(formId);
+			vo.setUpdateUserId(super.getCurrUserId());
+			
+			return storeChargeService.antiAuditStoreCharge(vo);
+			
+		} catch (Exception e) {
+			LOG.error("反审营业外收入失败：", e);
+		}
+		return RespJson.error();
+	}
 
 	@RequestMapping(value = "deleteIncome", method = RequestMethod.POST)
 	public RespJson deleteIncome(String formId) {

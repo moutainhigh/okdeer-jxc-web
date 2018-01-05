@@ -20,6 +20,7 @@ import com.okdeer.jxc.utils.UserUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * ClassName: GoodsSaleNumReportController 
- * @Description: TODO
+ * @Description: 单品ABC销售数量
  * @author liux01
  * @date 2016年11月10日
  *
@@ -76,25 +76,16 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			/*vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
-			if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
-				vo.setBrancheType(Boolean.TRUE);
-			}*/
 			if(StringUtils.isEmpty(vo.getBranchCompleCode())){
 				vo.setBranchCompleCode(this.getCurrBranchCompleCode());
 			}
-			
+			StopWatch sw = new StopWatch();
+            sw.start("单品ABC销售数量列表" + vo.getBranchCompleCode() + ":" + vo.getStartTime() + "~" + vo.getEndTime());
 			PageUtils<GoodsSaleNumReportVo> goodsOutInfoDetailList = goodsSaleNumReportServiceApi.goodsSaleNumList(vo);
-			GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
-			List<GoodsSaleNumReportVo> footer = new ArrayList<GoodsSaleNumReportVo>();
-			if(goodsSaleNumReportVo !=null){
-				footer.add(goodsSaleNumReportVo);
-			}
-			goodsOutInfoDetailList.setFooter(footer);
+			sw.stop();
+            LOG.info("单品ABC销售数量列表times:{}", sw.prettyPrint());
 			// 过滤数据权限字段
 			cleanAccessData(goodsOutInfoDetailList);
-			LOG.debug(LogConstant.PAGE, goodsOutInfoDetailList.toString());
 			return goodsOutInfoDetailList;
 		} catch (Exception e) {
 			LOG.error("获取ＡＢＣ销售数量列表异常:{}", e);
@@ -121,9 +112,9 @@ public class GoodsSaleNumReportController extends BaseController<GoodsSaleNumRep
 				vo.setBrancheType(Boolean.TRUE);
 			}
 			List<GoodsSaleNumReportVo> exportList = goodsSaleNumReportServiceApi.exportList(vo);
-			GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
+			/**GoodsSaleNumReportVo goodsSaleNumReportVo = goodsSaleNumReportServiceApi.queryGoodsSaleNumSum(vo);
 			goodsSaleNumReportVo.setBranchName("合计：");
-			exportList.add(goodsSaleNumReportVo);
+			exportList.add(goodsSaleNumReportVo);*/
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "单品销售量ABC分析"+vo.getStartTime().replace("-", "")+"-"+vo.getEndTime().replace("-", "");

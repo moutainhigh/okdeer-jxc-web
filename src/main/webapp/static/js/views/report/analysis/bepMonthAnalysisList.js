@@ -54,6 +54,14 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field:'profitLossAmount',title:'盈亏金额',width:"100px",align:'right',
+            	formatter : function(value, row, index) {
+            		if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+            			return '';
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            },
             {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){

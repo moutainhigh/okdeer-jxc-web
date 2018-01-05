@@ -18,12 +18,13 @@ function initDatagrid() {
 						align : 'center',
 						url : contextPath + '/system/user/json',
 						// toolbar: '#tb', //工具栏 id为tb
-						singleSelect : true, // 单选 false多选
+						singleSelect : false, // 单选 false多选
 						rownumbers : true, // 序号
 						pagination : true, // 分页
 						fitColumns : true, // 每列占满
 						fit : true, // 占满
 						showFooter : true,
+						pageSize:50,
 						columns : [ [
 								{
 									field : 'check',
@@ -32,7 +33,6 @@ function initDatagrid() {
 								{
 									field : 'userCode',
 									title : '帐号名',
-									sortable : true,
 									width : 100,
 									formatter : function(value, row, index) {
 										if (updatePermission) {
@@ -49,55 +49,43 @@ function initDatagrid() {
 								{
 									field : 'userName',
 									title : '用户名',
-									sortable : true,
 									width : 100
 								},
 								{
 									field : 'mobile',
 									title : '电话',
-									sortable : true,
 									width : 100
 								},
 								{
 									field : 'branchCode',
 									title : '机构编号',
-									sortable : true,
 									width : 100
 								},
 								{
 									field : 'branchTypeStr',
 									title : '机构类型',
-									sortable : true,
 									width : 100
 								},
 								{
 									field : 'branchName',
 									title : '机构名称',
-									sortable : true,
 									width : 220
 								},
 								{
 									field : 'roleName',
 									title : '角色名称',
-									sortable : true,
 									width : 220
 								},
 								{
 									field : 'statusStr',
 									title : '状态 ',
-									sortable : true,
 									width : 60,
 									align : 'center'
 								},
 								{
-									field : 'lastLoginTime',
+									field : 'lastLoginTimeStr',
 									title : '最近使用时间',
-									sortable : true,
-									width : 100,
-									formatter : function(value, rowData,
-											rowIndex) {
-										return formatDate(value);
-									}
+									width : 100
 								} ] ],
 						onLoadSuccess : function(data) {
 							gridHandel.setDatagridHeader("center");
@@ -106,6 +94,7 @@ function initDatagrid() {
 					});
 }
 
+var gridName = "dg";
 function query() {
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
@@ -143,7 +132,7 @@ function openDialog(argUrl, argTitle, argType) {
 	dalogTemp = $('<div/>').dialog({
 		href : argUrl,
 		width : 800,
-		height : 580,
+		height : 620,
 		title : argTitle,
 		closable : true,
 		resizable : true,
@@ -199,11 +188,18 @@ function disable() {
 }
 
 function updateStatus(status) {
-	var rowData = $("#dg").datagrid("getSelected");
-
-	if (rowIsNull(rowData)) {
+	var rows = $("#dg").datagrid("getChecked");
+	if(rows.length <= 0){
+		$_jxc.alert('请选择一条数据！');
 		return;
 	}
+	
+	if(rows.length > 1){
+		$_jxc.alert('一次只能选择一行数据！');
+		return;
+	}
+	
+	var rowData = rows[0];
 
 	var rowStatus = rowData.status;
 	if (rowStatus == status) {
@@ -225,17 +221,45 @@ function updateStatus(status) {
 			$_jxc.alert("操作成功")
 		}else {
             $_jxc.alert(result.message);
-            $("#dg").datagrid('reload');
 		}
+        $("#dg").datagrid('reload');
 	});
 }
 
-function createQrCode() {
-    var rowData = $("#dg").datagrid("getSelected");
-    if (rowIsNull(rowData)) {
+function printReport(){
+	var rows = $("#dg").datagrid("getChecked");
+	if(rows.length <= 0){
+		$_jxc.alert('请选择一条数据！');
+		return;
+	}
+    
+    var ids="";
+    $.each(rows,function(i, v){
+		if (i > 0) {
+			ids += ",";
+		}
+		ids += v.id;
+    });
+    
+    console.log(ids);
+    
+	parent.addTabPrint("员工二维码", "员工二维码", contextPath+"/system/user/printUserCode?ids=" + ids);
+}
+
+/**
+ * 导出
+ */
+function exportData(){
+    var length = $('#'+gridName).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
         return;
     }
-    var storage=window.localStorage;
-    storage.userData = rowData;
-    window.open(contextPath + "/system/user/toUserCodeList");
+
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/system/user/exportList"
+    }
+    publicExprotService(param);
 }

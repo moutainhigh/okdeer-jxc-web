@@ -513,9 +513,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 				BigDecimal itemNum;
                 if (FormType.DA.toString().equals(vo.getFormType())
-                        || FormType.DY.toString().equals(vo.getFormType())) {
+                        || FormType.DY.toString().equals(vo.getFormType())
+                        || FormType.DR.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
+                } else if (FormType.DI.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getReceiveNum();
                 } else {
+                    //DD,DB,DO
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
@@ -525,8 +529,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                 if (deliverFormListVo.checkUntaxedPirceBack()) {
                     deliverFormListVo.setUntaxedPriceBack(deliverFormListVo.getUntaxedPrice());
                 }
-				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-				deliverFormListVo.setZeroAmount(itemNum);
+				// 明细，重新计算金额值
+				deliverFormListVo.calcAmount(itemNum);
 				totalAmount = totalAmount.add(deliverFormListVo.getAmount());
 				untaxedTotalAmount = untaxedTotalAmount.add(deliverFormListVo.getUntaxedAmount());
 			}
@@ -638,9 +642,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				
                 BigDecimal itemNum;
                 if (FormType.DA.toString().equals(vo.getFormType())
-                        || FormType.DY.toString().equals(vo.getFormType())) {
+                        || FormType.DY.toString().equals(vo.getFormType())
+                        || FormType.DR.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
+                } else if (FormType.DI.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getReceiveNum();
                 } else {
+                    //DD,DB,DO
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
@@ -648,8 +656,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
 				
-                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-				deliverFormListVo.setZeroAmount(itemNum);
+                // 明细，重新计算金额值
+				deliverFormListVo.calcAmount(itemNum);
                 totalAmount = totalAmount.add(deliverFormListVo.getAmount());
                 untaxedTotalAmount = untaxedTotalAmount.add(deliverFormListVo.getUntaxedAmount());
 			}

@@ -234,6 +234,24 @@ public class InputTaxAuthController extends BaseController<InputTaxAuthControlle
 		}
 		return RespJson.error();
 	}
+	
+	@RequestMapping(value = "antiAudit", method = RequestMethod.POST)
+	public RespJson antiAudit(String formId) {
+		LOG.debug("反审进项税额认证ID：{}", formId);
+		try {
+			
+			UpdateStatusVo vo = new UpdateStatusVo();
+			vo.setId(formId);
+			vo.setUpdateUserId(super.getCurrUserId());
+			
+			return storeChargeService.antiAuditStoreCharge(vo);
+			
+		} catch (Exception e) {
+			LOG.error("反审进项税额认证失败：", e);
+		}
+		return RespJson.error();
+	}
+	
 
 	@RequestMapping(value = "deleteForm", method = RequestMethod.POST)
 	public RespJson deleteForm(String formId) {

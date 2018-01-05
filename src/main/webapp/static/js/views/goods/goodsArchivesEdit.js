@@ -37,6 +37,7 @@ function initGoodsEditView(id){
         typeChange();
     });
     hidePageElement();
+    
 }
 
 function hidePageElement() {
@@ -83,16 +84,29 @@ function typeChange(){
 function goodsTypeChange() {
 	var type = $("#goodsSaleType").val();
     if(type == "LOTTERY"){
-        $("#allowGift").prop("disabled","disabled");
-        $("#allowActivity").prop("disabled","disabled");
-        $("#fastDeliver").prop("disabled","disabled");
-		$("#weekday").find("input[type='checkbox']").prop("disabled","disabled");
+    	disabledLotteryElem();
     }else {
         $("#allowGift").removeProp("disabled")
         $("#allowActivity").removeProp("disabled")
         $("#fastDeliver").removeProp("disabled")
         $("#weekday").find("input[type='checkbox']").removeProp("disabled");
+        
+        $("#allowActivity").prop("checked","checked");
+    	$("#weekday").find("input[type='checkbox']").prop("checked","checked");
     }
+}
+
+
+function disabledLotteryElem(){
+	$("#allowGift").removeProp("checked");
+	$("#allowActivity").removeProp("checked");
+	$("#fastDeliver").removeProp("checked");
+	$("#weekday").find("input[type='checkbox']").removeProp("checked");
+	
+    $("#allowGift").prop("disabled","disabled");
+    $("#allowActivity").prop("disabled","disabled");
+    $("#fastDeliver").prop("disabled","disabled");
+	$("#weekday").find("input[type='checkbox']").prop("disabled","disabled");
 }
 
 //根据商品名称获取助记码
@@ -341,8 +355,16 @@ function getGoodsArchivesDetail(id){
 		
 		// 初始化订货周期
 		strweekCheckDay(updateSku.deliveryCycle);
+		
+		// 商品类型
+		$("#goodsSaleType").val(updateSku.type.name);
+		
+	    if(updateSku.type.name == "LOTTERY"){
+	    	disabledLotteryElem();
+	    }
+		
 	});
-
+	
 
 }
 

@@ -30,6 +30,7 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.qo.ActivityGoodsReportQo;
 import com.okdeer.jxc.report.service.ActivityGoodsServiceApi;
 import com.okdeer.jxc.report.vo.ActivityGoodsReportVo;
+import com.okdeer.jxc.sale.enums.ActivityType;
 
 /**
  * ClassName: ActivityGoodsController 
@@ -139,14 +140,25 @@ public class ActivityGoodsController extends BaseController<ActivityGoodsReportV
 	//请求参数特殊处理
 	private void handelReqParam(ActivityGoodsReportQo qo) {
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
-		 String activityType = qo.getActivityType();
-		 if(StringUtils.isNotBlank(activityType)){
-			 String[] arr = activityType.split(",");
-			 List<String> activityTypes = Arrays.asList(arr);
-			 qo.setActivityTypes(activityTypes);
-		 }
-		 if (qo.getEndTime() != null) {
-				qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+		String activityType = qo.getActivityType();
+		if (StringUtils.isNotBlank(activityType)) {
+			String[] arr = activityType.split(",");
+			List<String> activityTypes = Arrays.asList(arr);
+			List<String> list = new ArrayList<>(activityTypes);
+			for (String string : activityTypes) {
+				// 手工折扣里面包含了：单品折扣和整单折扣
+				if (ActivityType.MANUAL_DISCOUNT.getValue().toString().equals(string)) {
+					list.add(ActivityType.ALL_DISCOUNT.getValue().toString());
+				}
+				// 手工议价里面包含了：手工议价和整单折价
+				if (ActivityType.MEMBER_BARGAIN.getValue().toString().equals(string)) {
+					list.add(ActivityType.ALL_CAT_RATE_PRICE.getValue().toString());
+				}
 			}
+			qo.setActivityTypes(list);
+		}
+		if (qo.getEndTime() != null) {
+			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+		}
 	}
 }

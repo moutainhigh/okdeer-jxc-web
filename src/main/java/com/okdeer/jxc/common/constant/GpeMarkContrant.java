@@ -14,6 +14,9 @@ public interface GpeMarkContrant {
 	
 	/** 财务Moudle  */
 	String MOUDLE_FINANCE = "finance";
+	
+	/** 零售Moudle  */
+	String MOUDLE_RETAIL = "retail";
 
 	/**
 	 * 日结报表Section
@@ -64,6 +67,17 @@ public interface GpeMarkContrant {
 	 * 一卡通账号充值提现明细
 	 */
 	String SECTION_ICCARD_DETAIL = "icCardDetail";
+	
+	/**
+	 * @Fields SECTION_STORE_ATTENDANCE : 员工考勤查询
+	 */
+	String SECTION_STORE_ATTENDANCE = "storeAttendance";
+	
+	/**
+	 * @Fields SECTION_EMPLOYEE_DISCOUNT : 员工折扣消费查询
+	 */
+	String SECTION_EMPLOYEE_DISCOUNT = "employeeDiscount";
+	
 	/**
 	 * 通用Key:list
 	 */
@@ -118,5 +132,8 @@ public interface GpeMarkContrant {
 	
 	/*** 开店费用查询 报表  */
 	String BUILD_CHARGE_SEARCH_REPORT = "buildChargeSearchReport";
+	
+	/*** 奖券登记查询 报表  */
+	String LOTTERY_SEARCH_REPORT = "lotterySearchReport";
 
 }

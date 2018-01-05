@@ -249,6 +249,9 @@ public interface ExportExcelConstant {
 	/*** 机构信息导出模板  */
 	String BRANCH_EXPORT_TEMPLATE = "branchExportTemplate.xlsx";
 	
+	/*** 用户信息导出模板  */
+	String USER_EXPORT_TEMPLATE = "userExportTemplate.xlsx";
+	
 	/*** 机构信息导出模板  */
 	String BRANCH_LOGISTICS_EXPORT = "branchLogisticsExport.xlsx";
 	

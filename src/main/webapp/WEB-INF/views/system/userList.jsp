@@ -8,7 +8,7 @@
 <title>用户管理</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/system/user/userList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/system/user/userList.js?V=${versionNo}2"></script>
 
 </head>
 <body class="uw ufs-14 uc-black upad-8 box-border">
@@ -19,10 +19,15 @@
 					<shiro:hasPermission name="JxcUserManage:search">
 						<div class="ubtns-item" onclick="query();">查询</div>
 					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcUserManage:export">
+						<div class="ubtns-item" onclick="exportData();">导出</div>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcUserManage:add">
 						<div class="ubtns-item" onclick="toAdd();">新增</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" style="width:100px;" onclick="createQrCode();">员工二维码</div>
+					<shiro:hasPermission name="JxcUserManage:generateQRCode">
+					<div class="ubtns-item" style="width:100px;" onclick="printReport();">员工二维码</div>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcUserManage:enabled">
 						<div class="ubtns-item" onclick="enable();">启用</div>
 					</shiro:hasPermission>
