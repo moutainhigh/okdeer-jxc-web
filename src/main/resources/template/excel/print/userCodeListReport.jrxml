@@ -17,7 +17,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="2" y="70" width="112" height="13" uuid="3581aec9-3e71-408b-a557-c6a0dc48b9b1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="仿宋" size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{userCode}]]></textFieldExpression>
 			</textField>
@@ -52,7 +52,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="2" y="57" width="112" height="14" uuid="9e840bb4-40b2-410c-9648-fa69f128c0b7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="仿宋" size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
 			</textField>
