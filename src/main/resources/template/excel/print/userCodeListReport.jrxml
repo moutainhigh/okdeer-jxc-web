@@ -15,9 +15,9 @@
 	<detail>
 		<band height="88" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="2" y="71" width="112" height="13" uuid="3581aec9-3e71-408b-a557-c6a0dc48b9b1"/>
+				<reportElement x="2" y="70" width="112" height="13" uuid="3581aec9-3e71-408b-a557-c6a0dc48b9b1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="仿宋" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{userCode}]]></textFieldExpression>
 			</textField>
@@ -27,20 +27,32 @@
 			</image>
 			<line>
 				<reportElement x="0" y="0" width="114" height="1" uuid="21562f2a-5378-4fa0-af69-be0461aaeb31"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement x="114" y="0" width="1" height="88" uuid="ceab4fd7-a423-49aa-98e5-d7bb3ba32b5e"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement x="0" y="87" width="114" height="1" uuid="b4ed2118-a9f3-4a41-9321-1122044750b4"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement x="0" y="0" width="1" height="88" uuid="65a02991-cebb-4b59-a289-16d1bc113567"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="2" y="59" width="112" height="13" uuid="9e840bb4-40b2-410c-9648-fa69f128c0b7"/>
+				<reportElement x="2" y="57" width="112" height="14" uuid="9e840bb4-40b2-410c-9648-fa69f128c0b7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font fontName="仿宋" size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
 			</textField>
