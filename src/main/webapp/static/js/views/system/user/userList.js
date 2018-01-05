@@ -241,8 +241,6 @@ function printReport(){
 		ids += v.id;
     });
     
-    console.log(ids);
-    
 	parent.addTabPrint("员工二维码", "员工二维码", contextPath+"/system/user/printUserCode?ids=" + ids);
 }
 
