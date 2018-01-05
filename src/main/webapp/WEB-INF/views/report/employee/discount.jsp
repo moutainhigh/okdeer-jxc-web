@@ -35,7 +35,7 @@
 
 				<div class="ub  ub-ac umar-r40" id="branchComponent">
 				<div class="umar-r10 uw-60 ut-r">机构:</div>
-				<input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
+				<input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId" value="">
 				<input class="uinp ub ub-f1" type="text" id="branchName"  value="" name="branchName">
 				<div class="uinp-more">...</div>
 				</div>
@@ -43,7 +43,7 @@
 
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">单据编号:</div>
-	                <input class="uinp" name="formNo" id="formNo" type="text">
+	                <input class="uinp" name="orderNo" id="orderNo" type="text">
 	            </div>
 
 	        </div>
@@ -51,7 +51,7 @@
 
 				<div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">员工编号:</div>
-				<input class="uinp" name="formNo" id="formNo" type="text">
+				<input class="uinp" name="userCode" id="userCode" type="text">
 				</div>
 
 
