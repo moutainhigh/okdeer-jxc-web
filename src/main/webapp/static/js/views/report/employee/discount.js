@@ -10,6 +10,7 @@ $(function () {
 
 function statuChange() {
     $(".radioItem").change(function () {
+    	$("#"+datagridId).datagrid('options').url='';
         $("#"+datagridId).datagrid('loadData', {
             total : 0,
             rows : []

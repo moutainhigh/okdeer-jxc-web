@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -181,10 +182,15 @@ public class CategorySaleReportController extends ReportController {
 	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> map = this.builderParams(request, null);
 		CategorySaleCostQo qo = JSON.parseObject(JSON.toJSONString(map), CategorySaleCostQo.class);
-		// 异步获取合计
-		categorySaleCostReportServiceApi.getTotalNew(qo);
-		Future<CategorySaleCostVo> listFuture = RpcContext.getContext().getFuture();
-		CategorySaleCostVo total = new CategorySaleCostVo();
+		// 获取合计金额，合计只是用来计算 占比，导出不显示
+		CategorySaleCostVo total = categorySaleCostReportServiceApi.getTotalNew(qo);
+
+		BigDecimal sumXsNum = BigDecimal.ZERO;
+		BigDecimal sumXsAmount = BigDecimal.ZERO;
+		BigDecimal sumProfitAmount = BigDecimal.ZERO;
+
+		// Future<CategorySaleCostVo> listFuture =
+		// RpcContext.getContext().getFuture();
 		List<CategorySaleCostVo> list = categorySaleCostReportServiceApi.getListNew(qo);
 		try {
 			if (!CollectionUtils.isEmpty(list)) {
@@ -197,7 +203,6 @@ public class CategorySaleReportController extends ReportController {
 					saleListMap.put(vo.getCategoryCode() + vo.getBranchId(), vo);
 				}
 				BigDecimal hundred = BigDecimal.valueOf(100);
-				total = listFuture.get();
 				// 根据合计，一击期初期末，计算显示到页面数据
 				for (CategorySaleCostVo vo : list) {
 					// 销售占比 如果合计为0，其他占比全部是100%
@@ -223,9 +228,19 @@ public class CategorySaleReportController extends ReportController {
 							.divide(vo.getSaleAmount(), BigDecimal.ROUND_HALF_UP, 4)
 							+ "%");
 					// 计算库存周转率 期间销售成本/[(期初成本+期末成本)/2]
+
+					sumXsNum = sumXsNum.add(vo.getSaleNum());
+					sumXsAmount = sumXsAmount.add(vo.getSaleAmount());
+					sumProfitAmount = sumProfitAmount.add(vo.getProfitAmount());
 				}
 			}
-			list.add(total);
+			CategorySaleCostVo sumTotal = categorySaleCostReportServiceApi.getTotalNew(qo);
+
+			sumTotal.setSaleAmount(sumXsNum);
+			sumTotal.setSaleNum(sumXsAmount);
+			sumTotal.setProfitAmount(sumProfitAmount);
+			sumTotal.setBranchCode("合计：");
+			list.add(sumTotal);
 			String reportFileName = null;
 			String templateName = null;
 			String timeStr = StringUtil.replaceAll((String) map.get("startTime"), "-", "") + "-"

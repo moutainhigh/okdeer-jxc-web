@@ -14,12 +14,16 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-					<div class="ubtns-item" onclick="queryForm()">查询</div>
+	                <shiro:hasPermission name="bdStoreAttendance:search">
+						<div class="ubtns-item" onclick="queryForm()">查询</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-			<shiro:hasPermission name="JxcPurchaseOrder:print">
-				<div class="ubtns-item ubtns-item-disabled">打印</div>
-			</shiro:hasPermission>
+	                <shiro:hasPermission name="bdStoreAttendance:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="bdStoreAttendance:print">
+						<div class="ubtns-item-disabled">打印</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            <!-- 引入时间选择控件 -->
@@ -30,6 +34,7 @@
 				<div class="ub  ub-ac uw-390" id="branchComponent">
 				<div class="umar-r10 uw-70 ut-r">门店:</div>
 				<input class="uinp ub ub-f1" type="hidden" id="storeId" name="storeId" value="">
+				<input class="uinp ub ub-f1" type="hidden" id="branchCompleCode" name="branchCompleCode" value="">
 				<input class="uinp ub ub-f1" type="text" id="branchName"  value="" name="branchName">
 				<div class="uinp-more" id="selectBranchMore">...</div>
 				<i class="ub ub-ac uc-red">*</i>

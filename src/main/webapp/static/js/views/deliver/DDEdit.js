@@ -814,8 +814,11 @@ function updateListData(data){
      var rows = gFunUpdateKey(data,keyNames);
      for(var i in rows){
          rows[i].remark = "";
-         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
-         rows[i]["untaxedAmount"]  = parseFloat(rows[i]["untaxedPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
+    	 var applyNum = parseFloat(rows[i]["applyNum"]||0).toFixed(4);
+		 var price = parseFloat(rows[i]["price"]||0).toFixed(4);
+		 var untaxedPrice = parseFloat(rows[i]["untaxedPrice"]||0).toFixed(4);
+         rows[i]["amount"] = parseFloat(price*applyNum).toFixed(4);
+         rows[i]["untaxedAmount"]  = parseFloat(untaxedPrice*applyNum).toFixed(4);
          rows[i]["taxAmount"] = rows[i]["amount"]-rows[i]["untaxedAmount"];
          if(parseInt(rows[i]["distributionSpec"])){
         	 // 如果导入数量为1，规则为9时，后台反正出箱数为0.1111，此处通过后台反算的箱数*规则时，得出数量为0.9999，故导入不需要前端返算数量

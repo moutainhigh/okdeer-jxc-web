@@ -65,7 +65,6 @@ public class ICCardChargeDetailController extends AbstractSimpleGpeController<IC
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
 		EasyUIPageInfo<ICCardChargeVo> page= iCCardChargeDetailService.queryPageList(qo);
-		LOG.error( JSON.toJSONString(page.getList()));
 		return page;
 	}
 

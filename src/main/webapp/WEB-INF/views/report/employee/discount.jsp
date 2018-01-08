@@ -14,11 +14,15 @@
     	<form id="queryForm">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
-			<div class="ubtns-item" onclick="exportData()">导出</div>
-	            <shiro:hasPermission name="JxcPurchaseOrder:print">
-	                <div class="ubtns-item-disabled" onclick="printPreview()">打印</div>
-	            </shiro:hasPermission>
+	                <shiro:hasPermission name="JxcEmployeeDiscount:search">
+						<div class="ubtns-item" onclick="query()">查询</div>
+					</shiro:hasPermission>
+	                <shiro:hasPermission name="JxcEmployeeDiscount:export">
+						<div class="ubtns-item" onclick="toGpeExport()">导出</div>
+					</shiro:hasPermission>
+		            <shiro:hasPermission name="JxcEmployeeDiscount:print">
+		                <div class="ubtns-item-disabled" onclick="printPreview()">打印</div>
+		            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
@@ -31,7 +35,7 @@
 
 				<div class="ub  ub-ac umar-r40" id="branchComponent">
 				<div class="umar-r10 uw-60 ut-r">机构:</div>
-				<input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
+				<input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId" value="">
 				<input class="uinp ub ub-f1" type="text" id="branchName"  value="" name="branchName">
 				<div class="uinp-more">...</div>
 				</div>
@@ -39,7 +43,7 @@
 
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">单据编号:</div>
-	                <input class="uinp" name="formNo" id="formNo" type="text">
+	                <input class="uinp" name="orderNo" id="orderNo" type="text">
 	            </div>
 
 	        </div>
@@ -47,7 +51,7 @@
 
 				<div class="ub ub-ac umar-r40">
 				<div class="umar-r10 uw-60 ut-r">员工编号:</div>
-				<input class="uinp" name="formNo" id="formNo" type="text">
+				<input class="uinp" name="userCode" id="userCode" type="text">
 				</div>
 
 
