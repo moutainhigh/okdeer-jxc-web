@@ -249,10 +249,18 @@
       <div id="consaleadd" class="ub uw ub-f1 umar-t20 " style="min-height:50%;">
 			 <table id="saleMangeadd"></table>
 		</div>
+
+		<div id="consaleMJadd" class="ub uw ub-f1 umar-t20 " style="min-height:50%;">
+		<table id="saleMangeMJadd"></table>
+		</div>
 		 
       <div id="consalesetmj" class="ub uw ub-f1 umar-t20  unhide " style="min-height:50%;">
 			 <table id="salesetmj"></table>
 	  </div>
+
+
+
+
 	  
 	  <!-- 买满送  -->
 	  <div id="consolemms" class="ub uw ub-ver ub-f1  unhide" >
