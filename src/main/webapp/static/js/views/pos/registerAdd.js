@@ -14,8 +14,8 @@ function toClose(){
  */
 function searchBranch(){
 	new publicAgencyService(function(data){
-		$("#regBranchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
+		$("#registerAddForm #regBranchId").val(data.branchesId);
+		$("#registerAddForm #branchName").val(data.branchName);
 	},'DP','');
 }
 
@@ -40,7 +40,7 @@ function toSaveAddData(){
 		return;
 	}
 	
-	var regBranchId=$("#regBranchId").val();
+	var regBranchId=$("#registerAddForm #regBranchId").val();
 	if(!regBranchId){
 		$_jxc.alert("请先选择店铺名称");
 		return;
