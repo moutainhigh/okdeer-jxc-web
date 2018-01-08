@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.GpeMarkContrant;
 import com.okdeer.jxc.common.controller.AbstractSimpleGpeController;
 import com.okdeer.jxc.finance.iccard.qo.ICCardChargeQo;

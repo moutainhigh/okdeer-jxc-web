@@ -18,13 +18,13 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            <shiro:hasPermission name="JxcCashFlow:search">
+	            <shiro:hasPermission name="chargeDetail:search">
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcCashFlow:print">
+	           <%--  <shiro:hasPermission name="JxcCashFlow:print">
 	                <div class="ubtns-item" onclick="printReport()">打印</div>
-	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcCashFlow:export">
+	            </shiro:hasPermission> --%>
+	            <shiro:hasPermission name="chargeDetail:export">
 	                <div class="ubtns-item" onclick="toGpeExport()">导出</div>
 	            </shiro:hasPermission>
 	            	<!-- <div class="ubtns-item" onclick="toGpeSetting()">设置</div> -->
