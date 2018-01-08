@@ -48,8 +48,8 @@
 								<div class="ub ub-ac uw-320">
 									<div class="umar-r10 uw-120 ut-r">员工折扣比例:</div>
 									<div class="ub ub-ac umar-r10">
-										<input class="easyui-numberbox uw-200"  data-options="max:100.00,min:0.01,precision:2" 
-											value="100.00" id="employeeDiscount" name="employeeDiscount" />%
+										<input class="easyui-numberbox uw-200"  data-options="max:100,min:1,precision:0"
+											value="100" id="employeeDiscount" name="employeeDiscount" />%
 									</div>
 								</div>
 							</div>

@@ -39,7 +39,7 @@ function initGridTotalList () {
                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'单据明细\',\''+ contextPath +'/form/deliverTotal/toTotalDataItemList?formNo='+ row.formNo +'\')"> 单据详情 </a>';
                 return strHtml;
             }},
-            {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
+            // {field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
             {field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
             {field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
             {field: 'amount', title: '单据金额', width: '100px', align: 'right',

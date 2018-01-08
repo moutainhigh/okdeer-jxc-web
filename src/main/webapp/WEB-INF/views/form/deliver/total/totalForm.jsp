@@ -43,9 +43,9 @@
                 <input class="uinp ub ub-f1" type="hidden" id="sourceBranchIdStr" name="sourceBranchIdStr" value="">
                 <input class="uinp ub ub-f1" type="text" id="sourceBranchCodeName" readonly="readonly" value="" name="sourceBranchCodeName">
                 <div class="uinp-more">...</div>
-                <i class="ub ub-ac uc-red">*</i>
-                </div>
 
+                </div>
+                <i class="ub ub-ac uc-red">*</i>
             </div>
 
             <div class="ub umar-t20">
@@ -55,7 +55,7 @@
             <input class="Wdate uw-300 uinp-no-more" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\');}'})" />
             &nbsp;至&nbsp;
             <input class="Wdate uw-300 uinp-no-more" name="endTime" id="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}',maxDate:'%y-%M-%d'})" />
-            <i class="uc-red">*</i>
+            <i class="ub ub-ac uc-red">*</i>
 
             </div>
             </div>
