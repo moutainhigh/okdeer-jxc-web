@@ -17,20 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.TreeUtils;
 import com.okdeer.jxc.common.utils.entity.Tree;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.report.qo.GoodsReportQo;
-import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.settle.charge.entity.ChargeCategory;
 import com.okdeer.jxc.settle.charge.qo.ChargeCategoryQo;
 import com.okdeer.jxc.settle.charge.service.ChargeCategoryService;
-import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: ChargeCategoryController 
