@@ -29,13 +29,13 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryChargeCategory()">查询</div>
-					<shiro:hasPermission name="JxcFinanceCode:add">
+					<shiro:hasPermission name="bdChargeCategory:append">
 						<div class="ubtns-item" onclick="addCategoryCode()">新增</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcFinanceCode:delete">
+					<shiro:hasPermission name="bdChargeCategory:delete">
 						<div class="ubtns-item" onclick="delCategoryCode()">删除</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcFinanceCode:export">
+					<shiro:hasPermission name="bdChargeCategory:export">
 						<div class="ubtns-item" onclick="exportData()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>

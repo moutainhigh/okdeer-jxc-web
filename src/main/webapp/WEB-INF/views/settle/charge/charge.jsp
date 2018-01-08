@@ -28,13 +28,13 @@
 		<div class="ub ub-ver ub-f1 upad-4">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<shiro:hasPermission name="JxcFinanceCode:add">
+					<shiro:hasPermission name="bdCharge:append">
 						<div class="ubtns-item" onclick="addChargeRecord()">新增</div>
 					</shiro:hasPermission>
 					<%--<shiro:hasPermission name="JxcFinanceCode:delete">--%>
 						<%--<div class="ubtns-item" onclick="delChargeRecord()">删除</div>--%>
 					<%--</shiro:hasPermission>--%>
-					<shiro:hasPermission name="JxcFinanceCode:export">
+					<shiro:hasPermission name="bdCharge:append">
 						<div class="ubtns-item" onclick="copyChargeRecord()">复制</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
