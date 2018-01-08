@@ -613,7 +613,10 @@ function changeBranchType(branchType){
 
 //查询
 function query(){
-	$("#goodsGrid").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	var formData = $("#queryForm").serializeObject();
+	formData.goodsTypeNonList = 5; // 不包括奖券类型
+	
+	$("#goodsGrid").datagrid("options").queryParams = formData;
 	$("#goodsGrid").datagrid("options").method = "post";
 	$("#goodsGrid").datagrid("options").url = contextPath+"/goods/report/getList";
 	$("#goodsGrid").datagrid("load");

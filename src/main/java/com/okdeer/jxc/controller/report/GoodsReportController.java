@@ -179,11 +179,6 @@ public class GoodsReportController extends BaseController<GoodsReportController>
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
 			
-			// 不包括奖券类型
-			List<Integer> goodsTypeNonList = new ArrayList<Integer>();
-			goodsTypeNonList.add(GoodsTypeEnum.LOTTERY.getOrdinal()); 
-			qo.setGoodsTypeNonList(goodsTypeNonList);
-			
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			// 过滤数据权限字段
 			cleanAccessData(goodsReport);
