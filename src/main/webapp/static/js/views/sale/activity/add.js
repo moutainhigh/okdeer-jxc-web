@@ -31,8 +31,9 @@ $(function(){
 		$("#branchName").unbind("click");
 	}
 
-    selectOptionSpecial();
+    // selectOptionSpecial();
 
+    changeType(gVarLastActivityType);
 	//一周星期获取和初始化
 	  weekCheckDay();
 	$(document).on('click','#weekday .ubcheckweek',function(){
@@ -212,8 +213,9 @@ function onChangeSelect(){
 		});
 	}
 }
-
+var gridHandel = new GridClass();
 var changeType = function(priceVal){
+    // gridHandel = new GridClass();
     gVarLastActivityType = priceVal;
     switch(priceVal)
     {
@@ -396,8 +398,7 @@ function selectOptionOdd(){
 function selectOptionMj(){
     optionHide();
     //初始化
-    $('#consalesetmj').removeClass('unhide');
-    $("#consaleadd").removeClass('ub-f1');
+    $('#consalesetmj').addClass('unhide');
     $("#consaleadd").removeClass('unhide');
     $('.mjTypechoose').removeClass('unhide');
     // 禁止按钮点击事件
@@ -421,20 +422,23 @@ function selectOptionMj(){
                 $("#consaleadd").addClass('ub-f1');
                 $('#consaleadd').removeClass('unhide');
                 $('#consalesetmj').addClass('unhide');
+                $('#consaleMJadd').addClass('unhide');
+                $("#consaleMJadd").removeClass('ub-f1');
 //				$('#allMj').prop("checked",true);
 
                 $('#activityScopemj').val('2');
                 //禁止按钮点击事件
                 disableGoods('SelectGoods','GoodsType');
                 initDatagridallMj();
-                initDatagridsortSet();
             }
             //类别
             else if(_this.val()=="1"){
-                $("#consaleadd").addClass('ub-f1');
+                // $("#consaleadd").addClass('ub-f1');
                 $('#consaleadd').removeClass('unhide');
+                // $("#consalesetmj").addClass('ub-f1');
                 $('#consalesetmj').removeClass('unhide');
-
+                $('#consaleMJadd').addClass('unhide');
+                $("#consaleMJadd").removeClass('ub-f1');
 //				$('#sortMj').prop("checked",true);
 
                 $('#activityScopemj').val('1');
@@ -445,8 +449,11 @@ function selectOptionMj(){
             }
             //商品
             else {
-                $("#consaleadd").removeClass('ub-f1');
-                $('#consaleadd').removeClass('unhide');
+                $('#consaleadd').removeClass('ub-f1');
+                $('#consaleadd').addClass('unhide');
+                $('#consaleMJadd').removeClass('unhide');
+                $("#consaleMJadd").addClass('ub-f1');
+
                 $('#consalesetmj').removeClass('unhide');
 
                 $('#activityScopemj').val('0');
@@ -454,18 +461,18 @@ function selectOptionMj(){
                 disableGoods('','GoodsType');
                 initDatagridshopMj();
                 initDatagridsortSet();
-
             }
 
         }
-        // 保存结束编辑
-        $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
-        var rows= [];// $("#saleMangeadd").datagrid('getRows');
+
+        var rows= [];
         $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
         var setrows=$('#salesetmj').datagrid('getRows');
 
         //全场满减
         if(_tempScomjV == '2'){
+            // 保存结束编辑
+            $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
             setrows = [];
             rows= $("#saleMangeadd").datagrid('getRows');
             if(rows.length == 1 && !rows[0].discountPrice && !rows[0].limitAmount)rows = [];
@@ -473,13 +480,17 @@ function selectOptionMj(){
 
         //类别满减
         if(_tempScomjV == '1'){
+            // 保存结束编辑
+            $("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
             rows = gridHandel.getRowsWhere({categoryName:'1'});;
             if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
         }
 
         //商品满减
         if(_tempScomjV == '0'){
-            rows= gridHandel.getRowsWhere({skuName:'1'});
+            // 保存结束编辑
+            $("#saleMangeMJadd").datagrid("endEdit", gridHandelGoodsMj.getSelectRowIndex());
+            rows= gridHandelGoodsMj.getRowsWhere({skuName:'1'});
             if(setrows.length == 1 && !setrows[0].discountPrice && !setrows[0].limitAmount)setrows = [];
         }
 
@@ -645,7 +656,7 @@ function selectOptionN2N() {
     $('#dvn2nCount').removeClass('unhide');
     $('#dvn2nSaleAmount').removeClass('unhide');
     $('.n2nTypechoose').removeClass('unhide');
-
+    $("#consaleadd").removeClass("unhide");
     $(".importGood").addClass('unhide');//不能进行商品选择
     disableGoods('SelectGoods','');
     initDatagridsortN2N();
@@ -703,8 +714,11 @@ function selectOptionN2N() {
 //特价打包
 function selectOptionSpecialPackage () {
 	optionHide();
+    $("#consaleadd").removeClass("unhide");
     $(".importGood").removeClass('unhide');
 	$('#dvn2nSaleAmount2').removeClass('unhide');
+    // 禁止按钮点击事件
+    disableGoods('','GoodsType');
     initDatagridGoodsSpecialPackage();
 }
 
@@ -1174,6 +1188,10 @@ function optionHide(){
 	$('.n2nTypechoose').addClass('unhide');
     $('#dvmms').addClass('unhide');
     $('#dvn2nSaleAmount2').addClass('unhide');
+    //满减
+    $('#consaleMJadd').addClass('unhide');
+    $("#consaleMJadd").removeClass('ub-f1');
+
 	initmmsDom();	
 	
 }
@@ -1218,7 +1236,7 @@ function disableGoods(idone,idtow){
 	}
 }
 
-var gridHandel = new GridClass();
+
 var editRowData = null;
 // 初始化表格-特价
 function initDatagridSpecial(){
@@ -2222,7 +2240,7 @@ function initDatagridsortSet(){
 var gridHandelGoodsMj = new GridClass();
 // 初始化表格-商品满减
 function initDatagridshopMj(){
-    gridHandelGoodsMj.setGridName("saleMangeadd");
+    gridHandelGoodsMj.setGridName("saleMangeMJadd");
     gridHandelGoodsMj.initKey({
         firstName:'skuCode',
         enterName:'skuCode',
@@ -2236,11 +2254,11 @@ function initDatagridshopMj(){
                     gridHandelGoodsMj.setFieldFocus(gridHandelGoodsMj.getFieldTarget('skuCode'));
                 },500)
             }else{
-                selectGoods(arg);
+                selectGoodsMJ(arg);
             }
         },
     })
-  $("#saleMangeadd").datagrid({
+  $("#saleMangeMJadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
       singleSelect:true,  // 单选 false多选
@@ -2289,11 +2307,9 @@ function initDatagridshopMj(){
                 gridHandelGoodsMj.setSelectFieldName("skuCode");
 			}
 		},
-       
-        onLoadSuccess:function(data){
-            gridHandelGoodsMj.setDatagridHeader("center");
-			// selectAddRows(data);
-		 }
+      onBeforeLoad:function () {
+          gridHandelGoodsMj.setDatagridHeader("center");
+      },
   });
     gridHandelGoodsMj.setLoadData([$.extend({},gridDefault)])
 
@@ -2974,6 +2990,8 @@ function selectGoods(searchKey){
 			selectGoodsG(searchKey);
 		}
 		return;
+	}else if(activityT == '5'){
+        selectGoodsMJ(searchKey);
 	}
 	
 	var param = {
@@ -3013,10 +3031,67 @@ function selectGoods(searchKey){
         }
         
         $("#saleMangeadd").datagrid("loadData",newRows);
+
+        // gridHandel.setLoadFocus();
+        // setTimeout(function(){
+        //     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        //     gridHandel.setSelectFieldName("skuCode");
+        //     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
+        // },500)
     });
 }
 
+// 选择商品
+function selectGoodsMJ(searchKey){
 
+    if(!$.trim($("#branchName").val())){ //是否选择活动机构的校验
+        $_jxc.alert("请先选择活动分店！");
+        return;
+    }
+
+    if(typeof(searchKey)=="undefined"){
+        searchKey = "";
+    }
+
+    var param = {
+        type:'PX',
+        key:searchKey,
+        isRadio:'',
+        sourceBranchId:'',
+        targetBranchId:'',
+        branchId:$("#branchIds").val(),
+        supplierId:'',
+        flag: '',
+        activityType: ""
+    }
+
+    //借用一下type值，用来活动商品选择时，过滤不参加促销的商品
+    new publicGoodsServiceTem(param,function(data){
+        if(searchKey){
+            $("#saleMangeMJadd").datagrid("deleteRow", gridHandelGoodsMj.getSelectRowIndex());
+            $("#saleMangeMJadd").datagrid("acceptChanges");
+        }
+        var nowRows = gridHandelGoodsMj.getRowsWhere({skuCode:'1'});
+        var addDefaultData  = gridHandelGoodsMj.addDefault(data,gridDefault);
+        var keyNames = {
+            skuId:'goodsSkuId',
+            salePrice:'price'
+        };
+        var rows = gFunUpdateKey(addDefaultData,keyNames);
+        var argWhere ={skuCode:1};  // 验证重复性
+        var isCheck ={isGift:1 };   // 只要是赠品就可以重复
+        var newRows = gridHandelGoodsMj.checkDatagrid(nowRows,rows,argWhere,isCheck);
+
+        $("#saleMangeMJadd").datagrid("loadData",newRows);
+
+        // gridHandelGoodsMj.setLoadFocus();
+        // setTimeout(function(){
+        //     gridHandelGoodsMj.setBeginRow(gridHandelGoodsMj.getSelectRowIndex()||0);
+        //     gridHandelGoodsMj.setSelectFieldName("skuCode");
+        //     gridHandelGoodsMj.setFieldFocus(gridHandelGoodsMj.getFieldTarget('skuCode'));
+        // },500)
+    });
+}
 
 // 保存
 function saveActivity(){
@@ -3227,7 +3302,7 @@ function saveActivity(){
 	  $("#salesetmj").datagrid("endEdit", gridHandelMj.getSelectRowIndex());
 	  var setrows=$('#salesetmj').datagrid('getRows');
 		  if(activityScopemj=="0"){
-              $("#saleMangeadd").datagrid("endEdit", gridHandelGoodsMj.getSelectRowIndex());
+              $("#saleMangeMJadd").datagrid("endEdit", gridHandelGoodsMj.getSelectRowIndex());
 		  	var goodRows = gridHandelGoodsMj.getRowsWhere({skuName:"1"})
               if(goodRows.length==0){
                   $_jxc.alert("满减商品不能为空");
