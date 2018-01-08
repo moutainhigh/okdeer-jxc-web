@@ -5,7 +5,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}3"></script>
+	src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -237,7 +237,7 @@
 					</div>
 					<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-60 ut-r">商品类型:</div>
-						<select class="uselect" style="width: 204px;" name="goodsType"
+						<select class="uselect" style="width: 204px;" name="type"
 							id="goodsSaleType" onChange="goodsTypeChange()">
 							<c:forEach items="${goodsType}" var="type">
 								<option value="${type.name}">${type.value}</option>

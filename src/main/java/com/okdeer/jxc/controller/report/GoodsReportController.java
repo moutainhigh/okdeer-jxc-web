@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,6 +178,12 @@ public class GoodsReportController extends BaseController<GoodsReportController>
 			if (StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
+			
+			// 不包括奖券类型
+			List<Integer> goodsTypeNonList = new ArrayList<Integer>();
+			goodsTypeNonList.add(GoodsTypeEnum.LOTTERY.getOrdinal()); 
+			qo.setGoodsTypeNonList(goodsTypeNonList);
+			
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			// 过滤数据权限字段
 			cleanAccessData(goodsReport);
