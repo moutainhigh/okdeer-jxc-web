@@ -258,10 +258,6 @@
 			 <table id="salesetmj"></table>
 	  </div>
 
-
-
-
-	  
 	  <!-- 买满送  -->
 	  <div id="consolemms" class="ub uw ub-ver ub-f1  unhide" >
 	  		<div class="ub uline umar-t10 umar-b10"></div>
