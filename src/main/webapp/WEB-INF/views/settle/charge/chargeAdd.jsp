@@ -98,7 +98,7 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">采购价:</div>
-					<input class="uinp easyui-numberbox" data-options="min:0,precision:2" type="text" id="purPrice"
+					<input class="uinp easyui-numberbox" data-options="min:0.00,precision:2,max:999999.99" type="text" id="purPrice"
 						name="purPrice"
 						maxlength="50" />
 				</div>
@@ -107,7 +107,7 @@
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">拆旧期限:</div>
-					<input class="uinp uw-180 easyui-numberbox" type="text"  data-options="min:0,precision:0" id="depreciate"
+					<input class="uinp uw-180 easyui-numberbox" type="text"  data-options="min:0,precision:0,max:9999" id="depreciate"
 						name="depreciate" />
 					<div class="umar-l8">月</div>
 				<i class="ub ub-ac umar-l4"></i>
@@ -115,7 +115,7 @@
 
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">保修期限:</div>
-					<input class="uinp uw-180 easyui-numberbox" data-options="min:0,precision:0" type="text" id="validity"
+					<input class="uinp uw-180 easyui-numberbox" data-options="min:0,precision:0,max:9999" type="text" id="validity"
 						name="validity" />
 				<div class="umar-l8">天</div>
 				</div>
