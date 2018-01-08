@@ -24,7 +24,8 @@ function initDatagrid() {
 						fitColumns : true, // 每列占满
 						fit : true, // 占满
 						showFooter : true,
-						pageSize:50,
+						pageSize:100,
+                        pageList:[50,100],
 						columns : [ [
 								{
 									field : 'check',
