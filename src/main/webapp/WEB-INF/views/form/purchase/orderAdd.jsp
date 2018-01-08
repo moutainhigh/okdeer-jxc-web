@@ -79,9 +79,6 @@
 					<div class="ub ub-ac uw-610" style="width: 624px;">
 						<div class="umar-r10 uw-60 ut-r">备注:</div>
 						<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
-							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
 							maxlength="100">
 					</div>
 				</div>

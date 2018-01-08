@@ -69,7 +69,8 @@
          <div class="ub umar-t8">
                <div class="ub ub-ac uw-610 umar-r80" style="width: 624px;">
 	                    <div class="umar-r10 uw-60 ut-r">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</div>
-	                    <input class="uinp ub ub-f1 easyui-validatebox" name="remark" id="remark" type="text"  onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="100" value="${form.remark}" >
+	                    <input class="uinp ub ub-f1 easyui-validatebox" name="remark" id="remark" type="text"
+                            maxlength="100" value="${form.remark}" >
 	           			<i class="uc-red">*</i>	
 	           </div>
 	           <div class="ub ub-ac umar-r80">
