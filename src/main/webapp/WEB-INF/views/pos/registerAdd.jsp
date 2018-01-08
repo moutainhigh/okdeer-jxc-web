@@ -11,7 +11,7 @@
             <div class="ub umar-t8">
 	             <div class="ub ub-ac umar-t20">
                  <div class="umar-r10 uw-80 ut-r">店铺:</div>
-	             <input class="uinp ub ub-f1" type="hidden" id="regBranchId" name="branchId">
+	             <input class="uinp ub ub-f1" type="hidden" id="regBranchId">
                  <input class="uinp ub ub-f1 easyui-validatebox" data-options="required:true"  type="text" id="branchName"  autocomplete="off" placeholder="请选择" onclick="toSearchBranchHandel()" name="branchName">
                  <div class="uinp-more" onclick="searchBranch()">...</div>
                 </div>
