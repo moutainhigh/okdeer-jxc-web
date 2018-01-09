@@ -96,8 +96,25 @@ function initGoodsInfo(skuId,branchId){
 		
 		// 初始化订货周期
 		strweekCheckDay(updateGoods.deliveryCycle);
-	});
+
+        if(updateGoods.type.name == "LOTTERY"){
+            disabledLotteryElem();
+        }
+
+    });
     hidePageElement();
+}
+
+function disabledLotteryElem(){
+    $("#allowGift").removeProp("checked");
+    $("#allowActivity").removeProp("checked");
+    $("#fastDeliver").removeProp("checked");
+    $("#weekday").find("input[type='checkbox']").removeProp("checked");
+
+    $("#allowGift").prop("disabled","disabled");
+    $("#allowActivity").prop("disabled","disabled");
+    $("#fastDeliver").prop("disabled","disabled");
+    $("#weekday").find("input[type='checkbox']").prop("disabled","disabled");
 }
 
 /**
