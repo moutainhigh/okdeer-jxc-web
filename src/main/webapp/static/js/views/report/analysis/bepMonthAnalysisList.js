@@ -62,7 +62,7 @@ function initGridMonthAnalysis() {
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             },
-            {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
+            {field:'bepDay',title:'下月日盈亏平衡点',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
                         return '';
