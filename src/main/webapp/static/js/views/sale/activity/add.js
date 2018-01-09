@@ -2893,7 +2893,10 @@ function delLineHandelmmscomB(event){
 
 //商品选择 买满送 主商品 选择
 function selectGoodsComG(searchKey){
-	
+    if(!$.trim($("#branchName").val())){ //是否选择活动机构的校验
+        $_jxc.alert("请先选择活动分店！");
+        return;
+    }
 	var param = {
 			type:'PX',
 			key:searchKey,
