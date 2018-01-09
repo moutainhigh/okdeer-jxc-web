@@ -236,8 +236,8 @@ public class CategorySaleReportController extends ReportController {
 			}
 			CategorySaleCostVo sumTotal = categorySaleCostReportServiceApi.getTotalNew(qo);
 
-			sumTotal.setSaleAmount(sumXsNum);
-			sumTotal.setSaleNum(sumXsAmount);
+			sumTotal.setSaleAmount(sumXsAmount);
+			sumTotal.setSaleNum(sumXsNum);
 			sumTotal.setProfitAmount(sumProfitAmount);
 			sumTotal.setBranchCode("合计：");
 			list.add(sumTotal);
