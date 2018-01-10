@@ -2276,8 +2276,8 @@ function initDatagridshopMj(){
 			        if(row.isFooter){
 			            str ='<div class="ub ub-pc">合计</div> '
 			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandelGoodsmj(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandelGoodsMJ(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 			        }
 			        return str;
 			    },
@@ -2850,12 +2850,20 @@ function addLineHandelmmscomB(event){
     gridHandelB.addRow(index,{});
 }
 
-// 减速设置插入一行
+// 满减设置插入一行
 function addLineHandelmj(event){
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
     gridHandelMj.addRow(index,gridDefault);
 }
+
+// 商品满减设置插入一行
+function addLineHandelGoodsmj(event){
+    event.stopPropagation(event);
+    var index = $(event.target).attr('data-index')||0;
+    gridHandelGoodsMj.addRow(index,gridDefault);
+}
+
 // 删除一行
 function delLineHandel(event){
     event.stopPropagation();
@@ -2888,6 +2896,14 @@ function delLineHandelmmscomB(event){
     event.stopPropagation();
     var index = $(event.target).attr('data-index');
     gridHandelB.delRow(index);
+}
+
+
+//商品满减删除一行
+function delLineHandelGoodsMJ(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridHandelGoodsMj.delRow(index);
 }
 
 

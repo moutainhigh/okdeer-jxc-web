@@ -106,7 +106,7 @@
 
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-70 ut-r">拆旧期限:</div>
+					<div class="umar-r10 uw-70 ut-r">折旧期限:</div>
 					<input class="uinp uw-180 easyui-numberbox" type="text"  data-options="min:0,precision:0,max:9999" id="depreciate"
 						name="depreciate" />
 					<div class="umar-l8">月</div>
